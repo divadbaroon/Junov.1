@@ -189,10 +189,10 @@ class SpeechProcessor:
 		language = speech.split('into')[-1].replace('?', '').strip()
   
 		try:
-			with open('bot_gender_and_languages.json', 'r') as f:  
+			with open('bot_properties.json', 'r') as f:  
 				languages = json.load(f)
 		except FileNotFoundError:
-			print('The file "gender_and_languages.json" is missing.\nMake sure all files are located within the same folder')
+			print('The file "bot_properties.json" is missing.\nMake sure all files are located within the same folder')
 
 		# get language code
 		language_code = languages['language_codes'].get(language) 
