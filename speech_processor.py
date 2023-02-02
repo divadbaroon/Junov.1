@@ -97,11 +97,11 @@ class SpeechProcessor:
   		"""
     
 		try:
-			with open('bot_conversation.json', 'r') as f:  
+			with open('conversation_history.json', 'r') as f:  
 				data = json.load(f)
 				conversations = data["conversation"]
 		except FileNotFoundError:
-			print('The file "bot_conversation.json" is missing.\nMake sure all files are located within the same folder')
+			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
 
 		# creates prompt used for chatgpt
 		if persona != 'bot' and conversations:
@@ -131,10 +131,10 @@ class SpeechProcessor:
 		data["conversation"] = new_conversation
 		print(data)
 		try:
-			with open("bot_conversation.json", "w") as f:
+			with open("conversation_history.json", "w") as f:
 				json.dump(data, f)
 		except FileNotFoundError:
-			print('The file "bot_conversation.json" is missing.\nMake sure all files are located within the same folder')
+			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
 		
 		# occasionally the response ends in an incomplete sentence
 		# thus any extra words after the last period are removed
