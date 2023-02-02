@@ -111,7 +111,7 @@ class SpeechVerbalizer:
 		Cleans up and ends program
 		"""
 		# Clearing the contents of the file	
-		with open("bot_conversation.json", "w") as file:
+		with open("conversation_history.json", "w") as file:
 			json.dump({"conversation": ""}, file)
 		sys.exit()
 
