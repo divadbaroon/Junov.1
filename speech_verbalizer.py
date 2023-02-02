@@ -108,7 +108,7 @@ class SpeechVerbalizer:
 			data["mute status"] = self.mute_status
 			
 			with open("bot_properties.json", "w") as f:
-				json.dump(data, f)
+				json.dump(data, f, indent=4)
 		except FileNotFoundError:
 			print('The file "bot_properties.json" is missing.\nMake sure all files are located within the same folder')
 	
