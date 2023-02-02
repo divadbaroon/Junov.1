@@ -138,7 +138,9 @@ class SpeechProcessor:
 		
 		# occasionally the response ends in an incomplete sentence
 		# thus any extra words after the last period are removed
-		return response.rsplit('.', 1)[0] + '.'
+		if response[-1] != '.' and response[-1] != '?':
+			response = response.rsplit('.', 1)[0] + '.'
+		return response
 	
 	def get_weather(self, speech: str  ):
 		"""
