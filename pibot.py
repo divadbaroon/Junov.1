@@ -1,39 +1,8 @@
 '''
--------------------------------------------------------------------------------------------------------
-Name: PiBot
-Created: 1-8-23
-Last modified: 1-30-23
--------------------------------------------------------------------------------------------------------
-Description:
-PiBot is a class that provides a simple interface for creating a personalized chatbot capable of 
-performing commands and providing conversations with users by utilizing OpenAi's chatGPT.
-The SpeechRecognition class uses Azure's Cognitive Speech Services for listening to speech input.
-the SpeechProcessor class uses Azure's LUIS Service to process the user's input and check for similarity 
-between the user's input and the Luis trained model. If minimal similarites are found a response is created using
-chatGPT. The SpeechVerbalizer class uses Azure's Cognitive Speech Services for verbalizing the responses.
-The bot's gender, language, and current mute status are stored in a .json file.
--------------------------------------------------------------------------------------------------------
-Usage:
-  # Create an instance of pibot with optional parameters
-  new_bot = PiBot('persona', 'gender', 'language') 
-          - persona: The persona that the bot will embody
-          - gender: The gender of the voice the bot will respond in
-          - langauge: The langauge the bot will respond in
-                  Currently supported languages include: 
-                - Arabic, English_USA, English_UK, English_Australia, English_Ireland
-                  Spanish, French, Mandarin, Hindi
-    # Bot listens for user's speech
-  speech = new_bot.listen() 
-  # Bot processes and provides a response to user's speech
-  response = new_bot.process(speech) 
-  # Bot's response is verbalized
-  new_bot.verbalize(response) 
--------------------------------------------------------------------------------------------------------
 Note:
 The following files must all be located within the same folder for the bot to function properly.
 < pibot.py, speech_recognizer.py, speech_processor.py, speech_verbalizer.py, sample_config.py,  
   bot_gender_and_languages.json, bot_mute_status.json >  
--------------------------------------------------------------------------------------------------------
 '''
 
 from speech_recognizer import SpeechRecognition
