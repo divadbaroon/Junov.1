@@ -2,19 +2,16 @@
 Note:
 The following files must all be located within the same folder for the bot to function.
 < pibot.py, speech_recognizer.py, speech_processor.py, speech_verbalizer.py, sample_config.py,  
-  bot_gender_and_languages.json, bot_mute_status.json >
+  bot_properties.json, conversation_history.json >
 '''
 
 from pibot import PiBot
 
-# create an instance of pibot with optional parameters
-# parameters include:
-    # persona - personality the bot will embody
-    # gender - gender of the bot
-    # language - language the bot will speak
-new_bot = PiBot('Barack Obama', 'Male', 'English_USA')
+def main(persona, gender, language):
+  
+  # create an instance of pibot with optional parameters
+  new_bot = PiBot(persona, gender, language)
 
-while True:
   # listen for user input
   speech = new_bot.listen()
   # process and produce a response to user input
@@ -22,5 +19,15 @@ while True:
   # verbalize the response
   new_bot.verbalize(response)
 
-# or run all methods at once
-new_bot.run()
+  # or run all methods at once
+  # new_bot.run()
+
+if __name__ == '__main__':
+  personalization_choice = input('Would you like to personalize your bot? (Y/N): ')
+  if personalization_choice.lower() == 'y' or personalization_choice.lower() == 'yes':
+    persona = input("Enter the persona the bot will embody: ")
+    gender = input("Enter the gender of the bot: ")
+    language = input("Enter the language the bot will speak: ")
+    main(persona, gender, language)
+  else:
+    main('bot', 'female', 'default')
