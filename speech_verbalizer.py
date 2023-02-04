@@ -1,7 +1,6 @@
 import config
 import azure.cognitiveservices.speech as speechsdk
 import json
-import sys
 
 class SpeechVerbalizer:
 	"""
@@ -57,7 +56,7 @@ class SpeechVerbalizer:
 			else:
 				self.speech_config.speech_synthesis_voice_name = 'en-US-JennyNeural' # used as backup 
 
-			print('\nResponse:')
+			#print('\nResponse:')
 			print(f'{self.persona}: {speech}')
    
 			self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
@@ -65,11 +64,6 @@ class SpeechVerbalizer:
 		else:
 			print('\n(muted) Response:')
 			print(f'{self.persona}: {speech}')
-
-		# if user wants to end the session the file bot_conversation will be cleared
-		# and the program will be stopped
-		if speech == 'Exiting the program, goodbye...':
-			self.exit_and_cleanup()
 	
 	def load_mute_status(self):
 		"""
@@ -112,13 +106,5 @@ class SpeechVerbalizer:
 		except FileNotFoundError:
 			print('The file "bot_properties.json" is missing.\nMake sure all files are located within the same folder')
 	
-	def exit_and_cleanup(self):
-		"""
-		Cleans up and ends program
-		"""
-		# Clearing the contents of the file	
-		with open("conversation_history.json", "w") as file:
-			json.dump({"conversation": ""}, file)
-		sys.exit()
 
 
