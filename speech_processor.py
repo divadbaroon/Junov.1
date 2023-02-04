@@ -7,6 +7,7 @@ from speech_verbalizer import SpeechVerbalizer
 import uuid
 import azure.cognitiveservices.speech as speechsdk
 import urllib
+import sys
 
 class SpeechProcessor:
 	"""
@@ -65,7 +66,7 @@ class SpeechProcessor:
 		top_intent_score = intents_json["prediction"]["intents"][top_intent]["score"]
   
 		# if score does not meet minimum threshold a response is instead created using chatGPT
-		if top_intent_score < .5:
+		if top_intent_score < .85:
 			response = self.ask_chatgpt(speech, persona) 
 		# now checking for intent with the highest similarity score
 		elif top_intent == 'Translate_Speech':
@@ -83,7 +84,7 @@ class SpeechProcessor:
 		elif top_intent == 'Search_Youtube':
 			response = self.search_youtube(speech)
 		elif top_intent == 'Quit':
-			response = 'Exiting the program, goodbye...'
+			response = self.exit_and_cleanup()
 		else:
 			response = "Sorry, I don't understand that command. Please try asking again."
    
@@ -95,21 +96,30 @@ class SpeechProcessor:
 		:param speech: (str) speech input
 		:return: (str) chatgpt response
   		"""
-    
+
+		# get conversation history
 		try:
-			with open('conversation_history.json', 'r') as f:  
+			with open('C:/Users/David/OneDrive/Desktop/PiBot/conversation_history.json', 'r') as f:  
 				data = json.load(f)
 				conversations = data["conversation"]
 		except FileNotFoundError:
 			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
 
+		conversation_history = ""
+	
+		if conversations:
+			for conversation in conversations:
+				conversation_history += f"Input: \nUser: {conversation['User']}\n\n"
+				conversation_history += f"Response: \n{persona}: {conversation[persona]}\n\n"
+
 		# creates prompt used for chatgpt
-		if persona != 'bot' and conversations:
-			prompt = (f"Respond to me like you are {persona} talking to me in person. Given this conversation history {conversations}: {speech}\n")
-		elif persona != 'bot' and not conversations:
-			prompt = (f"Respond to me like you are {persona} talking to me in person: {speech}\n")
-		elif persona == 'bot' and conversations:
-			prompt = (f"Give me a response given this conversation history {conversations}: {speech}\n")
+		if persona != 'bot' and conversation_history:
+			prompt = (f"Provide the next response to the user given this conversation history {conversation_history}. I want you to respond to the user like you are {persona}: The user said: {speech}")
+			print(prompt)
+		elif persona == 'bot' and conversation_history:
+			prompt = (f"Provide the next response to the user given this conversation history {conversation_history}. The user said: {speech}")
+		elif persona != 'bot' and not conversation_history:
+			prompt = (f"I want you to respond to the user like you are {persona}. The user said: {speech}")
 		else:
 			prompt = speech
 
@@ -126,20 +136,21 @@ class SpeechProcessor:
 		except Exception as e:
 			print(f"An error has occurred while sending a request to chatGPT. Error: {e}")
 			response = 'Sorry, an error has occured. Please try asking again.'
+   
+		response = response.replace('\n\n', ' ').replace(f'{persona}:', '').replace('response:', '')
 
-		new_conversation = f'I said: {speech} + {persona} said: {response}'
-		data["conversation"] = new_conversation
-		print(data)
+		new_conversation = {
+			"User": speech,
+			persona: response
+		}
+		conversations.append(new_conversation)
+		data["conversation"] = conversations
 		try:
 			with open("conversation_history.json", "w") as f:
-				json.dump(data, f)
+				json.dump(data, f, indent=4)
 		except FileNotFoundError:
 			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
 		
-		# occasionally the response ends in an incomplete sentence
-		# thus any extra words after the last period are removed
-		if response[-1] != '.' and response[-1] != '?':
-			response = response.rsplit('.', 1)[0] + '.'
 		return response
 	
 	def get_weather(self, speech: str  ):
@@ -161,7 +172,7 @@ class SpeechProcessor:
 
 		# check whether request was successful
 		if response.status_code != 200:
-			raise ValueError(f"The request sent to the chatGPT was unsuccessful. Error: {response.status_code}")
+			raise ValueError(f"The request sent to OpenWeatherMap was unsuccessful. Error: {response.status_code}")
 		# returned json file with weather data
 		data = response.json()
 
@@ -290,3 +301,14 @@ class SpeechProcessor:
 		"""
 		self.speech_verbalizer.unmute()
 		return('I am now unmuted.')
+
+	def exit_and_cleanup(self):
+		"""
+		Cleans up and ends program
+		"""
+		# Clearing the contents of the file	
+		with open("conversation_history.json", "w") as file:
+			json.dump({"conversation": []}, file)
+   
+		self.speech_verbalizer.verbalize_speech('Exiting the program. Goodbye...')
+		sys.exit()
