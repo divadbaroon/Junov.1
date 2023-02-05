@@ -7,30 +7,21 @@ class SpeechVerbalizer:
 	A class that utilizes Azure's Cognitive Speech Service to verbalize the bot's response.
 
 	Attributes:
-	persona (str): name of the person the bot will emobdy
-	gender (str): gender of the bot
-	langauge (str): language the bot will speak
 	mute_status: mute status of the bot
 	speech_config (SpeechConfig): A configuration object that takes a subscription key and a region as arguments
 	audio_config (AudioOutputConfig): A configuration object that specifies the use of the default speaker
 	speech_synthesizer (SpeechSynthesizer): A synthesizer object that uses the above configurations to generate the spoken words
 	"""
-	def __init__(self, persona='none', gender='female', language='default'):
+	def __init__(self):
 		"""
 		Initializes a new SpeechVerbalizer object
-		:param persona: (str) name of the person that the bot will emobdy
-		:param gender: (str) gender of the bot
-		:param language: (str) language the bot will speak
 		"""
-		self.persona = persona
-		self.gender = gender
-		self.language = language
 		self.mute_status = None
 		self.speech_config = speechsdk.SpeechConfig(subscription = config.retrieve_secret('PiBot-API'), region = 'eastus')
 		self.audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
 		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
 
-	def verbalize_speech(self, speech: str):
+	def verbalize_speech(self, speech: str, persona: str, gender: str, language: str):
 		"""
 		Verbalizes a given string with a specified gender and langauge of voice.
 		:param speech (str): The speech to be verbalized.
@@ -49,7 +40,7 @@ class SpeechVerbalizer:
 				print('The file "bot_properties.json" is missing.\nMake sure all files are located within the same folder')
 	
 			# assigning appropriate bot voice 
-			voice_name = voice_names[self.gender.lower()].get(self.language.lower())
+			voice_name = voice_names[gender.lower()].get(language.lower())
 			# check if voice with given parameters exists
 			if voice_name:
 				self.speech_config.speech_synthesis_voice_name = voice_name
@@ -57,13 +48,13 @@ class SpeechVerbalizer:
 				self.speech_config.speech_synthesis_voice_name = 'en-US-JennyNeural' # used as backup 
 
 			#print('\nResponse:')
-			print(f'{self.persona}: {speech}')
+			print(f'{persona}: {speech}')
    
 			self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
 			self.speech_synthesizer.speak_text(speech)
 		else:
 			print('\n(muted) Response:')
-			print(f'{self.persona}: {speech}')
+			print(f'{persona}: {speech}')
 	
 	def load_mute_status(self):
 		"""

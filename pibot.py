@@ -16,7 +16,7 @@ class PiBot:
  
   Attributes:
   persona (str): name of person the bot will emobdy
-    gender (str): the gender of the bot
+  gender (str): the gender of the bot
   langauge (str): the language the bot will speak
   speech_recognition: object of SpeechRecognition class
   speech_processor: object of SpeechProcessor class
@@ -35,7 +35,7 @@ class PiBot:
     self.language = language
     self.speech_recognition = SpeechRecognition()
     self.speech_processor = SpeechProcessor()
-    self.speech_verbalizer  = SpeechVerbalizer(self.persona, self.gender, self.language)
+    self.speech_verbalizer  = SpeechVerbalizer()
   
   def listen(self) -> str:
     """
@@ -50,14 +50,14 @@ class PiBot:
     :param speech: (str) speech input
     :return: (str) response to users speech
     """
-    return self.speech_processor.process_speech(speech, self.persona)
+    return self.speech_processor.process_speech(speech, self.persona, self.gender, self.language)
 
   def verbalize(self, response: str):
     """
     Verbalizes a string
     :param response: (str) string to be verbalized
     """
-    self.speech_verbalizer.verbalize_speech(response)
+    self.speech_verbalizer.verbalize_speech(response, self.persona, self.gender, self.language)
   
   def run(self):
     """
@@ -67,6 +67,6 @@ class PiBot:
     :.verbalize() # Verbalizes the response
     """
     speech = self.speech_recognition.listen()
-    response = self.speech_processor.process_speech(speech, self.persona)
-    self.speech_verbalizer.verbalize_speech(response)
+    response = self.speech_processor.process_speech(speech, self.persona, self.gender, self.language)
+    self.speech_verbalizer.verbalize_speech(response, self.persona, self.gender, self.language)
       
