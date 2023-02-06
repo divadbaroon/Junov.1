@@ -42,7 +42,7 @@ class SpeechProcessor:
 		self.speech_verbalizer  = SpeechVerbalizer()
 		self.speech_config = speechsdk.SpeechConfig(subscription = config.retrieve_secret('PiBot-API'), region = 'eastus')
 	
-	def process_speech(self, speech: str, persona: str) -> str: 
+	def process_speech(self, speech: str, persona: str, gender: str, language: str) -> str: 
 		"""
 		Checks for user's intent by sending a request to LUIS api and checking for similarites between the user's speech
 		and the trained langauge model.
@@ -66,7 +66,7 @@ class SpeechProcessor:
 		top_intent_score = intents_json["prediction"]["intents"][top_intent]["score"]
   
 		# if score does not meet minimum threshold a response is instead created using chatGPT
-		if top_intent_score < .85:
+		if top_intent_score < .80:
 			response = self.ask_chatgpt(speech, persona) 
 		# now checking for intent with the highest similarity score
 		elif top_intent == 'Translate_Speech':
@@ -84,7 +84,7 @@ class SpeechProcessor:
 		elif top_intent == 'Search_Youtube':
 			response = self.search_youtube(speech)
 		elif top_intent == 'Quit':
-			response = self.exit_and_cleanup()
+			response = self.exit_and_cleanup(persona, gender, language)
 		else:
 			response = "Sorry, I don't understand that command. Please try asking again."
    
@@ -115,13 +115,12 @@ class SpeechProcessor:
 		# creates prompt used for chatgpt
 		if persona != 'bot' and conversation_history:
 			prompt = (f"Provide the next response to the user given this conversation history {conversation_history}. I want you to respond to the user like you are {persona}: The user said: {speech}")
-			print(prompt)
 		elif persona == 'bot' and conversation_history:
-			prompt = (f"Provide the next response to the user given this conversation history {conversation_history}. The user said: {speech}")
+			prompt = (f"Provide the next response to the user given this conversation history {conversation_history}. Provide a realistic chatbot like response to the user: The user said: {speech}")
 		elif persona != 'bot' and not conversation_history:
 			prompt = (f"I want you to respond to the user like you are {persona}. The user said: {speech}")
 		else:
-			prompt = speech
+			prompt = (f"Provide a realistic chatbot like response to the user: The user said: {speech}")
 
 		completion = openai.Completion.create(
 		engine=self.language_model,
@@ -137,7 +136,7 @@ class SpeechProcessor:
 			print(f"An error has occurred while sending a request to chatGPT. Error: {e}")
 			response = 'Sorry, an error has occured. Please try asking again.'
    
-		response = response.replace('\n\n', ' ').replace(f'{persona}:', '').replace('response:', '')
+		response = response.replace('\n\n', ' ').replace(f'{persona}:', '').replace('Response:', '').lstrip()
 
 		new_conversation = {
 			"User": speech,
@@ -179,8 +178,7 @@ class SpeechProcessor:
 		temperature = data["main"]["temp"]
 
 		# convert temperature from kelvin to fahrenheit
-		temperature_celsius = temperature - 273.15
-		temperature_fahrenheit = temperature_celsius * 9/5 + 32
+		temperature_fahrenheit = (temperature - 273.15) * 9/5 + 32
 
 		response = f"The weather in {locaton} is {round(temperature_fahrenheit)} degrees Fahrenheit"		
 		
@@ -283,7 +281,7 @@ class SpeechProcessor:
 		:param query: (str) the search query
 		"""
 		# clean up input
-		search_request = speech.split('youtube')[1].strip()
+		search_request = speech.split('youtube for')[1].split('youtube')[1].strip()
 		query = urllib.parse.quote(search_request)
 		webbrowser.open(f'https://www.youtube.com/results?search_query={query}')
 		return(f'Searching youtube for {search_request}')
@@ -302,13 +300,15 @@ class SpeechProcessor:
 		self.speech_verbalizer.unmute()
 		return('I am now unmuted.')
 
-	def exit_and_cleanup(self):
+	def exit_and_cleanup(self, persona, gender, language):
 		"""
-		Cleans up and ends program
+		Cleans up by clearing the bot's conversation history 
+  		A response is then verbalized and the program is ended
 		"""
-		# Clearing the contents of the file	
+		# Reset the contents of the file	
 		with open("conversation_history.json", "w") as file:
 			json.dump({"conversation": []}, file)
-   
-		self.speech_verbalizer.verbalize_speech('Exiting the program. Goodbye...')
+
+		# verbalize a response before exiting the program
+		self.speech_verbalizer.verbalize_speech(speech='Exiting the program. Goodbye...', persona=persona, gender=gender, language=language)
 		sys.exit()
