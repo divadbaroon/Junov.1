@@ -21,7 +21,7 @@ class SpeechProcessor:
 	region (str): region used for Azure resources
 	openai.api_key (str): subscription key for OpenAi's chatGPT
 	weather_key (str): subscription key for OpenWeatherMap 
-    	luis_app_id (str): application id for Azure's LUIS service
+    luis_app_id (str): application id for Azure's LUIS service
 	luis_key (str): subscription key for Azure's LUIS service
 	translator_key (str): subscription key for Azure's Translator service
 	speech_verbalizer (object of SpeechVerbalizer class)
@@ -66,23 +66,36 @@ class SpeechProcessor:
 		top_intent_score = intents_json["prediction"]["intents"][top_intent]["score"]
   
 		# if score does not meet minimum threshold a response is instead created using chatGPT
-		if top_intent_score < .80:
+		if top_intent_score < .70:
 			response = self.ask_chatgpt(speech, persona) 
-		# now checking for intent with the highest similarity score
+   
+		# find intent with the highest similarity score
+		# and retrieve associated entity if applicable
 		elif top_intent == 'Translate_Speech':
-			response = self.translate_speech(speech)
+			speech_to_translate = intents_json["prediction"]["entities"]["translate_speech"][0]
+			language = intents_json["prediction"]["entities"]["language"][0]
+			response = self.translate_speech(speech_to_translate, language)
+   
 		elif top_intent == 'Get_Weather':
-			response = self.get_weather(speech)
-		elif top_intent == 'Mute_Bot':
-			response = self.toggle_mute()
-		elif top_intent == 'Unmute_Bot':
-			response = self.untoggle_mute()
+			location = intents_json["prediction"]["entities"]["weather_location"][0]
+			response = self.get_weather(location)
+   
 		elif top_intent == 'Search_Google':
-			response = self.search_google(speech)
+			search_request = intents_json["prediction"]["entities"]["search_google"][0]
+			response = self.search_google(search_request)
+   
 		elif top_intent == 'Open_Website':
-			response = self.open_website(speech)
+			website = intents_json["prediction"]["entities"]["open_website"][0]
+			response = self.open_website(website)
+   
 		elif top_intent == 'Search_Youtube':
-			response = self.search_youtube(speech)
+			search_request = intents_json["prediction"]["entities"]["search_youtube"][0]
+			response = self.search_youtube(search_request)
+
+		elif top_intent == 'Mute':
+			response = self.toggle_mute(persona, gender, language)
+		elif top_intent == 'Unmute':
+			response = self.untoggle_mute(persona, gender, language)
 		elif top_intent == 'Quit':
 			response = self.exit_and_cleanup(persona, gender, language)
 		else:
@@ -96,7 +109,6 @@ class SpeechProcessor:
 		:param speech: (str) speech input
 		:return: (str) chatgpt response
   		"""
-
 		# get conversation history
 		try:
 			with open('C:/Users/David/OneDrive/Desktop/PiBot/conversation_history.json', 'r') as f:  
@@ -152,18 +164,19 @@ class SpeechProcessor:
 		
 		return response
 	
-	def get_weather(self, speech: str  ):
+	def get_weather(self, location: str  ):
 		"""
 		Returns weather information for a particular location
-		:param speech: (str) speech input
+		:param location: (str) location for weather retrieval
 		:return: (str) weather information
   		"""
-		# clean up user input
-		locaton = speech.split("in ")[-1].replace('?', '').strip() 
-
+		# the location sometimes ends in a question mark
+		if location.endswith('?'):
+			location = location.rstrip('?')
+    
 		# attempt to send request to openweathermap api
 		try:
-			response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={locaton}&appid={self.weather_key}")
+			response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={self.weather_key}")
 		except Exception as e:
 			print(f"An error occurred while trying to send a request to openweathermap. Error: {e}")
 			response = "Sorry, an error has occured. Please try asking again."
@@ -180,30 +193,32 @@ class SpeechProcessor:
 		# convert temperature from kelvin to fahrenheit
 		temperature_fahrenheit = (temperature - 273.15) * 9/5 + 32
 
-		response = f"The weather in {locaton} is {round(temperature_fahrenheit)} degrees Fahrenheit"		
+		response = f"The weather in {location} is {round(temperature_fahrenheit)} degrees Fahrenheit"		
 		
 		return response
 
-	def translate_speech(self, speech: str): 
+	def translate_speech(self, speech_to_translate: str, language: str): 
 		"""
 		Translates a given string of text to a desired langauge
-		:param speech: (str) speech input
+		:param speech_to_translate: (str) the speech to be translated
+		:param language: (str) the language for the speech to be translated into
 		:return: (str) speech translation
   		"""
 		endpoint = "https://api.cognitive.microsofttranslator.com/"
 		path = '/translate'
 		constructed_url = f'{endpoint}{path}'
 
-		# retrieve desired language from user input
-		language = speech.split('into')[-1].replace('?', '').strip()
-  
 		try:
 			with open('bot_properties.json', 'r') as f:  
 				languages = json.load(f)
 		except FileNotFoundError:
 			print('The file "bot_properties.json" is missing.\nMake sure all files are located within the same folder')
 
-		# get language code
+		# language sometimes ends in a question mark
+		if language.endswith('?'):
+			language = language.rstrip('?')
+
+		# get language code from langauge
 		language_code = languages['language_codes'].get(language) 
 		params = {
 			'api-version': '3.0',
@@ -218,9 +233,7 @@ class SpeechProcessor:
 			'X-ClientTraceId': str(uuid.uuid4())
 		}
 
-		# clean up user input
-		speech = speech.split('translate')[1].split('into')[0].strip()
-		body = [{"text": speech}]
+		body = [{"text": speech_to_translate}]
   
 		try:
 			request = requests.post(constructed_url, params=params, headers=headers, json=body)
@@ -228,18 +241,15 @@ class SpeechProcessor:
 			response = response[0]['translations'][0]['text']
 		except Exception as e:
 			print(f"An error occurred while sending a request to microsoft translator. Error: {e}")
-			response = f'Sorry, there was an error while trying translate {speech}. Try asking again.'
+			response = f'Sorry, there was an error while trying translate {speech_to_translate}. Try asking again.'
   
 		return response
   
-	def open_website(self, speech: str):
+	def open_website(self, website: str):
 		"""
 		Opens a user requested website
-		:param query: (str) the search query
+		:param website: (str) the website to open
   		"""
-		# clean up user input
-		website = speech.split('open')[1].replace('.com', '').strip()
-
 		# attempt to open website
 		try:
 			webbrowser.open(f"https://www.{website}.com") 
@@ -250,55 +260,43 @@ class SpeechProcessor:
 		
 		return response
 
-	def search_google(self, speech: str):
+	def search_google(self, search_request: str):
 		"""
 		Performs a google search for the given query
-		:param query: (str) the search query
+		:param search_request: (str) the google search request
 		"""
-		if speech.startswith('google'):
-			search_request = speech.replace("google", '')
-		elif speech.startswith('search'):
-			search_request = speech.replace("search", '')
-		elif speech.startswith('look up'):
-			search_request = speech.replace("look up", '')
-
-		# clean up input
-		search_request = search_request.replace(".", '').strip() 
-
 		try:
 			# attempt to open the google search page with the query
 			webbrowser.open(f"https://www.google.com/search?q={search_request}")
-			response = "Searching " + search_request
+			response = "Searching google for" + search_request
 		except Exception as e:
 			print(f'Could not complete search for {search_request}. Error: {e}')
 			response = 'Sorry, there was an error while trying to complete the search'
 	
 		return response
 	
-	def search_youtube(self, speech):
+	def search_youtube(self, search_request: str):
 		"""
 		Performs a youtube search for the given query
-		:param query: (str) the search query
+		:param search_request: (str) the youtube search request
 		"""
-		# clean up input
-		search_request = speech.split('youtube for')[1].split('youtube')[1].strip()
 		query = urllib.parse.quote(search_request)
 		webbrowser.open(f'https://www.youtube.com/results?search_query={query}')
 		return(f'Searching youtube for {search_request}')
 	
-	def toggle_mute(self):
+	def toggle_mute(self, persona, gender, language):
 		"""
 		Mutes the bot
 		"""
 		self.speech_verbalizer.mute()
-		return('I am now muted.')
+		self.speech_verbalizer.verbalize_speech(speech='I am now muted', persona=persona, gender=gender, language=language)
 
-	def untoggle_mute(self):
+	def untoggle_mute(self, persona, gender, language):
 		"""
 		Unmutes the bot
 		"""
 		self.speech_verbalizer.unmute()
-		return('I am now unmuted.')
+		self.speech_verbalizer.verbalize_speech(speech='I am now unmuted', persona=persona, gender=gender, language=language)
 
 	def exit_and_cleanup(self, persona, gender, language):
 		"""
