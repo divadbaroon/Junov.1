@@ -1,9 +1,8 @@
-# Azure-Powered Virtual Assistant Chatbot
+# Azure-Powered-Virtual-Assistant 
 
 ## Introduction
-This project is a virtual assistant named PiBot that utilizes Azure's Cognitive Services for its speech recognition and speech verbalization. 
-The bot currently has the the capability to translate speech, get weather information for a specified location, search google, open a website,
-search youtube, mute and unmute itself, and exit the program. The user's intent is detected using Azure's LUIS service and an appropriate action or response is produced. If minimal intent is detected a response is created using Open AI's chatGPT.
+This project is a virtual assistant named PiBot that utilizes Azure's Cognitive Services for its speech recognition, speech verbalization, translation, and intent recognition. The bot can be personalized to respond in a specified persona (such as Barack Obama), gender, and language.
+The bot currently has the the capability to perform various functions such as speech translation, weather retireval, Google and Youtube searching, muting and unmuting, and ending the program. The user's intent for command execution is detected using Azure's LUIS service. If substantial intent for a command is found, then the intended action takes place. If minimal intent is detected a response is created using Open AI's chatGPT. The bot's conversation history is kept in the file "conversation_history.json" and cleared at the end of the program. 
 
 ## Requirements
 - Azure account and subscription
@@ -36,7 +35,21 @@ search youtube, mute and unmute itself, and exit the program. The user's intent 
 5. Wait for "listening..." to appear, indicating that the bot is now listening for input
 6. Interact with the bot by speaking
 
-## How to
+## How to interact with the bot
+- Note: The command recognition is done using your trained LUIS model, thus the way you give your commands should be able to vary greatly
+
+| Command | Response |
+| ------- | -------- |
+| What is the weather in {location} | {location}'s {temperature} in fahrenheit |
+| Translate {speech} into {language} | A verbal {translation} of speech into {language}|
+| Open {website} | {website} is opened |
+| Search {speech} | Conducts a google search with {speech} |
+| Search youtube for {speech} | Conducts a youtube search for {speech} |
+| Mute | Bot is now muted |
+| Unmute | Bot is now unmuted |
+| Exit | Ends the program |
+
+## Help
  - How to make a Azure account and subscription.
    - https://learn.microsoft.com/en-us/training/modules/create-an-azure-account/
  - How to create a LUIS, Speech Service, and Translator resource.
