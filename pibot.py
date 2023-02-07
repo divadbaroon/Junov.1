@@ -1,8 +1,8 @@
 '''
 Note:
-The following files must all be located within the same folder for the bot to function properly.
+The following files must all be located within the same folder for the bot to function.
 < pibot.py, speech_recognizer.py, speech_processor.py, speech_verbalizer.py, sample_config.py,  
-  bot_gender_and_languages.json, bot_mute_status.json >  
+  bot_properties.json, conversation_history.json >  
 '''
 
 from speech_recognizer import SpeechRecognition
