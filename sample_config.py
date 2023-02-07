@@ -1,7 +1,14 @@
 """
 Note:
 In order to be authenitcated you must be signed into your Azure account.
-To login type: az login
+To sign in, run the command: 'az login' into your terminal
+
+The following secrets need to be stored in your Azure Key Vault for the bot to function properly:
+- Azure Speech Service API key 
+- Azure LUIS API key
+- Azure LUIS APP ID
+- OpenAI API key 
+- OpenWeatherMap API key
 """
 
 from azure.keyvault.secrets import SecretClient
