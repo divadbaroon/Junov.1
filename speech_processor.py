@@ -21,7 +21,7 @@ class SpeechProcessor:
 	region (str): region used for Azure resources
 	openai.api_key (str): subscription key for OpenAi's chatGPT
 	weather_key (str): subscription key for OpenWeatherMap 
-    luis_app_id (str): application id for Azure's LUIS service
+    	luis_app_id (str): application id for Azure's LUIS service
 	luis_key (str): subscription key for Azure's LUIS service
 	translator_key (str): subscription key for Azure's Translator service
 	speech_verbalizer (object of SpeechVerbalizer class)
