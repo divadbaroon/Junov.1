@@ -24,9 +24,10 @@ class SpeechRecognition:
         """
         print("Listening...")  
         
-        # recognition_attempt is used to allow the program to loop for 30 seconds
-        # before the user is notified that no speech could be recognized
-        # this is to avoid spamming the user every 5 seconds 
+        # The current implementation of .recognize_once_async() can only attempt to listen for input for 5 seconds
+        # To accommodate for this limitation, the code allows for 6 attempts at 5 seconds each, for a total of 30 seconds
+        # This allows for a longer window of speech recognition while also avoiding repetitive prompts to the user
+        # However, this approach may not be ideal and a better solution is currently being sought
         recognition_attempt = 0
         
         # continuously listen for speech
@@ -36,7 +37,6 @@ class SpeechRecognition:
                 result = self.speech_recognizer.recognize_once_async().get() 
             except Exception as e:
                 print(f"Error occurred during speech recognition: {e}")
-                break
             
             recognition_attempt += 1
             
