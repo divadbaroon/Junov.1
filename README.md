@@ -50,10 +50,14 @@ The bot currently has the the capability to perform various functions such as sp
 | Exit | Ends the program |
 
 ## Help
- - How to make a Azure account and subscription.
+ - How to make an Azure account and subscription.
    - https://learn.microsoft.com/en-us/training/modules/create-an-azure-account/
  - How to create a LUIS, Speech Service, and Translator resource.
    - The resources are located under the "Create a new Azure Cognitive Services resource" subheading 
-   - https://learn.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=language%2Canomaly-detector%2Clanguage-service%2Ccomputer-vision%2Cwindows
+   - https://learn.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=language%2Canomaly-detector%2Clanguage-service%2Ccomputer-vision%2Cwindows 
+ - How to create an Azure Key Vault
+   - https://learn.microsoft.com/en-us/azure/key-vault/general/quick-create-portal
+ - How to train a LUIS model
+   - https://learn.microsoft.com/en-us/azure/cognitive-services/luis/how-to/train-test
   
  
