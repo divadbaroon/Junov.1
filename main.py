@@ -13,7 +13,7 @@ def main(persona, gender, language):
   new_bot = PiBot(persona, gender, language)
 
   # the bot will continuously listen for input, process it, and produce a response
-  # to exit the program say 'exit' or any similar command
+  # exit the program by saying a generic exit command such as: 'exit', 'quit', 'terminate', or 'end conversation'
   while True:
     # listen for user input
     speech = new_bot.listen()
@@ -22,8 +22,8 @@ def main(persona, gender, language):
     # verbalize the response
     new_bot.verbalize(response)
 
-  # or run all methods at once
-  # new_bot.run()
+    # or run all methods at once
+    # new_bot.run()
 
 if __name__ == '__main__':
   personalization_choice = input('Would you like to personalize your bot? (Y/N): ')
