@@ -31,7 +31,7 @@ class SpeechProcessor:
 		"""
 		Initializes a new SpeechProcessor object
 		"""
-		self.language_model = "text-davinci-002"
+		self.language_model = "text-davinci-003"
 		self.response_length = 100
 		self.region = 'eastus'
 		openai.api_key = config.retrieve_secret('OpenAI-API')
