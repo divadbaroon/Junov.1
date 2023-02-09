@@ -4,7 +4,6 @@ The following files must all be located within the same folder for the bot to fu
 < pibot.py, speech_recognizer.py, speech_processor.py, speech_verbalizer.py, sample_config.py,  
   bot_properties.json, conversation_history.json >
 '''
-
 from pibot import PiBot
 
 def main(persona, gender, language):
