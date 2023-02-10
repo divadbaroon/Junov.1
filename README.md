@@ -65,10 +65,7 @@ The bot's conversation history is kept in the file "conversation_history.json" a
   
  ## List of Supported Langauges
   - Arabic
-  - English_Australia
-  - English_Ireland
-  - English_UK
-  - English_USA
+  - English (Australia, Ireland, UK, USA)
   - Finnish
   - French
   - German
