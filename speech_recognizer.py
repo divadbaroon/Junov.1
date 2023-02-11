@@ -1,5 +1,7 @@
 import config
 import azure.cognitiveservices.speech as speechsdk
+from time import time
+import sys
 
 class SpeechRecognition:
     """
@@ -15,20 +17,26 @@ class SpeechRecognition:
         """
         self.speech_config = speechsdk.SpeechConfig(subscription = config.retrieve_secret('PiBot-API'), region = 'eastus')
         self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
-        self.speech_result = None
 
     def listen(self):
         """
         Listens for speech input and returns the recognized text in lowercase.
         :return: (str) The recognized speech input as a lowercase string.
         """
-        print("Listening...")  
+        print("\nListening...")  
         
         # The current implementation of .recognize_once_async() can only attempt to listen for input for 5 seconds
-        # To accommodate for this limitation, the code allows for 6 attempts at 5 seconds each, for a total of 30 seconds
+        # To accommodate for this limitation, recognition_attempt allows for 6 attempts at 5 seconds each, for a total of 30 seconds
         # This allows for a longer window of speech recognition while also avoiding repetitive prompts to the user
         # However, this approach may not be ideal and a better solution is currently being sought
         recognition_attempt = 0
+        
+        # starting timer
+        self.begin_timer = time()
+        
+        # time in seconds until the program ends if no speech is detected
+        # this is to prevent unintentional continuous listening to the user
+        time_until_exit = 300  
         
         # continuously listen for speech
         while True:
@@ -59,7 +67,15 @@ class SpeechRecognition:
             elif recognition_attempt == 6:
                 if result.reason == speechsdk.ResultReason.NoMatch:
                     print(f'No speech could be recognized: {result.no_match_details}')
-                recognition_attempt = 0 
+                recognition_attempt = 0
+
+            # ending timer
+            self.end_timer = time()
+            elapsed_time = self.end_timer - self.begin_timer
+            
+            if elapsed_time >= time_until_exit:
+                print("The program has been terminated due to inactivity.")
+                sys.exit()
                  
         
         
