@@ -3,11 +3,11 @@ import openai
 import requests
 import webbrowser 
 import json
-from speech_verbalizer import SpeechVerbalizer
 import uuid
-import azure.cognitiveservices.speech as speechsdk
 import urllib
 import sys
+import azure.cognitiveservices.speech as speechsdk
+from speech_verbalizer import SpeechVerbalizer
 
 class SpeechProcessor:
 	"""
@@ -93,9 +93,11 @@ class SpeechProcessor:
 			response = self.search_youtube(search_request)
 
 		elif top_intent == 'Mute':
-			response = self.toggle_mute(persona, gender, language)
+			response = self.toggle_mute()
 		elif top_intent == 'Unmute':
-			response = self.untoggle_mute(persona, gender, language)
+			response = self.untoggle_mute()
+		elif top_intent == 'Pause':
+			response = self.pause(persona, gender, language)
 		elif top_intent == 'Quit':
 			response = self.exit_and_cleanup(persona, gender, language)
 		else:
@@ -284,20 +286,31 @@ class SpeechProcessor:
 		webbrowser.open(f'https://www.youtube.com/results?search_query={query}')
 		return(f'Searching youtube for {search_request}')
 	
-	def toggle_mute(self, persona, gender, language):
+	def toggle_mute(self):
 		"""
 		Mutes the bot
 		"""
 		self.speech_verbalizer.mute()
-		self.speech_verbalizer.verbalize_speech(speech='I am now muted', persona=persona, gender=gender, language=language)
-
-	def untoggle_mute(self, persona, gender, language):
+		return 'I am now muted'
+   
+	def untoggle_mute(self):
 		"""
 		Unmutes the bot
 		"""
 		self.speech_verbalizer.unmute()
-		self.speech_verbalizer.verbalize_speech(speech='I am now unmuted', persona=persona, gender=gender, language=language)
+		return 'I am now unmuted'
 
+	def pause(self, persona, gender, language):
+		"""
+		Pauses the bot
+		The user must press the spacebar to unpause the bot
+		"""
+		self.speech_verbalizer.verbalize_speech(speech='I am now paused', persona=persona, gender=gender, language=language)
+		user_input = ''
+		while user_input != ' ':
+			user_input = input('Press spacebar to unpause: ')
+		return 'I am now unpaused'
+				
 	def exit_and_cleanup(self, persona, gender, language):
 		"""
 		Cleans up by clearing the bot's conversation history 
