@@ -48,8 +48,10 @@ The bot's conversation history is kept in the file "conversation_history.json" a
 | Open {website} | Opens the specified {website} |
 | Search {speech} | Conducts a Google search for {speech} |
 | Search youtube for {speech} | Conducts a YouTube search for {speech} |
+| Get conversation history | Retrieves conversation history |
 | Mute | Mutes the bot's responses |
 | Unmute | Unmutes the bot's responses |
+| Pause | Pauses all of the bot's functionalities |
 | Exit | Terminates the program |
 
 ## Help
