@@ -54,9 +54,6 @@ The bot's conversation history is kept in the file "conversation_history.json" a
 | Pause | Pauses all of the bot's functionalities |
 | Exit | Terminates the program |
   
- ## Supported Langauges
-  Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish
- 
 ## Help
  - How to make an Azure account and subscription.
    - https://learn.microsoft.com/en-us/training/modules/create-an-azure-account/
@@ -67,3 +64,6 @@ The bot's conversation history is kept in the file "conversation_history.json" a
    - https://learn.microsoft.com/en-us/azure/key-vault/general/quick-create-portal
  - How to create and train an Azure LUIS model.
    - https://learn.microsoft.com/en-us/azure/cognitive-services/luis/how-to/sign-in
+   
+ ## Supported Langauges
+ Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish
