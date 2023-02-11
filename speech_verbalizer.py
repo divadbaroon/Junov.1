@@ -47,7 +47,7 @@ class SpeechVerbalizer:
 			else:
 				self.speech_config.speech_synthesis_voice_name = 'en-US-JennyNeural' # used as backup 
 
-			#print('\nResponse:')
+			print('\nResponse:')
 			print(f'{persona}: {speech}')
    
 			self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
