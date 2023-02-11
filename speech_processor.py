@@ -98,6 +98,8 @@ class SpeechProcessor:
 			response = self.untoggle_mute()
 		elif top_intent == 'Pause':
 			response = self.pause(persona, gender, language)
+		elif top_intent == 'Get_Conversation_History':
+			response = self.get_conversation_history(persona)
 		elif top_intent == 'Quit':
 			response = self.exit_and_cleanup(persona, gender, language)
 		else:
@@ -310,6 +312,30 @@ class SpeechProcessor:
 		while user_input != ' ':
 			user_input = input('Press spacebar to unpause: ')
 		return 'I am now unpaused'
+
+	def get_conversation_history(self, persona):
+		"""
+		Gets the conversation history from the conversation_history.json file
+		"""
+		# get conversation history
+		try:
+			with open('C:/Users/David/OneDrive/Desktop/PiBot/conversation_history.json', 'r') as f:  
+				data = json.load(f)
+				conversations = data["conversation"]
+		except FileNotFoundError:
+			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
+
+		conversation_history = ""
+	
+		if conversations:
+			for conversation in conversations:
+				conversation_history += f"Input: \nUser: {conversation['User']}\n\n"
+				conversation_history += f"Response: \n{persona}: {conversation[persona]}\n\n"
+		else:
+			conversation_history = "No conversation history"
+
+		print(f'\nConversation History: \n{conversation_history}')
+		return 'Ok, I have printed the conversation history to the console'
 				
 	def exit_and_cleanup(self, persona, gender, language):
 		"""
