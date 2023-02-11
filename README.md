@@ -1,8 +1,11 @@
 # Azure-Powered-Virtual-Assistant 
 
 ## Introduction
-This project is a virtual assistant named PiBot that utilizes Azure's Cognitive Services for its speech recognition, speech verbalization, translation, and intent recognition. The bot can be personalized to respond in a specified persona (such as Barack Obama), gender, and language.
-The bot currently has the the capability to perform various functions such as speech translation, weather retireval, Google and Youtube searching, muting and unmuting, and ending the program. The user's intent for command execution is detected using Azure's LUIS service. If substantial intent for a command is found, then the intended action takes place. If minimal intent is detected a response is created using Open AI's chatGPT. The bot's conversation history is kept in the file "conversation_history.json" and cleared at the end of the program. 
+This project is a virtual assistant named PiBot that utilizes Azure's Cognitive Services for its speech recognition, speech verbalization, translation, and intent recognition. The bot can be personalized to respond in a specified persona, such as Barack Obama, Tony Stark, Jimmy Kimmel, etc., gender, and language (see supported langauges below).
+
+PiBot has the the capability to perform various functions such as speech translation, weather retireval, Google and Youtube searching, muting and unmuting, and ending the program on command. The user's intent for command execution is detected using a trained Azure LUIS model. If substantial intent for a command is found, then the intended action takes place. If minimal intent is detected a response is created using Open AI's chatGPT. 
+
+The bot's conversation history is kept in the file "conversation_history.json" and cleared at the end of the program. Since ChatpGPT's current API model is not capable of using past conversation history, the conversation history is fed back into chatGPT for each response. This is to help the bot have context for its responses and avoid repeating itself.
 
 ## Requirements
 - Azure account and subscription
@@ -36,24 +39,38 @@ The bot currently has the the capability to perform various functions such as sp
 6. Interact with the bot by speaking
 
 ## How to interact with the bot
-- Note: The command recognition is done using your trained LUIS model, thus the way you give your commands should be able to vary greatly
+- Note: The command recognition is done using your trained LUIS model, allowing for versatile command phrasing
 
 | Command | Response |
 | ------- | -------- |
-| What is the weather in {location} | {location}'s {temperature} in fahrenheit |
-| Translate {speech} into {language} | A verbal {translation} of speech into {language}|
-| Open {website} | {website} is opened |
-| Search {speech} | Conducts a google search with {speech} |
-| Search youtube for {speech} | Conducts a youtube search for {speech} |
-| Mute | Bot is now muted |
-| Unmute | Bot is now unmuted |
-| Exit | Ends the program |
+| What is the weather in {location} | Provides the current temperature in {location} |
+| Translate {speech} into {language} | Translates {speech} into {language} |
+| Open {website} | Opens the specified {website} |
+| Search {speech} | Conducts a Google search for {speech} |
+| Search youtube for {speech} | Conducts a YouTube search for {speech} |
+| Mute | Mutes the bot's responses |
+| Unmute | Unmutes the bot's responses |
+| Exit | Terminates the program |
 
 ## Help
- - How to make a Azure account and subscription.
+ - How to make an Azure account and subscription.
    - https://learn.microsoft.com/en-us/training/modules/create-an-azure-account/
  - How to create a LUIS, Speech Service, and Translator resource.
    - The resources are located under the "Create a new Azure Cognitive Services resource" subheading 
-   - https://learn.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=language%2Canomaly-detector%2Clanguage-service%2Ccomputer-vision%2Cwindows
+   - https://learn.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account?tabs=language%2Canomaly-detector%2Clanguage-service%2Ccomputer-vision%2Cwindows 
+ - How to create an Azure Key Vault.
+   - https://learn.microsoft.com/en-us/azure/key-vault/general/quick-create-portal
+ - How to create and train an Azure LUIS model.
+   - https://learn.microsoft.com/en-us/azure/cognitive-services/luis/how-to/sign-in
   
- 
+ ## List of Supported Langauges
+  - Arabic
+  - English (Australia, Ireland, UK, USA)
+  - Finnish
+  - French
+  - German
+  - Hindi
+  - Korean
+  - Mandarin
+  - Russian
+  - Spanish
