@@ -100,8 +100,10 @@ class SpeechProcessor:
 			response = self.pause(persona, gender, language)
 		elif top_intent == 'Get_Conversation_History':
 			response = self.get_conversation_history(persona)
+		elif top_intent == 'Clear':
+			response = self.clear()
 		elif top_intent == 'Quit':
-			response = self.exit_and_cleanup(persona, gender, language)
+			response = self.exit_and_clear(persona, gender, language)
 		else:
 			response = "Sorry, I don't understand that command. Please try asking again."
    
@@ -336,8 +338,17 @@ class SpeechProcessor:
 
 		print(f'\nConversation History: \n{conversation_history}')
 		return 'Ok, I have printed the conversation history to the console'
+
+	def clear(self):
+		"""
+		Clears the conversation history
+		"""
+		# Reset the contents of the file
+		with open("conversation_history.json", "w") as file:
+			json.dump({"conversation": []}, file)
+		return 'Ok, I have cleared the conversation history'
 				
-	def exit_and_cleanup(self, persona, gender, language):
+	def exit_and_clear(self, persona, gender, language):
 		"""
 		Cleans up by clearing the bot's conversation history 
   		A response is then verbalized and the program is ended
