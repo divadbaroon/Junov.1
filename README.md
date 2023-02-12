@@ -48,10 +48,12 @@ The bot's conversation history is kept in the file "conversation_history.json" a
 | Open {website} | Opens the specified {website} |
 | Search {speech} | Conducts a Google search for {speech} |
 | Search youtube for {speech} | Conducts a YouTube search for {speech} |
+| Get conversation history | Retrieves conversation history |
 | Mute | Mutes the bot's responses |
 | Unmute | Unmutes the bot's responses |
+| Pause | Pauses all of the bot's functionalities |
 | Exit | Terminates the program |
-
+  
 ## Help
  - How to make an Azure account and subscription.
    - https://learn.microsoft.com/en-us/training/modules/create-an-azure-account/
@@ -62,15 +64,6 @@ The bot's conversation history is kept in the file "conversation_history.json" a
    - https://learn.microsoft.com/en-us/azure/key-vault/general/quick-create-portal
  - How to create and train an Azure LUIS model.
    - https://learn.microsoft.com/en-us/azure/cognitive-services/luis/how-to/sign-in
-  
- ## List of Supported Langauges
-  - Arabic
-  - English (Australia, Ireland, UK, USA)
-  - Finnish
-  - French
-  - German
-  - Hindi
-  - Korean
-  - Mandarin
-  - Russian
-  - Spanish
+   
+ ## Supported Langauges
+ Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish
