@@ -21,7 +21,7 @@ class SpeechProcessor:
 	region (str): region used for Azure resources
 	openai.api_key (str): subscription key for OpenAi's chatGPT
 	weather_key (str): subscription key for OpenWeatherMap 
-    luis_app_id (str): application id for Azure's LUIS service
+	luis_app_id (str): application id for Azure's LUIS service
 	luis_key (str): subscription key for Azure's LUIS service
 	translator_key (str): subscription key for Azure's Translator service
 	speech_verbalizer (object of SpeechVerbalizer class)
@@ -106,6 +106,9 @@ class SpeechProcessor:
 			response = self.exit_and_clear(persona, gender, language)
 		else:
 			response = "Sorry, I don't understand that command. Please try asking again."
+		
+		# saving new conversation history to conversation_history.json
+		self.save_conversation_history(speech, response, persona)
    
 		return response
 
@@ -115,13 +118,7 @@ class SpeechProcessor:
 		:param speech: (str) speech input
 		:return: (str) chatgpt response
   		"""
-		# get conversation history
-		try:
-			with open('C:/Users/David/OneDrive/Desktop/PiBot/conversation_history.json', 'r') as f:  
-				data = json.load(f)
-				conversations = data["conversation"]
-		except FileNotFoundError:
-			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
+		conversations = self.load_conversation_history()[0]
 
 		conversation_history = ""
 	
@@ -155,18 +152,6 @@ class SpeechProcessor:
 			response = 'Sorry, an error has occured. Please try asking again.'
    
 		response = response.replace('\n\n', ' ').replace(f'{persona}:', '').replace('Response:', '').lstrip()
-
-		new_conversation = {
-			"User": speech,
-			persona: response
-		}
-		conversations.append(new_conversation)
-		data["conversation"] = conversations
-		try:
-			with open("conversation_history.json", "w") as f:
-				json.dump(data, f, indent=4)
-		except FileNotFoundError:
-			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
 		
 		return response
 	
@@ -179,7 +164,7 @@ class SpeechProcessor:
 		# the location sometimes ends in a question mark
 		if location.endswith('?'):
 			location = location.rstrip('?')
-    
+	
 		# attempt to send request to openweathermap api
 		try:
 			response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={self.weather_key}")
@@ -319,14 +304,8 @@ class SpeechProcessor:
 		"""
 		Gets the conversation history from the conversation_history.json file
 		"""
-		# get conversation history
-		try:
-			with open('C:/Users/David/OneDrive/Desktop/PiBot/conversation_history.json', 'r') as f:  
-				data = json.load(f)
-				conversations = data["conversation"]
-		except FileNotFoundError:
-			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
-
+		# load conversation history from conversation_history.json file
+		conversations = self.load_conversation_history()[0]
 		conversation_history = ""
 	
 		if conversations:
@@ -338,6 +317,30 @@ class SpeechProcessor:
 
 		print(f'\nConversation History: \n{conversation_history}')
 		return 'Ok, I have printed the conversation history to the console'
+
+	def save_conversation_history(self, speech: str, response: str, persona: str, conversation_history: list, data: dict):
+		"""
+		Loads conversation history from json file
+		:return: (list) conversation history
+  		"""
+		try:
+			with open("conversation_history.json", "r") as f:
+				data = json.load(f)
+				conversation_history = data["conversation"]
+		except FileNotFoundError:
+			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
+	 
+		new_conversation = {
+		"User": speech,
+		persona: response
+		}
+		conversation_history.append(new_conversation)
+		data["conversation"] = conversation_history
+		try:
+			with open("conversation_history.json", "w") as f:
+				json.dump(data, f, indent=4)
+		except FileNotFoundError:
+			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
 
 	def clear(self):
 		"""
