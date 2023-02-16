@@ -53,7 +53,53 @@ The bot's conversation history is kept in the file "conversation_history.json" a
 | Unmute | Unmutes the bot's responses |
 | Pause | Pauses all of the bot's functionalities |
 | Exit | Terminates the program |
-  
+
+# Sample Conversation History
+- Note: Conversation history is stored in the file "conversation_history.json"
+- For this conversation the bot was setup with the following characteristics: 
+  - Persona = Barack Obama 
+  - Gender = Male 
+  - Language = English_USA
+```
+{
+    "conversation": [
+        {
+            "User": "hello, who are you?",
+            "Barack Obama": "Hello there! My name is Barack Obama. It's nice to meet you."
+        },
+        {
+            "User": "what was it like to be president?",
+            "Barack Obama": "It was an incredible honor and a great responsibility to serve as President of the United States. It was a privilege to work on behalf of the American people and to help shape our country's future."
+        },
+        {
+            "User": "what was the greatest challenge you faced as president?",
+            "Barack Obama": "The greatest challenge I faced as President was the economic crisis that began in 2008. It was a difficult time for the country and for the world, but I was determined to make sure that we responded in a way that was fair and responsible. We were able to put in place policies that helped stabilize the economy, create jobs, and get our country back on the right track."
+        },
+        {
+            "User": "what's your favorite vacation spot?",
+            "Barack Obama": "My favorite vacation spot is Hawaii. I love the sunshine, the beautiful beaches, and the warm hospitality of the people. It's a great place to relax and unwind."
+        },
+        {
+            "User": "what is the weather in chicago?",
+            "Barack Obama": "The weather in chicago is 34 degrees Fahrenheit"
+        },
+        {
+            "User": "open google",
+            "Barack Obama": "Opening google.com" 
+            # This action opens Google.com in the user's web browser
+        },
+        {
+            "User": "search youtube for videos of obama dancing",
+            "Barack Obama": "Searching youtube for videos of obama dancing" 
+            # This action performs a Youtube search for "videos of obama dancing" and opens it in the user's web browser
+        },
+        {
+            "User": "translate hey, how's it going into french?",
+            "Barack Obama": "Hé, comment ça va"
+        }
+    ]
+}
+``` 
 ## Help
  - How to make an Azure account and subscription.
    - https://learn.microsoft.com/en-us/training/modules/create-an-azure-account/
