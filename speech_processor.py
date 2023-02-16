@@ -9,7 +9,7 @@ import sys
 import azure.cognitiveservices.speech as speechsdk
 from speech_verbalizer import SpeechVerbalizer
 
-class SpeechProcessor:
+class SpeechProcessor: 
 	"""
 	A class that processes the user's input using Azure's LUIS Service.
 	If minimal similarities are found between the user's speech and the trained Azure LUIS model a 
@@ -41,7 +41,7 @@ class SpeechProcessor:
 		self.translator_key = config.retrieve_secret('PiBot-Translator-API')
 		self.speech_verbalizer  = SpeechVerbalizer()
 		self.speech_config = speechsdk.SpeechConfig(subscription = config.retrieve_secret('PiBot-API'), region = 'eastus')
-	
+	 
 	def process_speech(self, speech: str, persona: str, gender: str, language: str) -> str: 
 		"""
 		Checks for user's intent by sending a request to LUIS api and checking for similarites between the user's speech
@@ -118,21 +118,20 @@ class SpeechProcessor:
 		:param speech: (str) speech input
 		:return: (str) chatgpt response
   		"""
-		conversations = self.load_conversation_history()[0]
-
-		conversation_history = ""
+		conversation_history = self.load_conversation_history()
+		formatted_conversation_history = ""
 	
-		if conversations:
-			for conversation in conversations:
-				conversation_history += f"Input: \nUser: {conversation['User']}\n\n"
-				conversation_history += f"Response: \n{persona}: {conversation[persona]}\n\n"
+		if conversation_history:
+			for conversation in conversation_history:
+				formatted_conversation_history += f"Input: \nUser: {conversation['User']}\n\n"
+				formatted_conversation_history += f"Response: \n{persona}: {conversation[persona]}\n\n"
 
 		# creates prompt used for chatgpt
-		if persona != 'bot' and conversation_history:
-			prompt = (f"Provide the next response to the user given this conversation history {conversation_history}. I want you to respond to the user like you are {persona}: The user said: {speech}")
-		elif persona == 'bot' and conversation_history:
-			prompt = (f"Provide the next response to the user given this conversation history {conversation_history}. Provide a realistic chatbot like response to the user: The user said: {speech}")
-		elif persona != 'bot' and not conversation_history:
+		if persona != 'bot' and formatted_conversation_history:
+			prompt = (f"Provide the next response to the user given this conversation history {formatted_conversation_history}. I want you to respond to the user like you are {persona}: The user said: {speech}")
+		elif persona == 'bot' and formatted_conversation_history:
+			prompt = (f"Provide the next response to the user given this conversation history {formatted_conversation_history}. Provide a realistic chatbot like response to the user: The user said: {speech}")
+		elif persona != 'bot' and not formatted_conversation_history:
 			prompt = (f"I want you to respond to the user like you are {persona}. The user said: {speech}")
 		else:
 			prompt = (f"Provide a realistic chatbot like response to the user: The user said: {speech}")
@@ -244,7 +243,7 @@ class SpeechProcessor:
 		# attempt to open website
 		try:
 			webbrowser.open(f"https://www.{website}.com") 
-			response = f"Opening {website}"
+			response = f"Opening {website}.com"
 		except Exception as e:
 			print(f'Could not open {website}. Error {e}')
 			response = f'Sorry, there was an error while trying to open {website}'
@@ -300,45 +299,52 @@ class SpeechProcessor:
 			user_input = input('Press spacebar to unpause: ')
 		return 'I am now unpaused'
 
+	def load_conversation_history(self):
+		"""
+		Loads the conversation history from the conversation_history.json file
+		"""
+		try:
+			with open('conversation_history.json', 'r') as f:
+				data = json.load(f)
+				conversation_history = data["conversation"]
+		except FileNotFoundError:
+			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
+			conversation_history = []
+
+		return conversation_history
+
 	def get_conversation_history(self, persona):
 		"""
 		Gets the conversation history from the conversation_history.json file
 		"""
 		# load conversation history from conversation_history.json file
-		conversations = self.load_conversation_history()[0]
-		conversation_history = ""
+		conversation_history = self.load_conversation_history()
+		formatted_conversation_history = ""
 	
-		if conversations:
-			for conversation in conversations:
-				conversation_history += f"Input: \nUser: {conversation['User']}\n\n"
-				conversation_history += f"Response: \n{persona}: {conversation[persona]}\n\n"
-		else:
-			conversation_history = "No conversation history"
+		if conversation_history:
+			for conversation in conversation_history:
+				formatted_conversation_history += f"Input: \nUser: {conversation['User']}\n\n"
+				formatted_conversation_history += f"Response: \n{persona}: {conversation[persona]}\n\n"
 
-		print(f'\nConversation History: \n{conversation_history}')
+		print(f'\nConversation History: \n{formatted_conversation_history}')
 		return 'Ok, I have printed the conversation history to the console'
 
-	def save_conversation_history(self, speech: str, response: str, persona: str, conversation_history: list, data: dict):
+	def save_conversation_history(self, speech: str, response: str, persona: str):
 		"""
 		Loads conversation history from json file
 		:return: (list) conversation history
   		"""
-		try:
-			with open("conversation_history.json", "r") as f:
-				data = json.load(f)
-				conversation_history = data["conversation"]
-		except FileNotFoundError:
-			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
+		conversation_history = self.load_conversation_history()
 	 
 		new_conversation = {
 		"User": speech,
 		persona: response
 		}
 		conversation_history.append(new_conversation)
-		data["conversation"] = conversation_history
+		data = {"conversation": conversation_history}
 		try:
-			with open("conversation_history.json", "w") as f:
-				json.dump(data, f, indent=4)
+			with open("conversation_history.json", "w", encoding="utf-8") as f:
+				json.dump(data, f, ensure_ascii=False, indent=4)
 		except FileNotFoundError:
 			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
 
