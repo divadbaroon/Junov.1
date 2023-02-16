@@ -38,7 +38,7 @@ The bot's conversation history is kept in the file "conversation_history.json" a
 5. Wait for "listening..." to appear, indicating that the bot is now listening for input
 6. Interact with the bot by speaking
 
-## How to interact with the bot
+## Supported Commands
 - Note: The command recognition is done using your trained LUIS model, allowing for versatile command phrasing
 
 | Command | Response |
@@ -54,7 +54,7 @@ The bot's conversation history is kept in the file "conversation_history.json" a
 | Pause | Pauses all of the bot's functionalities |
 | Exit | Terminates the program |
 
-# Sample Conversation History
+## Sample Conversation History
 - Note: Conversation history is stored in the file "conversation_history.json"
 - For this conversation the bot was setup with the following characteristics: 
   - Persona = Barack Obama 
