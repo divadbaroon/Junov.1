@@ -8,6 +8,7 @@ The following files must all be located within the same folder for the bot to fu
 from speech_recognizer import SpeechRecognition
 from speech_processor import SpeechProcessor
 from speech_verbalizer import SpeechVerbalizer
+from playsound import playsound
 
 class PiBot:
   '''
@@ -36,6 +37,7 @@ class PiBot:
     self.speech_recognition = SpeechRecognition()
     self.speech_processor = SpeechProcessor()
     self.speech_verbalizer  = SpeechVerbalizer()
+    playsound("C:/Users/David/OneDrive/Desktop/PiBot/startup_sound.wav")
   
   def listen(self) -> str:
     """
