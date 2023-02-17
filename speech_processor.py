@@ -6,6 +6,9 @@ import json
 import uuid
 import urllib
 import sys
+import pyperclip
+import string
+from random import choice
 import azure.cognitiveservices.speech as speechsdk
 from speech_verbalizer import SpeechVerbalizer
 
@@ -92,6 +95,8 @@ class SpeechProcessor:
 			search_request = intents_json["prediction"]["entities"]["search_youtube"][0]
 			response = self.search_youtube(search_request)
 
+		elif top_intent == 'Generate_Password':
+			response = self.random_password()
 		elif top_intent == 'Mute':
 			response = self.toggle_mute()
 		elif top_intent == 'Unmute':
@@ -273,6 +278,19 @@ class SpeechProcessor:
 		query = urllib.parse.quote(search_request)
 		webbrowser.open(f'https://www.youtube.com/results?search_query={query}')
 		return(f'Searching youtube for {search_request}')
+
+	def random_password(self, length=12):
+		"""
+		Generates a random password of a given length
+		:param length: (int) the length of the password
+		"""
+		password = ''
+		# generate random password
+		for _ in range(length):
+			password += choice(string.ascii_letters + string.digits + string.punctuation)
+		# copy password
+		pyperclip.copy(password)
+		return 'a random password has been copied to your clipboard'
 	
 	def toggle_mute(self):
 		"""
