@@ -37,7 +37,7 @@ class PiBot:
     self.speech_recognition = SpeechRecognition()
     self.speech_processor = SpeechProcessor()
     self.speech_verbalizer  = SpeechVerbalizer()
-    playsound("C:/Users/David/OneDrive/Desktop/PiBot/startup_sound.wav")
+    playsound("startup_sound.wav")
   
   def listen(self) -> str:
     """
