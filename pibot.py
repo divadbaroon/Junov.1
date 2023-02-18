@@ -2,7 +2,7 @@
 Note:
 The following files must all be located within the same folder for the bot to function.
 < pibot.py, speech_recognizer.py, speech_processor.py, speech_verbalizer.py, sample_config.py,  
-  bot_properties.json, conversation_history.json >  
+  bot_properties.json, conversation_history.json, startup_sound.wav>  
 '''
 
 from speech_recognizer import SpeechRecognition
@@ -30,6 +30,7 @@ class PiBot:
     :param persona: (str) name of person the bot will emobdy
     :param gender: (str) the gender of the bot
     :param language: (str) the language the bot will speak
+		Note: Plays startup sound upon initialization of PiBot object.
     """
     self.persona = persona
     self.gender = gender
