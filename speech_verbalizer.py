@@ -28,33 +28,35 @@ class SpeechVerbalizer:
 		"""	
 		# load the bot's current mute status
 		self.mute_status = self.load_mute_status()  
-  
-		# check bot's mute status
-		if not self.mute_status: 
-	  
-			# attempt to extract the bot's gender and language
-			try: 
-				with open('bot_properties.json', 'r') as f:   
-					voice_names = json.load(f)
-			except FileNotFoundError:
-				print('The file "bot_properties.json" is missing.\nMake sure all files are located within the same folder')
-	
-			# assigning appropriate bot voice 
-			voice_name = voice_names[gender.lower()].get(language.lower())
-			# check if voice with given parameters exists
-			if voice_name:
-				self.speech_config.speech_synthesis_voice_name = voice_name
-			else:
-				self.speech_config.speech_synthesis_voice_name = 'en-US-JennyNeural' # used as backup 
 
-			print('\nResponse:')
-			print(f'{persona}: {speech}')
-   
-			self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
-			self.speech_synthesizer.speak_text(speech)
-		else:
-			print('\n(muted) Response:')
-			print(f'{persona}: {speech}')
+		# check if speech is not empty
+		if speech:
+			# check bot's mute status
+			if not self.mute_status: 
+		
+				# attempt to extract the bot's gender and language
+				try: 
+					with open('bot_properties.json', 'r') as f:   
+						voice_names = json.load(f)
+				except FileNotFoundError:
+					print('The file "bot_properties.json" is missing.\nMake sure all files are located within the same folder')
+		
+				# assigning appropriate bot voice 
+				voice_name = voice_names[gender.lower()].get(language.lower())
+				# check if voice with given parameters exists
+				if voice_name:
+					self.speech_config.speech_synthesis_voice_name = voice_name
+				else:
+					self.speech_config.speech_synthesis_voice_name = 'en-US-JennyNeural' # used as backup 
+
+				print('\nResponse:')
+				print(f'{persona}: {speech}')
+	
+				self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
+				self.speech_synthesizer.speak_text(speech)
+			else:
+				print('\n(muted) Response:')
+				print(f'{persona}: {speech}')
 	
 	def load_mute_status(self):
 		"""
