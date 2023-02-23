@@ -2,13 +2,15 @@
 Note:
 The following files must all be located within the same folder for the bot to function.
 < pibot.py, speech_recognizer.py, speech_processor.py, speech_verbalizer.py, sample_config.py,  
-  bot_properties.json, conversation_history.json, startup_sound.wav>  
+  bot_properties.py, bot_properties.json, conversation_history.json, startup_sound.wav(optional) >  
 '''
 
 from speech_recognizer import SpeechRecognition
 from speech_processor import SpeechProcessor
 from speech_verbalizer import SpeechVerbalizer
+from bot_properties import BotProperties
 from playsound import playsound
+import os
 
 class PiBot:
   '''
@@ -24,7 +26,7 @@ class PiBot:
   speech_verbalizer: object of SpeechVerbalizer class
   '''
   
-  def __init__(self, persona='bot', gender='female', language='default'):
+  def __init__(self, persona='chatbot', gender='female', language='default'):
     """
     Initializes a new PiBot object 
     :param persona: (str) name of person the bot will emobdy
@@ -32,14 +34,21 @@ class PiBot:
     :param language: (str) the language the bot will speak
 		Note: Plays startup sound upon initialization of PiBot object.
     """
-    self.persona = persona
-    self.gender = gender
-    self.language = language
+    # initializing the bot's speech functionalities
     self.speech_recognition = SpeechRecognition()
     self.speech_processor = SpeechProcessor()
     self.speech_verbalizer  = SpeechVerbalizer()
-    playsound("startup_sound.wav")
-  
+    
+    # Saving bot characterisitcs to bot_properties.json
+    self.bot_properties = BotProperties()
+    self.bot_properties.save_property('persona', persona)
+    self.bot_properties.save_property('gender', gender)
+    self.bot_properties.save_property('language', language)
+    
+    # Plays startup sound if it exists
+    if 'startup_sound.wav' in os.listdir():
+        playsound("C:/Users/David/OneDrive/Desktop/PiBot/startup_sound.wav")
+
   def listen(self) -> str:
     """
     Listens for users speech input
@@ -53,14 +62,14 @@ class PiBot:
     :param speech: (str) speech input
     :return: (str) response to users speech
     """
-    return self.speech_processor.process_speech(speech, self.persona, self.gender, self.language)
+    return self.speech_processor.process_speech(speech)
 
   def verbalize(self, response: str):
     """
     Verbalizes a string
     :param response: (str) string to be verbalized
     """
-    self.speech_verbalizer.verbalize_speech(response, self.persona, self.gender, self.language)
+    self.speech_verbalizer.verbalize_speech(response)
   
   def run(self):
     """
@@ -70,6 +79,6 @@ class PiBot:
     :.verbalize() # Verbalizes the response
     """
     speech = self.speech_recognition.listen()
-    response = self.speech_processor.process_speech(speech, self.persona, self.gender, self.language)
-    self.speech_verbalizer.verbalize_speech(response, self.persona, self.gender, self.language)
+    response = self.speech_processor.process_speech(speech)
+    self.speech_verbalizer.verbalize_speech(response)
       
