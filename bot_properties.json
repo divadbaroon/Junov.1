@@ -1,5 +1,11 @@
 {
-    "female": {
+    "chatbot": {
+        "persona": "chatbot",
+        "gender": "female",
+        "language": "english_usa",
+        "mute_status": false
+    },
+    "female_voices": {
         "default": "en-US-AIGenerate2Neural",
         "arabic": "ar-AE-FatimaNeural",
         "english_usa": "en-US-AmberNeural",
@@ -15,7 +21,7 @@
         "korean": "ko-KR-JiMinNeural",
         "russian": "ru-RU-DariyaNeural"
     },
-    "male": {
+    "male_voices": {
         "default": "en-US-AIGenerate1Neural",
         "arabic": "ar-AE-HamdanNeural",
         "english_usa": "en-US-BrandonNeural",
@@ -43,7 +49,5 @@
         "german": "de",
         "korean": "ko",
         "russian": "ru"
-
-    },
-    "mute status": false
     }
+}
