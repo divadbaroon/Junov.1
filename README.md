@@ -39,22 +39,35 @@ The bot's conversation history is kept in the file "conversation_history.json" a
 6. Interact with the bot by speaking
 
 ## Supported Commands
-- Note: The command recognition is done using your trained LUIS model, allowing for versatile command phrasing
+The command recognition is done using your trained LUIS model, allowing for versatile command phrasing.
 
+### Weather
 | Command | Response |
 | ------- | -------- |
 | What is the weather in {location} | Provides the current temperature in {location} |
+### Translation
+| Command | Response |
+| ------- | -------- |
 | Translate {speech} into {language} | Translates {speech} into {language} |
+### Web Browsing
+| Command | Response |
+| ------- | -------- |
 | Open {website} | Opens the specified {website} |
 | Search {speech} | Conducts a Google search for {speech} |
 | Search youtube for {speech} | Conducts a YouTube search for {speech} |
+### Bot Functionalities
+| Command | Response |
+| ------- | -------- |
+| Generate a random password | Generates a random password and copies it to the users clipboard |
 | Get conversation history | Retrieves conversation history |
 | Mute | Mutes the bot's responses |
 | Unmute | Unmutes the bot's responses |
 | Pause | Pauses all of the bot's functionalities |
 | Exit | Terminates the program |
 
-## Sample Conversation History
+Note: If a command is given that is not included in the above list, a response will be given using chatGPT.
+
+### Sample Conversation History
 - Note: Conversation history is stored in the file "conversation_history.json"
 - For this conversation the bot was setup with the following characteristics: 
   - Persona = Barack Obama 
