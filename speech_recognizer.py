@@ -36,7 +36,7 @@ class SpeechRecognition:
         time_until_exit = 300
         
         # Starting timer
-        self.begin_timer = time()  
+        begin_timer = time()  
         
         # Continuously listen for speech
         while True:
@@ -48,11 +48,11 @@ class SpeechRecognition:
             
             recognition_attempt += 1
             
-            # If speech was recognized, print it and return the lowercase version
+            # If speech was recognized, print it and return it
             if result.reason == speechsdk.ResultReason.RecognizedSpeech:
                 recognized_speech = result.text
                 print(f"\nInput:\nUser: {recognized_speech}")
-                return recognized_speech.lower().replace('.', '').strip()
+                return recognized_speech.replace('.', '').strip()
             
             # If the recognition was cancelled, check if it was due to an error
             elif result.reason == speechsdk.ResultReason.Canceled:
@@ -70,10 +70,10 @@ class SpeechRecognition:
                 recognition_attempt = 0
 
             # Ending timer
-            self.end_timer = time()
-            elapsed_time = self.end_timer - self.begin_timer
+            end_timer = time()
+            elapsed_time = end_timer - begin_timer
             
-            # Terminate the program if no speech is detected for 5 minutes
+            # Terminate the program if no speech is detected after 5 minutes
             if elapsed_time >= time_until_exit:
                 print("The program has been terminated due to inactivity.")
                 sys.exit()
