@@ -59,6 +59,9 @@ The command recognition is done using your trained LUIS model, allowing for vers
 | Command | Response |
 | ------- | -------- |
 | Generate a random password | Generates a random password and copies it to the users clipboard |
+| Set persona to {persona} | Sets the persona of the bot to {persona} |
+| Set gender to {gender} | Sets the gender of the bot to {gender} |
+| Set language to {language} | Sets the language of the bot to {language} |
 | Get conversation history | Retrieves conversation history |
 | Mute | Mutes the bot's responses |
 | Unmute | Unmutes the bot's responses |

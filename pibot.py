@@ -32,7 +32,7 @@ class PiBot:
     :param persona: (str) name of person the bot will emobdy
     :param gender: (str) the gender of the bot
     :param language: (str) the language the bot will speak
-		Note: Plays startup sound upon initialization of PiBot object.
+    Note: Plays startup sound upon initialization of PiBot object.
     """
     # initializing the bot's speech functionalities
     self.speech_recognition = SpeechRecognition()
