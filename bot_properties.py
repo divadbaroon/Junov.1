@@ -25,9 +25,11 @@ class BotProperties():
 
 				return voice_name
 
+			# Get available languages
 			elif setting == 'languages':
 				return list(data['female_voices'].keys())
 
+			# Get available language codes
 			elif setting == 'language_codes':
 				return data['language_codes']
 			
