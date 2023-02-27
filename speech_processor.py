@@ -1,9 +1,9 @@
 import config 
 import openai 
 import requests
-import webbrowser
 import json
 import uuid
+import webbrowser
 import urllib
 import sys
 import string
@@ -16,23 +16,26 @@ class SpeechProcessor:
 	"""
 	A class that processes the user's input using a trained Luis model and produces an appropriate response and action.
 	This class is comprised of two initial nested classes: SpeechIntent and CommandParser.
-	The nested SpeechIntent class retrieves the similarity rankings between the user's speech and the trained luis model.
+	The nested SpeechIntent class retrieves the similarity rankings between the user's speech and the trained luis model in json format.
 	The nested CommandParser class uses the data from the similarity rankings to provide the most apporiate response 
  	and action to the user's speech.
 	The nested CommandParser class is composed of seven nested classes, each containing methods dedicated to executing
 	commands that are specific to the user's intent.
-	These clases nested under CommandParser include: ChatGPT, TranslateSpeech, GetWeather, WebSearcher, PasswordGenerator,
+	These clases nested under CommandParser include: AskGPT, TranslateSpeech, GetWeather, WebSearcher, PasswordGenerator,
 	BotBehavior, and ConversationHistoryManager
 	"""
 
 	def process_speech(self, speech:str): 
 		"""
-		Processes the user's input using Azure's LUIS Service and produces an appropriate response and action.
+		Processes the user's input using a trained LUIS model and produces an appropriate response and action.
+		:param speech: (str) speech input
+		:return: (str) response to users speech and appropriate action to be taken
 		"""
+  
 		# Retrieves a json file containing similarity rankings between the user's speech and the trained luis model
 		intents_json = self.SpeechIntent().get_user_intent(speech)
 		# Provides the most apporiate response and action to the user's speech given the similarity rankings
-		response = self.CommandParser().parse_commands(intents_json, speech)
+		response = self.CommandParser().parse_commands(speech, intents_json)
 		return response
 
 	class SpeechIntent:
@@ -53,7 +56,9 @@ class SpeechProcessor:
 
 		def get_user_intent(self, speech:str):
 			"""
-			Retrieves the similarity rankings between the user's speech and the trained luis model.
+			Retrieves the similarity rankings between the user's speech and the trained LUIS model.
+			:param speech: (str) speech input
+    		:return: (str) json file containing similarity rankings between the user's speech and the trained luis model
 			"""
 		
 			endpoint_url = (f"https://{self.region}.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.luis_app_id}"
@@ -68,29 +73,34 @@ class SpeechProcessor:
 				intents_json = response.json()
 			else:
 				raise ValueError(f"The request sent to the LUIS model was unsuccessful. Error: {response.status_code}")
-
+			
 			return intents_json
 
 	class CommandParser:
 		"""
 		A class that provides the most apporiate response and action to the user's speech given the similarity rankings.
 		This is done by retrieving the top intent  and its associated entity if applicable from the returned json file from Luis.
-		If the top intent's score is less than 70% a response is instead created using chatGPT.
+		If the top intent's score is less than 70% a response is instead created using GPT-3.
 		If the top intent's score is greater than 70% the associated entity is retrieved and the appropriate action is executed.
 		"""
 
-		def parse_commands(self, intents_json, speech):
+		def parse_commands(self, speech:str, intents_json:dict):
 			"""
 			Provides the most apporiate response and action to the user's speech given the similarity rankings.
+			:param speech: (str) speech input
+			:param intents_json: (str) json file containing similarity rankings between the user's speech and the trained luis model
+			:return: (str) response to users speech and appropriate action to be taken
 			"""
-			# Extract top intent from similarity_rankings json file
+   
+			# Extract top intent and top intent's score from intents_json
 			top_intent = intents_json["prediction"]["topIntent"] 
 			top_intent_score = intents_json["prediction"]["intents"][top_intent]["score"]
 		
-			# If score does not meet minimum threshold a response is instead created using chatGPT
+			# If score does not meet minimum threshold a response is instead created using GPT-3
 			if top_intent_score < .70:
+				# Loading conversation history to be used as context for GPT-3
 				conversation_history = self.ConversationHistoryManager().load_conversation_history()
-				response = self.ChatGPT().ask_chatgpt(speech, conversation_history) 
+				response = self.AskGPT().ask_GPT(speech, conversation_history) 
 	
 			# Find intent with the highest similarity score
 			# and retrieve associated entity if applicable
@@ -146,21 +156,22 @@ class SpeechProcessor:
 			else:
 				response = "Sorry, I don't understand that command. Please try asking again."
 			
-			# Saving the new conversation to conversation_history.json 
+			# Saving the newly created conversation to conversation_history.json 
 			self.ConversationHistoryManager().save_conversation_history(speech, response)
 	
 			return response
 
-		class ChatGPT:
+		class AskGPT:
 			"""
-			A class that creates a response using OpenAI's chatGPT.
-			A personalize resposne is created depening on the user's specified persona and
+			A class that creates a response using OpenAI's GPT-3 API.
+			A personalize response is created depening on the user's specified persona and
 			the past conversation history to provie context to the conversation.
 		
 			Atributes:
-			language_model (str): language model used for chatGPT
-			response_length (int): max response length of chatGPT's responses
-			openai.api_key (str): subscription key for OpenAi's chatGPT
+			language_model (str): language model used for GPT-3 
+			response_length (int): max response length of GPT-3's responses
+			openai.api_key (str): subscription key for OpenAi's GPT-3
+			persona (str): the bot's persona
 			"""
 			
 			def __init__(self):
@@ -168,32 +179,37 @@ class SpeechProcessor:
 				self.response_length = 100
 				openai.api_key = config.retrieve_secret('OpenAI-API')
 				self.persona = BotProperties().get_property('persona')
+				self.user_name = BotProperties().get_property('user_name')
 
-			def ask_chatgpt(self, speech:str, conversation_history=None):
+			def ask_GPT(self, speech:str, conversation_history:list):
 				"""
-				Creates a response using OpenAI's chatGPT.
+				Uses the user's speech, the bot's persona, and the conversation history 
+    			to create a response using OpenAI's GPT-3 API.
+				:param speech: (str) speech input
+				:param conversation_history: (list) the conversation history between the user and the bot
 				"""
-
+    
 				formatted_conversation_history = ""
 			
-				# Formats conversation history to be used as prompt for chatgpt 
+				# Formats conversation history to be used as prompt for GPT-3 
 				if conversation_history:
 					for conversation in conversation_history:
-						formatted_conversation_history += f"Input: \nUser: {conversation['User']}\n\n"
+						formatted_conversation_history += f"User said: {conversation['User']}\n"
 						for name, text in conversation.items():
 							if name != 'User':
-								formatted_conversation_history += f"Response: \n{name.title()}: {text}\n\n"
-
-				# Creates prompt used for chatgpt
+								formatted_conversation_history += f"{name.title()} said: {text}\n"
+    
+				# Creates a prompt used for GPT-3 based on the user's persona and conversation history
 				if self.persona != 'chatbot' and formatted_conversation_history:
-					prompt = (f"Provide the next response to the user given this conversation history {formatted_conversation_history}. I want you to respond to the user like you are {self.persona}: The user said: {speech}")
+					prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {self.persona}: The user said: {speech}")
 				elif self.persona == 'chatbot' and formatted_conversation_history:
-					prompt = (f"Provide the next response to the user given this conversation history {formatted_conversation_history}. Provide a realistic chatbot like response to the user: The user said: {speech}")
+					prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nProvide a chatbot like response to the next user input and do not provide 'chatbot response' in the response: The user said: {speech}")
 				elif self.persona != 'chatbot' and not formatted_conversation_history:
-					prompt = (f"I want you to respond to the user like you are {self.persona}. The user said: {speech}")
+					prompt = (f"\nI want you to respond to the user like you are {self.persona}. The user said: {speech}")
 				else:
-					prompt = (f"Provide a realistic chatbot like response to the user: The user said: {speech}")
-
+					prompt = (f"\nProvide a chatbot like response to the user: The user said: {speech}")
+				
+				# Prepare and send a request to OpenAI's GPT-3 API
 				completion = openai.Completion.create(
 				engine=self.language_model,
 				prompt=prompt,
@@ -202,52 +218,55 @@ class SpeechProcessor:
 				stop=None,
 				temperature=0.5)
 				
-				try:
-					response = completion.choices[0].text
-				except Exception as e:
-					print(f"An error has occurred while sending a request to chatGPT. Error: {e}")
-					response = 'Sorry, an error has occured. Please try asking again.'
+				# Gets the response from GPT-3
+				response = completion.choices[0].text
 
-				# Cleanup common mistakes that chatGPT returns
-				response = response.replace('\n\n', ' ').replace(f'{self.persona}:', '').replace('Response:', '').lstrip()
+				# Cleanup common mistakes that GPT-3 returns
+				# such as adding extra new lines and adding unnecessary text to the beginning of responses
+				response = response.replace('\n\n', ' ').replace(f'{self.persona.title()}:', '').replace('Response:', '').lstrip()
 				
 				return response
 
 		class TranslateSpeech:
 			"""
-			A class that translates speech to a desired language.
+			A class that translates user given speech to a desired language.
 		
 			Atributes:
+			region (str): region for Azure's Translator service
 			translator_key (str): subscription key for Azure's Translator service
+			bot_properties (BotProperties): BotProperties object
 			"""
 			
 			def __init__(self):
 				self.region = 'eastus'
 				self.translator_key = config.retrieve_secret('PiBot-Translator-API')
+				self.bot_properties = BotProperties()
 			
 			def translate_speech(self, speech_to_translate:str, language:str):
 				"""
-				Translates a given string of text to a desired langauge
+				Translates a given string of text to a desired langauge.
 				:param speech_to_translate: (str) the speech to be translated
 				:param language: (str) the language for the speech to be translated into
-				:return: (str) speech translation
+				:return: (str) the translated speech
 				"""
+    
 				endpoint = "https://api.cognitive.microsofttranslator.com/"
 				path = '/translate'
 				constructed_url = f'{endpoint}{path}'
-				
-				try:
-					with open('bot_properties.json', 'r') as f:  
-						languages = json.load(f)
-				except FileNotFoundError:
-					print('The file "bot_properties.json" is missing.\nMake sure all files are located within the same folder')
 
 				# Language sometimes ends in a question mark
 				if language.endswith('?'):
 					language = language.rstrip('?')
 
-				# Get language code from langauge
-				language_code = languages['language_codes'].get(language) 
+				# Extract languages and their codes from bot_properties.json
+				language_codes = self.bot_properties.get_property('language_codes')
+				# Get the language code for the desired language
+				for language_name, code in language_codes.items():
+					if language.lower() == language_name:
+						language_code = code
+						break
+  
+				# prepare a request to Azure's Translator service
 				params = {
 					'api-version': '3.0',
 					'from': 'en',
@@ -262,15 +281,17 @@ class SpeechProcessor:
 				}
 
 				body = [{"text": speech_to_translate}]
-		
+
+				# attempt to send a request to Azure's Translator service
 				try:
 					request = requests.post(constructed_url, params=params, headers=headers, json=body)
 					response = request.json()
+					# get the translated speech
 					response = response[0]['translations'][0]['text']
 				except Exception as e:
-					print(f"An error occurred while sending a request to microsoft translator. Error: {e}")
-					response = f'Sorry, there was an error while trying translate {speech_to_translate}. Try asking again.'
-		
+					print(f"An error occurred while sending a request to Azure. Error: {e}")
+					response = f'Sorry, there was an error while trying to translate: {speech_to_translate}. Try asking again.'
+
 				return response
 
 		class GetWeather:
@@ -282,11 +303,13 @@ class SpeechProcessor:
 			"""
 			
 			def __init__(self):
-				self.weather_key = config.retrieve_secret('Weather-API')
+				self.weather_key = config.retrieve_secret('Weather-API')	
 			
 			def get_weather(self, location:str):
 				"""
 				Gets the weather for a given location.
+				:param location: (str) the location to get the weather for
+				:return: (str) the weather for the given location
 				"""
 				
 				# The location sometimes ends in a question mark
@@ -302,40 +325,42 @@ class SpeechProcessor:
 					return response
 
 				# Check whether request was successful
-				if response.status_code != 200:
+				if response.status_code == 200:
+        
+					# Returned json file with weather data
+					data = response.json()
+
+					temperature = data["main"]["temp"]
+
+					# Convert temperature from kelvin to fahrenheit
+					temperature_fahrenheit = (temperature - 273.15) * 9/5 + 32
+
+					response = f"The weather in {location} is {round(temperature_fahrenheit)} degrees Fahrenheit"		
+				else:
+        
 					print(f"An error occurred while trying to send a request to openweathermap. Error: {response.status_code}")
 					response = "Sorry, an error has occured. Please try asking again."
-					return response
-				# Returned json file with weather data
-				data = response.json()
-
-				temperature = data["main"]["temp"]
-
-				# Convert temperature from kelvin to fahrenheit
-				temperature_fahrenheit = (temperature - 273.15) * 9/5 + 32
-
-				response = f"The weather in {location} is {round(temperature_fahrenheit)} degrees Fahrenheit"		
 				
 				return response
 
 		class WebSearcher:
 			"""
-			A class that contains methods that opens a desired website, 
-			performs a google search, or performs a youtube search.
+			A class that contains methods for opening a desired website, 
+			performing a google search, and performing a youtube search.
 			"""
 				
 			def open_website(self, website: str):
 				"""
-				Opens a user requested website
+				Opens the specified website in a new browser window.
 				:param website: (str) the website to open
 				"""
 				webbrowser.open(f"https://www.{website}.com")
 		
-				return f'Opening {website}'
+				return f'Opening {website}.com'
 
 			def search_google(self, search_request: str):
 				"""
-				Performs a google search for the given query
+				Performs a google search for a given query
 				:param search_request: (str) the google search request
 				"""
 				webbrowser.open(f"https://www.google.com/search?q={search_request}")
@@ -344,7 +369,7 @@ class SpeechProcessor:
 			
 			def search_youtube(self, search_request: str):
 				"""
-				Performs a youtube search for the given query
+				Performs a youtube search for a given query
 				:param search_request: (str) the youtube search request
 				"""
 				# Encode the search request to be url friendly
@@ -358,10 +383,11 @@ class SpeechProcessor:
 			A class that generates a random password and copies it to the users clipboard.
 			"""
 			
-			def generate_password(self, length=16):
+			def generate_password(self, length: int = 16):
 				"""
-				Generates a random password of a given length
+				Generates a random password of the specified length and copies it to the users clipboard.
 				:param length: (int) the length of the password
+				:return: (str) a message that a password has been generated and copied to the clipboard
 				"""
 				password = ''
 				# Generate random password
@@ -373,16 +399,20 @@ class SpeechProcessor:
 
 		class BotBehavior:
 			"""
-			A class that contains methods that change the behavior of the bot.
+			A class that contains methods to change the behavior of the chatbot.
 		
 			Atributes:
 			speech_verbalizer: an object of the SpeechVerbalizer class
+			bot_properties: an object of the BotProperties class
 			"""
 			
 			def __init__(self):
+				"""
+        		Initializes an object of BotBehavior class.
+       			"""
 				self.speech_verbalizer = SpeechVerbalizer()
 				self.bot_properties = BotProperties()
-			
+
 			def toggle_mute(self):
 				"""
 				Mutes the bot
@@ -411,35 +441,36 @@ class SpeechProcessor:
 			def change_persona(self, new_persona:str):
 				"""
 				Changes the bot's persona
+				:param new_persona: (str) the new persona to change to
 				"""
+
 				self.bot_properties.save_property('persona', new_persona)
 				return f'Ok, I have changed my persona to {new_persona}.'
-			
+
 			def change_gender(self, new_gender:str):
 				"""
 				Changes the bot's gender
+				:param new_gender: (str) the new gender to change to
 				"""
-				# Making sure user input is valid
-				if new_gender not in ['male', 'female']:
-					return f"Sorry, I only support 'Male' or 'Female' at the moment. Please choose one of these options."
-				else:
+				if new_gender in ['male', 'female']:
 					self.bot_properties.save_property('gender', new_gender)
-		
 					return f'Ok, I have changed my gender to {new_gender}.'
+				else:
+					return f"Sorry, I only support 'Male' or 'Female' at the moment. Please choose one of these options."
 			
 			def change_language(self, new_language:str):
 				"""
 				Changes the bot's language
+				:param new_language: (str) the new language to change to
 				"""
 				# Extracting all currently supported languages
-				langauge_codes = self.bot_properties.get_property('language_codes')
+				langauges = self.bot_properties.get_property('languages')
 				# Check if language is supported
-				if new_language in langauge_codes.keys():
+				if new_language.lower() in langauges:
 					self.bot_properties.save_property('language', new_language)
+					return f'Ok, I have changed my language to {new_language}.'
 				else:
-					return f"Sorry, {new_language} is not currently supported."
-		
-				return f'Ok, I have changed my language to {new_language}.'
+					return f'Sorry, {new_language} is not currently supported.'
 
 		class ConversationHistoryManager:
 			"""
@@ -450,12 +481,16 @@ class SpeechProcessor:
 			"""
 			
 			def __init__(self):
+				"""
+        		Initializes a new ConversationHistoryManager object.
+				"""
 				self.speech_verbalizer = SpeechVerbalizer()
 				self.persona = BotProperties().get_property('persona')
 
 			def load_conversation_history(self):
 				"""
 				Loads the conversation history from the conversation_history.json file
+				:return: (list) the conversation history
 				"""
 				try:
 					with open('conversation_history.json', 'r') as f:
@@ -470,11 +505,14 @@ class SpeechProcessor:
 			def get_conversation_history(self):
 				"""
 				Gets the conversation history from the conversation_history.json file
+				and prints it to the console
+				:return: (str) the conversation history
 				"""
 				# load conversation history from conversation_history.json file
 				conversation_history = self.load_conversation_history()
 				formatted_conversation_history = ""
-			
+
+				# Reformat conversation history to make it more readable
 				if conversation_history:
 					for conversation in conversation_history:
 						formatted_conversation_history += f"Input: \nUser: {conversation['User']}\n\n"
@@ -482,23 +520,18 @@ class SpeechProcessor:
 
 				print(f'\nConversation History: \n{formatted_conversation_history}')
 				return 'Ok, I have printed the conversation history to the console'
-
-			def log_conversation(self): # WIP
-				"""
-				Log the most recent conversation
-				"""
-				conversation_history = self.load_conversation_history()
-				most_recent_conversation = conversation_history[-1]
-				data = {"logs": most_recent_conversation}
-				return 'Sorry about that, I will send the conversation to my creator to imrpove my response.'
 				
 			def save_conversation_history(self, speech: str, response: str):
 				"""
-				Loads conversation history from json file
-				:return: (list) conversation history
+				Saves the new conversation along with the rest of the conversation
+    			history to conversation_history.json file
+				:param speech: (str) the user's speech
+				:param response: (str) the bot's response
 				"""
+				# load conversation history from conversation_history.json file
 				conversation_history = self.load_conversation_history()
-			
+
+				# Add new conversation to the conversation history
 				new_conversation = {
 				"User": speech,
 				self.persona.title(): response
@@ -515,17 +548,17 @@ class SpeechProcessor:
 				"""
 				Clears the conversation history
 				"""
-				# Reset the contents of the file
+				# Reset the contents of conversation_history.json
 				with open("conversation_history.json", "w") as file:
 					json.dump({"conversation": []}, file)
 				return 'Ok, I have cleared the conversation history'
 						
 			def exit_and_clear(self):
 				"""
-				Cleans up by clearing the bot's conversation history 
+				Cleans up by clearing the bot's conversation history. 
 				A response is then verbalized and the program is ended
 				"""
-				# Clear the conversation history	
+				# Reset the contents of conversation_history.json	
 				with open("conversation_history.json", "w") as file:
 					json.dump({"conversation": []}, file)
 
