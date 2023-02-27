@@ -3,9 +3,9 @@
 ## Introduction
 This project is a virtual assistant named PiBot that utilizes Azure's Cognitive Services for its speech recognition, speech verbalization, translation, and intent recognition. The bot can be personalized to respond in a specified persona, such as Barack Obama, Tony Stark, Jimmy Kimmel, etc., gender, and language (see supported langauges below).
 
-PiBot has the the capability to perform various functions such as speech translation, weather retireval, Google and Youtube searching, muting and unmuting, and ending the program on command. The user's intent for command execution is detected using a trained Azure LUIS model. If substantial intent for a command is found, then the intended action takes place. If minimal intent is detected a response is created using Open AI's chatGPT. 
+PiBot has the the capability to perform various functions such as speech translation, weather retireval, Google and Youtube searching, muting and unmuting, and ending the program on command. The user's intent for command execution is detected using a trained Azure LUIS model. If substantial intent for a command is found, then the intended action takes place. If minimal intent is detected a response is created using OpenAI's GPT-3 API. 
 
-The bot's conversation history is kept in the file "conversation_history.json" and cleared at the end of the program. Since ChatpGPT's current API model is not capable of using past conversation history, the conversation history is fed back into chatGPT for each response. This is to help the bot have context for its responses and avoid repeating itself.
+The bot's conversation history is kept in the file "conversation_history.json" and cleared at the end of the program. Since GPT-3's current API model is not capable of using past conversation history, the conversation history is fed back into GPT-3 for each response. This is to help the bot have context for its responses and avoid repeating itself.
 
 ## Requirements
 - Azure account and subscription
@@ -28,14 +28,14 @@ The bot's conversation history is kept in the file "conversation_history.json" a
 4. Obtain and secure all keys stated above in an Azure Key Vault
 5. Copy the contents of sample_config.py to a new file called config.py.
 6. Replace the placeholder values in config.py with your own Azure Key Vault name and secrets.
-7. Ensure all the calls to sample_config throughout the script match the names you gave to the secrets in your Key Vault
+7. Ensure all the calls to config throughout the script match the names you gave to the secrets in your Key Vault
 
 ## Usage
 1. Open your terminal or command prompt
 2. Change into your folder's directory
 3. Run the program: python main.py
 4. Choose whether to customize your bot
-5. Wait for "listening..." to appear, indicating that the bot is now listening for input
+5. Wait for the startup sound to play, indicating that the bot is now listening for input
 6. Interact with the bot by speaking
 
 ## Supported Commands
@@ -59,9 +59,9 @@ The command recognition is done using your trained LUIS model, allowing for vers
 | Command | Response |
 | ------- | -------- |
 | Generate a random password | Generates a random password and copies it to the users clipboard |
-| Set persona to {persona} | Sets the persona of the bot to {persona} |
-| Set gender to {gender} | Sets the gender of the bot to {gender} |
-| Set language to {language} | Sets the language of the bot to {language} |
+| Change persona to {persona} | Changes the persona of the bot to {persona} |
+| Change gender to {gender} | Changes the gender of the bot to {gender} |
+| Change language to {language} | Changes the language of the bot to {language} |
 | Get conversation history | Retrieves conversation history |
 | Mute | Mutes the bot's responses |
 | Unmute | Unmutes the bot's responses |
