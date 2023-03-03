@@ -29,8 +29,8 @@ class SpeechVerbalizer:
 		"""	
 
 		# Retrieve the bot's mute status and persona from bot_properties.json
-		mute_status = self.bot_properties.get_property('mute_status')
-		persona = self.bot_properties.get_property('persona')
+		mute_status = self.bot_properties.retrieve_property('mute_status')
+		persona = self.bot_properties.retrieve_property('persona')
 
 		# Check if there is speech to verbalize
 		if speech:
@@ -39,7 +39,7 @@ class SpeechVerbalizer:
 			if not mute_status: 
 	   
 				# Retrieve the bot's voice name from bot_properties.json
-				voice_name = self.bot_properties.get_property('voice_name')
+				voice_name = self.bot_properties.retrieve_property('voice_name')
 
 				# Check if voice with given parameters exists
 				if voice_name:
