@@ -58,7 +58,7 @@ class SpeechProcessor:
 			"""
 			Retrieves the similarity rankings between the user's speech and the trained LUIS model.
 			:param speech: (str) speech input
-    		:return: (str) json file containing similarity rankings between the user's speech and the trained luis model
+			:return: (str) json file containing similarity rankings between the user's speech and the trained luis model
 			"""
 		
 			endpoint_url = (f"https://{self.region}.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.luis_app_id}"
@@ -124,18 +124,22 @@ class SpeechProcessor:
 			elif top_intent == 'Search_Youtube':
 				search_request = intents_json["prediction"]["entities"]["search_youtube"][0]
 				response = self.WebSearcher().search_youtube(search_request)
-    
+	
 			elif top_intent == 'Change_Persona':
 				new_persona = intents_json["prediction"]["entities"]["new_persona"][0]
 				response = self.BotBehavior().change_persona(new_persona)
-    
+	
 			elif top_intent == 'Change_Gender':
 				new_gender = intents_json["prediction"]["entities"]["new_gender"][0]
 				response = self.BotBehavior().change_gender(new_gender)
-    
+	
 			elif top_intent == 'Change_Language':
 				new_language = intents_json["prediction"]["entities"]["new_language"][0]
 				response = self.BotBehavior().change_language(new_language)
+	
+			elif top_intent == 'Create_Image':
+				image = intents_json["prediction"]["entities"]["image_to_create"][0]
+				response = self.AskGPT().create_gpt_image(image)
 
 			elif top_intent == 'Generate_Password':
 				response = self.PasswordGenerator().generate_password()
@@ -175,58 +179,102 @@ class SpeechProcessor:
 			"""
 			
 			def __init__(self):
-				self.language_model = "text-davinci-003"
+				self.language_model = "gpt-3.5-turbo"
 				self.response_length = 100
 				openai.api_key = config.retrieve_secret('OpenAI-API')
-				self.persona = BotProperties().get_property('persona')
-				self.user_name = BotProperties().get_property('user_name')
+				self.persona = BotProperties().retrieve_property('persona')
+				self.user_name = BotProperties().retrieve_property('user_name')
+				self.verbalize_speech = SpeechVerbalizer()
 
 			def ask_GPT(self, speech:str, conversation_history:list):
 				"""
 				Uses the user's speech, the bot's persona, and the conversation history 
-    			to create a response using OpenAI's GPT-3 API.
+				to create a response using OpenAI's GPT-3.5-turbo model API.
 				:param speech: (str) speech input
 				:param conversation_history: (list) the conversation history between the user and the bot
 				"""
-    
+	
 				formatted_conversation_history = ""
 			
-				# Formats conversation history to be used as prompt for GPT-3 
+				# Formats conversation history to be used as prompt for GPT-3.5-turbo model 
 				if conversation_history:
 					for conversation in conversation_history:
 						formatted_conversation_history += f"User said: {conversation['User']}\n"
 						for name, text in conversation.items():
 							if name != 'User':
 								formatted_conversation_history += f"{name.title()} said: {text}\n"
-    
-				# Creates a prompt used for GPT-3 based on the user's persona and conversation history
+	
+				# Creates a prompt used for GPT-3.5-turbo model based on the user's persona and conversation history
 				if self.persona != 'chatbot' and formatted_conversation_history:
-					prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {self.persona}: The user said: {speech}")
+					prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {self.persona}: The user said: {speech}. Keep it concise")
 				elif self.persona == 'chatbot' and formatted_conversation_history:
-					prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nProvide a chatbot like response to the next user input and do not provide 'chatbot response' in the response: The user said: {speech}")
+					prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nProvide a chatbot like response to the next user input and do not provide 'chatbot response' in the response: The user said: {speech}. Keep it concise")
 				elif self.persona != 'chatbot' and not formatted_conversation_history:
-					prompt = (f"\nI want you to respond to the user like you are {self.persona}. The user said: {speech}")
+					prompt = (f"\nI want you to respond to the user like you are {self.persona}. The user said: {speech}. Keep it concise")
 				else:
-					prompt = (f"\nProvide a chatbot like response to the user: The user said: {speech}")
+					prompt = (f"\nProvide a chatbot like response to the user: The user said: {speech}. Keep it concise")
 				
-				# Prepare and send a request to OpenAI's GPT-3 API
-				completion = openai.Completion.create(
-				engine=self.language_model,
-				prompt=prompt,
-				max_tokens=self.response_length,
-				n=1,
-				stop=None,
-				temperature=0.5)
-				
-				# Gets the response from GPT-3
-				response = completion.choices[0].text
+				# url to OpenAI's GPT-3 API
+				url = "https://api.openai.com/v1/chat/completions"
+	
+				# Now using the GPT-3.5-turbo model
+				payload = {
+					"model": "gpt-3.5-turbo",
+					"messages": [{"role": "assistant", "content": prompt}]
+				}
+				headers = {
+					"Content-Type": "application/json",
+					"Authorization": f"Bearer {config.retrieve_secret('OpenAI-API')}"
+				}
 
-				# Cleanup common mistakes that GPT-3 returns
-				# such as adding extra new lines and adding unnecessary text to the beginning of responses
-				response = response.replace('\n\n', ' ').replace(f'{self.persona.title()}:', '').replace('Response:', '').lstrip()
-				
+				# Send the POST request to OpenAI's GPT-3 API
+				request = requests.post(url, headers=headers, data=json.dumps(payload))
+				if request.status_code == 200:
+					content = request.json()
+				else:
+					# If the request fails, return a message to the user
+					return "Sorry, I am currently experiencing technical difficulties. Please try again later."
+
+				# Extract the 'content' value from the response
+				# This is the response from the GPT-3.5-turbo model
+				response = content['choices'][0]['message']['content']
+	
+				# clean up some errors chatgpt produces in its output
+				response = response.replace(f'{self.persona} said:', ' ').replace(f'{self.persona}:', ' ').replace(f'response', ' ').strip()
+	
 				return response
 
+			def create_gpt_image(self, image: str):
+				"""
+				Creates an image using OpenAI's GPT-3 API.
+				"""
+	
+				# url to OpenAI's GPT-3 API
+				url = "https://api.openai.com/v1/images/generations"
+	
+				# Now using the GPT-3.5-turbo model
+				payload = {
+					"prompt": image,
+					"n": 1,
+				}
+				headers = {
+					"Content-Type": "application/json",
+					"Authorization": f"Bearer {config.retrieve_secret('OpenAI-API')}"
+				}
+
+				# Send the POST request to OpenAI's GPT-3 API
+				response = requests.post(url, headers=headers, data=json.dumps(payload))
+				
+				if response.status_code == 200:
+					response_json = json.loads(response.content)
+
+					url = response_json['data'][0]['url']
+					webbrowser.open(url)
+					return f"Ok, I have created an image of {image}."
+				else:
+					# If the request fails, return a message to the user
+					return "Sorry, I am currently experiencing technical difficulties. Please try again later."
+		
 		class TranslateSpeech:
 			"""
 			A class that translates user given speech to a desired language.
@@ -249,7 +297,7 @@ class SpeechProcessor:
 				:param language: (str) the language for the speech to be translated into
 				:return: (str) the translated speech
 				"""
-    
+	
 				endpoint = "https://api.cognitive.microsofttranslator.com/"
 				path = '/translate'
 				constructed_url = f'{endpoint}{path}'
@@ -259,7 +307,7 @@ class SpeechProcessor:
 					language = language.rstrip('?')
 
 				# Extract languages and their codes from bot_properties.json
-				language_codes = self.bot_properties.get_property('language_codes')
+				language_codes = self.bot_properties.retrievet_property('language_codes')
 				# Get the language code for the desired language
 				for language_name, code in language_codes.items():
 					if language.lower() == language_name:
@@ -326,7 +374,7 @@ class SpeechProcessor:
 
 				# Check whether request was successful
 				if response.status_code == 200:
-        
+		
 					# Returned json file with weather data
 					data = response.json()
 
@@ -337,7 +385,7 @@ class SpeechProcessor:
 
 					response = f"The weather in {location} is {round(temperature_fahrenheit)} degrees Fahrenheit"		
 				else:
-        
+		
 					print(f"An error occurred while trying to send a request to openweathermap. Error: {response.status_code}")
 					response = "Sorry, an error has occured. Please try asking again."
 				
@@ -408,8 +456,8 @@ class SpeechProcessor:
 			
 			def __init__(self):
 				"""
-        		Initializes an object of BotBehavior class.
-       			"""
+				Initializes an object of BotBehavior class.
+	   			"""
 				self.speech_verbalizer = SpeechVerbalizer()
 				self.bot_properties = BotProperties()
 
@@ -464,7 +512,7 @@ class SpeechProcessor:
 				:param new_language: (str) the new language to change to
 				"""
 				# Extracting all currently supported languages
-				langauges = self.bot_properties.get_property('languages')
+				langauges = self.bot_properties.retrieve_property('languages')
 				# Check if language is supported
 				if new_language.lower() in langauges:
 					self.bot_properties.save_property('language', new_language)
@@ -482,10 +530,10 @@ class SpeechProcessor:
 			
 			def __init__(self):
 				"""
-        		Initializes a new ConversationHistoryManager object.
+				Initializes a new ConversationHistoryManager object.
 				"""
 				self.speech_verbalizer = SpeechVerbalizer()
-				self.persona = BotProperties().get_property('persona')
+				self.persona = BotProperties().retrieve_property('persona')
 
 			def load_conversation_history(self):
 				"""
@@ -524,7 +572,7 @@ class SpeechProcessor:
 			def save_conversation_history(self, speech: str, response: str):
 				"""
 				Saves the new conversation along with the rest of the conversation
-    			history to conversation_history.json file
+				history to conversation_history.json file
 				:param speech: (str) the user's speech
 				:param response: (str) the bot's response
 				"""
