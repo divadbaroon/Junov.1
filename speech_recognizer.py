@@ -1,24 +1,15 @@
-import config
 import azure.cognitiveservices.speech as speechsdk
+from performance_logger import performance_logger
 from time import time
 import sys
 
 class SpeechRecognition:
     """
     A class that utilizes Azure's Cognitive Speech Service to recognize the user's speech input.
-    
-    Attributes:
-    speech_config (SpeechConfig): A configuration object that takes a subscription key and a region as arguments
-    speech_recognizer (SpeechRecognizer): The speech recogniton object that uses the above config to listen for user input
-    """
-    def __init__(self):
-        """
-        Initializes a new SpeechRecognition object
-        """
-        self.speech_config = speechsdk.SpeechConfig(subscription = config.retrieve_secret('PiBot-API'), region = 'eastus')
-        self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
+    """ 
 
-    def listen(self):
+    @performance_logger
+    def listen(self, speech_recognizer):
         """
         Listens for speech input and returns the recognized text in lowercase.
         :return: (str) The recognized speech input as a lowercase string.
@@ -31,7 +22,7 @@ class SpeechRecognition:
         # This approach may not be ideal and a better solution is currently being sought
         recognition_attempt = 0
         
-        # Time in seconds until the program ends if no speech is detected
+        # Time in seconds until the program ends if no speech is detected (5 minutes by default)
         # This is to prevent unintentional continuous listening to the user
         time_until_exit = 300
         
@@ -42,7 +33,7 @@ class SpeechRecognition:
         while True:
             try:
                 # A 5 second attempt to recognize the user's speech input
-                result = self.speech_recognizer.recognize_once_async().get() 
+                result = speech_recognizer.recognize_once_async().get() 
             except Exception as e:
                 print(f"Error occurred during speech recognition: {e}")
             
