@@ -1,6 +1,7 @@
-import config
-import azure.cognitiveservices.speech as speechsdk
 from bot_properties import BotProperties
+from performance_logger import performance_logger
+import sys
+import json 
 
 class SpeechVerbalizer:
 	"""
@@ -18,11 +19,9 @@ class SpeechVerbalizer:
 		Initializes a new SpeechVerbalizer object
 		"""
 		self.bot_properties = BotProperties()
-		self.speech_config = speechsdk.SpeechConfig(subscription = config.retrieve_secret('PiBot-API'), region = 'eastus')
-		self.audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
-		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
 
-	def verbalize_speech(self, speech: str):
+	@performance_logger
+	def verbalize_speech(self, speech: str, speech_config, speech_synthesizer):
 		"""
 		Verbalizes a given string with a specified gender and langauge of voice.
 		:param speech (str): The speech to be verbalized.
@@ -43,19 +42,23 @@ class SpeechVerbalizer:
 
 				# Check if voice with given parameters exists
 				if voice_name:
-					self.speech_config.speech_synthesis_voice_name = voice_name
+					speech_config.speech_synthesis_voice_name = voice_name
 				else:
-					self.speech_config.speech_synthesis_voice_name = 'en-US-JennyNeural' # used as a backup 
+					speech_config.speech_synthesis_voice_name = 'en-US-JennyNeural' # used as a backup 
 
 				print('\nResponse:')
 				print(f'{persona.title()}: {speech}')
-	
-				# Stop and clear any previous speech
-				self.speech_synthesizer.stop_speaking()
-				self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
 
 				# Verbalize the given speech
-				self.speech_synthesizer.speak_text(speech)
+				speech_synthesizer.speak_text(speech)
+
+				# Check if user wanted to end the program after verbalizing exit speech
+				if speech == 'Exiting. Goodbye!':
+        
+					# Reset the contents of conversation_history.json	
+					with open("conversation_history.json", "w") as file:
+						json.dump({"conversation": []}, file)
+					sys.exit()
 			else:
 				print('\n(muted) Response:')
 				print(f'{persona.title()}: {speech}')
