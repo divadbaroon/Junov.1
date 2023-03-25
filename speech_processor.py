@@ -1,17 +1,17 @@
 import config 
-import openai 
+import openai
 import requests
 import json
 import uuid
 import webbrowser
 import urllib
-import sys
 import string
 import pyperclip
 from random import choice
 from speech_verbalizer import SpeechVerbalizer
 from bot_properties import BotProperties
-
+from performance_logger import performance_logger
+ 
 class SpeechProcessor:
 	"""
 	A class that processes the user's input using a trained Luis model and produces an appropriate response and action.
@@ -25,7 +25,7 @@ class SpeechProcessor:
 	BotBehavior, and ConversationHistoryManager
 	"""
 
-	def process_speech(self, speech:str): 
+	def process_speech(self, speech:str, luis_app_id:str, luis_key:str, openai_key:str): 
 		"""
 		Processes the user's input using a trained LUIS model and produces an appropriate response and action.
 		:param speech: (str) speech input
@@ -33,9 +33,9 @@ class SpeechProcessor:
 		"""
   
 		# Retrieves a json file containing similarity rankings between the user's speech and the trained luis model
-		intents_json = self.SpeechIntent().get_user_intent(speech)
+		intents_json = self.SpeechIntent().get_user_intent(speech, luis_app_id, luis_key)
 		# Provides the most apporiate response and action to the user's speech given the similarity rankings
-		response = self.CommandParser().parse_commands(speech, intents_json)
+		response = self.CommandParser().parse_commands(speech=speech, intents_json=intents_json, openai_key=openai_key)
 		return response
 
 	class SpeechIntent:
@@ -48,22 +48,18 @@ class SpeechProcessor:
 		luis_app_id (str): application id for Azure's LUIS service
 		luis_key (str): subscription key for Azure's LUIS service
 		"""
-		
-		def __init__(self):
-			self.region = 'eastus'
-			self.luis_app_id = config.retrieve_secret('Luis-APP-ID')
-			self.luis_key = config.retrieve_secret('Luis-API')
 
-		def get_user_intent(self, speech:str):
+		@performance_logger
+		def get_user_intent(self, speech:str, luis_app_id:str, luis_key:str):
 			"""
 			Retrieves the similarity rankings between the user's speech and the trained LUIS model.
 			:param speech: (str) speech input
 			:return: (str) json file containing similarity rankings between the user's speech and the trained luis model
 			"""
 		
-			endpoint_url = (f"https://{self.region}.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.luis_app_id}"
+			endpoint_url = (f"https://eastus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{luis_app_id}"
 							f"/slots/production/predict?verbose=true&show-all-intents=true&log=true"
-							f"&subscription-key={self.luis_key}"
+							f"&subscription-key={luis_key}"
 							f"&query={speech}")
 
 			response = requests.get(endpoint_url)
@@ -84,7 +80,8 @@ class SpeechProcessor:
 		If the top intent's score is greater than 70% the associated entity is retrieved and the appropriate action is executed.
 		"""
 
-		def parse_commands(self, speech:str, intents_json:dict):
+		@performance_logger
+		def parse_commands(self, speech:str, intents_json:dict, openai_key):
 			"""
 			Provides the most apporiate response and action to the user's speech given the similarity rankings.
 			:param speech: (str) speech input
@@ -100,7 +97,7 @@ class SpeechProcessor:
 			if top_intent_score < .70:
 				# Loading conversation history to be used as context for GPT-3
 				conversation_history = self.ConversationHistoryManager().load_conversation_history()
-				response = self.AskGPT().ask_GPT(speech, conversation_history) 
+				response = self.AskGPT().ask_GPT(speech, conversation_history, openai_key) 
 	
 			# Find intent with the highest similarity score
 			# and retrieve associated entity if applicable
@@ -181,12 +178,9 @@ class SpeechProcessor:
 			def __init__(self):
 				self.language_model = "gpt-3.5-turbo"
 				self.response_length = 100
-				openai.api_key = config.retrieve_secret('OpenAI-API')
 				self.persona = BotProperties().retrieve_property('persona')
-				self.user_name = BotProperties().retrieve_property('user_name')
-				self.verbalize_speech = SpeechVerbalizer()
 
-			def ask_GPT(self, speech:str, conversation_history:list):
+			def ask_GPT(self, speech:str, conversation_history:list, openai_key):
 				"""
 				Uses the user's speech, the bot's persona, and the conversation history 
 				to create a response using OpenAI's GPT-3.5-turbo model API.
@@ -224,7 +218,7 @@ class SpeechProcessor:
 				}
 				headers = {
 					"Content-Type": "application/json",
-					"Authorization": f"Bearer {config.retrieve_secret('OpenAI-API')}"
+					"Authorization": f"Bearer {openai_key}"
 				}
 
 				# Send the POST request to OpenAI's GPT-3 API
@@ -307,7 +301,7 @@ class SpeechProcessor:
 					language = language.rstrip('?')
 
 				# Extract languages and their codes from bot_properties.json
-				language_codes = self.bot_properties.retrievet_property('language_codes')
+				language_codes = self.bot_properties.retrieve_property('language_codes')
 				# Get the language code for the desired language
 				for language_name, code in language_codes.items():
 					if language.lower() == language_name:
@@ -458,7 +452,6 @@ class SpeechProcessor:
 				"""
 				Initializes an object of BotBehavior class.
 	   			"""
-				self.speech_verbalizer = SpeechVerbalizer()
 				self.bot_properties = BotProperties()
 
 			def toggle_mute(self):
@@ -611,5 +604,4 @@ class SpeechProcessor:
 					json.dump({"conversation": []}, file)
 
 				# verbalize a response before exiting the program
-				self.speech_verbalizer.verbalize_speech(speech='Exiting. Goodbye!')
-				sys.exit()
+				return 'Exiting. Goodbye!'
