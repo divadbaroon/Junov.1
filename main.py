@@ -26,11 +26,4 @@ def main(persona, gender, language):
     # new_bot.run()      
     
 if __name__ == '__main__':
-  personalization_choice = input('Would you like to personalize your bot? (Y/N): ')
-  if personalization_choice.lower().strip() == 'y' or personalization_choice.lower().strip() == 'yes':
-    persona = input("Enter the persona the bot will embody: ").strip()
-    gender = input("Enter the gender of the bot: ").strip()
-    language = input("Enter the language the bot will speak (see bot_properties.json to see available languages): ").strip()
-    main(persona, gender, language)
-  else:
     main(persona='Chatbot', gender='Female', language='English_USA')
