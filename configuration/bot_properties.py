@@ -1,4 +1,11 @@
 import json
+import os
+
+# Get the current script's directory and the configuration directory
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the path to the bot_settings.json file
+bot_settings_path = os.path.join(current_directory, 'bot_settings.json')
 
 class BotProperties():
 	"""
@@ -20,7 +27,7 @@ class BotProperties():
   
 		# load data from "bot_settings.json"
 		try:
-			with open("bot_settings.json", "r") as f:
+			with open(bot_settings_path, "r") as f:
 				return json.load(f)
 		except FileNotFoundError:
 			print('The file "bot_settings.json" is missing.\nMake sure all files are located within the same folder.')
@@ -58,6 +65,14 @@ class BotProperties():
 		elif setting == 'user_name':
 			return self.data['chatbot'].get('user_name')
 
+		# Get language codes
+		elif setting == 'user_language':
+			return self.data['user'].get('language')
+
+		# Get language codes
+		elif setting == 'language_status':
+			return self.data['user'].get('language_status')
+
 		elif setting == 'bot_settings':
 			return self.data['chatbot']
 
@@ -75,10 +90,12 @@ class BotProperties():
 		# saving the setting's value to data
 		if setting == 'mute_status':
 			self.data['chatbot'][setting] = value
+		elif setting == 'language_status':
+			self.data['user'][setting] = value
 		elif setting in ['persona', 'gender', 'language']:
 			self.data['chatbot'][setting] = value.lower()
 			
 		# writing the data back to bot_settings.json
-		with open("bot_settings.json", "w") as f:
+		with open(bot_settings_path, "w") as f:
 			json.dump(self.data, f, indent=4)
 
