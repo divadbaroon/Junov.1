@@ -45,7 +45,7 @@ class BotBehavior:
 		Pauses the bot
 		The user must press the spacebar to unpause the bot
 		"""
-		self.speech_verbalizer.verbalize_speech(speech='I am now paused')
+		#self.speech_verbalizer.verbalize_speech(speech='I am now paused')
 		user_input = ''
 		while user_input != ' ':
 			user_input = input('Press spacebar to unpause: ')
@@ -78,10 +78,9 @@ class BotBehavior:
 		:param new_language: (str) the new language to change to
 		"""
 		# Extracting all currently supported languages
-		langauges = self.bot_properties.retrieve_property('languages')
+		languages = self.bot_properties.retrieve_property('languages')
 		# Check if language is supported
-		if new_language.lower() in langauges:
-			self.bot_properties.save_property('language', new_language)
+		if new_language.lower() in languages:
 			response = f'Ok, I have changed my language to {new_language}.'
 			return {'language': new_language, 'speech': response}
 		else:
