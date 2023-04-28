@@ -3,13 +3,8 @@
         "persona": "chatbot",
         "gender": "female",
         "language": "english_usa",
-        "language_changed": true,
-        "mute_status": false
-    },
-    "user": {
-        "name": "david",
-        "language": "spanish",
-        "language_changed": false
+        "mute_status": false,
+        "reconfigure": false
     },
     "female_voices": {
         "default": "en-US-AIGenerate2Neural",
@@ -55,5 +50,18 @@
         "german": "de",
         "korean": "ko",
         "russian": "ru"
+    },
+    "language_country_codes": {
+        "arabic": "ar-SA",
+        "english": "en-US",
+        "spanish": "es-ES",
+        "french": "fr-FR",
+        "italian": "it-IT",
+        "mandarin": "zh-CN",
+        "hindi": "hi-IN",
+        "finnish": "fi-FI",
+        "german": "de-DE",
+        "korean": "ko-KR",
+        "russian": "ru-RU"
     }
 }
