@@ -1,7 +1,6 @@
-import azure.cognitiveservices.speech as speechsdk
-from time import time
-import sys
+
 import os
+import sys
 
 # Get the current script's directory and its parent directory
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -11,6 +10,8 @@ parent_directory = os.path.dirname(current_directory)
 if parent_directory not in sys.path:
 	sys.path.append(parent_directory)
 
+import azure.cognitiveservices.speech as speechsdk
+from time import time
 from configuration.bot_properties import BotProperties
 
 class SpeechRecognition:
@@ -22,32 +23,32 @@ class SpeechRecognition:
 		self.speech_recognizer = speech_recognizer
 		self.speech_config = speech_config
 		self.bot_properties = BotProperties()
-		self.user_language = self.bot_properties.retrieve_property('user_language')
 
 	def listen(self):
 		"""
 		Listens for speech input and returns the recognized text in lowercase.
 		:return: (str) The recognized speech input as a lowercase string.
 		"""
+
+		# Check if the bot_settings.json file has been modified and needs to be reloaded
+		# This is done when a property such as the language is changed 
+		# In which the recognizer needs to be reconfigured to recognize the new language
+		self.bot_properties.reload_settings()
+		reconfigure = self.bot_properties.retrieve_property('reconfigure')
 		
-		change_language_status = self.bot_properties.retrieve_property('language_status')
+		if reconfigure:
 		
-		if change_language_status:
-			print(change_language_status)
-			
-			# Extract languages and their codes from bot_properties.json
-			language_codes = self.bot_properties.retrieve_property('language_codes')
-			# Get the language code for the desired language
-			for language_name, code in language_codes.items():
-				if self.user_language.lower() == language_name:
-					language_code = code
-		
-			auto_detect_source_language_config = \
-				speechsdk.languageconfig.AutoDetectSourceLanguageConfig(languages=["es-ES", "en-US"])
-			self.speech_recognizer = speechsdk.SpeechRecognizer(
-				speech_config=self.speech_config, auto_detect_source_language_config=auto_detect_source_language_config)
-   
-			self.bot_properties.save_property('language_status', False)
+			# Get the new language setting
+			language_setting = self.bot_properties.retrieve_property('language')
+
+			# Recognizer needs language-country code
+			language_country_code = self.bot_properties.get_language_country_code(language_setting)
+			print(language_country_code)
+			self.speech_config.speech_recognition_language = language_country_code
+			self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
+
+			# Set reconfigure to False so that the bot_settings.json file is not reloaded again
+			self.bot_properties.save_property('reconfigure', False)
 		
 		print("\nListening...")  
 		
@@ -63,7 +64,7 @@ class SpeechRecognition:
 		
 		# Starting timer
 		begin_timer = time()  
-		
+
 		# Continuously listen for speech
 		while True:
 			try:
