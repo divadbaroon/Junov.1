@@ -1,8 +1,7 @@
-# Used to send request to LUIS API
-import requests
 
-from commands.conversation_manager import ConversationHistoryManager
+import requests
 from commands.ask_gpt import AskGPT
+from commands.conversation_manager import ConversationHistoryManager
 from configuration.bot_properties import BotProperties
  
 class SpeechProcessor:
