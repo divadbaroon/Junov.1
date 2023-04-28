@@ -1,3 +1,4 @@
+
 import sys
 import os
 
@@ -12,7 +13,6 @@ if parent_directory not in sys.path:
 from configuration.bot_properties import BotProperties
 import azure.cognitiveservices.speech as speechsdk
 import sys
-import json 
 
 class SpeechVerbalizer:
 	"""
@@ -34,7 +34,6 @@ class SpeechVerbalizer:
 		self.speech_config = speech_config
 		self.speech_synthesizer = speech_synthesizer
 		self.reset_language = False
-		self.previous_language = None
 
 	def verbalize_speech(self, speech: str):
 		"""
@@ -45,6 +44,7 @@ class SpeechVerbalizer:
 		# Retrieve the bot's mute status and persona from bot_properties.json
 		mute_status = self.bot_properties.retrieve_property('mute_status')
 		persona = self.bot_properties.retrieve_property('persona')
+		current_language = self.bot_properties.retrieve_property('language')
 
 		# Check if there is speech to verbalize
 		if speech:
@@ -57,8 +57,7 @@ class SpeechVerbalizer:
 				if isinstance(speech, dict):
 					if next(iter(speech.keys())) == 'temporary_language':
 						
-						# One shot translation, thus language is reset to previous language after translation
-						self.previous_language = self.bot_properties.retrieve_property('language')
+						# Oneshot translation, thus, the language must be reset to the original language after the translation
 						self.reset_language = True
 	  
 						self.bot_properties.save_property('language', speech['temporary_language'])
@@ -70,28 +69,17 @@ class SpeechVerbalizer:
 	  
 					elif next(iter(speech.keys())) == 'language':
 						self.bot_properties.save_property('language', speech['language'])
+						self.bot_properties.save_property('reconfigure', True)
 						speech = speech['speech']
 					
 					# Retrieve the bot's new voice name from bot_properties.json
-					voice_name = self.bot_properties.retrieve_property('voice_name')
+					new_voice_name = self.bot_properties.retrieve_property('voice_name')
 
 					# Check if voice with given parameters exists
-					if voice_name:
+					if new_voice_name:
 		 
 						# Reinitializing the bot's speech config with the new voice name
-						self.speech_config.speech_synthesis_voice_name = voice_name
-	  
-						# Reinitializing the bot's speech synthesizer
-						self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
-      
-				change_language_status = self.bot_properties.retrieve_property('language_changed')
-    
-				if change_language_status:
-
-					if voice_name:
-		 
-						# Reinitializing the bot's speech config with the new voice name
-						self.speech_config.speech_synthesis_voice_name = voice_name
+						self.speech_config.speech_synthesis_voice_name = new_voice_name
 	  
 						# Reinitializing the bot's speech synthesizer
 						self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
@@ -105,7 +93,7 @@ class SpeechVerbalizer:
 				# Resets the language to the previous language if the bot was translating
 				if self.reset_language:
 					
-					self.bot_properties.save_property('language', self.previous_language)
+					self.bot_properties.save_property('language', current_language)
 
 					# Retrieve the bot's new voice name from bot_properties.json
 					voice_name = self.bot_properties.retrieve_property('voice_name')
@@ -124,10 +112,6 @@ class SpeechVerbalizer:
 					
 				# Check if user wanted to end the program after verbalizing exit speech
 				if speech == 'Exiting. Goodbye!':
-		
-					# Reset the contents of conversation_history.json	
-					with open("conversation_history.json", "w") as file:
-						json.dump({"conversation": []}, file)
 					sys.exit()
 			else:
 				print('\n(muted) Response:')
