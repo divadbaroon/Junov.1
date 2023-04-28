@@ -7,10 +7,10 @@ The following files must all be located within the same folder for the bot to fu
 
 from pibot import PiBot
 
-def main(persona, gender, language):
+def main():
   
-  # Create an instance of pibot with optional parameters
-  new_bot = PiBot(persona, gender, language)
+  # Create an instance of pibot
+  new_bot = PiBot()
 
   # The bot will continuously listen for input, process it, and produce a response
   # Exit the program by saying a generic exit command such as: 'exit', 'quit', 'terminate', or 'end conversation'
@@ -26,4 +26,4 @@ def main(persona, gender, language):
     # new_bot.run()      
     
 if __name__ == '__main__':
-    main(persona='Chatbot', gender='Female', language='english_usa')
+    main()
