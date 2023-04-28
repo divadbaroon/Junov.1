@@ -19,7 +19,7 @@ class AskGPT:
 		self.language_model = "gpt-3.5-turbo"
 		self.response_length = 100
 
-	def ask_GPT(self, speech:str, conversation_history:list, openai_key:str, persona:str):
+	def ask_GPT(self, speech:str, conversation_history:list, openai_key:str, persona:str, manual_request=None):
 		"""
 		Uses the user's speech, the bot's persona, and the conversation history 
 		to create a response using OpenAI's GPT-3.5-turbo model API.
@@ -27,25 +27,31 @@ class AskGPT:
 		:param conversation_history: (list) the conversation history between the user and the bot
 		"""
 
-		formatted_conversation_history = ""
-			
-		# Formats conversation history to be used as prompt for GPT-3.5-turbo model 
-		if conversation_history:
-			for conversation in conversation_history:
-				formatted_conversation_history += f"User said: {conversation['User']}\n"
-				for name, text in conversation.items():
-					if name != 'User':
-						formatted_conversation_history += f"{name.title()} said: {text}\n"
-	
-		# Creates a prompt used for GPT-3.5-turbo model based on the user's persona and conversation history
-		if persona != 'chatbot' and formatted_conversation_history:
-			prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {self.persona}: The user said: {speech}. Keep it concise")
-		elif persona == 'chatbot' and formatted_conversation_history:
-			prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nProvide a chatbot like response to the next user input and do not provide 'chatbot response' in the response: The user said: {speech}. Keep it concise")
-		elif persona != 'chatbot' and not formatted_conversation_history:
-			prompt = (f"\nI want you to respond to the user like you are {persona}. The user said: {speech}. Keep it concise")
+		# For if I need to manually request a response from GPT-3.5-turbo
+		if manual_request:
+			prompt = manual_request
+
+		# Create the chatbot's response using GPT-3.5-turbo model
 		else:
-			prompt = (f"\nProvide a chatbot like response to the user: The user said: {speech}. Keep it concise")
+			formatted_conversation_history = ""
+				
+			# Formats conversation history to be used as prompt for GPT-3.5-turbo model 
+			if conversation_history:
+				for conversation in conversation_history:
+					formatted_conversation_history += f"User said: {conversation['User']}\n"
+					for name, text in conversation.items():
+						if name != 'User':
+							formatted_conversation_history += f"{name.title()} said: {text}\n"
+		
+			# Creates a prompt used for GPT-3.5-turbo model based on the user's persona and conversation history
+			if persona != 'chatbot' and formatted_conversation_history:
+				prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {self.persona}: The user said: {speech}. Keep it concise")
+			elif persona == 'chatbot' and formatted_conversation_history:
+				prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nProvide a chatbot like response to the next user input and do not provide 'chatbot response' in the response: The user said: {speech}. Keep it concise")
+			elif persona != 'chatbot' and not formatted_conversation_history:
+				prompt = (f"\nI want you to respond to the user like you are {persona}. The user said: {speech}. Keep it concise")
+			else:
+				prompt = (f"\nProvide a chatbot like response to the user: The user said: {speech}. Keep it concise")
 				
 		# url to OpenAI's GPT-3 API
 		url = "https://api.openai.com/v1/chat/completions"
