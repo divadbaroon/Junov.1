@@ -61,18 +61,6 @@ class BotProperties():
 		elif setting == 'language_codes':
 			return self.data['language_codes']
 
-		# Get language codes
-		elif setting == 'user_name':
-			return self.data['chatbot'].get('user_name')
-
-		# Get language codes
-		elif setting == 'user_language':
-			return self.data['user'].get('language')
-
-		# Get language codes
-		elif setting == 'language_status':
-			return self.data['user'].get('language_status')
-
 		elif setting == 'bot_settings':
 			return self.data['chatbot']
 
@@ -80,7 +68,7 @@ class BotProperties():
 			# return the desired setting
 			return self.data['chatbot'].get(setting)
 
-	def save_property(self, setting:str, value:str) -> None:
+	def save_property(self, setting:str, value) -> None:
 		"""
 		Saves the desired setting to "bot_settings.json"
 		:param setting (str) The setting to be saved
@@ -90,12 +78,23 @@ class BotProperties():
 		# saving the setting's value to data
 		if setting == 'mute_status':
 			self.data['chatbot'][setting] = value
-		elif setting == 'language_status':
-			self.data['user'][setting] = value
+		elif setting == 'reconfigure':
+			self.data['chatbot'][setting] = value
+
 		elif setting in ['persona', 'gender', 'language']:
 			self.data['chatbot'][setting] = value.lower()
-			
+		
 		# writing the data back to bot_settings.json
 		with open(bot_settings_path, "w") as f:
 			json.dump(self.data, f, indent=4)
+   
+	def get_language_country_code(self, language: str) -> str:
+		"""Gets the country code for the given language"""
+		country_code = self.data['language_country_codes'].get(language)
+		return country_code
+
+	def reload_settings(self):
+		"""Reloads the data from bot_settings.json"""
+		with open(bot_settings_path, 'r', encoding='utf-8') as file:
+			self.data = json.load(file)
 
