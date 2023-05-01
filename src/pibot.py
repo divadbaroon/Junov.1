@@ -5,18 +5,7 @@ The following files must all be located within the same folder for the bot to fu
   bot_properties.py, bot_properties.json, conversation_history.json, startup_sound.wav(optional) >  
 '''
 
-import sys
 import os
-
-# Get the current script's directory and its parent directory
-current_directory = os.path.dirname(os.path.abspath(__file__))
-parent_directory = os.path.dirname(current_directory)
-
-# Add the parent directory to sys.path
-if parent_directory not in sys.path:
-    sys.path.append(parent_directory)
-
-# Third-party library imports
 import azure.cognitiveservices.speech as speechsdk
 from playsound import playsound
 
@@ -25,7 +14,6 @@ from speech_recognizer import SpeechRecognition
 from speech_processor import SpeechProcessor
 from speech_verbalizer import SpeechVerbalizer
 from configuration.bot_properties import BotProperties
-import configuration.config as config
 
 class PiBot:
 	'''
@@ -46,7 +34,7 @@ class PiBot:
 	speech_recognizer: object of SpeechRecognizer class
 	'''
 	
-	def __init__(self):
+	def __init__(self, pibot_api, luis_app_id, luis_key, openai_key, weather_key=None, translator_key=None, news_key=None):
 		"""
 		Initializes a new PiBot object 
 		:param persona: (str) name of person the bot will emobdy
@@ -64,22 +52,23 @@ class PiBot:
 		# Intializing the bot's audio configuration
 		self.audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
 		# Initializing the bot's speech configuration
-		self.speech_config = speechsdk.SpeechConfig(subscription = config.retrieve_secret('PiBot-API'), region = 'eastus')
+		self.speech_config = speechsdk.SpeechConfig(subscription = pibot_api, region = 'eastus')
 		# Initializing the bot's speech recognizer 
 		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config, audio_config=self.audio_config, language=language_country_code)
 		# Initializing the bot's speech synthesizer
 		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
   
-		# Retrieving the bot's secret values from Azure Key Vault
-		self.luis_app_id = config.retrieve_secret('Luis-APP-ID')
-		self.luis_key = config.retrieve_secret('Luis-API')
-		self.openai_key = config.retrieve_secret('OpenAI-API')
-		self.weather_key = config.retrieve_secret('Weather-API')
-		self.translator_key = config.retrieve_secret('PiBot-Translator-API')
+		# Retrieving the bot's secret values 
+		self.luis_app_id = luis_app_id
+		self.luis_key = luis_key
+		self.openai_key = openai_key
+		self.weather_key = weather_key
+		self.translator_key = translator_key
+		self.news_key = news_key
   
 		# initializing the bot's speech functionalities
-		self.speech_recognition = SpeechRecognition(self.speech_config, self.speech_recognizer)
-		self.speech_processor = SpeechProcessor(self.luis_app_id, self.luis_key, self.openai_key, self.translator_key, self.weather_key)
+		self.speech_recognition = SpeechRecognition(self.speech_config, self.speech_recognizer, self.translator_key)
+		self.speech_processor = SpeechProcessor(self.luis_app_id, self.luis_key, self.openai_key, self.translator_key, self.weather_key, self.news_key)
 		self.speech_verbalizer  = SpeechVerbalizer(self.audio_config, self.speech_config, self.speech_synthesizer)
 
 		# Changing the current directory to the directory of the startup sound
