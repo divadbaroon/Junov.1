@@ -1,6 +1,17 @@
 import requests
 import json
 import webbrowser
+import os
+import sys
+
+# Get the current script's directory and its parent directory
+current_directory = os.path.dirname(os.path.abspath(__file__))
+
+# Add the parent directory to sys.path
+if current_directory not in sys.path:
+		sys.path.append(current_directory)
+  
+from get_news import GetNews
 
 class AskGPT:
 	"""
@@ -18,48 +29,33 @@ class AskGPT:
 	def __init__(self):
 		self.language_model = "gpt-3.5-turbo"
 		self.response_length = 100
+		self.get_more_information = GetNews()
 
-	def ask_GPT(self, speech:str, conversation_history:list, openai_key:str, persona:str, manual_request=None):
+	def ask_GPT(self, speech:str, conversation_history:list, openai_key:str, persona:str, language:str, manual_request=None, news_key:str=None):
 		"""
 		Uses the user's speech, the bot's persona, and the conversation history 
 		to create a response using OpenAI's GPT-3.5-turbo model API.
 		:param speech: (str) speech input
 		:param conversation_history: (list) the conversation history between the user and the bot
 		"""
+  
+		formatted_conversation_history = self._format_conversation_history(conversation_history)
 
 		# For if I need to manually request a response from GPT-3.5-turbo
 		if manual_request:
-			prompt = manual_request
+			prompt = self._construct_manual_prompt(formatted_conversation_history, persona, speech, manual_request=manual_request)
 
 		# Create the chatbot's response using GPT-3.5-turbo model
 		else:
-			formatted_conversation_history = ""
-				
-			# Formats conversation history to be used as prompt for GPT-3.5-turbo model 
-			if conversation_history:
-				for conversation in conversation_history:
-					formatted_conversation_history += f"User said: {conversation['User']}\n"
-					for name, text in conversation.items():
-						if name != 'User':
-							formatted_conversation_history += f"{name.title()} said: {text}\n"
-		
-			# Creates a prompt used for GPT-3.5-turbo model based on the user's persona and conversation history
-			if persona != 'chatbot' and formatted_conversation_history:
-				prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {self.persona}: The user said: {speech}. Keep it concise")
-			elif persona == 'chatbot' and formatted_conversation_history:
-				prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nProvide a chatbot like response to the next user input and do not provide 'chatbot response' in the response: The user said: {speech}. Keep it concise")
-			elif persona != 'chatbot' and not formatted_conversation_history:
-				prompt = (f"\nI want you to respond to the user like you are {persona}. The user said: {speech}. Keep it concise")
-			else:
-				prompt = (f"\nProvide a chatbot like response to the user: The user said: {speech}. Keep it concise")
-				
+			prompt = self._construct_prompt(formatted_conversation_history, persona, speech, language)
+   
 		# url to OpenAI's GPT-3 API
 		url = "https://api.openai.com/v1/chat/completions"
 	
 		# Now using the GPT-3.5-turbo model
 		payload = {
 			"model": "gpt-3.5-turbo",
-			"messages": [{"role": "assistant", "content": prompt}]
+			"messages": formatted_conversation_history + [{"role": "user", "content": prompt}]
 		}
 		headers = {
 			"Content-Type": "application/json",
@@ -85,7 +81,54 @@ class AskGPT:
 			if response.startswith(example):
 				response = response.replace(example, '').strip()
 	
+		if response.startswith('Topic:'):
+			more_information = self.get_more_information.get_articles(news_key, topic=response.replace('Topic:', '').strip())
+			print(more_information)
+			new_prompt = self._construct_manual_prompt(formatted_conversation_history, persona, speech, manual_request=more_information)
+			response = self.ask_GPT(speech, conversation_history, openai_key, persona, language, manual_request=new_prompt)
+			return response
+	
 		return response
+
+	def _format_conversation_history(self, conversation_history):
+		"""
+		Formats the conversation history to be used as input for GPT-3.5-turbo model.
+		"""
+		formatted_conversation_history = []
+		for conversation in conversation_history:
+			formatted_conversation_history.append({"role": "user", "content": conversation['User']})
+			for name, text in conversation.items():
+				if name != 'User':
+					formatted_conversation_history.append({"role": "assistant", "content": f"{name.title()} said: {text}"})
+		return formatted_conversation_history
+
+
+	def _construct_prompt(self, persona, speech, language):
+			"""
+			Constructs the prompt for the GPT-3.5-turbo model.
+			"""
+	
+			# Creates a prompt used for GPT-3.5-turbo model based on the user's persona and conversation history
+			if persona != 'chatbot':
+				prompt = (f"\nI want you to respond to the user like you are {persona}. The user said: {speech}. Keep it concise")
+			else:
+				prompt = (f"\nProvide a chatbot like response to the user: The user said: {speech}. Keep it concise")
+		
+			prompt += f'Respond in {language}'
+	
+			prompt += "If there is a topic that you don't have information on. Start your response with 'Topic: (what the topic is)' and I will provide you with information on that topic. "
+			
+			return prompt
+
+
+	def _construct_manual_prompt(self, formatted_conversation_history, persona, speech, manual_request):
+		"""
+		Constructs the prompt for the GPT-3.5-turbo model when manually requesting a response.
+		"""
+		prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {persona}: The user said: {speech}. Keep it concise")
+		prompt += manual_request
+		print('manual prompt: ', prompt)
+		return prompt
 
 	def create_gpt_image(self, image: str, openai_key:str):
 		"""
