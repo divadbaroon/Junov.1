@@ -34,83 +34,41 @@ class SpeechVerbalizer:
 		self.speech_config = speech_config
 		self.speech_synthesizer = speech_synthesizer
 		self.reset_language = False
-
+  
 	def verbalize_speech(self, speech: str):
-		"""
-		Verbalizes a given string with a specified gender and langauge of voice.
-		:param speech (str): The speech to be verbalized.
-		"""	
+		"""Verbalize the bot's response using the speech synthesizer."""""
 
-		# Retrieve the bot's mute status and persona from bot_properties.json
 		mute_status = self.bot_properties.retrieve_property('mute_status')
 		persona = self.bot_properties.retrieve_property('persona')
-		current_language = self.bot_properties.retrieve_property('language')
 
-		# Check if there is speech to verbalize
 		if speech:
-	  
-			# Check the bot's mute status
-			if not mute_status: 
-				
+
+			if not mute_status:
+
 				# If the bot is translating, changing the gender, or changing the language the speech will be a dictionary.
 				# This is so that the config can be reinitalized with the new property.
 				if isinstance(speech, dict):
-					if next(iter(speech.keys())) == 'temporary_language':
-						
-						# Oneshot translation, thus, the language must be reset to the original language after the translation
-						self.reset_language = True
-	  
-						self.bot_properties.save_property('language', speech['temporary_language'])
-						speech = speech['translated_speech']
-	  
-					elif next(iter(speech.keys())) == 'gender':
-						self.bot_properties.save_property('gender', speech['gender'])
-						speech = speech['speech']
-	  
-					elif next(iter(speech.keys())) == 'language':
-						self.bot_properties.save_property('language', speech['language'])
-						self.bot_properties.save_property('reconfigure', True)
-						speech = speech['speech']
-					
-					# Retrieve the bot's new voice name from bot_properties.json
-					new_voice_name = self.bot_properties.retrieve_property('voice_name')
+					speech = self._handle_special_speech(speech)
 
-					# Check if voice with given parameters exists
+					new_voice_name = self.bot_properties.retrieve_property('voice_name')
 					if new_voice_name:
-		 
-						# Reinitializing the bot's speech config with the new voice name
-						self.speech_config.speech_synthesis_voice_name = new_voice_name
-	  
-						# Reinitializing the bot's speech synthesizer
-						self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
-     
+						self._update_voice(new_voice_name)
+
 				print('\nResponse:')
 				print(f'{persona.title()}: {speech}')
 
-				# Verbalize the given speech
 				self.speech_synthesizer.speak_text(speech)
-	
-				# Resets the language to the previous language if the bot was translating
+
 				if self.reset_language:
-					
+					current_language = self.bot_properties.retrieve_property('language')
 					self.bot_properties.save_property('language', current_language)
 
-					# Retrieve the bot's new voice name from bot_properties.json
 					voice_name = self.bot_properties.retrieve_property('voice_name')
-
-					# Check if voice with given parameters exists
 					if voice_name:
-		 
-						# Reinitializing the bot's speech config with the new voice name
-						self.speech_config.speech_synthesis_voice_name = voice_name
-	  
-						# Reinitializing the bot's speech synthesizer
-						self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
-	  
-					# Set the reset_language flag back to False
+						self._update_voice(voice_name)
+
 					self.reset_language = False
-					
-				# Check if user wanted to end the program after verbalizing exit speech
+
 				if speech == 'Exiting. Goodbye!':
 					sys.exit()
 			else:
@@ -118,9 +76,30 @@ class SpeechVerbalizer:
 				print(f'{persona.title()}: {speech}')
 		else:
 			print('No speech has been provided to verbalize.')
-	
-	
+
+	def _update_voice(self, voice_name):
+		"""Update the speech config and synthesizer with a new voice."""
+		self.speech_config.speech_synthesis_voice_name = voice_name
+		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
+
+	def _handle_special_speech(self, speech):
+		"""Handle special cases of speech, such as temporary language, gender, and language change."""
+		key = next(iter(speech.keys()))
+
+		if key == 'temporary_language':
+			self.reset_language = True
+			self.bot_properties.save_property('language', speech['temporary_language'])
+			return speech['translated_speech']
+
+		if key == 'gender':
+			self.bot_properties.save_property('gender', speech['gender'])
+			return speech['speech']
+
+		if key == 'language':
+			self.bot_properties.save_property('language', speech['language'])
+			self.bot_properties.save_property('reconfigure', True)
+			return speech['speech']
+
+		return None
+
    
-	
-
-
