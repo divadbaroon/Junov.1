@@ -1,6 +1,7 @@
 
 import requests
 from commands.ask_gpt import AskGPT
+from commands.translate_speech import TranslateSpeech
 from commands.conversation_manager import ConversationHistoryManager
 from configuration.bot_properties import BotProperties
  
@@ -17,12 +18,13 @@ class SpeechProcessor:
 	BotBehavior, and ConversationHistoryManager
 	"""
  
-	def __init__(self, luis_app_id:str, luis_key:str, openai_key:str, translator_key:str, weather_key:str):
+	def __init__(self, luis_app_id:str, luis_key:str, openai_key:str, translator_key:str, weather_key:str, news_key:str):
 		self.luis_app_id = luis_app_id
 		self.luis_key = luis_key
 		self.openai_key = openai_key
 		self.translator_key = translator_key
 		self.weather_key = weather_key
+		self.news_key = news_key
 
 	def process_speech(self, speech:str): 
 		"""
@@ -34,7 +36,7 @@ class SpeechProcessor:
 		# Retrieves a json file containing similarity rankings between the user's speech and the trained luis model
 		intents_json = self.SpeechIntent(self.luis_app_id, self.luis_key).get_user_intent(speech)
 		# Provides the most apporiate response and action to the user's speech given the similarity rankings
-		response = self.CommandParser(self.openai_key, self.translator_key, self.weather_key).parse_commands(speech, intents_json)
+		response = self.CommandParser(self.openai_key, self.translator_key, self.weather_key, self.news_key).parse_commands(speech, intents_json)
 		return response
 
 	class SpeechIntent:
@@ -58,6 +60,9 @@ class SpeechProcessor:
 			:param speech: (str) speech input
 			:return: (str) json file containing similarity rankings between the user's speech and the trained luis model
 			"""
+   
+			if isinstance(speech, dict):
+				speech = speech['translated_speech']
 		
 			endpoint_url = (f"https://eastus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.luis_app_id}"
 							f"/slots/production/predict?verbose=true&show-all-intents=true&log=true"
@@ -82,11 +87,14 @@ class SpeechProcessor:
 		If the top intent's score is greater than 70% the associated entity is retrieved and the appropriate action is executed.
 		"""
   
-		def __init__(self, openai_key:str, translator_key:str, weather_key:str):
+		def __init__(self, openai_key:str, translator_key:str, weather_key:str, news_key:str):
 			self.persona = BotProperties().retrieve_property('persona')
+			self.language = BotProperties().retrieve_property('language')
 			self.openai_key = openai_key
 			self.translator_key = translator_key
 			self.weather_key = weather_key
+			self.news_key = news_key
+			self.gpt_response = False
 
 		def parse_commands(self, speech:str, intents_json:dict):
 			"""
@@ -95,6 +103,9 @@ class SpeechProcessor:
 			:param intents_json: (str) json file containing similarity rankings between the user's speech and the trained luis model
 			:return: (str) response to users speech and appropriate action to be taken
 			"""
+   
+			if isinstance(speech, dict):
+				speech = speech['original_speech']
 
 			# Extract top intent and top intent's score from intents_json
 			top_intent = intents_json["prediction"]["topIntent"] 
@@ -102,17 +113,19 @@ class SpeechProcessor:
    
 			# If score does not meet minimum threshold a response is instead created using GPT-3
 			if top_intent_score < .70:
+	
 				# Loading conversation history to be used as context for GPT-3
 				conversation_history = ConversationHistoryManager().load_conversation_history()
-				response = AskGPT().ask_GPT(speech, conversation_history, self.openai_key, self.persona) 
+				response = AskGPT().ask_GPT(speech, conversation_history, self.openai_key, self.persona, self.language, self.news_key) 
+				self.gpt_response = True
 	
 			# Find intent with the highest similarity score
 			# and retrieve associated entity if applicable
 			elif top_intent == 'Translate_Speech':
 				speech_to_translate = intents_json["prediction"]["entities"]["translate_speech"][0]
-				language = intents_json["prediction"]["entities"]["language"][0]		
-				from commands.translate_speech import TranslateSpeech
-				response = TranslateSpeech().translate_speech(speech_to_translate, language, self.translator_key)
+				language_to = intents_json["prediction"]["entities"]["language"][0]
+				language_from = self.language
+				response = TranslateSpeech().translate_speech(speech_to_translate,language_from, language_to, self.translator_key)
 	
 			elif top_intent == 'Get_Weather':
 				location = intents_json["prediction"]["entities"]["weather_location"][0]
@@ -175,8 +188,16 @@ class SpeechProcessor:
 				response = ConversationHistoryManager().exit_and_clear()
 			else:
 				response = "Sorry, I don't understand that command. Please try asking again."
-			
-			# Saving the newly created conversation to conversation_history.json 
-			ConversationHistoryManager().save_conversation_history(speech, response, self.persona)
+
+			# If GPT-3 was not used translate the response to the users language
+			# This is since GPT-3 is capable of translating the response itself
+			if not self.gpt_response and self.language != 'english':
+				response = TranslateSpeech().translate_speech(speech_to_translate=response, language_from='english', language_to=self.language, translator_key=self.translator_key)
+    
+			# Save conversation history if gpt was used or any command that doesnt exit or clear the conversation wasnt given
+			if top_intent_score < .70:
+				ConversationHistoryManager().save_conversation_history(speech, response, self.persona)
+			elif top_intent != 'Clear' and top_intent != 'Quit':
+				ConversationHistoryManager().save_conversation_history(speech, response, self.persona)
 	
 			return response
