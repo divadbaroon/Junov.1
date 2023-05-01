@@ -28,7 +28,7 @@ class TranslateSpeech:
 		self.region = 'eastus'
 		self.bot_properties = BotProperties()
 			
-	def translate_speech(self, speech_to_translate:str, language:str, translator_key:str):
+	def translate_speech(self, speech_to_translate:str, language_from:str, language_to:str, translator_key:str):
 		"""
 		Translates a given string of text to a desired langauge.
 		:param speech_to_translate: (str) the speech to be translated
@@ -41,21 +41,25 @@ class TranslateSpeech:
 		constructed_url = f'{endpoint}{path}'
 
 		# Language sometimes ends in a question mark
-		if language.endswith('?'):
-			language = language.rstrip('?')
-
+		if language_to.endswith('?'):
+			language = language_to.rstrip('?')
+		elif language_from.endswith('?'):
+			language = language_from.rstrip('?')
+   
 		# Extract languages and their codes from bot_properties.json
 		language_codes = self.bot_properties.retrieve_property('language_codes')
 		# Get the language code for the desired language
 		for language_name, code in language_codes.items():
-			if language.lower() == language_name:
-				language_code = code
+			if language_to.lower() == language_name:
+				language_to_code = code
+			elif language_from.lower() == language_name:
+				language_from_code = code
   
 		# prepare a request to Azure's Translator service
 		params = {
 			'api-version': '3.0',
-			'from': 'en',
-			'to': language_code
+			'from': language_from_code,
+			'to': language_to_code
 		}
 
 		headers = {
@@ -80,4 +84,4 @@ class TranslateSpeech:
 			print(f"Line number: {sys.exc_info()[-1].tb_lineno}")
 			response = f'Sorry, there was an error while trying to translate: {speech_to_translate}. Try asking again.'
 
-		return {'temporary_language': language, 'translated_speech': response}
+		return {'temporary_language': language_to, 'translated_speech': response}
