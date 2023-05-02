@@ -1,13 +1,3 @@
-import sys
-import os
-
-# Get the current script's directory and its parent directory
-current_directory = os.path.dirname(os.path.abspath(__file__))
-parent_directory = os.path.dirname(current_directory)
-
-# Add the parent directory to sys.path
-if parent_directory not in sys.path:
-    sys.path.append(parent_directory)
 
 from configuration.bot_properties import BotProperties
 
@@ -45,7 +35,6 @@ class BotBehavior:
 		Pauses the bot
 		The user must press the spacebar to unpause the bot
 		"""
-		#self.speech_verbalizer.verbalize_speech(speech='I am now paused')
 		user_input = ''
 		while user_input != ' ':
 			user_input = input('Press spacebar to unpause: ')

@@ -1,8 +1,8 @@
 
 import requests
-from commands.ask_gpt import AskGPT
-from commands.translate_speech import TranslateSpeech
-from commands.conversation_manager import ConversationHistoryManager
+from pibot.bot_commands.ask_gpt import AskGPT
+from pibot.bot_commands.translate_speech import TranslateSpeech
+from pibot.bot_commands.conversation_manager import ConversationHistoryManager
 from configuration.bot_properties import BotProperties
  
 class SpeechProcessor:
@@ -129,37 +129,37 @@ class SpeechProcessor:
 	
 			elif top_intent == 'Get_Weather':
 				location = intents_json["prediction"]["entities"]["weather_location"][0]
-				from commands.get_weather import GetWeather
+				from pibot.bot_commands.get_weather import GetWeather
 				response = GetWeather().get_weather(location, self.weather_key)
 	
 			elif top_intent == 'Search_Google':
 				search_request = intents_json["prediction"]["entities"]["search_google"][0]
-				from commands.web_searcher import WebSearcher
+				from pibot.bot_commands.web_searcher import WebSearcher
 				response = WebSearcher().search_google(search_request)
 	
 			elif top_intent == 'Open_Website':
 				website = intents_json["prediction"]["entities"]["open_website"][0]
-				from commands.web_searcher import WebSearcher
+				from pibot.bot_commands.web_searcher import WebSearcher
 				response = WebSearcher().open_website(website)
 	
 			elif top_intent == 'Search_Youtube':
 				search_request = intents_json["prediction"]["entities"]["search_youtube"][0]
-				from commands.web_searcher import WebSearcher
+				from pibot.bot_commands.web_searcher import WebSearcher
 				response = WebSearcher().search_youtube(search_request)
 	
 			elif top_intent == 'Change_Persona':
 				new_persona = intents_json["prediction"]["entities"]["new_persona"][0]
-				from commands.bot_behavior import BotBehavior
+				from pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_persona(new_persona)
 	
 			elif top_intent == 'Change_Gender':
 				new_gender = intents_json["prediction"]["entities"]["new_gender"][0]
-				from commands.bot_behavior import BotBehavior
+				from pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_gender(new_gender)
 	
 			elif top_intent == 'Change_Language':
 				new_language = intents_json["prediction"]["entities"]["new_language"][0]
-				from commands.bot_behavior import BotBehavior
+				from pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_language(new_language)
 	
 			elif top_intent == 'Create_Image':
@@ -167,16 +167,16 @@ class SpeechProcessor:
 				response = AskGPT().create_gpt_image(image, self.openai_key)
 
 			elif top_intent == 'Generate_Password':
-				from commands.password_generator import PasswordGenerator
+				from pibot.bot_commands.password_generator import PasswordGenerator
 				response = PasswordGenerator().generate_password()
 			elif top_intent == 'Mute':
-				from commands.bot_behavior import BotBehavior
+				from pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().toggle_mute()
 			elif top_intent == 'Unmute':
-				from commands.bot_behavior import BotBehavior
+				from pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().untoggle_mute()
 			elif top_intent == 'Pause':
-				from commands.bot_behavior import BotBehavior
+				from pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().pause()
 			elif top_intent == 'Get_Conversation_History':
 				response = ConversationHistoryManager().get_conversation_history(self.persona)
@@ -194,7 +194,7 @@ class SpeechProcessor:
 			if not self.gpt_response and self.language != 'english':
 				response = TranslateSpeech().translate_speech(speech_to_translate=response, language_from='english', language_to=self.language, translator_key=self.translator_key)
     
-			# Save conversation history if gpt was used or any command that doesnt exit or clear the conversation wasnt given
+			# If the command is not to clear or quit the conversation history is saved
 			if top_intent_score < .70:
 				ConversationHistoryManager().save_conversation_history(speech, response, self.persona)
 			elif top_intent != 'Clear' and top_intent != 'Quit':

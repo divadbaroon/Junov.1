@@ -5,14 +5,14 @@ The following files must all be located within the same folder for the bot to fu
   bot_properties.py, bot_properties.json, conversation_history.json, startup_sound.wav(optional) >  
 '''
 
-import os
 import azure.cognitiveservices.speech as speechsdk
 from playsound import playsound
+import os
 
 # Local module imports
-from speech_recognizer import SpeechRecognition
-from speech_processor import SpeechProcessor
-from speech_verbalizer import SpeechVerbalizer
+from pibot.speech_recognizer import SpeechRecognition
+from pibot.speech_processor import SpeechProcessor
+from pibot.speech_verbalizer import SpeechVerbalizer
 from configuration.bot_properties import BotProperties
 
 class PiBot:
@@ -71,11 +71,11 @@ class PiBot:
 		self.speech_processor = SpeechProcessor(self.luis_app_id, self.luis_key, self.openai_key, self.translator_key, self.weather_key, self.news_key)
 		self.speech_verbalizer  = SpeechVerbalizer(self.audio_config, self.speech_config, self.speech_synthesizer)
 
-		# Changing the current directory to the directory of the startup sound
+		# Construct the path to the configuration directory and the conversation_history.json file
 		current_directory = os.path.dirname(os.path.abspath(__file__))
-		parent_directory = os.path.dirname(current_directory)
-		# Construct the path to the sound file in the 'assets' folder
-		sound_file_path = os.path.join(parent_directory, 'assets', 'startup_sound.wav')
+		sound_file_path = os.path.join(current_directory, os.pardir, os.pardir, 'assets', 'startup_sound.wav')
+		# Normalize the path (remove any redundant components)
+		sound_file_path = os.path.normpath(sound_file_path)
 
 		# Plays startup sound if it exists
 		if os.path.isfile(sound_file_path):

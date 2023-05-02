@@ -83,7 +83,7 @@ class AskGPT:
 	
 		if response.startswith('Topic:'):
 			more_information = self.get_more_information.get_articles(news_key, topic=response.replace('Topic:', '').strip())
-			print(more_information)
+			
 			new_prompt = self._construct_manual_prompt(formatted_conversation_history, persona, speech, manual_request=more_information)
 			response = self.ask_GPT(speech, conversation_history, openai_key, persona, language, manual_request=new_prompt)
 			return response
@@ -116,7 +116,7 @@ class AskGPT:
 		
 			prompt += f'Respond in {language}'
 	
-			prompt += "If there is a topic that you don't have information on. Start your response with 'Topic: (what the topic is)' and I will provide you with information on that topic. "
+			#prompt += "If there is a topic that you don't have information on. Start your response with 'Topic: (what the topic is)' and I will provide you with information on that topic. "
 			
 			return prompt
 
@@ -127,7 +127,7 @@ class AskGPT:
 		"""
 		prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {persona}: The user said: {speech}. Keep it concise")
 		prompt += manual_request
-		print('manual prompt: ', prompt)
+		
 		return prompt
 
 	def create_gpt_image(self, image: str, openai_key:str):

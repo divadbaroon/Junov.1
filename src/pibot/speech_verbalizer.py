@@ -1,15 +1,4 @@
 
-import sys
-import os
-
-# Get the current script's directory and its parent directory
-current_directory = os.path.dirname(os.path.abspath(__file__))
-parent_directory = os.path.dirname(current_directory)
-
-# Add the parent directory to sys.path
-if parent_directory not in sys.path:
-	sys.path.append(parent_directory)
-	
 from configuration.bot_properties import BotProperties
 import azure.cognitiveservices.speech as speechsdk
 import sys
@@ -38,6 +27,7 @@ class SpeechVerbalizer:
 	def verbalize_speech(self, speech: str):
 		"""Verbalize the bot's response using the speech synthesizer."""""
 
+		self.bot_properties.reload_settings()
 		mute_status = self.bot_properties.retrieve_property('mute_status')
 		persona = self.bot_properties.retrieve_property('persona')
 

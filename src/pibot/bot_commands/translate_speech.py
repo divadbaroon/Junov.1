@@ -1,3 +1,4 @@
+
 import requests
 import uuid
 
@@ -7,10 +8,12 @@ import os
 # Get the current script's directory and its parent directory
 current_directory = os.path.dirname(os.path.abspath(__file__))
 parent_directory = os.path.dirname(current_directory)
+grandparent_directory = os.path.dirname(parent_directory)
+greatgrandparent_directory = os.path.dirname(grandparent_directory)
 
 # Add the parent directory to sys.path
-if parent_directory not in sys.path:
-    sys.path.append(parent_directory)
+if greatgrandparent_directory not in sys.path:
+    sys.path.append(greatgrandparent_directory)
 
 from configuration.bot_properties import BotProperties
 
@@ -42,9 +45,9 @@ class TranslateSpeech:
 
 		# Language sometimes ends in a question mark
 		if language_to.endswith('?'):
-			language = language_to.rstrip('?')
+			language_to = language_to.rstrip('?')
 		elif language_from.endswith('?'):
-			language = language_from.rstrip('?')
+			language_from = language_from.rstrip('?')
    
 		# Extract languages and their codes from bot_properties.json
 		language_codes = self.bot_properties.retrieve_property('language_codes')

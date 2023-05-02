@@ -1,18 +1,9 @@
 
-import os
-import sys
-from commands.translate_speech import TranslateSpeech
-
-# Get the current script's directory and its parent directory
-current_directory = os.path.dirname(os.path.abspath(__file__))
-parent_directory = os.path.dirname(current_directory)
-
-# Add the parent directory to sys.path
-if parent_directory not in sys.path:
-	sys.path.append(parent_directory)
-
 import azure.cognitiveservices.speech as speechsdk
 from time import time
+import sys
+
+from pibot.bot_commands.translate_speech import TranslateSpeech
 from configuration.bot_properties import BotProperties
 
 class SpeechRecognition:
