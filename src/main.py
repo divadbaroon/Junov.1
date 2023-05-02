@@ -2,22 +2,11 @@
 Note:
 The following files must all be located within the same folder for the bot to function.
 < pibot.py, speech_recognizer.py, speech_processor.py, speech_verbalizer.py, sample_config.py,  
-	bot_properties.py, bot_properties.json, conversation_history.json, startup_sound.wav(optional) >
+bot_properties.py, bot_properties.json, conversation_history.json, startup_sound.wav(optional) >
 '''
- 
-import sys
-import os
-
-# Get the current script's directory and its parent directory
-current_directory = os.path.dirname(os.path.abspath(__file__))
-parent_directory = os.path.dirname(current_directory)
-
-# Add the parent directory to sys.path
-if parent_directory not in sys.path:
-		sys.path.append(parent_directory)
 		
+from pibot.bot_initializer import PiBot
 import configuration.config as config
-from pibot import PiBot
 
 def main():
 	
