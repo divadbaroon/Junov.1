@@ -82,7 +82,7 @@ class SpeechRecognition:
 			translated_recognized_speech = self.translator.translate_speech(recognized_speech, language, 'english', self.translator_key)
 			return {
 				'original_speech': recognized_speech, 
-				'translated_speech': translated_recognized_speech['translated_speech'].replace('.', '').strip()
+				'translated_speech': translated_recognized_speech['response'].replace('.', '').strip()
 			}
 		return recognized_speech.replace('.', '').strip()
 
