@@ -21,7 +21,7 @@ class ConversationHistoryManager:
 		:return: (list) the conversation history
 		"""
 		try:
-			with open(conversation_history_path, 'r') as f:
+			with open(conversation_history_path, 'r', encoding='utf-8') as f:
 				data = json.load(f)
 				conversation_history = data["conversation"]
 		except FileNotFoundError:
