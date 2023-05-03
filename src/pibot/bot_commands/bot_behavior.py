@@ -57,7 +57,7 @@ class BotBehavior:
 		if new_gender in ['male', 'female']:
 			self.bot_properties.save_property('gender', new_gender)
 			response = f'Ok, I have changed my gender to {new_gender}.'
-			return {'gender': new_gender, 'speech': response}
+			return {'gender': new_gender, 'response': response}
 		else:
 			return f"Sorry, I only support 'Male' or 'Female' at the moment. Please choose one of these options."
 			
@@ -71,6 +71,6 @@ class BotBehavior:
 		# Check if language is supported
 		if new_language.lower() in languages:
 			response = f'Ok, I have changed my language to {new_language}.'
-			return {'language': new_language, 'speech': response}
+			return {'language': new_language, 'response': response}
 		else:
 			return f'Sorry, {new_language} is not currently supported.'
