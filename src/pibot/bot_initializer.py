@@ -34,7 +34,7 @@ class PiBot:
 	speech_recognizer: object of SpeechRecognizer class
 	'''
 	
-	def __init__(self, pibot_api, luis_app_id, luis_key, openai_key, weather_key=None, translator_key=None, news_key=None):
+	def __init__(self, pibot_api, luis_app_id, luis_key, openai_key, weather_key=None, translator_key=None, news_key=None, persona='chatbot', gender='female', language='english'):
 		"""
 		Initializes a new PiBot object 
 		:param persona: (str) name of person the bot will emobdy
@@ -43,9 +43,12 @@ class PiBot:
 		Note: Plays startup sound once initialization of PiBot object is complete.
 		"""
 
-		# Retrieving the bot's language from bot_settings.json
+		# Save the bot's properties to bot_settings.json
 		bot_properties = BotProperties()
-		language = bot_properties.retrieve_property('language')
+		bot_properties.save_property('persona', persona)
+		bot_properties.save_property('gender', gender)
+		bot_properties.save_property('language', language)
+  
 		# Recognizer needs the language's country code
 		language_country_code = bot_properties.get_language_country_code(language)
 
