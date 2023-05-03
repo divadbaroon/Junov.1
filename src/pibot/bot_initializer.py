@@ -34,7 +34,7 @@ class PiBot:
 	speech_recognizer: object of SpeechRecognizer class
 	'''
 	
-	def __init__(self, pibot_api, luis_app_id, luis_key, openai_key, weather_key=None, translator_key=None, news_key=None, persona='chatbot', gender='female', language='english'):
+	def __init__(self, cognitive_services_api, region, luis_app_id, luis_key, openai_key, weather_key=None, translator_key=None, news_key=None, persona='chatbot', gender='female', language='english'):
 		"""
 		Initializes a new PiBot object 
 		:param persona: (str) name of person the bot will emobdy
@@ -55,7 +55,7 @@ class PiBot:
 		# Intializing the bot's audio configuration
 		self.audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
 		# Initializing the bot's speech configuration
-		self.speech_config = speechsdk.SpeechConfig(subscription = pibot_api, region = 'eastus')
+		self.speech_config = speechsdk.SpeechConfig(subscription = cognitive_services_api, region = region)
 		# Initializing the bot's speech recognizer 
 		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config, audio_config=self.audio_config, language=language_country_code)
 		# Initializing the bot's speech synthesizer
