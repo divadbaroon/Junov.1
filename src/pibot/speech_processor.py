@@ -88,8 +88,9 @@ class SpeechProcessor:
 		"""
   
 		def __init__(self, openai_key:str, translator_key:str, weather_key:str, news_key:str):
-			self.persona = BotProperties().retrieve_property('persona')
-			self.language = BotProperties().retrieve_property('language')
+			self.bot_properties = BotProperties()
+			self.persona = self.bot_properties.retrieve_property('persona')
+			self.language = self.bot_properties.retrieve_property('language')
 			self.openai_key = openai_key
 			self.translator_key = translator_key
 			self.weather_key = weather_key
@@ -194,10 +195,14 @@ class SpeechProcessor:
 			if not self.gpt_response and self.language != 'english':
 				response = TranslateSpeech().translate_speech(speech_to_translate=response, language_from='english', language_to=self.language, translator_key=self.translator_key)
     
+			if top_intent == 'Quit':
+				self.bot_properties.save_property('exit_status', True)
+    
 			# If the command is not to clear or quit the conversation history is saved
-			if top_intent_score < .70:
+			if top_intent_score < .70 and top_intent != 'Clear' and top_intent != 'Quit':
 				ConversationHistoryManager().save_conversation_history(speech, response, self.persona)
-			elif top_intent != 'Clear' and top_intent != 'Quit':
-				ConversationHistoryManager().save_conversation_history(speech, response, self.persona)
-	
+			# If the response is a dictionary only save the response
+			elif isinstance(response, dict):
+				ConversationHistoryManager().save_conversation_history(speech, response['response'], self.persona)
+   
 			return response
