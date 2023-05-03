@@ -87,4 +87,4 @@ class TranslateSpeech:
 			print(f"Line number: {sys.exc_info()[-1].tb_lineno}")
 			response = f'Sorry, there was an error while trying to translate: {speech_to_translate}. Try asking again.'
 
-		return {'temporary_language': language_to, 'translated_speech': response}
+		return {'temporary_language': language_to, 'original': speech_to_translate, 'response': response}
