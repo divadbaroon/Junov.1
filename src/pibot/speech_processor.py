@@ -117,7 +117,7 @@ class SpeechProcessor:
 	
 				# Loading conversation history to be used as context for GPT-3
 				conversation_history = ConversationHistoryManager().load_conversation_history()
-				response = AskGPT().ask_GPT(speech, conversation_history, self.openai_key, self.persona, self.language, self.news_key) 
+				response = AskGPT().ask_GPT(speech=speech, conversation_history=conversation_history, openai_key=self.openai_key, persona=self.persona, language=self.language) 
 				self.gpt_response = True
 	
 			# Find intent with the highest similarity score
