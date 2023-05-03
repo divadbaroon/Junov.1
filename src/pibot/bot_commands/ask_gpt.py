@@ -1,17 +1,6 @@
 import requests
 import json
 import webbrowser
-import os
-import sys
-
-# Get the current script's directory and its parent directory
-current_directory = os.path.dirname(os.path.abspath(__file__))
-
-# Add the parent directory to sys.path
-if current_directory not in sys.path:
-		sys.path.append(current_directory)
-  
-from get_news import GetNews
 
 class AskGPT:
 	"""
@@ -29,9 +18,8 @@ class AskGPT:
 	def __init__(self):
 		self.language_model = "gpt-3.5-turbo"
 		self.response_length = 100
-		self.get_more_information = GetNews()
 
-	def ask_GPT(self, speech:str, conversation_history:list, openai_key:str, persona:str, language:str, manual_request=None, news_key:str=None):
+	def ask_GPT(self, speech:str, conversation_history:list, openai_key:str, persona:str, language:str, manual_request:str=None,):
 		"""
 		Uses the user's speech, the bot's persona, and the conversation history 
 		to create a response using OpenAI's GPT-3.5-turbo model API.
@@ -76,17 +64,10 @@ class AskGPT:
 		response = response.strip()
   
 		# clean up some errors that gpt somtimes produces in its output
-		bad_repsonses = [f'{persona} said:', f'{persona}:', 'response', 'Chatbot:', 'Chatbot :', 'Chatbot said:', 'Chatbot response:', 'chatbot response:']
+		bad_repsonses = [f'{persona} said:', f'{persona}:', 'response', 'Response:' 'Chatbot:', 'Chatbot :', 'Chatbot said:', 'Chatbot response:', 'chatbot response:']
 		for example in bad_repsonses:
 			if response.startswith(example):
 				response = response.replace(example, '').strip()
-	
-		if response.startswith('Topic:'):
-			more_information = self.get_more_information.get_articles(news_key, topic=response.replace('Topic:', '').strip())
-			
-			new_prompt = self._construct_manual_prompt(formatted_conversation_history, persona, speech, manual_request=more_information)
-			response = self.ask_GPT(speech, conversation_history, openai_key, persona, language, manual_request=new_prompt)
-			return response
 	
 		return response
 
@@ -103,20 +84,18 @@ class AskGPT:
 		return formatted_conversation_history
 
 
-	def _construct_prompt(self, persona, speech, language):
+	def _construct_prompt(self, formatted_conversation_history, persona, speech, language):
 			"""
 			Constructs the prompt for the GPT-3.5-turbo model.
 			"""
 	
 			# Creates a prompt used for GPT-3.5-turbo model based on the user's persona and conversation history
 			if persona != 'chatbot':
-				prompt = (f"\nI want you to respond to the user like you are {persona}. The user said: {speech}. Keep it concise")
+				prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {persona}: The user said: {speech}. Keep it concise. ")
 			else:
-				prompt = (f"\nProvide a chatbot like response to the user: The user said: {speech}. Keep it concise")
+				prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are a chatbot: The user said: {speech}. Keep it concise. ")
 		
-			prompt += f'Respond in {language}'
-	
-			#prompt += "If there is a topic that you don't have information on. Start your response with 'Topic: (what the topic is)' and I will provide you with information on that topic. "
+			prompt += f'Respond in {language}. '
 			
 			return prompt
 
