@@ -23,6 +23,7 @@ class SpeechVerbalizer:
 		self.speech_config = speech_config
 		self.speech_synthesizer = speech_synthesizer
 		self.reset_language = False
+		self.exit_status = False
   
 	def verbalize_speech(self, speech: str):
 		"""Verbalize the bot's response using the speech synthesizer."""""
@@ -34,6 +35,8 @@ class SpeechVerbalizer:
 		if speech:
 
 			if not mute_status:
+       
+				current_language = self.bot_properties.retrieve_property('language')
 
 				# If the bot is translating, changing the gender, or changing the language the speech will be a dictionary.
 				# This is so that the config can be reinitalized with the new property.
@@ -47,10 +50,16 @@ class SpeechVerbalizer:
 				print('\nResponse:')
 				print(f'{persona.title()}: {speech}')
 
+				# Verbalize the response
 				self.speech_synthesizer.speak_text(speech)
+    
+				# Check if user wants to exit the program
+				if self.exit_status or speech == 'Exiting. Goodbye!':
+					sys.exit()
 
+				# If the user was performing a one shot translation, reset the language back to the original language
 				if self.reset_language:
-					current_language = self.bot_properties.retrieve_property('language')
+
 					self.bot_properties.save_property('language', current_language)
 
 					voice_name = self.bot_properties.retrieve_property('voice_name')
@@ -58,9 +67,6 @@ class SpeechVerbalizer:
 						self._update_voice(voice_name)
 
 					self.reset_language = False
-
-				if speech == 'Exiting. Goodbye!':
-					sys.exit()
 			else:
 				print('\n(muted) Response:')
 				print(f'{persona.title()}: {speech}')
@@ -77,18 +83,20 @@ class SpeechVerbalizer:
 		key = next(iter(speech.keys()))
 
 		if key == 'temporary_language':
+			if speech['original'] == 'Exiting. Goodbye!':
+				self.exit_status = True
 			self.reset_language = True
 			self.bot_properties.save_property('language', speech['temporary_language'])
-			return speech['translated_speech']
+			return speech['response']
 
 		if key == 'gender':
 			self.bot_properties.save_property('gender', speech['gender'])
-			return speech['speech']
+			return speech['response']
 
 		if key == 'language':
 			self.bot_properties.save_property('language', speech['language'])
 			self.bot_properties.save_property('reconfigure', True)
-			return speech['speech']
+			return speech['response']
 
 		return None
 
