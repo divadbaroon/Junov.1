@@ -72,7 +72,7 @@ class ConversationHistoryManager:
 		except FileNotFoundError:
 			print('The file "conversation_history.json" is missing.Make sure all files are located within the same folder')
 
-	def clear(self):
+	def clear_conversation_history(self):
 		"""
 		Clears the conversation history
 		"""
