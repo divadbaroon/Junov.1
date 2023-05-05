@@ -2,6 +2,7 @@
 from configuration.bot_properties import BotProperties
 import azure.cognitiveservices.speech as speechsdk
 import sys
+import time
 
 class SpeechVerbalizer:
 	"""
@@ -35,7 +36,7 @@ class SpeechVerbalizer:
 		if speech:
 
 			if not mute_status:
-       
+	   
 				current_language = self.bot_properties.retrieve_property('language')
 
 				# If the bot is translating, changing the gender, or changing the language the speech will be a dictionary.
@@ -43,7 +44,7 @@ class SpeechVerbalizer:
 				if isinstance(speech, dict):
 					speech = self._handle_special_speech(speech)
 
-					new_voice_name = self.bot_properties.retrieve_property('voice_name')
+					new_voice_name = self.bot_properties.retrieve_property('current_voice_name')
 					if new_voice_name:
 						self._update_voice(new_voice_name)
 
@@ -52,7 +53,7 @@ class SpeechVerbalizer:
 
 				# Verbalize the response
 				self.speech_synthesizer.speak_text(speech)
-    
+	
 				# Check if user wants to exit the program
 				if self.exit_status or speech == 'Exiting. Goodbye!':
 					sys.exit()
@@ -61,8 +62,10 @@ class SpeechVerbalizer:
 				if self.reset_language:
 
 					self.bot_properties.save_property('language', current_language)
+					new_voice_name = self.bot_properties.retrieve_property('voice_name')
+					self.bot_properties.save_property('current_voice_name', new_voice_name)
 
-					voice_name = self.bot_properties.retrieve_property('voice_name')
+					voice_name = self.bot_properties.retrieve_property('current_voice_name')
 					if voice_name:
 						self._update_voice(voice_name)
 
@@ -82,20 +85,45 @@ class SpeechVerbalizer:
 		"""Handle special cases of speech, such as temporary language, gender, and language change."""
 		key = next(iter(speech.keys()))
 
-		if key == 'temporary_language':
+		# Used to for-shot language translations
+		if key == 'one_shot_translation':
+			# Check if the user asked to exit the program in another language
 			if speech['original'] == 'Exiting. Goodbye!':
 				self.exit_status = True
+			# Reset language after one-shot translation
 			self.reset_language = True
-			self.bot_properties.save_property('language', speech['temporary_language'])
+			# Save the new language to bot_properties.json
+			self.bot_properties.save_property('language', speech['one_shot_translation'])
+			# Get the new voice name
+			new_voice_name = self.bot_properties.retrieve_property('voice_name')
+
+			# Update the current voice name
+			self.bot_properties.save_property('current_voice_name', new_voice_name)
 			return speech['response']
 
-		if key == 'gender':
-			self.bot_properties.save_property('gender', speech['gender'])
+		if key == 'new_language':
+			# Check if the user asked to exit the program in another language
+			if speech['original'] == 'Exiting. Goodbye!':
+				self.exit_status = True
 			return speech['response']
 
-		if key == 'language':
-			self.bot_properties.save_property('language', speech['language'])
-			self.bot_properties.save_property('reconfigure', True)
+		if key == 'change_gender':
+			return speech['response']
+
+		if key == 'change_language':
+			return speech['response']
+
+		if key == 'start_timer':
+			new_voice_name = self.bot_properties.retrieve_property('current_voice_name')
+			if new_voice_name:
+				self._update_voice(new_voice_name)
+
+			self.verbalize_speech(speech['response'])
+			# start timer
+			time.sleep(int(speech['start_timer']))
+			return 'Time is up!'
+
+		if key == 'change_voice_name':
 			return speech['response']
 
 		return None
