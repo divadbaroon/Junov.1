@@ -39,7 +39,20 @@ class BotProperties():
 		:param setting (str): The setting to be retrieved
 		"""
 		  
-		# Get the bot's voice name given its gender and language
+		# Returns the bot's voice names for a particular gender and language
+		# If the bot has multiple voices for a particular language, it will return a list
+		if setting == 'voice_names':
+			gender = self.data['chatbot'].get('gender')
+			language = self.data['chatbot'].get('language')
+			if gender == 'female':
+				voice_name =  self.data['female_voices'].get(language)
+			elif gender == 'male':
+				voice_name =  self.data['male_voices'].get(language)
+			
+			return voice_name
+
+		# Returns the bot's voice names for a particular gender and language
+		# If the bot has multiple voices for a particular language, it will return the first value in the list
 		if setting == 'voice_name':
 			gender = self.data['chatbot'].get('gender')
 			language = self.data['chatbot'].get('language')
@@ -47,15 +60,23 @@ class BotProperties():
 				voice_name =  self.data['female_voices'].get(language)
 			elif gender == 'male':
 				voice_name =  self.data['male_voices'].get(language)
-			return voice_name
+    
+			if isinstance(voice_name, list):
+				return voice_name[0]
+			else:
+				return voice_name
 
 		# Get language
 		elif setting == 'languages':
 			return list(self.data['female_voices'].keys())
 
-		# Get language
+		# Get female voices
 		elif setting == 'female_voices':
 			return list(self.data['female_voices'].keys())
+
+		# Get male voices
+		elif setting == 'male_voices':
+			return list(self.data['male_voices'].keys())
 
 		# Get language codes
 		elif setting == 'language_codes':
@@ -78,11 +99,18 @@ class BotProperties():
 		# saving the setting's value to data
 		if setting == 'mute_status':
 			self.data['chatbot'][setting] = value
-		elif setting == 'reconfigure':
+		if setting == 'reconfigure':
 			self.data['chatbot'][setting] = value
-
-		elif setting in ['persona', 'gender', 'language']:
+		if setting == 'reconfigure':
+			self.data['chatbot'][setting] = value
+		if setting == 'current_voice_name':
+			self.data['chatbot'][setting] = value
+		if setting == 'gender':
 			self.data['chatbot'][setting] = value.lower()
+		if setting == 'language':
+			self.data['chatbot'][setting] = value.lower()
+		if setting == 'persona':
+			self.data['chatbot'][setting] = value.title()
 		
 		# writing the data back to bot_settings.json
 		with open(bot_settings_path, "w") as f:
@@ -97,4 +125,3 @@ class BotProperties():
 		"""Reloads the data from bot_settings.json"""
 		with open(bot_settings_path, 'r', encoding='utf-8') as file:
 			self.data = json.load(file)
-
