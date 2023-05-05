@@ -126,7 +126,7 @@ class SpeechProcessor:
 				speech_to_translate = intents_json["prediction"]["entities"]["translate_speech"][0]
 				language_to = intents_json["prediction"]["entities"]["language"][0]
 				language_from = self.language
-				response = TranslateSpeech().translate_speech(speech_to_translate,language_from, language_to, self.translator_key)
+				response = TranslateSpeech().translate_speech(speech_to_translate, language_from, language_to, self.translator_key, one_shot_translation=True)
 	
 			elif top_intent == 'Get_Weather':
 				location = intents_json["prediction"]["entities"]["weather_location"][0]
@@ -162,10 +162,24 @@ class SpeechProcessor:
 				new_language = intents_json["prediction"]["entities"]["new_language"][0]
 				from pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_language(new_language)
+    
+			elif top_intent == 'Change_Voice':
+				from pibot.bot_commands.bot_behavior import BotBehavior
+				response = BotBehavior().change_voice()
+    
+			elif top_intent == 'Randomize_Voice':
+				from pibot.bot_commands.bot_behavior import BotBehavior
+				response = BotBehavior().randomize_voice()
 	
 			elif top_intent == 'Create_Image':
 				image = intents_json["prediction"]["entities"]["image_to_create"][0]
 				response = AskGPT().create_gpt_image(image, self.openai_key)
+    
+			elif top_intent == 'Start_Timer':
+				user_time = intents_json["prediction"]["entities"]["user_timer"][0]
+				metric = intents_json["prediction"]["entities"]["metric"][0]
+				from pibot.bot_commands.timer import StartTimer
+				response = StartTimer().start_timer(user_time, metric)
 
 			elif top_intent == 'Generate_Password':
 				from pibot.bot_commands.password_generator import PasswordGenerator
@@ -181,22 +195,17 @@ class SpeechProcessor:
 				response = BotBehavior().pause()
 			elif top_intent == 'Get_Conversation_History':
 				response = ConversationHistoryManager().get_conversation_history(self.persona)
-			elif top_intent == 'Log_Conversation':
-				response = ConversationHistoryManager().log_conversation()
 			elif top_intent == 'Clear':
-				response = ConversationHistoryManager().clear()
+				response = ConversationHistoryManager().clear_conversation_history()
 			elif top_intent == 'Quit':
 				response = ConversationHistoryManager().exit_and_clear()
-			else:
+			else:                                                                                                                                                     
 				response = "Sorry, I don't understand that command. Please try asking again."
 
 			# If GPT-3 was not used translate the response to the users language
 			# This is since GPT-3 is capable of translating the response itself
-			if not self.gpt_response and self.language != 'english':
+			if not self.gpt_response and self.language != 'english' and top_intent != 'Translate_Speech':
 				response = TranslateSpeech().translate_speech(speech_to_translate=response, language_from='english', language_to=self.language, translator_key=self.translator_key)
-    
-			if top_intent == 'Quit':
-				self.bot_properties.save_property('exit_status', True)
     
 			# If the command is not to clear or quit the conversation history is saved
 			if top_intent_score < .70 and top_intent != 'Clear' and top_intent != 'Quit':
@@ -204,5 +213,5 @@ class SpeechProcessor:
 			# If the response is a dictionary only save the response
 			elif isinstance(response, dict):
 				ConversationHistoryManager().save_conversation_history(speech, response['response'], self.persona)
-   
+
 			return response
