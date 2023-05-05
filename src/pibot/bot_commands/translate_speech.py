@@ -31,7 +31,7 @@ class TranslateSpeech:
 		self.region = 'eastus'
 		self.bot_properties = BotProperties()
 			
-	def translate_speech(self, speech_to_translate:str, language_from:str, language_to:str, translator_key:str):
+	def translate_speech(self, speech_to_translate:str, language_from:str, language_to:str, translator_key:str, one_shot_translation:bool=False):
 		"""
 		Translates a given string of text to a desired langauge.
 		:param speech_to_translate: (str) the speech to be translated
@@ -57,6 +57,8 @@ class TranslateSpeech:
 				language_to_code = code
 			elif language_from.lower() == language_name:
 				language_from_code = code
+			else:
+				response = f'Sorry, {language_to} is not a supported language. Please try asking again.'
   
 		# prepare a request to Azure's Translator service
 		params = {
@@ -86,5 +88,8 @@ class TranslateSpeech:
 			print(f"Error message: {str(e)}")
 			print(f"Line number: {sys.exc_info()[-1].tb_lineno}")
 			response = f'Sorry, there was an error while trying to translate: {speech_to_translate}. Try asking again.'
-
-		return {'temporary_language': language_to, 'original': speech_to_translate, 'response': response}
+   
+		if one_shot_translation:
+			return {'one_shot_translation': language_to, 'original': speech_to_translate, 'response': response}
+		else:
+			return {'new_language': language_to, 'original': speech_to_translate, 'response': response}
