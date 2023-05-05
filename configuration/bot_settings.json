@@ -1,16 +1,28 @@
 {
     "chatbot": {
-        "persona": "chatbot",
+        "persona": "Chatbot",
         "gender": "female",
         "language": "english",
-        "mute_status": false,
-        "reconfigure": false
+        "current_voice_name": "en-US-AmberNeural",
+        "mute_status": false
     },
     "female_voices": {
         "default": "en-US-AIGenerate2Neural",
         "arabic": "ar-AE-FatimaNeural",
-        "english": "en-US-AmberNeural",
-        "english_usa": "en-US-AmberNeural",
+        "english": [
+            "en-US-AmberNeural",
+            "en-US-AnaNeural",
+            "en-US-AriaNeural",
+            "en-US-AshleyNeural",
+            "en-US-CoraNeural",
+            "en-US-ElizabethNeural",
+            "en-US-JaneNeural",
+            "en-US-JennyNeural",
+            "en-US-MichelleNeural",
+            "en-US-MonicaNeural",
+            "en-US-NancyNeural",
+            "en-US-SaraNeural"
+        ],
         "english_uk": "en-GB-BellaNeural",
         "english_australia": "en-AU-JoanneNeural",
         "english_ireland": "en-IE-EmilyNeural",
@@ -26,8 +38,18 @@
     "male_voices": {
         "default": "en-US-AIGenerate1Neural",
         "arabic": "ar-AE-HamdanNeural",
-        "english": "en-US-BrandonNeural",
-        "english_usa": "en-US-BrandonNeural",
+        "english": [
+            "en-US-BrandonNeural",
+            "en-US-ChristopherNeural",
+            "en-US-DavisNeural",
+            "en-US-EricNeural",
+            "en-US-GuyNeural",
+            "en-US-JacobNeural",
+            "en-US-JasonNeural",
+            "en-US-RogerNeural",
+            "en-US-SteffanNeural",
+            "en-US-TonyNeural"
+        ],
         "english_uk": "en-GB-AlfieNeural",
         "english_australia": "en-AU-DarrenNeural",
         "english_ireland": "en-IE-ConnorNeural",
