@@ -90,11 +90,12 @@ class AskGPT:
 			"""
 	
 			# Creates a prompt used for GPT-3.5-turbo model based on the user's persona and conversation history
-			if persona != 'chatbot':
+			if persona.lower() != 'chatbot':
 				prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {persona}: The user said: {speech}. Keep it concise. ")
 			else:
 				prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are a chatbot: The user said: {speech}. Keep it concise. ")
 		
+			prompt += f'Do not preface your response with "{persona} said:" or "{persona}:".'
 			prompt += f'Respond in {language}. '
 			
 			return prompt
