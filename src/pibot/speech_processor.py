@@ -8,9 +8,9 @@ from azure.ai.language.conversations import ConversationAnalysisClient
  
 class SpeechProcessor:
 	"""
-	A class that processes the user's input using a trained Luis model and produces an appropriate response and action.
+	A class that processes the user's input using a trained CLU model and produces an appropriate response and action.
 	This class is comprised of two initial nested classes: SpeechIntent and CommandParser.
-	The nested SpeechIntent class retrieves the similarity rankings between the user's speech and the trained luis model in json format.
+	The nested SpeechIntent class retrieves the similarity rankings between the user's speech and the trained CLU model in json format.
 	The nested CommandParser class uses the data from the similarity rankings to provide the most apporiate response 
  	and action to the user's speech.
 	The nested CommandParser class is composed of seven nested classes, each containing methods dedicated to executing
@@ -19,9 +19,11 @@ class SpeechProcessor:
 	BotBehavior, and ConversationHistoryManager
 	"""
  
-	def __init__(self, luis_app_id:str, luis_key:str, openai_key:str, translator_key:str, weather_key:str, news_key:str):
-		self.luis_app_id = luis_app_id
-		self.luis_key = luis_key
+	def __init__(self, clu_endpoint:str, clu_project_name:str, clu_deployment_name:str, clu_key:str, openai_key:str, translator_key:str, weather_key:str, news_key:str):
+		self.clu_endpoint = clu_endpoint
+		self.clu_project_name = clu_project_name
+		self.clu_deployment_name = clu_deployment_name
+		self.clu_key = clu_key
 		self.openai_key = openai_key
 		self.translator_key = translator_key
 		self.weather_key = weather_key
@@ -29,46 +31,44 @@ class SpeechProcessor:
 
 	def process_speech(self, speech:str): 
 		"""
-		Processes the user's input using a trained LUIS model and produces an appropriate response and action.
+		Processes the user's input using a trained CLU model and produces an appropriate response and action.
 		:param speech: (str) speech input
 		:return: (str) response to users speech and appropriate action to be taken
 		"""
   
-		# Retrieves a json file containing similarity rankings between the user's speech and the trained luis model
-		intents_json = self.SpeechIntent(self.luis_app_id, self.luis_key).get_user_intent(speech)
+		# Retrieves a json file containing similarity rankings between the user's speech and the trained CLU model
+		intents_json = self.SpeechIntent(self.clu_endpoint, self.clu_project_name, self.clu_deployment_name, self.clu_key).get_user_intent(speech)
 		# Provides the most apporiate response and action to the user's speech given the similarity rankings
 		response = self.CommandParser(self.openai_key, self.translator_key, self.weather_key, self.news_key).parse_commands(speech, intents_json)
 		return response
 
 	class SpeechIntent:
 		"""
-		A class that retrieves the similarity rankings between the user's speech and the trained luis model
+		A class that retrieves the similarity rankings between the user's speech and the trained CLU model
 		as a json file.
 	
 		Attributes:
 		region (str): region used for Azure resources
-		luis_app_id (str): application id for Azure's LUIS service
-		luis_key (str): subscription key for Azure's LUIS service
+		clu_endpoint (str): endpoint for Azure's CLU service
+		clu_project_name (str): project name for Azure's CLU service
+		clu_deployment_name (str): sdeployment name for Azure's CLU service
+		clu_key (str): subscription key for Azure's CLU service
 		"""
   
-		def __init__(self, luis_app_id:str, luis_key:str):
-			self.luis_app_id = luis_app_id
-			self.luis_key = luis_key
+		def __init__(self, clu_endpoint:str, clu_project_name:str, clu_deployment_name:str, clu_key:str):
+			self.clu_endpoint = clu_endpoint
+			self.clu_project_name = clu_project_name
+			self.clu_deployment_name = clu_deployment_name
+			self.clu_key = clu_key
 
 		def get_user_intent(self, speech:str):
 			"""
-			Retrieves the similarity rankings between the user's speech and the trained LUIS model.
+			Retrieves the similarity rankings between the user's speech and the trained CLU model.
 			:param speech: (str) speech input
-			:return: (str) json file containing similarity rankings between the user's speech and the trained luis model
+			:return: (str) json file containing similarity rankings between the user's speech and the trained CLU model
 			"""
-   
-			 # Replace the placeholders with your actual values.
-			clu_endpoint = "https://pibot-language.cognitiveservices.azure.com/"
-			clu_key = "3f37c65d63b044fabdd3649db5f4ca03"
-			project_name = "33f01910-9eac-11ed-bd35-ff54bd865eafdefaulten-us"
-			deployment_name = "test"
 
-			client = ConversationAnalysisClient(clu_endpoint, AzureKeyCredential(clu_key))
+			client = ConversationAnalysisClient(self.clu_endpoint, AzureKeyCredential(self.clu_key))
 
 			result = client.analyze_conversation(
 				task={
@@ -84,8 +84,8 @@ class SpeechProcessor:
 						"isLoggingEnabled": False
 					},
 					"parameters": {
-						"projectName": project_name,
-						"deploymentName": deployment_name,
+						"projectName": self.clu_project_name,
+						"deploymentName": self.clu_deployment_name,
 						"verbose": True
 					}
 				}
@@ -96,7 +96,7 @@ class SpeechProcessor:
 	class CommandParser:
 		"""
 		A class that provides the most apporiate response and action to the user's speech given the similarity rankings.
-		This is done by retrieving the top intent  and its associated entity if applicable from the returned json file from Luis.
+		This is done by retrieving the top intent  and its associated entity if applicable from the returned json file from CLU.
 		If the top intent's score is less than 70% a response is instead created using GPT-3.
 		If the top intent's score is greater than 70% the associated entity is retrieved and the appropriate action is executed.
 		"""
@@ -115,7 +115,7 @@ class SpeechProcessor:
 			"""
 			Provides the most apporiate response and action to the user's speech given the similarity rankings.
 			:param speech: (str) speech input
-			:param intents_json: (str) json file containing similarity rankings between the user's speech and the trained luis model
+			:param intents_json: (str) json file containing similarity rankings between the user's speech and the trained CLU model
 			:return: (str) response to users speech and appropriate action to be taken
 			"""
    
