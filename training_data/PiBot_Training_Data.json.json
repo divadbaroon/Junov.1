@@ -1,0 +1,1145 @@
+{
+  "projectFileVersion": "2022-10-01-preview",
+  "stringIndexType": "Utf16CodeUnit",
+  "metadata": {
+    "projectKind": "Conversation",
+    "projectName": "PiBot",
+    "multilingual": true,
+    "description": "PiBot, an Azure-powered virtual assistant with capabilities such as speech recognition, translation, and intent recognition. It supports personalized responses, various commands including weather retrieval, Google and Youtube search, and utilizes OpenAI's GPT-3 API for response generation when minimal intent is detected. Conversation history is stored for context awareness.",
+    "language": "en",
+    "settings": {
+      "confidenceThreshold": 0
+    }
+  },
+  "assets": {
+    "projectKind": "Conversation",
+    "intents": [
+      {
+        "category": "Change_Gender"
+      },
+      {
+        "category": "Change_Language"
+      },
+      {
+        "category": "Change_Persona"
+      },
+      {
+        "category": "Change_Voice"
+      },
+      {
+        "category": "Clear"
+      },
+      {
+        "category": "Generate_Conversation_History"
+      },
+      {
+        "category": "Generate_Password"
+      },
+      {
+        "category": "Get_Weather"
+      },
+      {
+        "category": "Mute"
+      },
+      {
+        "category": "Open_Website"
+      },
+      {
+        "category": "Pause"
+      },
+      {
+        "category": "Quit"
+      },
+      {
+        "category": "Randomize_Voice"
+      },
+      {
+        "category": "Search_Google"
+      },
+      {
+        "category": "Search_Youtube"
+      },
+      {
+        "category": "Start_Timer"
+      },
+      {
+        "category": "Translate_Speech"
+      },
+      {
+        "category": "Unmute"
+      }
+    ],
+    "entities": [
+      {
+        "category": "new_gender",
+        "list": {
+          "sublists": [
+            {
+              "listKey": "new_gender",
+              "synonyms": [
+                {
+                  "language": "en",
+                  "values": [
+                    "female",
+                    "male"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "category": "new_language",
+        "list": {
+          "sublists": [
+            {
+              "listKey": "new_language",
+              "synonyms": [
+                {
+                  "language": "en",
+                  "values": [
+                    "Hindi",
+                    "German",
+                    "Korean",
+                    "French",
+                    "Finnish",
+                    "English",
+                    "Mandarin",
+                    "Russian",
+                    "Spanish"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "category": "metric",
+        "list": {
+          "sublists": [
+            {
+              "listKey": "metric",
+              "synonyms": [
+                {
+                  "language": "en",
+                  "values": [
+                    "second",
+                    "minute",
+                    "hour",
+                    "seconds",
+                    "minutes",
+                    "hours"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+    {
+      "category": "new_persona"
+    },
+    {
+      "category": "location"
+    },
+    {
+      "category": "website"
+    },
+    {
+      "category": "google_query"
+    },
+    {
+      "category": "youtube_query"
+    },
+    {
+      "category": "user_time",
+      "prebuilts": [
+        {
+          "category": "Quantity.Number"
+        }
+      ]
+    },    
+    {
+      "category": "speech_to_translate"
+    }    
+  ],
+    "utterances": [
+      {
+        "text": "set the bot’s gender to {new_gender}",
+        "intent": "Change_Gender",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_gender",
+            "offset": 21,
+            "length": 10
+          }
+        ]
+      },
+      {
+        "text": "update the gender to {new_gender}",
+        "intent": "Change_Gender",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_gender",
+            "offset": 18,
+            "length": 10
+          }
+        ]
+      },
+      {
+        "text": "make the gender {new_gender}",
+        "intent": "Change_Gender",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_gender",
+            "offset": 15,
+            "length": 10
+          }
+        ]
+      },
+      {
+        "text": "switch the gender to {new_gender}",
+        "intent": "Change_Gender",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_gender",
+            "offset": 18,
+            "length": 10
+          }
+        ]
+      },
+      {
+        "text": "set gender to {new_gender}",
+        "intent": "Change_Gender",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_gender",
+            "offset": 13,
+            "length": 10
+          }
+        ]
+      },
+      {
+        "text": "change the gender to {new_gender}",
+        "intent": "Change_Gender",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_gender",
+            "offset": 18,
+            "length": 10
+          }
+        ]
+      },
+      {
+        "text": "I would like the language to be in {new_language}",
+        "intent": "Change_Language",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 32,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "Switch the bot’s language to {new_language}",
+        "intent": "Change_Language",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 24,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "Please change the language to {new_language}",
+        "intent": "Change_Language",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 25,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "I’d like to change the language to {new_language}",
+        "intent": "Change_Language",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 29,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "Use {new_language} as the main language",
+        "intent": "Change_Language",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 4,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "I want to use the {new_language} language",
+        "intent": "Change_Language",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 16,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "Set the language to {new_language}",
+        "intent": "Change_Language",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 18,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "Please switch to {new_language} language",
+        "intent": "Change_Language",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 17,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "Change the language to {new_language}",
+        "intent": "Change_Language",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 20,
+            "length": 12
+          }
+        ]
+      },
+      {
+        "text": "Can you act like {new_persona}",
+        "intent": "Change_Persona",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_persona",
+            "offset": 16,
+            "length": 14
+          }
+        ]
+      },
+      {
+          "text": "Adopt the persona of {new_persona}",
+          "intent": "Change_Persona",
+          "language": "en",
+          "entities": [
+            {
+              "category": "new_persona",
+              "offset": 20,
+              "length": 11
+            }
+          ]
+      },
+      {
+          "text": "Make your persona {new_persona}",
+          "intent": "Change_Persona",
+          "language": "en",
+          "entities": [
+            {
+              "category": "new_persona",
+              "offset": 18,
+              "length": 9
+            }
+          ]
+      },
+      {
+          "text": "Switch your persona to {new_persona}",
+          "intent": "Change_Persona",
+          "language": "en",
+          "entities": [
+            {
+              "category": "new_persona",
+              "offset": 22,
+              "length": 10
+            }
+          ]
+      },
+      {
+          "text": "Set your persona to {new_persona}",
+          "intent": "Change_Persona",
+          "language": "en",
+          "entities": [
+            {
+              "category": "new_persona",
+              "offset": 19,
+              "length": 12
+            }
+          ]
+      },
+      {
+          "text": "Change your persona to {new_persona}",
+          "intent": "Change_Persona",
+          "language": "en",
+          "entities": [
+            {
+              "category": "new_persona",
+              "offset": 22,
+              "length": 5
+            }
+          ]
+      },
+      {
+        "text": "Change my voice",
+        "intent": "Change_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Change the bot’s voice",
+        "intent": "Change_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Change the voice",
+        "intent": "Change_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Change the voice name",
+        "intent": "Change_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Give me a new voice",
+        "intent": "Change_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Give me a new voice name",
+        "intent": "Change_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Please change the voice name",
+        "intent": "Change_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Can you clear our conversation history",
+        "intent": "Clear",
+        "language": "en"
+      },
+      {
+        "text": "Can you clear the conversation history",
+        "intent": "Clear",
+        "language": "en"
+      },
+      {
+        "text": "Clear",
+        "intent": "Clear",
+        "language": "en"
+      },
+      {
+        "text": "Clear conversation history",
+        "intent": "Clear",
+        "language": "en"
+      },
+      {
+        "text": "Clear our conversation history",
+        "intent": "Clear",
+        "language": "en"
+      },
+      {
+        "text": "Clear the conversation history",
+        "intent": "Clear",
+        "language": "en"
+      },
+      {
+        "text": "Please clear the conversation history",
+        "intent": "Clear",
+        "language": "en"
+      },
+      {
+        "text": "Generate our conversation history",
+        "intent": "Generate_Conversation_History",
+        "language": "en"
+      },
+      {
+        "text": "Give me my conversation history",
+        "intent": "Generate_Conversation_History",
+        "language": "en"
+      },
+      {
+        "text": "Give me the conversation history",
+        "intent": "Generate_Conversation_History",
+        "language": "en"
+      },
+      {
+        "text": "Give our conversation history",
+        "intent": "Generate_Conversation_History",
+        "language": "en"
+      },
+      {
+        "text": "Please print our conversation history",
+        "intent": "Generate_Conversation_History",
+        "language": "en"
+      },
+      {
+        "text": "Print the conversation history",
+        "intent": "Generate_Conversation_History",
+        "language": "en"
+      },
+      {
+        "text": "Can you create a randomly generated password for me",
+        "intent": "Generate_Password",
+        "language": "en"
+      },
+      {
+        "text": "Create a random password",
+        "intent": "Generate_Password",
+        "language": "en"
+      },
+      {
+        "text": "Generate a random password",
+        "intent": "Generate_Password",
+        "language": "en"
+      },
+      {
+        "text": "Please give me a random password",
+        "intent": "Generate_Password",
+        "language": "en"
+      },
+      {
+        "text": "Could you give me an update on the weather in {location}?",
+        "intent": "Get_Weather",
+        "language": "en",
+        "entities": [
+          {
+            "category": "location",
+            "offset": 43,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "What’s the weather like in {location}.",
+        "intent": "Get_Weather",
+        "language": "en",
+        "entities": [
+          {
+            "category": "location",
+            "offset": 27,
+            "length": 8
+          }
+        ]
+      },
+      {
+        "text": "Give me the weather for {location}",
+        "intent": "Get_Weather",
+        "language": "en",
+        "entities": [
+          {
+            "category": "location",
+            "offset": 24,
+            "length": 8
+          }
+        ]
+      },
+      {
+        "text": "Get me the weather for {location}",
+        "intent": "Get_Weather",
+        "language": "en",
+        "entities": [
+          {
+            "category": "location",
+            "offset": 23,
+            "length": 8
+          }
+        ]
+      },
+      {
+        "text": "What’s the current weather condition in {location}",
+        "intent": "Get_Weather",
+        "language": "en",
+        "entities": [
+          {
+            "category": "location",
+            "offset": 41,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "What’s the temperature in {location} right now",
+        "intent": "Get_Weather",
+        "language": "en",
+        "entities": [
+          {
+            "category": "location",
+            "offset": 27,
+            "length": 5
+          }
+        ]
+      },
+      {
+        "text": "What’s the weather currently like in {location}",
+        "intent": "Get_Weather",
+        "language": "en",
+        "entities": [
+          {
+            "category": "location",
+            "offset": 38,
+            "length": 9
+          }
+        ]
+      },
+      {
+        "text": "Can you mute",
+        "intent": "Mute",
+        "language": "en"
+      },
+      {
+        "text": "Can you mute yourself",
+        "intent": "Mute",
+        "language": "en"
+      },
+      {
+        "text": "Mute",
+        "intent": "Mute",
+        "language": "en"
+      },
+      {
+        "text": "Mute yourself",
+        "intent": "Mute",
+        "language": "en"
+      },
+      {
+        "text": "Mute yourself please",
+        "intent": "Mute",
+        "language": "en"
+      },
+      {
+        "text": "Please mute",
+        "intent": "Mute",
+        "language": "en"
+      },
+      {
+        "text": "Can you take me to {website}",
+        "intent": "Open_Website",
+        "language": "en",
+        "entities": [
+          {
+            "category": "website",
+            "offset": 19,
+            "length": 9
+          }
+        ]
+      },
+      {
+        "text": "Please launch {website} in a new tab",
+        "intent": "Open_Website",
+        "language": "en",
+        "entities": [
+          {
+            "category": "website",
+            "offset": 14,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "Load {website}",
+        "intent": "Open_Website",
+        "language": "en",
+        "entities": [
+          {
+            "category": "website",
+            "offset": 5,
+            "length": 9
+          }
+        ]
+      },
+      {
+        "text": "Open {website}",
+        "intent": "Open_Website",
+        "language": "en",
+        "entities": [
+          {
+            "category": "website",
+            "offset": 5,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "Take me to {website}",
+        "intent": "Open_Website",
+        "language": "en",
+        "entities": [
+          {
+            "category": "website",
+            "offset": 11,
+            "length": 6
+          }
+        ]
+      },
+      {
+        "text": "Go to {website}",
+        "intent": "Open_Website",
+        "language": "en",
+        "entities": [
+          {
+            "category": "website",
+            "offset": 6,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "Launch {website}",
+        "intent": "Open_Website",
+        "language": "en",
+        "entities": [
+          {
+            "category": "website",
+            "offset": 7,
+            "length": 6
+          }
+        ]
+      },
+      {
+        "text": "Navigate to {website}",
+        "intent": "Open_Website",
+        "language": "en",
+        "entities": [
+          {
+            "category": "website",
+            "offset": 13,
+            "length": 8
+          }
+        ]
+      },
+      {
+        "text": "Can you pause our conversation",
+        "intent": "Pause",
+        "language": "en"
+      },
+      {
+        "text": "Pause",
+        "intent": "Pause",
+        "language": "en"
+      },
+      {
+        "text": "Pause our conversation",
+        "intent": "Pause",
+        "language": "en"
+      },
+      {
+        "text": "Please pause our conversation",
+        "intent": "Pause",
+        "language": "en"
+      },
+      {
+        "text": "Please pause",
+        "intent": "Pause",
+        "language": "en"
+      },
+      {
+        "text": "End the program",
+        "intent": "Quit",
+        "language": "en"
+      },
+      {
+        "text": "Exit",
+        "intent": "Quit",
+        "language": "en"
+      },
+      {
+        "text": "Exit the program",
+        "intent": "Quit",
+        "language": "en"
+      },
+      {
+        "text": "Please end the program",
+        "intent": "Quit",
+        "language": "en"
+      }, 
+      {
+        "text": "Quit",
+        "intent": "Quit",
+        "language": "en"
+      },
+      {
+        "text": "Give me a new random voice",
+        "intent": "Randomize_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Give me a random voice",
+        "intent": "Randomize_Voice",
+        "language": "en"
+      }, 
+      {
+        "text": "Give me a random voice name",
+        "intent": "Randomize_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Randomize the voice",
+        "intent": "Randomize_Voice",
+        "language": "en"
+      },
+      {
+        "text": "Look up the {google_query}",
+        "intent": "Search_Google",
+        "language": "en",
+        "entities": [
+          {
+            "category": "google_query",
+            "offset": 10,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "Search {google_query}",
+        "intent": "Search_Google",
+        "language": "en",
+        "entities": [
+          {
+            "category": "google_query",
+            "offset": 7,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "Search {google_query} on Google",
+        "intent": "Search_Google",
+        "language": "en",
+        "entities": [
+          {
+            "category": "google_query",
+            "offset": 7,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "Google {google_query}",
+        "intent": "Search_Google",
+        "language": "en",
+        "entities": [
+          {
+            "category": "google_query",
+            "offset": 7,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "Search google for {google_query}",
+        "intent": "Search_Google",
+        "language": "en",
+        "entities": [
+          {
+            "category": "google_query",
+            "offset": 17,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "Find me some {youtube_query} on youtube",
+        "intent": "Search_Youtube",
+        "language": "en",
+        "entities": [
+          {
+            "category": "youtube_query",
+            "offset": 13,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "Youtube videos of {youtube_query} dancing",
+        "intent": "Search_Youtube",
+        "language": "en",
+        "entities": [
+          {
+            "category": "youtube_query",
+            "offset": 17,
+            "length": 5
+          }
+        ]
+      },
+      {
+        "text": "Youtube {youtube_query}",
+        "intent": "Search_Youtube",
+        "language": "en",
+        "entities": [
+          {
+            "category": "youtube_query",
+            "offset": 8,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "Search for {youtube_query} on youtube",
+        "intent": "Search_Youtube",
+        "language": "en",
+        "entities": [
+          {
+            "category": "youtube_query",
+            "offset": 11,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "Search youtube for {youtube_query}",
+        "intent": "Search_Youtube",
+        "language": "en",
+        "entities": [
+          {
+            "category": "youtube_query",
+            "offset": 18,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "Set a timer for {user_time} {metric} please",
+        "intent": "Start_Timer",
+        "language": "en",
+        "entities": [
+          {
+            "category": "user_time",
+            "offset": 16,
+            "length": 2
+          },
+          {
+            "category": "metric",
+            "offset": 19,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "I want to start a timer for {user_time} {metric}",
+        "intent": "Start_Timer",
+        "language": "en",
+        "entities": [
+          {
+            "category": "user_time",
+            "offset": 28,
+            "length": 1
+          },
+          {
+            "category": "metric",
+            "offset": 30,
+            "length": 5
+          }
+        ]
+      },
+      {
+        "text": "Can you start a timer for {user_time} {metric}",
+        "intent": "Start_Timer",
+        "language": "en",
+        "entities": [
+          {
+            "category": "user_time",
+            "offset": 26,
+            "length": 2
+          },
+          {
+            "category": "metric",
+            "offset": 29,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "I need a timer for {user_time} {metric}",
+        "intent": "Start_Timer",
+        "language": "en",
+        "entities": [
+          {
+            "category": "user_time",
+            "offset": 18,
+            "length": 2
+          },
+          {
+            "category": "metric",
+            "offset": 21,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "Set a timer for {user_time} {metric}",
+        "intent": "Start_Timer",
+        "language": "en",
+        "entities": [
+          {
+            "category": "user_time",
+            "offset": 16,
+            "length": 1
+          },
+          {
+            "category": "metric",
+            "offset": 18,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "Begin a timer for {user_time} {metric}",
+        "intent": "Start_Timer",
+        "language": "en",
+        "entities": [
+          {
+            "category": "user_time",
+            "offset": 18,
+            "length": 2
+          },
+          {
+            "category": "metric",
+            "offset": 21,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "Start a timer for {user_time} {metric}",
+        "intent": "Start_Timer",
+        "language": "en",
+        "entities": [
+          {
+            "category": "user_time",
+            "offset": 18,
+            "length": 2
+          },
+          {
+            "category": "metric",
+            "offset": 21,
+            "length": 7
+          }
+        ]
+      },
+      {
+        "text": "Please unmute",
+        "intent": "Unmute",
+        "language": "en"
+      },
+      {
+        "text": "Please unmute yourself",
+        "intent": "Unmute",
+        "language": "en"
+      },
+      {
+        "text": "Unmute",
+        "intent": "Unmute",
+        "language": "en"
+      },
+      {
+        "text": "Unmute yourself",
+        "intent": "Unmute",
+        "language": "en"
+      },
+      {
+        "text": "You can unmute",
+        "intent": "Unmute",
+        "language": "en"
+      },
+      {
+        "text": "You can unmute now",
+        "intent": "Unmute",
+        "language": "en"
+      },
+      {
+        "text": "Can you translate {speech_to_translate} to {new_language}?",
+        "intent": "Translate_Speech",
+        "language": "en",
+        "entities": [
+          {
+            "category": "speech_to_translate",
+            "offset": 16,
+            "length": 21
+          },
+          {
+            "category": "new_language",
+            "offset": 41,
+            "length": 13
+          }
+        ]
+      },
+      {
+        "text": "What’s the {new_language} translation for {speech_to_translate}",
+        "intent": "Translate_Speech",
+        "language": "en",
+        "entities": [
+          {
+            "category": "new_language",
+            "offset": 10,
+            "length": 7
+          },
+          {
+            "category": "speech_to_translate",
+            "offset": 35,
+            "length": 5
+          }
+        ]
+      },
+      {
+        "text": "Translate {speech_to_translate} to {new_language}",
+        "intent": "Translate_Speech",
+        "language": "en",
+        "entities": [
+          {
+            "category": "speech_to_translate",
+            "offset": 10,
+            "length": 12
+          },
+          {
+            "category": "new_language",
+            "offset": 26,
+            "length": 6
+          }
+        ]
+      }                                       
+    ]
+  }
+}
+
+
