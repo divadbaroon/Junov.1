@@ -34,7 +34,7 @@ class PiBot:
 	speech_recognizer: object of SpeechRecognizer class
 	'''
 	
-	def __init__(self, cognitive_services_api, region, luis_app_id, luis_key, openai_key, weather_key=None, translator_key=None, news_key=None, persona='chatbot', gender='female', language='english'):
+	def __init__(self, cognitive_services_api, region, clu_endpoint, clu_project_name, clu_deployment_name, clu_key, openai_key, weather_key=None, translator_key=None, news_key=None, persona='chatbot', gender='female', language='english'):
 		"""
 		Initializes a new PiBot object 
 		:param persona: (str) name of person the bot will emobdy
@@ -62,8 +62,10 @@ class PiBot:
 		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
   
 		# Retrieving the bot's secret values 
-		self.luis_app_id = luis_app_id
-		self.luis_key = luis_key
+		self.clu_endpoint = clu_endpoint
+		self.clu_project_name = clu_project_name
+		self.clu_deployment_name = clu_deployment_name
+		self.clu_key = clu_key
 		self.openai_key = openai_key
 		self.weather_key = weather_key
 		self.translator_key = translator_key
@@ -71,7 +73,7 @@ class PiBot:
   
 		# initializing the bot's speech functionalities
 		self.speech_recognition = SpeechRecognition(self.speech_config, self.speech_recognizer, self.translator_key)
-		self.speech_processor = SpeechProcessor(self.luis_app_id, self.luis_key, self.openai_key, self.translator_key, self.weather_key, self.news_key)
+		self.speech_processor = SpeechProcessor(self.clu_endpoint, self.clu_project_name, self.clu_deployment_name, self.clu_key, self.openai_key, self.translator_key, self.weather_key, self.news_key)
 		self.speech_verbalizer  = SpeechVerbalizer(self.audio_config, self.speech_config, self.speech_synthesizer)
 
 		# Construct the path to the configuration directory and the conversation_history.json file
