@@ -1,9 +1,10 @@
 
-import requests
 from pibot.bot_commands.ask_gpt import AskGPT
 from pibot.bot_commands.translate_speech import TranslateSpeech
 from pibot.bot_commands.conversation_manager import ConversationHistoryManager
 from configuration.bot_properties import BotProperties
+from azure.core.credentials import AzureKeyCredential
+from azure.ai.language.conversations import ConversationAnalysisClient
  
 class SpeechProcessor:
 	"""
@@ -61,23 +62,36 @@ class SpeechProcessor:
 			:return: (str) json file containing similarity rankings between the user's speech and the trained luis model
 			"""
    
-			if isinstance(speech, dict):
-				speech = speech['translated_speech']
-		
-			endpoint_url = (f"https://eastus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.luis_app_id}"
-							f"/slots/production/predict?verbose=true&show-all-intents=true&log=true"
-							f"&subscription-key={self.luis_key}"
-							f"&query={speech}")
+			 # Replace the placeholders with your actual values.
+			clu_endpoint = "https://pibot-language.cognitiveservices.azure.com/"
+			clu_key = "3f37c65d63b044fabdd3649db5f4ca03"
+			project_name = "33f01910-9eac-11ed-bd35-ff54bd865eafdefaulten-us"
+			deployment_name = "test"
 
-			response = requests.get(endpoint_url)
-			# Check whether request was successful
-			if response.status_code == 200:
-				# Returned json file of the similarity rankings between the user's speech and the trained luis model
-				intents_json = response.json()
-			else:
-				raise ValueError(f"The request sent to the LUIS model was unsuccessful. Error: {response.status_code}")
-			
-			return intents_json
+			client = ConversationAnalysisClient(clu_endpoint, AzureKeyCredential(clu_key))
+
+			result = client.analyze_conversation(
+				task={
+					"kind": "Conversation",
+					"analysisInput": {
+						"conversationItem": {
+							"participantId": "1",
+							"id": "1",
+							"modality": "text",
+							"language": "en",
+							"text": speech
+						},
+						"isLoggingEnabled": False
+					},
+					"parameters": {
+						"projectName": project_name,
+						"deploymentName": deployment_name,
+						"verbose": True
+					}
+				}
+			)
+			intents_json = result
+			return intents_json["result"]
 
 	class CommandParser:
 		"""
@@ -110,7 +124,11 @@ class SpeechProcessor:
 
 			# Extract top intent and top intent's score from intents_json
 			top_intent = intents_json["prediction"]["topIntent"] 
-			top_intent_score = intents_json["prediction"]["intents"][top_intent]["score"]
+			top_intent_score = None
+			for intent in intents_json["prediction"]["intents"]:
+				if intent["category"] == top_intent:
+					top_intent_score = intent["confidenceScore"]
+					break
    
 			# If score does not meet minimum threshold a response is instead created using GPT-3
 			if top_intent_score < .70:
