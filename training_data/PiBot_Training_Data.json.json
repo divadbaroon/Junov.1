@@ -5,7 +5,7 @@
     "projectKind": "Conversation",
     "projectName": "PiBot",
     "multilingual": true,
-    "description": "A virtual assitant capable of performing commands and communicating with GPT",
+    "description": "A multilingual conversational virtual assistant named PiBot, trained to understand and execute a variety of commands. It utilizes advanced natural language understanding capabilities, including GPT technology, to communicate and interact in a human-like manner. The assistant is designed with a confidence threshold set to zero, allowing it to attempt responses to all kinds of user inputs. The model is trained on a variety of data, ensuring its proficiency in a broad range of tasks and languages.",
     "settings": {
       "confidenceThreshold": 0
     }
