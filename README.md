@@ -1,12 +1,17 @@
 # Azure-Powered-Virtual-Assistant 
 
 ## Introduction
-This project is a virtual assistant named PiBot that utilizes Azure's Cognitive Services for its speech recognition, speech verbalization, translation, and intent recognition. The bot can be personalized to respond in a specified persona, such as Barack Obama, Tony Stark, Jimmy Kimmel, etc., gender, and language (see supported langauges below).
+### Project Overview
+PiBot is an open-source virtual assistant that leverages Azure's Cognitive Services for speech recognition, text-to-speech, translation, and intent recognition. It aims to provide a customizable alternative to mainstream virtual assistants like Alexa.
 
-PiBot has the the capability to perform various functions such as speech translation, weather retireval, Google and Youtube searching, muting and unmuting, and ending the program on command. The user's intent for command execution is detected using a trained Azure LUIS model. If substantial intent for a command is found, then the intended action takes place. If minimal intent is detected a response is created using OpenAI's GPT-3 API. 
+### User Intent and Interaction
+The system uses a trained Azure CLU model to detect user intent. If the user's intent for a prebuilt command is minimal, PiBot intelligently generates responses using OpenAI's GPT-3 API to ensure meaningful interactions.
 
-The bot's conversation history is kept in the file "conversation_history.json" and cleared at the end of the program. Since GPT-3's current API model is not capable of using past conversation history, the conversation history is fed back into GPT-3 for each response. This is to help the bot have context for its responses and avoid repeating itself.
+### Conversation History and Context Awareness
+To maintain context awareness and avoid repetition, PiBot keeps a conversation history in the "conversation_history.json" file. After each program session, this history is cleared.
 
+### Utilizing GPT-3
+However, the conversation history is fed back into GPT-3 for each response, as GPT-3's current API model does not inherently utilize past conversation history. This approach allows PiBot to provide context
 ## Requirements
 - Azure account and subscription
 - The following Azure Resources:
