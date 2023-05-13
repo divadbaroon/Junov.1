@@ -1,11 +1,5 @@
+
 {
-    "chatbot": {
-        "persona": "Chatbot",
-        "gender": "female",
-        "language": "english",
-        "current_voice_name": "en-US-AmberNeural",
-        "mute_status": false
-    },
     "female_voices": {
         "default": "en-US-AIGenerate2Neural",
         "arabic": "ar-AE-FatimaNeural",

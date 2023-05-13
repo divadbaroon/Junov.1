@@ -6,7 +6,7 @@ bot_properties.py, bot_properties.json, conversation_history.json, startup_sound
 '''
 		
 from pibot.bot_initializer import PiBot
-import configuration.config as config
+import configuration.secrets.config as config
 
 def main():
 	

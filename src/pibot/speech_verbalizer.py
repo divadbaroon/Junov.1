@@ -1,5 +1,5 @@
 
-from configuration.bot_properties import BotProperties
+from configuration.general_settings.bot_properties import BotProperties
 import azure.cognitiveservices.speech as speechsdk
 import sys
 import time

@@ -1,8 +1,8 @@
 
 from pibot.bot_commands.ask_gpt import AskGPT
 from pibot.bot_commands.translate_speech import TranslateSpeech
-from pibot.bot_commands.conversation_manager import ConversationHistoryManager
-from configuration.bot_properties import BotProperties
+from configuration.conversation.conversation_manager import ConversationHistoryManager
+from configuration.general_settings.bot_properties import BotProperties
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.language.conversations import ConversationAnalysisClient
  

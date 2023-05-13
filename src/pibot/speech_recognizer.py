@@ -4,7 +4,7 @@ from time import time
 import sys
 
 from pibot.bot_commands.translate_speech import TranslateSpeech
-from configuration.bot_properties import BotProperties
+from configuration.general_settings.bot_properties import BotProperties
 
 class SpeechRecognition:
 	"""

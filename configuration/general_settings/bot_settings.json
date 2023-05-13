@@ -1,0 +1,9 @@
+{
+    "chatbot": {
+        "persona": "Chatbot",
+        "gender": "female",
+        "language": "english",
+        "current_voice_name": "en-US-AmberNeural",
+        "mute_status": false
+    }
+}

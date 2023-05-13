@@ -5,8 +5,7 @@
     "projectKind": "Conversation",
     "projectName": "PiBot",
     "multilingual": true,
-    "description": "PiBot, an Azure-powered virtual assistant with capabilities such as speech recognition, translation, and intent recognition. It supports personalized responses, various commands including weather retrieval, Google and Youtube search, and utilizes OpenAI's GPT-3 API for response generation when minimal intent is detected. Conversation history is stored for context awareness.",
-    "language": "en",
+    "description": "A virtual assitant capable of performing commands and communicating with GPT",
     "settings": {
       "confidenceThreshold": 0
     }

@@ -13,7 +13,7 @@ import os
 from pibot.speech_recognizer import SpeechRecognition
 from pibot.speech_processor import SpeechProcessor
 from pibot.speech_verbalizer import SpeechVerbalizer
-from configuration.bot_properties import BotProperties
+from configuration.general_settings.bot_properties import BotProperties
 
 class PiBot:
 	'''

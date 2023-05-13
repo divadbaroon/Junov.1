@@ -15,7 +15,7 @@ greatgrandparent_directory = os.path.dirname(grandparent_directory)
 if greatgrandparent_directory not in sys.path:
     sys.path.append(greatgrandparent_directory)
 
-from configuration.bot_properties import BotProperties
+from configuration.general_settings.bot_properties import BotProperties
 
 class TranslateSpeech:
 	"""
