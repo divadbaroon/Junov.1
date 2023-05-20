@@ -13,7 +13,7 @@ import os
 from pibot.speech_recognizer import SpeechRecognition
 from pibot.speech_processor import SpeechProcessor
 from pibot.speech_verbalizer import SpeechVerbalizer
-from configuration.general_settings.bot_properties import BotProperties
+from settings.settings_manager import SettingsOrchestrator
 
 class PiBot:
 	'''
@@ -44,13 +44,13 @@ class PiBot:
 		"""
 
 		# Save the bot's properties to bot_settings.json
-		bot_properties = BotProperties()
-		bot_properties.save_property('persona', persona)
-		bot_properties.save_property('gender', gender)
-		bot_properties.save_property('language', language)
+		bot_settings = SettingsOrchestrator()
+		bot_settings.save_bot_property('persona', persona)
+		bot_settings.save_bot_property('gender', gender)
+		bot_settings.save_bot_property('language', language)
   
 		# Recognizer needs the language's country code
-		language_country_code = bot_properties.get_language_country_code(language)
+		language_country_code = bot_settings.get_language_country_code(language)
 
 		# Intializing the bot's audio configuration
 		self.audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)

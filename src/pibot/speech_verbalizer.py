@@ -1,5 +1,5 @@
 
-from configuration.general_settings.bot_properties import BotProperties
+from settings.settings_manager import SettingsOrchestrator
 import azure.cognitiveservices.speech as speechsdk
 import sys
 import time
@@ -19,7 +19,7 @@ class SpeechVerbalizer:
 		"""
 		Initializes a new SpeechVerbalizer object
 		"""
-		self.bot_properties = BotProperties()
+		self.bot_settings = SettingsOrchestrator()
 		self.audio_config = audio_config
 		self.speech_config = speech_config
 		self.speech_synthesizer = speech_synthesizer
@@ -29,22 +29,22 @@ class SpeechVerbalizer:
 	def verbalize_speech(self, speech: str):
 		"""Verbalize the bot's response using the speech synthesizer."""""
 
-		self.bot_properties.reload_settings()
-		mute_status = self.bot_properties.retrieve_property('mute_status')
-		persona = self.bot_properties.retrieve_property('persona')
+		self.bot_settings.reload_settings()
+		mute_status = self.bot_settings.get_bot_property('mute_status')
+		persona = self.bot_settings.get_bot_property('persona')
 
 		if speech:
 
 			if not mute_status:
 	   
-				current_language = self.bot_properties.retrieve_property('language')
+				current_language = self.bot_settings.get_bot_property('language')
 
 				# If the bot is translating, changing the gender, or changing the language the speech will be a dictionary.
 				# This is so that the config can be reinitalized with the new property.
 				if isinstance(speech, dict):
 					speech = self._handle_special_speech(speech)
 
-					new_voice_name = self.bot_properties.retrieve_property('current_voice_name')
+					new_voice_name = self.bot_settings.get_bot_property('current_voice_name')
 					if new_voice_name:
 						self._update_voice(new_voice_name)
 
@@ -61,11 +61,11 @@ class SpeechVerbalizer:
 				# If the user was performing a one shot translation, reset the language back to the original language
 				if self.reset_language:
 
-					self.bot_properties.save_property('language', current_language)
-					new_voice_name = self.bot_properties.retrieve_property('voice_name')
-					self.bot_properties.save_property('current_voice_name', new_voice_name)
+					self.bot_settings.save_bot_property('language', current_language)
+					new_voice_name = self.bot_settings.get_bot_property('voice_name')
+					self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
 
-					voice_name = self.bot_properties.retrieve_property('current_voice_name')
+					voice_name = self.bot_settings.get_bot_property('current_voice_name')
 					if voice_name:
 						self._update_voice(voice_name)
 
@@ -93,12 +93,12 @@ class SpeechVerbalizer:
 			# Reset language after one-shot translation
 			self.reset_language = True
 			# Save the new language to bot_properties.json
-			self.bot_properties.save_property('language', speech['one_shot_translation'])
+			self.bot_settings.save_bot_property('language', speech['one_shot_translation'])
 			# Get the new voice name
-			new_voice_name = self.bot_properties.retrieve_property('voice_name')
+			new_voice_name = self.bot_settings.get_bot_property('voice_name')
 
 			# Update the current voice name
-			self.bot_properties.save_property('current_voice_name', new_voice_name)
+			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
 			return speech['response']
 
 		if key == 'new_language':
@@ -114,7 +114,7 @@ class SpeechVerbalizer:
 			return speech['response']
 
 		if key == 'start_timer':
-			new_voice_name = self.bot_properties.retrieve_property('current_voice_name')
+			new_voice_name = self.bot_settings.get_bot_property('current_voice_name')
 			if new_voice_name:
 				self._update_voice(new_voice_name)
 

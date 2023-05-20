@@ -11,7 +11,7 @@ greatgrandparent_directory = os.path.dirname(grandparent_directory)
 if greatgrandparent_directory not in sys.path:
     sys.path.append(greatgrandparent_directory)
     
-from configuration.general_settings.bot_properties import BotProperties
+from settings.settings_manager import SettingsOrchestrator
 import random
 
 class BotBehavior:
@@ -27,20 +27,20 @@ class BotBehavior:
 		"""
 		Initializes an object of BotBehavior class.
 	   	"""
-		self.bot_properties = BotProperties()
+		self.bot_settings = SettingsOrchestrator()
 
 	def toggle_mute(self):
 		"""
 		Mutes the bot
 		"""
-		self.bot_properties.save_property('mute_status', True)
+		self.bot_settings.save_bot_property('mute_status', True)
 		return 'I am now muted.'
 		
 	def untoggle_mute(self):
 		"""
 		Unmutes the bot
 		"""
-		self.bot_properties.save_property('mute_status', False)
+		self.bot_settings.save_bot_property('mute_status', False)
 		return 'I am now unmuted.'
 
 	def pause(self):
@@ -59,7 +59,7 @@ class BotBehavior:
 		:param new_persona: (str) the new persona to change to
 		"""
 
-		self.bot_properties.save_property('persona', new_persona)
+		self.bot_settings.save_bot_property('persona', new_persona)
 		return f'Ok, I have changed my persona to {new_persona}.'
 
 	def change_gender(self, new_gender:str):
@@ -69,11 +69,11 @@ class BotBehavior:
 		"""
 		if new_gender in ['male', 'female']:
 			# Save the new gender to bot_properties.json
-			self.bot_properties.save_property('gender', new_gender)
+			self.bot_settings.save_bot_property('gender', new_gender)
 			# Get the new voice name
-			new_voice_name = self.bot_properties.retrieve_property('voice_name')
+			new_voice_name = self.bot_settings.get_bot_property('voice_name')
 			# Update the current voice name
-			self.bot_properties.save_property('current_voice_name', new_voice_name)
+			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
    
 			response = f'Ok, I have changed my gender to {new_gender}.'
 			return {'change_gender': new_gender, 'response': response}
@@ -86,15 +86,15 @@ class BotBehavior:
 		:param new_language: (str) the new language to change to
 		"""
 		# Extracting all currently supported languages
-		languages = self.bot_properties.retrieve_property('languages')
+		languages = self.bot_settings.get_bot_property('languages')
 		# Check if language is supported
 		if new_language.lower() in languages:
 			# Save the new language to bot_properties.json
-			self.bot_properties.save_property('language', new_language.lower())
+			self.bot_settings.save_bot_property('language', new_language.lower())
 			# Get the new voice name
-			new_voice_name = self.bot_properties.retrieve_property('voice_name')
+			new_voice_name = self.bot_settings.get_bot_property('voice_name')
 			# Update the current voice name
-			self.bot_properties.save_property('current_voice_name', new_voice_name)
+			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
    
 			response = f'Ok, I have changed my language to {new_language}.'
 			return {'change_language': new_language, 'response': response}
@@ -105,8 +105,8 @@ class BotBehavior:
 		"""
 		Changes to the next bot's voice name
 		"""
-		voices = self.bot_properties.retrieve_property('voice_names')
-		current_voice_name = self.bot_properties.retrieve_property('current_voice_name')
+		voices = self.bot_settings.get_bot_property('voice_names')
+		current_voice_name = self.bot_settings.get_bot_property('current_voice_name')
 		new_voice_name = ''
 
 		# If there is only one voice available for that particular language and gender it cannot be changed
@@ -123,14 +123,14 @@ class BotBehavior:
 				break
 		
 		# Update the current voice name
-		self.bot_properties.save_property('current_voice_name', new_voice_name)
+		self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
 		return {'change_voice_name': new_voice_name, 'response':'Ok, I have changed my voice.'}
 
 	def randomize_voice(self):
 		"""
 		Randomizes the bot's voice
 		"""
-		voices = self.bot_properties.retrieve_property('voice_names')
+		voices = self.bot_settings.get_bot_property('voice_names')
 		new_voice_name = ''
   
 		# If there is only one voice available for that particular language and gender it cannot be changed
@@ -142,5 +142,5 @@ class BotBehavior:
 			new_voice_name = voices[random.randint(0, len(voices) - 1)]
 
 		# Update the current voice name
-		self.bot_properties.save_property('current_voice_name', new_voice_name)
+		self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
 		return {'change_voice_name': new_voice_name, 'response':'Ok, I have changed to a random voice.'}

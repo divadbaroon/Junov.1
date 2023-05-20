@@ -1,8 +1,8 @@
 
 from pibot.bot_commands.ask_gpt import AskGPT
 from pibot.bot_commands.translate_speech import TranslateSpeech
-from configuration.conversation.conversation_manager import ConversationHistoryManager
-from configuration.general_settings.bot_properties import BotProperties
+from settings.conversation.conversation_history_manager import ConversationHistoryManager
+from settings.settings_manager import SettingsOrchestrator
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.language.conversations import ConversationAnalysisClient
  
@@ -102,9 +102,9 @@ class SpeechProcessor:
 		"""
   
 		def __init__(self, openai_key:str, translator_key:str, weather_key:str, news_key:str):
-			self.bot_properties = BotProperties()
-			self.persona = self.bot_properties.retrieve_property('persona')
-			self.language = self.bot_properties.retrieve_property('language')
+			self.bot_properties = SettingsOrchestrator()
+			self.persona = self.bot_properties.get_bot_property('persona')
+			self.language = self.bot_properties.get_bot_property('language')
 			self.openai_key = openai_key
 			self.translator_key = translator_key
 			self.weather_key = weather_key
@@ -212,11 +212,11 @@ class SpeechProcessor:
 				from pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().pause()
 			elif top_intent == 'Get_Conversation_History':
-				response = ConversationHistoryManager().get_conversation_history(self.persona)
+				response = self.bot_properties.get_conversation_history(self.persona)
 			elif top_intent == 'Clear':
-				response = ConversationHistoryManager().clear_conversation_history()
+				response = self.bot_properties.clear_conversation_history()
 			elif top_intent == 'Quit':
-				response = ConversationHistoryManager().exit_and_clear()
+				response = self.bot_properties.exit_and_clear()
 			else:                                                                                                                                                     
 				response = "Sorry, I don't understand that command. Please try asking again."
 
@@ -227,9 +227,9 @@ class SpeechProcessor:
     
 			# If the command is not to clear or quit the conversation history is saved
 			if top_intent_score < .70 and top_intent != 'Clear' and top_intent != 'Quit':
-				ConversationHistoryManager().save_conversation_history(speech, response, self.persona)
+				self.bot_properties.save_conversation_history(speech, response, self.persona)
 			# If the response is a dictionary only save the response
 			elif isinstance(response, dict):
-				ConversationHistoryManager().save_conversation_history(speech, response['response'], self.persona)
+				self.bot_properties.save_conversation_history(speech, response['response'], self.persona)
 
 			return response

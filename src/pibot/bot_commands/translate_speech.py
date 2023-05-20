@@ -15,7 +15,7 @@ greatgrandparent_directory = os.path.dirname(grandparent_directory)
 if greatgrandparent_directory not in sys.path:
     sys.path.append(greatgrandparent_directory)
 
-from configuration.general_settings.bot_properties import BotProperties
+from settings.settings_manager import SettingsOrchestrator
 
 class TranslateSpeech:
 	"""
@@ -29,7 +29,7 @@ class TranslateSpeech:
 			
 	def __init__(self):
 		self.region = 'eastus'
-		self.bot_properties = BotProperties()
+		self.bot_settings = SettingsOrchestrator()
 			
 	def translate_speech(self, speech_to_translate:str, language_from:str, language_to:str, translator_key:str, one_shot_translation:bool=False):
 		"""
@@ -50,7 +50,7 @@ class TranslateSpeech:
 			language_from = language_from.rstrip('?')
    
 		# Extract languages and their codes from bot_properties.json
-		language_codes = self.bot_properties.retrieve_property('language_codes')
+		language_codes = self.bot_settings.get_bot_property('language_codes')
 		# Get the language code for the desired language
 		for language_name, code in language_codes.items():
 			if language_to.lower() == language_name:

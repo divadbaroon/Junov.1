@@ -4,7 +4,7 @@ from time import time
 import sys
 
 from pibot.bot_commands.translate_speech import TranslateSpeech
-from configuration.general_settings.bot_properties import BotProperties
+from settings.settings_manager import SettingsOrchestrator
 
 class SpeechRecognition:
 	"""
@@ -14,7 +14,7 @@ class SpeechRecognition:
 	def __init__(self, speech_config, speech_recognizer, translator_key):
 		self.speech_recognizer = speech_recognizer
 		self.speech_config = speech_config
-		self.bot_properties = BotProperties()
+		self.bot_settings = SettingsOrchestrator()
 		self.translator = TranslateSpeech()
 		self.translator_key = translator_key
 
@@ -26,8 +26,8 @@ class SpeechRecognition:
 
 		# Reload the bot_settings.json file to check if the recognizer needs to be reconfigured 
 		# This is needed when a property such as language is changed 
-		self.bot_properties.reload_settings()
-		reconfigure = self.bot_properties.retrieve_property('reconfigure')
+		self.bot_settings.reload_settings()
+		reconfigure = self.bot_settings.get_bot_property('reconfigure')
 
 		if reconfigure:
 			self._reconfigure_recognizer()
@@ -60,20 +60,20 @@ class SpeechRecognition:
 	
 	def _reconfigure_recognizer(self):
 		# Get the new language setting
-		language_setting = self.bot_properties.retrieve_property('language')
+		language_setting = self.bot_settings.get_bot_property('language')
 
 		# Recognizer needs language-country code
-		language_country_code = self.bot_properties.get_language_country_code(language_setting)
+		language_country_code = self.bot_settings.get_language_country_code(language_setting)
 
 		self.speech_config.speech_recognition_language = language_country_code
 		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
 
 		# Set reconfigure back to False 
-		self.bot_properties.save_property('reconfigure', False)
+		self.bot_settings.save_bot_property('reconfigure', False)
   
 	def _handle_recognized_speech(self, recognized_speech):
 		# Get the current language setting
-		language = self.bot_properties.retrieve_property('language')
+		language = self.bot_settings.get_property('language')
 		print(f"\nInput:\nUser: {recognized_speech}")
 
 		# If the language is not English, translate the recognized speech to English	
