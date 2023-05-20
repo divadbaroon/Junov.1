@@ -1,7 +1,5 @@
 # Azure-Powered-Virtual-Assistant 
-
-## Introduction
-### Project Overview
+## Project Overview
 PiBot is an open-source virtual assistant that leverages Azure's Cognitive Services for speech recognition, text-to-speech, translation, and intent recognition. It aims to provide a customizable alternative to mainstream virtual assistants like Alexa.
 
 ### User Intent and Interaction
@@ -43,8 +41,19 @@ However, the conversation history is fed back into GPT-3 for each response, as G
 5. Wait for the startup sound to play, indicating that the bot is now listening for input
 6. Interact with the bot by speaking
 
+## Training Your Model
+This section provides instructions on how to train your own Conversational Language Understanding (CLU) model using Azure. The model is used to understand and interpret the user's intent during the conversation. The training data is provided in the "PiBot_Training_Data.json" file located within the "training_data" folder.
+1. **Sign in to Azure:** Access the Azure portal and sign in using your Azure account. If you don't have an account, you'll need to create one.
+2. **Access the CLU Dashboard:** Navigate to the Conversational Language Understanding Dashboard using the following link: https://language.cognitive.azure.com/clu/projects.
+3. **Import the training data:** On the dashboard, look for an "Import" button. Click this button and a dialog box will appear prompting you to upload a file.
+4. **Upload the training data file:** Locate the "PiBot_Training_Data.json" file within the "training_data" folder of your project directory. Select this file and click "Open" or "Upload" in the dialog box.
+5. **Begin a training session:** After the upload is complete, navigate to the "Training Jobs" section on the dashboard. Here, you'll see an option to start a new training session. Click on it to commence the training process using the data you've just uploaded.
+6. **Deploy your trained model:** After the training session is complete, your model needs to be deployed to be used by the program. To do this, navigate to the "Deploying a model" section on the dashboard. Follow the instructions to deploy your newly trained model.
+
+By following these steps, you're training your virtual assistant on a large dataset of potential conversational commands, improving its ability to understand and respond to user commands effectively.
+
 ## Supported Commands
-The command recognition is done using your trained LUIS model, allowing for versatile command phrasing.
+The command recognition is done using your trained CLU model, allowing for versatile command phrasing.
 
 ### Weather
 | Command | Response |
@@ -73,7 +82,7 @@ The command recognition is done using your trained LUIS model, allowing for vers
 | Pause | Pauses all of the bot's functionalities |
 | Exit | Terminates the program |
 
-Note: If a command is given that is not included in the above list, a response will be given using chatGPT.
+Note: If a command is given that is not included in the above list, a response will be given using GPT.
 
 ### Sample Conversation History
 - Note: Conversation history is stored in the file "conversation_history.json"
