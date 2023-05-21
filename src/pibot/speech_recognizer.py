@@ -3,8 +3,8 @@ import azure.cognitiveservices.speech as speechsdk
 from time import time
 import sys
 
-from pibot.bot_commands.translate_speech import TranslateSpeech
 from settings.settings_manager import SettingsOrchestrator
+from src.pibot.bot_commands.translate_speech import TranslateSpeech
 
 class SpeechRecognition:
 	"""
@@ -26,8 +26,8 @@ class SpeechRecognition:
 
 		# Reload the bot_settings.json file to check if the recognizer needs to be reconfigured 
 		# This is needed when a property such as language is changed 
-		self.bot_settings.reload_settings()
-		reconfigure = self.bot_settings.get_bot_property('reconfigure')
+		self.bot_settings.reload_bot_settings()
+		reconfigure = self.bot_settings.retrieve_bot_property('reconfigure')
 
 		if reconfigure:
 			self._reconfigure_recognizer()
@@ -60,26 +60,23 @@ class SpeechRecognition:
 	
 	def _reconfigure_recognizer(self):
 		# Get the new language setting
-		language_setting = self.bot_settings.get_bot_property('language')
+		current_language = self.bot_settings.retrieve_bot_property('language')
 
 		# Recognizer needs language-country code
-		language_country_code = self.bot_settings.get_language_country_code(language_setting)
+		language_country_code = self.bot_settings.get_language_country_code(current_language)
 
 		self.speech_config.speech_recognition_language = language_country_code
 		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
-
-		# Set reconfigure back to False 
-		self.bot_settings.save_bot_property('reconfigure', False)
   
 	def _handle_recognized_speech(self, recognized_speech):
 		# Get the current language setting
-		language = self.bot_settings.get_property('language')
+		current_language = self.bot_settings.retrieve_bot_property('language')
 		print(f"\nInput:\nUser: {recognized_speech}")
 
 		# If the language is not English, translate the recognized speech to English	
 		# This is because the LUIS model is trained in English
-		if language != 'english':
-			translated_recognized_speech = self.translator.translate_speech(recognized_speech, language, 'english', self.translator_key)
+		if current_language != 'english':
+			translated_recognized_speech = self.translator.translate_speech(recognized_speech, current_language, 'english', self.translator_key)
 			return {
 				'original_speech': recognized_speech, 
 				'translated_speech': translated_recognized_speech['response'].replace('.', '').strip()

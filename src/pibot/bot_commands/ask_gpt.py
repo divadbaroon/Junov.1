@@ -76,11 +76,13 @@ class AskGPT:
 		Formats the conversation history to be used as input for GPT-3.5-turbo model.
 		"""
 		formatted_conversation_history = []
-		for conversation in conversation_history:
-			formatted_conversation_history.append({"role": "user", "content": conversation['User']})
-			for name, text in conversation.items():
-				if name != 'User':
-					formatted_conversation_history.append({"role": "assistant", "content": f"{name.title()} said: {text}"})
+		
+		if conversation_history:
+			for conversation in conversation_history:
+				formatted_conversation_history.append({"role": "user", "content": conversation['User']})
+				for name, text in conversation.items():
+					if name != 'User':
+						formatted_conversation_history.append({"role": "assistant", "content": f"{name.title()} said: {text}"})
 		return formatted_conversation_history
 
 

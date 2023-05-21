@@ -71,7 +71,9 @@ class BotBehavior:
 			# Save the new gender to bot_properties.json
 			self.bot_settings.save_bot_property('gender', new_gender)
 			# Get the new voice name
-			new_voice_name = self.bot_settings.get_bot_property('voice_name')
+			gender = self.bot_settings.retrieve_bot_property('gender')
+			current_language = self.bot_settings.retrieve_bot_property('language')
+			new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
 			# Update the current voice name
 			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
    
@@ -86,13 +88,15 @@ class BotBehavior:
 		:param new_language: (str) the new language to change to
 		"""
 		# Extracting all currently supported languages
-		languages = self.bot_settings.get_bot_property('languages')
+		languages = self.bot_settings.retrieve_available_languages()
 		# Check if language is supported
 		if new_language.lower() in languages:
 			# Save the new language to bot_properties.json
 			self.bot_settings.save_bot_property('language', new_language.lower())
 			# Get the new voice name
-			new_voice_name = self.bot_settings.get_bot_property('voice_name')
+			gender = self.bot_settings.retrieve_bot_property('gender')
+			current_language = self.bot_settings.retrieve_bot_property('language')
+			new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
 			# Update the current voice name
 			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
    
@@ -105,13 +109,15 @@ class BotBehavior:
 		"""
 		Changes to the next bot's voice name
 		"""
-		voices = self.bot_settings.get_bot_property('voice_names')
-		current_voice_name = self.bot_settings.get_bot_property('current_voice_name')
+		gender = self.bot_settings.retrieve_bot_property('gender')
+		language = self.bot_settings.retrieve_bot_property('language')
+		voices = self.bot_settings.retrieve_voice_names(gender, language)
+		current_voice_name = self.bot_settings.retrieve_bot_property('current_voice_name')
 		new_voice_name = ''
 
-		# If there is only one voice available for that particular language and gender it cannot be changed
-		if len(voices) == 1:
-			return 'Sorry, I only have one voice available at the moment.'
+		# If voices is not a list then there is only one available voice
+		if isinstance(voices, str):
+			return f'Sorry, I only have one voice available at the moment for {language}.'
 
 		# Change to the next voice name in the list
 		for index, value in enumerate(voices):
@@ -130,7 +136,9 @@ class BotBehavior:
 		"""
 		Randomizes the bot's voice
 		"""
-		voices = self.bot_settings.get_bot_property('voice_names')
+		gender = self.bot_settings.retrieve_bot_property('gender')
+		language = self.bot_settings.retrieve_bot_property('language')
+		voices = self.bot_settings.retrieve_voice_names(gender, language)
 		new_voice_name = ''
   
 		# If there is only one voice available for that particular language and gender it cannot be changed

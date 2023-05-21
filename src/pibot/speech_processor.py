@@ -1,10 +1,10 @@
 
-from pibot.bot_commands.ask_gpt import AskGPT
-from pibot.bot_commands.translate_speech import TranslateSpeech
-from settings.conversation.conversation_history_manager import ConversationHistoryManager
 from settings.settings_manager import SettingsOrchestrator
+from src.pibot.bot_commands.ask_gpt import AskGPT
+from src.pibot.bot_commands.translate_speech import TranslateSpeech
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.language.conversations import ConversationAnalysisClient
+import requests
  
 class SpeechProcessor:
 	"""
@@ -37,10 +37,46 @@ class SpeechProcessor:
 		"""
   
 		# Retrieves a json file containing similarity rankings between the user's speech and the trained CLU model
-		intents_json = self.SpeechIntent(self.clu_endpoint, self.clu_project_name, self.clu_deployment_name, self.clu_key).get_user_intent(speech)
+		# intents_json = self.SpeechIntent(self.clu_endpoint, self.clu_project_name, self.clu_deployment_name, self.clu_key).get_user_intent(speech)
+		intents_json = self.LuisSpeechIntent().get_user_intent(speech)
 		# Provides the most apporiate response and action to the user's speech given the similarity rankings
 		response = self.CommandParser(self.openai_key, self.translator_key, self.weather_key, self.news_key).parse_commands(speech, intents_json)
 		return response
+
+	class LuisSpeechIntent:
+		"""
+		luis_app_id (str): application id for Azure's LUIS service
+		luis_key (str): subscription key for Azure's LUIS service
+		"""
+
+		def __init__(self):
+			self.luis_app_id = '0e62c7fd-5ec9-4a85-b517-b04ec9746a2f'
+			self.luis_key = 'c9d134fdbc2b414b903665c6111ee5f5'
+
+		def get_user_intent(self, speech:str):
+			"""
+			Retrieves the similarity rankings between the user's speech and the trained LUIS model.
+			:param speech: (str) speech input
+			:return: (str) json file containing similarity rankings between the user's speech and the trained luis model
+			"""
+
+			if isinstance(speech, dict):
+				speech = speech['translated_speech']
+
+			endpoint_url = (f"https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.luis_app_id}"
+							f"/slots/production/predict?verbose=true&show-all-intents=true&log=true"
+							f"&subscription-key={self.luis_key}"
+							f"&query={speech}")
+
+			response = requests.get(endpoint_url)
+			# Check whether request was successful
+			if response.status_code == 200:
+				# Returned json file of the similarity rankings between the user's speech and the trained luis model
+				intents_json = response.json()
+			else:
+				raise ValueError(f"The request sent to the LUIS model was unsuccessful. Error: {response.status_code}")
+
+			return intents_json
 
 	class SpeechIntent:
 		"""
@@ -102,9 +138,9 @@ class SpeechProcessor:
 		"""
   
 		def __init__(self, openai_key:str, translator_key:str, weather_key:str, news_key:str):
-			self.bot_properties = SettingsOrchestrator()
-			self.persona = self.bot_properties.get_bot_property('persona')
-			self.language = self.bot_properties.get_bot_property('language')
+			self.bot_settings = SettingsOrchestrator()
+			self.persona = self.bot_settings.retrieve_bot_property('persona')
+			self.language = self.bot_settings.retrieve_bot_property('language')
 			self.openai_key = openai_key
 			self.translator_key = translator_key
 			self.weather_key = weather_key
@@ -123,18 +159,22 @@ class SpeechProcessor:
 				speech = speech['original_speech']
 
 			# Extract top intent and top intent's score from intents_json
+			#top_intent = intents_json["prediction"]["topIntent"] 
+			#top_intent_score = None
+			#for intent in intents_json["prediction"]["intents"]:
+				#if intent["category"] == top_intent:
+					#top_intent_score = intent["confidenceScore"]
+					#break
+ 
+			# Extract top intent and top intent's score from intents_json
 			top_intent = intents_json["prediction"]["topIntent"] 
-			top_intent_score = None
-			for intent in intents_json["prediction"]["intents"]:
-				if intent["category"] == top_intent:
-					top_intent_score = intent["confidenceScore"]
-					break
+			top_intent_score = intents_json["prediction"]["intents"][top_intent]["score"]
    
 			# If score does not meet minimum threshold a response is instead created using GPT-3
-			if top_intent_score < .70:
+			if top_intent_score < .90:
 	
 				# Loading conversation history to be used as context for GPT-3
-				conversation_history = ConversationHistoryManager().load_conversation_history()
+				conversation_history = self.bot_settings.load_conversation_history()
 				response = AskGPT().ask_GPT(speech=speech, conversation_history=conversation_history, openai_key=self.openai_key, persona=self.persona, language=self.language) 
 				self.gpt_response = True
 	
@@ -148,45 +188,45 @@ class SpeechProcessor:
 	
 			elif top_intent == 'Get_Weather':
 				location = intents_json["prediction"]["entities"]["weather_location"][0]
-				from pibot.bot_commands.get_weather import GetWeather
+				from src.pibot.bot_commands.get_weather import GetWeather
 				response = GetWeather().get_weather(location, self.weather_key)
 	
 			elif top_intent == 'Search_Google':
 				search_request = intents_json["prediction"]["entities"]["search_google"][0]
-				from pibot.bot_commands.web_searcher import WebSearcher
+				from src.pibot.bot_commands.web_searcher import WebSearcher
 				response = WebSearcher().search_google(search_request)
 	
 			elif top_intent == 'Open_Website':
 				website = intents_json["prediction"]["entities"]["open_website"][0]
-				from pibot.bot_commands.web_searcher import WebSearcher
+				from src.pibot.bot_commands.web_searcher import WebSearcher
 				response = WebSearcher().open_website(website)
 	
 			elif top_intent == 'Search_Youtube':
 				search_request = intents_json["prediction"]["entities"]["search_youtube"][0]
-				from pibot.bot_commands.web_searcher import WebSearcher
+				from src.pibot.bot_commands.web_searcher import WebSearcher
 				response = WebSearcher().search_youtube(search_request)
 	
 			elif top_intent == 'Change_Persona':
 				new_persona = intents_json["prediction"]["entities"]["new_persona"][0]
-				from pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_persona(new_persona)
 	
 			elif top_intent == 'Change_Gender':
 				new_gender = intents_json["prediction"]["entities"]["new_gender"][0]
-				from pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_gender(new_gender)
 	
 			elif top_intent == 'Change_Language':
 				new_language = intents_json["prediction"]["entities"]["new_language"][0]
-				from pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_language(new_language)
     
 			elif top_intent == 'Change_Voice':
-				from pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_voice()
     
 			elif top_intent == 'Randomize_Voice':
-				from pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().randomize_voice()
 	
 			elif top_intent == 'Create_Image':
@@ -196,27 +236,27 @@ class SpeechProcessor:
 			elif top_intent == 'Start_Timer':
 				user_time = intents_json["prediction"]["entities"]["user_timer"][0]
 				metric = intents_json["prediction"]["entities"]["metric"][0]
-				from pibot.bot_commands.timer import StartTimer
+				from src.pibot.bot_commands.timer import StartTimer
 				response = StartTimer().start_timer(user_time, metric)
 
 			elif top_intent == 'Generate_Password':
-				from pibot.bot_commands.password_generator import PasswordGenerator
+				from src.pibot.bot_commands.password_generator import PasswordGenerator
 				response = PasswordGenerator().generate_password()
 			elif top_intent == 'Mute':
-				from pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().toggle_mute()
 			elif top_intent == 'Unmute':
-				from pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().untoggle_mute()
 			elif top_intent == 'Pause':
-				from pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().pause()
 			elif top_intent == 'Get_Conversation_History':
-				response = self.bot_properties.get_conversation_history(self.persona)
+				response = self.bot_settings.get_conversation_history(self.persona)
 			elif top_intent == 'Clear':
-				response = self.bot_properties.clear_conversation_history()
+				response = self.bot_settings.clear_conversation_history()
 			elif top_intent == 'Quit':
-				response = self.bot_properties.exit_and_clear()
+				response = self.bot_settings.exit_and_clear_conversation_history()
 			else:                                                                                                                                                     
 				response = "Sorry, I don't understand that command. Please try asking again."
 
@@ -225,11 +265,11 @@ class SpeechProcessor:
 			if not self.gpt_response and self.language != 'english' and top_intent != 'Translate_Speech':
 				response = TranslateSpeech().translate_speech(speech_to_translate=response, language_from='english', language_to=self.language, translator_key=self.translator_key)
     
-			# If the command is not to clear or quit the conversation history is saved
+			# If the command is not to clear or quit, the conversation history is saved
 			if top_intent_score < .70 and top_intent != 'Clear' and top_intent != 'Quit':
-				self.bot_properties.save_conversation_history(speech, response, self.persona)
+				self.bot_settings.save_conversation_history(speech, response, self.persona)
 			# If the response is a dictionary only save the response
 			elif isinstance(response, dict):
-				self.bot_properties.save_conversation_history(speech, response['response'], self.persona)
+				self.bot_settings.save_conversation_history(speech, response['response'], self.persona)
 
 			return response

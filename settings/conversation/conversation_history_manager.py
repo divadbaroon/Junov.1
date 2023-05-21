@@ -12,7 +12,7 @@ class ConversationHistoryManager:
 	A class that manages the conversation history in the file "conversation_history.json".
 	"""
 
-	def load_conversation_history(self):
+	def load_conversation_history(self) -> list:
 		"""
 		Loads the conversation history from the conversation_history.json file
 		:return: (list) the conversation history
@@ -23,7 +23,6 @@ class ConversationHistoryManager:
 				conversation_history = data["conversation"]
 		except FileNotFoundError:
 			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
-			conversation_history = []
 
 		return conversation_history
 
@@ -80,8 +79,7 @@ class ConversationHistoryManager:
 						
 	def exit_and_clear(self):
 		"""
-		Cleans up by clearing the bot's conversation history. 
-		A response is then verbalized and the program is ended
+		Clears the conversation history and exits the program
 		"""
 		# Reset the contents of conversation_history.json	
 		with open(conversation_history_path, "w") as file:

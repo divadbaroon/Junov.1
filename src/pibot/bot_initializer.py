@@ -10,10 +10,10 @@ from playsound import playsound
 import os
 
 # Local module imports
-from pibot.speech_recognizer import SpeechRecognition
-from pibot.speech_processor import SpeechProcessor
-from pibot.speech_verbalizer import SpeechVerbalizer
 from settings.settings_manager import SettingsOrchestrator
+from src.pibot.speech_recognizer import SpeechRecognition
+from src.pibot.speech_processor import SpeechProcessor
+from src.pibot.speech_verbalizer import SpeechVerbalizer
 
 class PiBot:
 	'''
@@ -43,7 +43,7 @@ class PiBot:
 		Note: Plays startup sound once initialization of PiBot object is complete.
 		"""
 
-		# Save the bot's properties to bot_settings.json
+		# Save the following bot properties to bot_settings.json
 		bot_settings = SettingsOrchestrator()
 		bot_settings.save_bot_property('persona', persona)
 		bot_settings.save_bot_property('gender', gender)

@@ -29,22 +29,22 @@ class SpeechVerbalizer:
 	def verbalize_speech(self, speech: str):
 		"""Verbalize the bot's response using the speech synthesizer."""""
 
-		self.bot_settings.reload_settings()
-		mute_status = self.bot_settings.get_bot_property('mute_status')
-		persona = self.bot_settings.get_bot_property('persona')
+		self.bot_settings.reload_bot_settings()
+		mute_status = self.bot_settings.retrieve_bot_property('mute_status')
+		persona = self.bot_settings.retrieve_bot_property('persona')
+		gender = self.bot_settings.retrieve_bot_property('gender')
+		current_language = self.bot_settings.retrieve_bot_property('language')
 
 		if speech:
 
 			if not mute_status:
-	   
-				current_language = self.bot_settings.get_bot_property('language')
 
 				# If the bot is translating, changing the gender, or changing the language the speech will be a dictionary.
 				# This is so that the config can be reinitalized with the new property.
 				if isinstance(speech, dict):
-					speech = self._handle_special_speech(speech)
+					speech = self._handle_special_speech(speech, gender, current_language)
 
-					new_voice_name = self.bot_settings.get_bot_property('current_voice_name')
+					new_voice_name = self.bot_settings.retrieve_bot_property('current_voice_name')
 					if new_voice_name:
 						self._update_voice(new_voice_name)
 
@@ -62,10 +62,11 @@ class SpeechVerbalizer:
 				if self.reset_language:
 
 					self.bot_settings.save_bot_property('language', current_language)
-					new_voice_name = self.bot_settings.get_bot_property('voice_name')
+					gender = self.bot_settings.retrieve_bot_property('gender')
+					new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
 					self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
 
-					voice_name = self.bot_settings.get_bot_property('current_voice_name')
+					voice_name = self.bot_settings.retrieve_bot_property('current_voice_name')
 					if voice_name:
 						self._update_voice(voice_name)
 
@@ -81,7 +82,7 @@ class SpeechVerbalizer:
 		self.speech_config.speech_synthesis_voice_name = voice_name
 		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
 
-	def _handle_special_speech(self, speech):
+	def _handle_special_speech(self, speech, gender, current_language):
 		"""Handle special cases of speech, such as temporary language, gender, and language change."""
 		key = next(iter(speech.keys()))
 
@@ -95,7 +96,7 @@ class SpeechVerbalizer:
 			# Save the new language to bot_properties.json
 			self.bot_settings.save_bot_property('language', speech['one_shot_translation'])
 			# Get the new voice name
-			new_voice_name = self.bot_settings.get_bot_property('voice_name')
+			new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
 
 			# Update the current voice name
 			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
@@ -114,7 +115,7 @@ class SpeechVerbalizer:
 			return speech['response']
 
 		if key == 'start_timer':
-			new_voice_name = self.bot_settings.get_bot_property('current_voice_name')
+			new_voice_name = self.bot_settings.retrieve_bot_property('current_voice_name')
 			if new_voice_name:
 				self._update_voice(new_voice_name)
 

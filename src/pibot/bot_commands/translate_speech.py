@@ -49,16 +49,16 @@ class TranslateSpeech:
 		elif language_from.endswith('?'):
 			language_from = language_from.rstrip('?')
    
-		# Extract languages and their codes from bot_properties.json
-		language_codes = self.bot_settings.get_bot_property('language_codes')
-		# Get the language code for the desired language
-		for language_name, code in language_codes.items():
-			if language_to.lower() == language_name:
-				language_to_code = code
-			elif language_from.lower() == language_name:
-				language_from_code = code
-			else:
-				response = f'Sorry, {language_to} is not a supported language. Please try asking again.'
+		# Get the language codes for the language to be translated from and to
+		language_from_code = self.bot_settings.retrieve_language_code(language_from)
+		language_to_code = self.bot_settings.retrieve_language_code(language_to)
+  
+		# If the language is not supported, return an error message
+		if language_from_code is None:
+			return f'Sorry, {language_from} is not currently supported. Try asking again.'
+
+		if language_to_code is None:
+			return f'Sorry, {language_to} is not currently supported. Try asking again.'
   
 		# prepare a request to Azure's Translator service
 		params = {
