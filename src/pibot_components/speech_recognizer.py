@@ -4,7 +4,7 @@ from time import time
 import sys
 
 from settings.settings_manager import SettingsOrchestrator
-from src.pibot.bot_commands.translate_speech import TranslateSpeech
+from src.pibot_components.bot_commands.translate_speech import TranslateSpeech
 
 class SpeechRecognition:
 	"""

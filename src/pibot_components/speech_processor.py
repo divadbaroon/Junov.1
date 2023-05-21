@@ -1,7 +1,7 @@
 
 from settings.settings_manager import SettingsOrchestrator
-from src.pibot.bot_commands.ask_gpt import AskGPT
-from src.pibot.bot_commands.translate_speech import TranslateSpeech
+from src.pibot_components.bot_commands.ask_gpt import AskGPT
+from src.pibot_components.bot_commands.translate_speech import TranslateSpeech
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.language.conversations import ConversationAnalysisClient
 import requests
@@ -188,45 +188,45 @@ class SpeechProcessor:
 	
 			elif top_intent == 'Get_Weather':
 				location = intents_json["prediction"]["entities"]["weather_location"][0]
-				from src.pibot.bot_commands.get_weather import GetWeather
+				from src.pibot_components.bot_commands.get_weather import GetWeather
 				response = GetWeather().get_weather(location, self.weather_key)
 	
 			elif top_intent == 'Search_Google':
 				search_request = intents_json["prediction"]["entities"]["search_google"][0]
-				from src.pibot.bot_commands.web_searcher import WebSearcher
+				from src.pibot_components.bot_commands.web_searcher import WebSearcher
 				response = WebSearcher().search_google(search_request)
 	
 			elif top_intent == 'Open_Website':
 				website = intents_json["prediction"]["entities"]["open_website"][0]
-				from src.pibot.bot_commands.web_searcher import WebSearcher
+				from src.pibot_components.bot_commands.web_searcher import WebSearcher
 				response = WebSearcher().open_website(website)
 	
 			elif top_intent == 'Search_Youtube':
 				search_request = intents_json["prediction"]["entities"]["search_youtube"][0]
-				from src.pibot.bot_commands.web_searcher import WebSearcher
+				from src.pibot_components.bot_commands.web_searcher import WebSearcher
 				response = WebSearcher().search_youtube(search_request)
 	
 			elif top_intent == 'Change_Persona':
 				new_persona = intents_json["prediction"]["entities"]["new_persona"][0]
-				from src.pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot_components.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_persona(new_persona)
 	
 			elif top_intent == 'Change_Gender':
 				new_gender = intents_json["prediction"]["entities"]["new_gender"][0]
-				from src.pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot_components.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_gender(new_gender)
 	
 			elif top_intent == 'Change_Language':
 				new_language = intents_json["prediction"]["entities"]["new_language"][0]
-				from src.pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot_components.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_language(new_language)
     
 			elif top_intent == 'Change_Voice':
-				from src.pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot_components.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().change_voice()
     
 			elif top_intent == 'Randomize_Voice':
-				from src.pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot_components.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().randomize_voice()
 	
 			elif top_intent == 'Create_Image':
@@ -236,20 +236,20 @@ class SpeechProcessor:
 			elif top_intent == 'Start_Timer':
 				user_time = intents_json["prediction"]["entities"]["user_timer"][0]
 				metric = intents_json["prediction"]["entities"]["metric"][0]
-				from src.pibot.bot_commands.timer import StartTimer
+				from src.pibot_components.bot_commands.timer import StartTimer
 				response = StartTimer().start_timer(user_time, metric)
 
 			elif top_intent == 'Generate_Password':
-				from src.pibot.bot_commands.password_generator import PasswordGenerator
+				from src.pibot_components.bot_commands.password_generator import PasswordGenerator
 				response = PasswordGenerator().generate_password()
 			elif top_intent == 'Mute':
-				from src.pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot_components.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().toggle_mute()
 			elif top_intent == 'Unmute':
-				from src.pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot_components.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().untoggle_mute()
 			elif top_intent == 'Pause':
-				from src.pibot.bot_commands.bot_behavior import BotBehavior
+				from src.pibot_components.bot_commands.bot_behavior import BotBehavior
 				response = BotBehavior().pause()
 			elif top_intent == 'Get_Conversation_History':
 				response = self.bot_settings.get_conversation_history(self.persona)
