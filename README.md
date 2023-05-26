@@ -1,7 +1,7 @@
 # Azure-Powered-Virtual-Assistant 
 
 ## Project Overview
-PiBot is an open-source virtual assistant utilizing Azure's Cognitive Services, providing a customizable alternative to standard virtual assistants. It detects user intent via a trained Azure CLU model, responds using OpenAI's GPT-3 API, and maintains context awareness with a conversation history.
+PiBot is a virtual assistant, leveraging Azure's Cognitive Services for advanced speech recognition, intent recognition, and text-to-speech capabilities. This user-friendly bot is designed for effortless setup, training, and usage. It excels in executing a diverse range of commands and utilizes OpenAI's GPT-3 for dynamic, natural language interactions. 
 
 ## Requirements
 - Azure account and subscription
