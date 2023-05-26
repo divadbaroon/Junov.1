@@ -1,22 +1,11 @@
-import sys
-import os
-
-# Get the current script's directory and its parent directory
-current_directory = os.path.dirname(os.path.abspath(__file__))
-parent_directory = os.path.dirname(current_directory)
-grandparent_directory = os.path.dirname(parent_directory)
-greatgrandparent_directory = os.path.dirname(grandparent_directory)
-
-# Add the parent directory to sys.path
-if greatgrandparent_directory not in sys.path:
-    sys.path.append(greatgrandparent_directory)
-    
-from settings.settings_manager import SettingsOrchestrator
+from settings.settings_orchestrator import SettingsOrchestrator
 import random
 
 class BotBehavior:
 	"""
 	A class that contains methods to change the behavior of the chatbot.
+	If the command a changing of the bot's voice, the response is returned as a dictionary
+	and the voice is reinitialized with the new voice name in speech_verbalizer.py.
 		
 	Atributes:
 	speech_verbalizer: an object of the SpeechVerbalizer class
@@ -29,40 +18,44 @@ class BotBehavior:
 	   	"""
 		self.bot_settings = SettingsOrchestrator()
 
-	def toggle_mute(self):
+	def mute(self) -> str:
 		"""
-		Mutes the bot
+		Saves the mute status of the bot to True in bot_properties.json
 		"""
-		self.bot_settings.save_bot_property('mute_status', True)
-		return 'I am now muted.'
+		mute_status = self.bot_settings.retrieve_bot_property('mute_status')
+		if mute_status:
+			return 'I am already muted.'
+		else:
+			self.bot_settings.save_bot_property('mute_status', True)
+			return 'I am now muted.'
 		
-	def untoggle_mute(self):
+	def unmute(self) -> str:
 		"""
-		Unmutes the bot
+		Saves the mute status of the bot to False in bot_properties.json
 		"""
-		self.bot_settings.save_bot_property('mute_status', False)
-		return 'I am now unmuted.'
+		mute_status = self.bot_settings.retrieve_bot_property('mute_status')
+		if not mute_status:
+			return 'I am already unmuted.'
+		else:
+			self.bot_settings.save_bot_property('mute_status', False)
+			return 'I am now unmuted.'
 
-	def pause(self):
+	def pause(self) -> dict:
 		"""
-		Pauses the bot
-		The user must press the spacebar to unpause the bot
+		A dictionary containing the action and response of the bot is returned.
+		The actual action of pausing the bot is done in the speech_verbalizer.py file.
 		"""
-		user_input = ''
-		while user_input != ' ':
-			user_input = input('Press spacebar to unpause: ')
-		return 'I am now unpaused.'
+		return {'action':'pause', 'response':'I am now paused.'}
 
-	def change_persona(self, new_persona:str):
+	def change_persona(self, new_persona:str) -> str:
 		"""
-		Changes the bot's persona
+		Saves the new persona of the bot to bot_properties.json
 		:param new_persona: (str) the new persona to change to
 		"""
-
 		self.bot_settings.save_bot_property('persona', new_persona)
 		return f'Ok, I have changed my persona to {new_persona}.'
 
-	def change_gender(self, new_gender:str):
+	def change_gender(self, new_gender:str) -> str:
 		"""
 		Changes the bot's gender
 		:param new_gender: (str) the new gender to change to
@@ -77,12 +70,11 @@ class BotBehavior:
 			# Update the current voice name
 			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
    
-			response = f'Ok, I have changed my gender to {new_gender}.'
-			return {'change_gender': new_gender, 'response': response}
+			return {'action': 'change_gender', 'response': f'Ok, I have changed my gender to {new_gender}.'}
 		else:
 			return f"Sorry, I only support 'Male' or 'Female' at the moment. Please choose one of these options."
 			
-	def change_language(self, new_language:str):
+	def change_language(self, new_language:str) -> str:
 		"""
 		Changes the bot's language
 		:param new_language: (str) the new language to change to
@@ -100,12 +92,11 @@ class BotBehavior:
 			# Update the current voice name
 			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
    
-			response = f'Ok, I have changed my language to {new_language}.'
-			return {'change_language': new_language, 'response': response}
+			return {'action': 'change_language', 'response': f'Ok, I have changed my language to {new_language}.'}
 		else:
 			return f'Sorry, {new_language} is not currently supported.'
 
-	def change_voice(self):
+	def change_voice(self) -> str:
 		"""
 		Changes to the next bot's voice name
 		"""
@@ -115,24 +106,25 @@ class BotBehavior:
 		current_voice_name = self.bot_settings.retrieve_bot_property('current_voice_name')
 		new_voice_name = ''
 
-		# If voices is not a list then there is only one available voice
+		# If voices is not a list then there is only one available voice for that language
 		if isinstance(voices, str):
 			return f'Sorry, I only have one voice available at the moment for {language}.'
-
-		# Change to the next voice name in the list
-		for index, value in enumerate(voices):
-			if value == current_voice_name:
-				if index == len(voices) - 1:
-					new_voice_name = voices[0]
-				else:
-					new_voice_name = voices[index + 1]
-				break
+		else:
+			# Change to the next voice name in the list
+			for index, value in enumerate(voices):
+				if value == current_voice_name:
+					if index == len(voices) - 1:
+						new_voice_name = voices[0]
+					else:
+						new_voice_name = voices[index + 1]
+					break
 		
 		# Update the current voice name
 		self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
-		return {'change_voice_name': new_voice_name, 'response':'Ok, I have changed my voice.'}
+  
+		return {'action': 'change_voice', 'response': 'Ok, I have changed my voice.'}
 
-	def randomize_voice(self):
+	def randomize_voice(self) -> str:
 		"""
 		Randomizes the bot's voice
 		"""
@@ -151,4 +143,5 @@ class BotBehavior:
 
 		# Update the current voice name
 		self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
-		return {'change_voice_name': new_voice_name, 'response':'Ok, I have changed to a random voice.'}
+
+		return {'action': 'randomize_voice', 'response': 'Ok, I have changed to a random voice.'}
