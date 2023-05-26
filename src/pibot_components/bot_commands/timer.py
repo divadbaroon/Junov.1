@@ -1,8 +1,9 @@
 
 class StartTimer:
+    """A class to start a timer for a given amount of time."""
         
     def start_timer(self, user_time, metric):
-        
+        """Starts a timer for a given amount of time."""
         # Convert user_time to seconds
         if metric == 'seconds' or metric == 'second':
             pass
@@ -11,7 +12,7 @@ class StartTimer:
         elif metric == 'hours' or metric == 'hour':
             user_time *= 3600
 
-        return {'start_timer': user_time, 'response': f'Ok, I will start a timer for {user_time} {metric[0]}'}
+        return {'action': 'start_timer', 'user_time': user_time, 'response': f'Ok, I will start a timer for {user_time} {metric[0]}'}
     
     
     
