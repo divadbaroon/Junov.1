@@ -3,7 +3,7 @@ import azure.cognitiveservices.speech as speechsdk
 from time import time
 import sys
 
-from settings.settings_manager import SettingsOrchestrator
+from settings.settings_orchestrator import SettingsOrchestrator
 from src.pibot_components.bot_commands.translate_speech import TranslateSpeech
 
 class SpeechRecognition:
@@ -44,14 +44,10 @@ class SpeechRecognition:
 			except Exception as e:
 				print(f"Error occurred during speech recognition: {e}")
 
-			recognition_attempt += 1
-
 			if result.reason == speechsdk.ResultReason.RecognizedSpeech:
 				return self._handle_recognized_speech(result.text)
 			elif result.reason == speechsdk.ResultReason.Canceled:
 				self._handle_canceled_recognition(result)
-			elif recognition_attempt == 6:
-				self._handle_no_match(result)
 
 			# Terminate the program if there is no user input for 5 minutes
 			if time() - begin_timer >= 300:  
@@ -90,6 +86,7 @@ class SpeechRecognition:
 		if cancellation_details.reason == speechsdk.CancellationReason.Error:
 			print(f"Error Details: {cancellation_details.error_details}")
 			print("Did you set the speech resource key and region values?")
+		return None
 				 
 		
 		

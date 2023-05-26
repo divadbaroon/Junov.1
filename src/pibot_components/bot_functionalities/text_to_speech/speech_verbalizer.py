@@ -1,5 +1,5 @@
 
-from settings.settings_manager import SettingsOrchestrator
+from settings.settings_orchestrator import SettingsOrchestrator
 import azure.cognitiveservices.speech as speechsdk
 import sys
 import time
@@ -83,49 +83,49 @@ class SpeechVerbalizer:
 		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
 
 	def _handle_special_speech(self, speech, gender, current_language):
-		"""Handle special cases of speech, such as temporary language, gender, and language change."""
-		key = next(iter(speech.keys()))
+		"""Handle special cases of speech, such as temporary language changes, gender, and language change."""
 
+		if speech['action'] in ['change_gender', 'change_language', 'change_voice', 'randomize_voice']:
+			return speech['response']
+  
 		# Used to for-shot language translations
-		if key == 'one_shot_translation':
+		if speech['action'] == 'one_shot_translation':
 			# Check if the user asked to exit the program in another language
 			if speech['original'] == 'Exiting. Goodbye!':
 				self.exit_status = True
 			# Reset language after one-shot translation
 			self.reset_language = True
 			# Save the new language to bot_properties.json
-			self.bot_settings.save_bot_property('language', speech['one_shot_translation'])
+			self.bot_settings.save_bot_property('language', speech['new_language'])
 			# Get the new voice name
-			new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
+			new_voice_name = self.bot_settings.retrieve_voice_name(gender, speech['new_language'].lower())
 
 			# Update the current voice name
 			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
 			return speech['response']
 
-		if key == 'new_language':
+		if speech['action'] == 'translation':
 			# Check if the user asked to exit the program in another language
 			if speech['original'] == 'Exiting. Goodbye!':
 				self.exit_status = True
 			return speech['response']
 
-		if key == 'change_gender':
-			return speech['response']
-
-		if key == 'change_language':
-			return speech['response']
-
-		if key == 'start_timer':
+		if speech['action'] == 'start_timer':
 			new_voice_name = self.bot_settings.retrieve_bot_property('current_voice_name')
 			if new_voice_name:
 				self._update_voice(new_voice_name)
 
 			self.verbalize_speech(speech['response'])
 			# start timer
-			time.sleep(int(speech['start_timer']))
+			time.sleep(int(speech['user_time']))
 			return 'Time is up!'
 
-		if key == 'change_voice_name':
-			return speech['response']
+		if speech['action'] == 'pause':
+			self.verbalize_speech(speech['I am now paused'])
+			key_stroke = input('To unpause, press enter.')
+			while key_stroke != '':
+				key_stroke = input('To unpause, press enter.')
+			return 'I am unpaused'
 
 		return None
 

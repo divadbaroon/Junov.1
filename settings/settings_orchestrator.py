@@ -1,4 +1,4 @@
-from settings.conversation.conversation_history_manager import ConversationHistoryManager
+from settings.conversation_history.conversation_history_manager import ConversationHistoryManager
 from settings.bot_settings.bot_settings_manager import BotSettingsManager
 from settings.voice_settings.voice_settings_manager import VoiceSettingsManager
 
