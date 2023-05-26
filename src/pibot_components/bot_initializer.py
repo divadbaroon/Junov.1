@@ -3,11 +3,11 @@ from playsound import playsound
 import os
 
 # Local module imports
-from settings.settings_manager import SettingsOrchestrator
+from settings.settings_orchestrator import SettingsOrchestrator
 import configuration.secrets.config as config
-from src.pibot_components.speech_recognizer import SpeechRecognition
-from src.pibot_components.speech_processor import SpeechProcessor
-from src.pibot_components.speech_verbalizer import SpeechVerbalizer
+from src.pibot_components.bot_functionalities.speech_to_text.speech_recognizer import SpeechRecognition
+from src.pibot_components.bot_functionalities.speech_processing.speech_processor import SpeechProcessor
+from src.pibot_components.bot_functionalities.text_to_speech.speech_verbalizer import SpeechVerbalizer
 
 class BotInitializer:
 	'''
@@ -67,13 +67,12 @@ class BotInitializer:
 		self.clu_deployment_name = config.retrieve_secret('CLU-Deployment-Name')
 		self.openai_key = config.retrieve_secret('OpenAI-API')
 		self.weather_key = config.retrieve_secret('Weather-API')
-		self.news_key = config.retrieve_secret('News-API')
 		self.translator_key = config.retrieve_secret('Translator-API')
   
 	def _initialize_speech_functionalities(self):
 		"""initializing speech recognition, speech processing, and speech verbalization"""""
 		self.speech_recognition = SpeechRecognition(self.speech_config, self.speech_recognizer, self.translator_key)
-		self.speech_processor = SpeechProcessor(self.clu_endpoint, self.clu_project_name, self.clu_deployment_name, self.clu_key, self.openai_key, self.translator_key, self.weather_key, self.news_key)
+		self.speech_processor = SpeechProcessor(self.clu_endpoint, self.clu_project_name, self.clu_deployment_name, self.clu_key, self.openai_key, self.translator_key, self.weather_key)
 		self.speech_verbalizer  = SpeechVerbalizer(self.audio_config, self.speech_config, self.speech_synthesizer)
   
 	def _play_startup_sound_if_exists(self):
