@@ -1,7 +1,25 @@
-# Azure-Powered-Virtual-Assistant 
+# PiBot
+A user-friendly virtual assistant designed for effortless setup, training, and usage. It excels in executing a diverse range of commands and utilizes OpenAI's GPT-3 for dynamic, natural language interactions. 
 
-## Project Overview
-PiBot is a virtual assistant, leveraging Azure's Cognitive Services for advanced speech recognition, intent recognition, and text-to-speech capabilities. This user-friendly bot is designed for effortless setup, training, and usage. It excels in executing a diverse range of commands and utilizes OpenAI's GPT-3 for dynamic, natural language interactions. 
+### Azure Powered
+
+- leverages Azure's Cognitive Services for advanced speech recognition, intent recognition, and text-to-speech capabilities.
+
+### Human-Like Interactions
+
+- Integrates OpenAI's GPT-3.5-Turbo to provide a more natural, human-like conversation experience.
+
+### Built-In Commands
+
+- Understands and can perform a variety of commands such as providing language translations, web browsing abilities, and weather retrieval. 
+
+### Contextual Awareness
+
+- Capable of storing and utilizing conversation history, providing the assistant with context awareness.
+
+### Broad Conversational Skills
+
+- Trained on an extensive dataset that covers a wide range of conversational commands, providing efficient responses across diverse scenarios and inquiries.
 
 ## Requirements
 - Azure account and subscription
