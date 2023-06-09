@@ -9,17 +9,17 @@ A user-friendly virtual assistant designed for effortless setup, training, and u
 
 - Integrates OpenAI's GPT-3.5-Turbo to provide a more natural, human-like conversation experience.
 
+### Broad Conversational Skills
+
+- Trained on an extensive dataset that covers a wide range of conversational commands, providing efficient responses across diverse scenarios and inquiries.
+- 
 ### Built-In Commands
 
 - Understands and can perform a variety of commands such as providing language translations, web browsing, and weather retrieval. 
 
 ### Contextual Awareness
 
-- Capable of storing and utilizing conversation history, providing the assistant with context awareness.
-
-### Broad Conversational Skills
-
-- Trained on an extensive dataset that covers a wide range of conversational commands, providing efficient responses across diverse scenarios and inquiries.
+- Stores and utilizes conversations history to provide contextual awareness to the assistant.
 
 ## Requirements
 - Azure account and subscription
