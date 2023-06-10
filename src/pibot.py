@@ -1,11 +1,12 @@
 from src.pibot_components.bot_initializer import BotInitializer
 
 class PiBot:
-	"""PiBot is a class that provides a simple interface for creating a chatbot.
-	It uses three methods for the speech recognition, speech processing, and speech verbalization.
+	"""PiBot is a class that provides a simple interface for creating a virtual assistant.
+	Three methods are initialized from the BotInitializer class 
+ 	for the speech recognition, speech processing, and speech verbalization.
  	As well as a run all method that performs all of the bot's functionalities."""
  
-	def __init__(self, persona='chatbot', gender='female', language='english'):
+	def __init__(self, persona='virtual assistant', gender='female', language='english'):
 		self.BotInitializer = BotInitializer(persona, gender, language)
 		self.speech_recognition = self.BotInitializer.speech_recognition
 		self.speech_processor = self.BotInitializer.speech_processor
@@ -15,7 +16,7 @@ class PiBot:
 		"""
 		Listens for users speech input
 		:return: (str) speech input
-		"""
+		"""		
 		return self.speech_recognition.listen()
 
 	def process(self, speech: str) -> str:
@@ -32,7 +33,7 @@ class PiBot:
 		:param response: (str) string to be verbalized
 		"""
 		self.speech_verbalizer.verbalize_speech(response)
-	
+
 	def run(self):
 		"""
 		Peforms all of bot's functionalities including:
@@ -43,3 +44,4 @@ class PiBot:
 		speech = self.listen()
 		response = self.process(speech)
 		self.verbalize(response)
+  
