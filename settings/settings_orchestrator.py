@@ -14,6 +14,10 @@ class SettingsOrchestrator:
         """Retrieves a property from "bot_settings.json" and returns it."""
         return self.bot_settings.retrieve_property(property)
     
+    def retrieve_bot_properties(self) -> dict:
+        """Retrieves all properties from "bot_settings.json" and returns it."""
+        return self.bot_settings.retrieve_properties()
+    
     def save_bot_property(self, setting: str, value: str) -> str:
         """Save a property to "bot_settings.json."""
         self.bot_settings.save_property(setting, value)
@@ -58,12 +62,12 @@ class SettingsOrchestrator:
 		"""
         return self.conversation_manager.get_conversation_history(persona)
     
-    def save_conversation_history(self, speech: str, response: str, persona: str) -> None:
+    def save_conversation_history(self, speech: str, response: str, persona: str, bot_name:str) -> None:
         """
 		Saves the new conversation along with the rest of the conversation
 		history to conversation_history.json file
 		"""
-        self.conversation_manager.save_conversation_history(speech, response, persona)
+        self.conversation_manager.save_conversation_history(speech, response, persona, bot_name)
         
     def clear_conversation_history(self) -> str:
         """
