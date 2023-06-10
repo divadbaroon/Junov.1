@@ -1,0 +1,53 @@
+[
+    {
+      "name": "new_gender",
+      "kind": "List",
+      "sublists": [
+        {
+          "canonicalForm": "new_gender",
+          "list": ["female", "male"]
+        }
+      ]
+    },
+    {
+      "name": "new_language",
+      "kind": "List",
+      "sublists": [
+        {
+          "canonicalForm": "new_language",
+          "list": ["Hindi", "German", "Korean", "French", "Finnish", "English", "Mandarin", "Russian", "Spanish"]
+        }
+      ]
+    },
+    {
+      "name": "metric",
+      "kind": "List",
+      "sublists": [
+        {
+          "canonicalForm": "metric",
+          "list": ["second", "minute", "hour", "seconds", "minutes", "hours"]
+        }
+      ]
+    },
+    {
+      "name": "new_persona"
+    },
+    {
+      "name": "location"
+    },
+    {
+      "name": "website"
+    },
+    {
+      "name": "google_query"
+    },
+    {
+      "name": "youtube_query"
+    },
+    {
+      "name": "user_time"
+    },
+    {
+      "name": "speech_to_translate"
+    } 
+]
