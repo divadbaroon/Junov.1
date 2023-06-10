@@ -16,13 +16,22 @@ class CommandParser:
 	"""
   
 	def __init__(self, openai_key:str, translator_key:str, weather_key:str):
+		
+		# Minimum intent score for a command to be exucuted
+		# If score is not met GPT-3.5-Turbo is used to create a response
+		self.MINIMUM_INTENT_SCORE = .90
+
+		# Initialize all the bot commands
+		self.request_gpt = AskGPT(openai_key)
+		self.request_translation = TranslateSpeech(translator_key)
+		self.request_weather = GetWeather(weather_key)
+		self.browser_request  = WebSearcher()
+		self.bot_behavior = BotBehavior()
+		self.timer = StartTimer()
+		self.password_generator = PasswordGenerator()
 		self.bot_settings = SettingsOrchestrator()
-		self.openai_key = openai_key
-		self.translator_key = translator_key
-		self.weather_key = weather_key
-		self.persona = self.bot_settings.retrieve_bot_property('persona')
-		self.language = self.bot_settings.retrieve_bot_property('language')
-		self.gpt_response = False
+
+		# Initialize the commands hash map
 		self.commands = {
 			'Ask_GPT': self.ask_gpt,
 			'Translate_Speech': self.translate_speech,
@@ -44,11 +53,18 @@ class CommandParser:
 			'Clear': self.clear,
 			'Quit': self.quit,
 		}
+		
+		# retrieving the bot's persona and language
+		self.persona = self.bot_settings.retrieve_bot_property('persona')
+		self.language = self.bot_settings.retrieve_bot_property('language')
+		self.bot_name = self.bot_settings.retrieve_bot_property('name')
+		# Set to True if GPT was used to create a response
+		self.gpt_response = False
    
 	def ask_gpt(self, speech):
 		# Loading conversation history to be used as context for GPT-3
 		conversation_history = self.bot_settings.load_conversation_history()
-		response = AskGPT(self.openai_key).ask_GPT(speech=speech, conversation_history=conversation_history, persona=self.persona, language=self.language) 
+		response = self.request_gpt.ask_GPT(speech=speech, conversation_history=conversation_history, persona=self.persona, bot_name=self.bot_name, language=self.language) 
 		self.gpt_response = True
 		return response
 
@@ -56,72 +72,72 @@ class CommandParser:
 		speech_to_translate = intents_json["prediction"]["entities"]["translate_speech"][0]
 		language_to = intents_json["prediction"]["entities"]["language"][0]
 		language_from = self.language
-		response = TranslateSpeech(self.translator_key).translate_speech(speech_to_translate, language_from, language_to, one_shot_translation=True)
+		response = self.request_translation.translate_speech(speech_to_translate, language_from, language_to, one_shot_translation=True)
 		return response
 
 	def get_weather(self, speech=None, intents_json=None):
 		location = intents_json["prediction"]["entities"]["weather_location"][0]
-		response = GetWeather(self.weather_key).get_weather(location)
+		response = self.request_weather.get_weather(location)
 		return response
 
 	def search_google(self, speech=None, intents_json=None):
 		search_request = intents_json["prediction"]["entities"]["search_google"][0]
-		response = WebSearcher().search_google(search_request)
+		response = self.browser_request.search_google(search_request)
 		return response
 
 	def open_website(self, speech=None, intents_json=None):
 		website = intents_json["prediction"]["entities"]["open_website"][0]
-		response = WebSearcher().open_website(website)
+		response = self.browser_request.open_website(website)
 		return response
 
 	def search_youtube(self, speech=None, intents_json=None):
 		search_request = intents_json["prediction"]["entities"]["search_youtube"][0]
-		response = WebSearcher().search_youtube(search_request)
+		response = self.browser_request.search_youtube(search_request)
 		return response
 
 	def change_persona(self, speech=None, intents_json=None):
 		new_persona = intents_json["prediction"]["entities"]["new_persona"][0]
-		response = BotBehavior().change_persona(new_persona)
+		response = self.bot_behavior.change_persona(new_persona)
 		return response
 
 	def change_gender(self, speech=None, intents_json=None):
 		new_gender = intents_json["prediction"]["entities"]["new_gender"][0]
-		response = BotBehavior().change_gender(new_gender)
+		response = self.bot_behavior.change_gender(new_gender)
 		return response
 
 	def change_language(self, speech=None, intents_json=None):
 		new_language = intents_json["prediction"]["entities"]["new_language"][0]
-		response = BotBehavior().change_language(new_language)
+		response = self.bot_behavior.change_language(new_language)
 		return response
 
 	def change_voice(self, speech=None, intents_json=None):
-		response = BotBehavior().change_voice()
+		response = self.bot_behavior.change_voice()
 		return response
 
 	def randomize_voice(self, speech=None, intents_json=None):
-		response = BotBehavior().randomize_voice()
+		response = self.bot_behavior.randomize_voice()
 		return response
 
 	def start_timer(self, speech=None, intents_json=None):
 		user_time = intents_json["prediction"]["entities"]["user_timer"][0]
 		metric = intents_json["prediction"]["entities"]["metric"][0]
-		response = StartTimer().start_timer(user_time, metric)
+		response = self.timer.start_timer(user_time, metric)
 		return response
 
 	def generate_password(self, speech=None, intents_json=None):
-		response = PasswordGenerator().generate_password()
+		response = self.password_generator.generate_password()
 		return response
 
 	def mute(self, speech=None, intents_json=None):
-		response = BotBehavior().mute()
+		response = self.bot_behavior.mute()
 		return response
 
 	def unmute(self, speech=None, intents_json=None):
-		response = BotBehavior().unmute()
+		response = self.bot_behavior.unmute()
 		return response
 
 	def pause(self, speech=None, intents_json=None):
-		response = BotBehavior().pause()
+		response = self.bot_behavior.pause()
 		return response
 
 	def get_conversation_history(self, speech=None, intents_json=None):
@@ -148,35 +164,27 @@ class CommandParser:
 			speech = speech['original_speech']
 
 		# Extract top intent and top intent's score from intents_json
-		#top_intent = intents_json["prediction"]["topIntent"] 
-		#top_intent_score = None
-		#for intent in intents_json["prediction"]["intents"]:
-			#if intent["category"] == top_intent:
-				#top_intent_score = intent["confidenceScore"]
-				#break
-
-		# Extract top intent and top intent's score from intents_json
 		top_intent = intents_json["prediction"]["topIntent"] 
 		top_intent_score = intents_json["prediction"]["intents"][top_intent]["score"]
 
-		if top_intent_score < .90:
+		# If the top intent's score is less than the minimum intent score, use GPT-3.5-Turbo to create a response
+		if top_intent_score < self.MINIMUM_INTENT_SCORE:
 			response = self.ask_gpt(speech)
 		else:
 			if top_intent in self.commands:
 				response = self.commands[top_intent](speech, intents_json)
 			else:
 				response = "Sorry, I don't understand that command. Please try again."
-		# ...
-		# If GPT-3 was not used translate the response to the users language
+
+		# If GPT-3 was not used, translate the response to the users specified language
 		# This is since GPT-3 is capable of translating the response itself
 		if not self.gpt_response and self.language != 'english' and top_intent != 'Translate_Speech':
 			response = TranslateSpeech().translate_speech(speech_to_translate=response, language_from='english', language_to=self.language, translator_key=self.translator_key)
-
+		
 		# If the command is not to clear or quit, the conversation history is saved
-		if top_intent_score < .70 and top_intent != 'Clear' and top_intent != 'Quit':
-			self.bot_settings.save_conversation_history(speech, response, self.persona)
-		# If the response is a dictionary only save the response
-		elif isinstance(response, dict):
-			self.bot_settings.save_conversation_history(speech, response['response'], self.persona)
-
+		if isinstance(response, dict):
+			self.bot_settings.save_conversation_history(speech, response['response'], self.persona, self.bot_name)
+		else:
+			self.bot_settings.save_conversation_history(speech, response, self.persona, self.bot_name)
+   
 		return response
