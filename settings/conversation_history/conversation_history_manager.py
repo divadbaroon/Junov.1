@@ -45,7 +45,7 @@ class ConversationHistoryManager:
 		print(f'\nConversation History: \n{formatted_conversation_history}')
 		return 'Ok, I have printed the conversation history to the console'
 				
-	def save_conversation_history(self, speech: str, response: str, persona: str):
+	def save_conversation_history(self, speech: str, response: str, persona: str, bot_name:str):
 		"""
 		Saves the new conversation along with the rest of the conversation
 		history to conversation_history.json file
@@ -58,7 +58,7 @@ class ConversationHistoryManager:
 		# Add new conversation to the conversation history
 		new_conversation = {
 		"User": speech,
-		persona.title(): response
+		bot_name.title(): response
 		}
 		conversation_history.append(new_conversation)
 		data = {"conversation": conversation_history}
