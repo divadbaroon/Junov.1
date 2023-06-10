@@ -17,36 +17,57 @@ class TranslateSpeech:
 		self.region = 'eastus'
 		self.translator_key = translator_key
 		self.bot_settings = SettingsOrchestrator()
-		self.endpoint = "https://api.cognitive.microsofttranslator.com/trasnlate"
+		self.endpoint = "https://api.cognitive.microsofttranslator.com/translate"
 			
-	def translate_speech(self, speech_to_translate:str, language_from:str, language_to:str, one_shot_translation:bool=False):
+	def translate_speech(self, speech_to_translate:str, current_language:str, new_language:str, one_shot_translation:bool=False):
 		"""
 		Translates a given string of text to a desired langauge.
 		:param speech_to_translate: (str) the speech to be translated
 		:param language: (str) the language for the speech to be translated into
 		:return: (str) the translated speech
 		"""
-  
-		language_to, language_from = self._clean_language(language_to, language_from)
+
+		# Clean the language input for any punctuation
+		current_language, new_language = self._clean_language(current_language, new_language)
    
-		# Get the language codes for the language to be translated from and to
-		language_from_code = self.bot_settings.retrieve_language_code(language_from.lower())
-		language_to_code = self.bot_settings.retrieve_language_code(language_to.lower())
+		# Get the language codes for the current and new languages
+		current_language_code = self.bot_settings.retrieve_language_code(current_language.lower())
+		new_language_code = self.bot_settings.retrieve_language_code(new_language.lower())
   
 		# If the language is not supported, return an error message
-		if language_from_code is None:
-			return f'Sorry, {language_from} is not currently supported. Try asking again.'
+		if current_language_code is None:
+			return f'Sorry, {current_language} is not currently supported. Try asking again.'
 
-		if language_to_code is None:
-			return f'Sorry, {language_to} is not currently supported. Try asking again.'
+		if new_language_code is None:
+			return f'Sorry, {new_language} is not currently supported. Try asking again.'
+
+		# Get the translated speech from Azure's Translator service
+		response = self._send_request(current_language_code, new_language_code, speech_to_translate)
+   
+		if one_shot_translation:
+			return {'action': 'one_shot_translation', 'new_language': new_language, 'original': speech_to_translate, 'response': response}
+		else:
+			return {'action': 'translation', 'new_language': new_language, 'original': speech_to_translate, 'response': response}
+
+	def _clean_language(self, current_language:str, new_language:str):
+		# Language sometimes ends in a question mark
+		if current_language.endswith('?'):
+			current_language = current_language.rstrip('?')
+
+		elif new_language.endswith('?'):
+			new_language = new_language.rstrip('?')
+
+		return current_language, new_language
+
+	def _send_request(self, current_language_code, new_language_code, speech_to_translate):
+		"""Send a request to Azure's Translator service to translate a given string of text to a desired language."""
   
 		# prepare a request to Azure's Translator service
 		params = {
 			'api-version': '3.0',
-			'from': language_from_code,
-			'to': language_to_code
+			'from': current_language_code,
+			'to': new_language_code
 		}
-
 		headers = {
 			'Ocp-Apim-Subscription-Key': self.translator_key,
 			'Ocp-Apim-Subscription-Region': self.region,
@@ -67,17 +88,5 @@ class TranslateSpeech:
 			print(f"An exception occurred: {type(e).__name__}")
 			response = f'Sorry, there was an error while trying to translate: {speech_to_translate}. Try asking again.'
    
-		if one_shot_translation:
-			return {'action': 'one_shot_translation', 'new_language': language_to, 'original': speech_to_translate, 'response': response}
-		else:
-			return {'action': 'translation', 'new_language': language_to, 'original': speech_to_translate, 'response': response}
+		return response
 
-	def _clean_language(self, language_to:str, language_from:str):
-		# Language sometimes ends in a question mark
-		if language_to.endswith('?'):
-			language_to = language_to.rstrip('?')
-
-		elif language_from.endswith('?'):
-			language_from = language_from.rstrip('?')
-
-		return language_to, language_from
