@@ -1,7 +1,6 @@
 
 from settings.settings_orchestrator import SettingsOrchestrator
 import azure.cognitiveservices.speech as speechsdk
-import sys
 import time
 
 class SpeechVerbalizer:
@@ -31,9 +30,9 @@ class SpeechVerbalizer:
 
 		self.bot_settings.reload_bot_settings()
 		mute_status = self.bot_settings.retrieve_bot_property('mute_status')
-		persona = self.bot_settings.retrieve_bot_property('persona')
 		gender = self.bot_settings.retrieve_bot_property('gender')
 		current_language = self.bot_settings.retrieve_bot_property('language')
+		bot_name = self.bot_settings.retrieve_bot_property('name')
 
 		if speech:
 
@@ -49,31 +48,21 @@ class SpeechVerbalizer:
 						self._update_voice(new_voice_name)
 
 				print('\nResponse:')
-				print(f'{persona.title()}: {speech}')
+				print(f'{bot_name.title()}: {speech}')
 
 				# Verbalize the response
 				self.speech_synthesizer.speak_text(speech)
 	
 				# Check if user wants to exit the program
 				if self.exit_status or speech == 'Exiting. Goodbye!':
-					sys.exit()
+					self.bot_settings.save_bot_property('idle_status', True)
 
 				# If the user was performing a one shot translation, reset the language back to the original language
 				if self.reset_language:
-
-					self.bot_settings.save_bot_property('language', current_language)
-					gender = self.bot_settings.retrieve_bot_property('gender')
-					new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
-					self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
-
-					voice_name = self.bot_settings.retrieve_bot_property('current_voice_name')
-					if voice_name:
-						self._update_voice(voice_name)
-
-					self.reset_language = False
+					self._reset_language(gender, current_language)
 			else:
 				print('\n(muted) Response:')
-				print(f'{persona.title()}: {speech}')
+				print(f'{bot_name.title()}: {speech}')
 		else:
 			print('No speech has been provided to verbalize.')
 
@@ -81,6 +70,19 @@ class SpeechVerbalizer:
 		"""Update the speech config and synthesizer with a new voice."""
 		self.speech_config.speech_synthesis_voice_name = voice_name
 		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
+  
+	def _reset_language(self, gender, current_language):
+		"""Reset the language setting back to the original language."""
+		# Saving and getting the previous language and voice name
+		self.bot_settings.save_bot_property('language', current_language)
+		new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
+		self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
+
+		voice_name = self.bot_settings.retrieve_bot_property('current_voice_name')
+		if voice_name:
+			self._update_voice(voice_name)
+
+		self.reset_language = False
 
 	def _handle_special_speech(self, speech, gender, current_language):
 		"""Handle special cases of speech, such as temporary language changes, gender, and language change."""
