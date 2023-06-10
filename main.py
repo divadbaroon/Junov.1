@@ -1,23 +1,15 @@
-'''
-Note:
-The following files must all be located within the same folder for the bot to function.
-< pibot.py, speech_recognizer.py, speech_processor.py, speech_verbalizer.py, sample_config.py,  
-bot_properties.py, bot_properties.json, conversation_history.json, startup_sound.wav(optional) >
-'''
-		
 from src.pibot import PiBot
 
 def main():
-	
 	# Create an instance of pibot
-	new_bot = PiBot(persona='chatbot', gender='female', language='english')
+	new_bot = PiBot(persona='virtual assistant', gender='female', language='english')
 
-	# The bot will continuously listen for input, process it, and produce a response
+	# The bot will continuously listen for user input, process it, and produce a response
 	# Exit the program by saying a generic exit command such as: 'exit', 'quit', 'terminate', or 'end conversation'
 	while True:
 		# Listen for user input
 		speech = new_bot.listen()
-		# Process and produce a response to user input
+		# Process and produce a response/action to user input
 		response = new_bot.process(speech)
 		# Verbalize the response
 		new_bot.verbalize(response)
@@ -26,4 +18,4 @@ def main():
 		# new_bot.run()      
 		
 if __name__ == '__main__':
-		main()
+	main()
