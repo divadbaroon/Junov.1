@@ -14,7 +14,7 @@ class AskGPT:
 	def __init__(self, openai_key:str):
 		self.openai_key = openai_key
 
-	def ask_GPT(self, speech:str, conversation_history:list, persona:str, language:str, manual_request:str=None) -> str:
+	def ask_GPT(self, speech:str, conversation_history:list, persona:str, bot_name:str, language:str, manual_request:str=None) -> str:
 		"""
 		Uses the user's speech, the bot's persona, and the conversation history 
 		to create a response using OpenAI's GPT-3.5-turbo model API.
@@ -33,12 +33,14 @@ class AskGPT:
 		# Manual requests are used if I want a customized response from GPT-3.5-turbo for special cases
 		if manual_request:
 			prompt = self._construct_manual_prompt(formatted_conversation_history, persona, speech, manual_request=manual_request)
-		# Create the chatbot's response using GPT-3.5-turbo model
+		# Create the virtual assistant's response using GPT-3.5-turbo model
 		else:
-			prompt = self._construct_prompt(formatted_conversation_history, persona, speech, language)
+			prompt = self._construct_prompt(formatted_conversation_history, persona, bot_name, speech, language)
 
 		# Send a POST request to OpenAI's GPT-3 API
 		response = self._send_gpt_request(formatted_conversation_history, self.openai_key, prompt)
+  
+		response = self._clean_response(response, bot_name)
 	
 		return response
 
@@ -62,7 +64,7 @@ class AskGPT:
 						formatted_conversation_history.append({"role": "assistant", "content": f"{name.title()} said: {text}"})
 		return formatted_conversation_history
 
-	def _construct_prompt(self, formatted_conversation_history, persona, speech, language) -> str:
+	def _construct_prompt(self, formatted_conversation_history, persona, bot_name, speech, language) -> str:
 		"""
 		Constructs the prompt for the GPT-3.5-turbo model based on the conversation history, the persona, and the user's speech.
 		:param formatted_conversation_history: (list) a list of formatted conversation history messages
@@ -74,13 +76,14 @@ class AskGPT:
 		"""
 
 		# Creates a prompt used for GPT-3.5-turbo model based on the user's persona and conversation history
-		if persona.lower() != 'chatbot':
-			prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {persona}: The user said: {speech}. Keep it concise. ")
+		if persona.lower() != 'virtual assistant':
+			prompt = (f'\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are {persona}: The user said: "{speech}". Keep it concise.' )
 		else:
-			prompt = (f"\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are a chatbot: The user said: {speech}. Keep it concise. ")
+			prompt = (f'\nProvide your response given this conversation history: \n{formatted_conversation_history}\nI want you to provide the next response to the user. Respond like you are a virtual assistant: The user said: "{speech}". Keep it concise. ')
 	
-		prompt += f'Do not preface your response with "{persona} said:" or "{persona}:".'
-		prompt += f'Respond in {language}. '
+		prompt += f' \nRespond in {language}. '
+  
+		print(prompt)
 			
 		return prompt
 
@@ -136,3 +139,13 @@ class AskGPT:
 		response = response.strip()
   
 		return response 
+
+	def _clean_response(self, response, bot_name) -> str:
+		"""Sometimes the response from GPT-3.5-turbo model will incorrectly include the bot's name in the response."""
+  
+		bad_inputs = [f'{bot_name.title()} said:']
+		for example in bad_inputs:
+			if example.startswith(response):
+				response = response.replace(example, '')
+		return response.strip()
+			
