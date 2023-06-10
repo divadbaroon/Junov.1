@@ -14,7 +14,9 @@ class SpeechProcessor:
 	BotBehavior, and ConversationHistoryManager
 	"""
  
-	def __init__(self, clu_endpoint:str, clu_project_name:str, clu_deployment_name:str, clu_key:str, openai_key:str, translator_key:str, weather_key:str):
+	def __init__(self, luis_app_id, luis_key, openai_key:str, translator_key:str, weather_key:str):
+		self.luis_app_id = luis_app_id
+		self.luis_key = luis_key
 		self.openai_key = openai_key
 		self.translator_key = translator_key
 		self.weather_key = weather_key
@@ -27,8 +29,7 @@ class SpeechProcessor:
 		"""
   
 		# Retrieves a json file containing similarity rankings between the user's speech and the trained CLU model
-		# intents_json = self.SpeechIntent(self.clu_endpoint, self.clu_project_name, self.clu_deployment_name, self.clu_key).get_user_intent(speech)
-		intents_json = LuisIntentRecognition().get_user_intent(speech)
+		intents_json = LuisIntentRecognition(self.luis_app_id, self.luis_key).get_user_intent(speech)
 		# Provides the most apporiate response and action to the user's speech given the similarity rankings
 		response = CommandParser(self.openai_key, self.translator_key, self.weather_key).parse_commands(speech, intents_json)
 		return response

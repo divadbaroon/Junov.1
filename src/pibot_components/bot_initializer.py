@@ -61,10 +61,8 @@ class BotInitializer:
 		"""Retrieving the bot's secret values from Azure Key Vault"""
 		self.region = 'eastus'
 		self.cognitive_services_api = config.retrieve_secret('Cognitive-Services-API')
-		self.clu_key = config.retrieve_secret('CLU-Key')
-		self.clu_endpoint = config.retrieve_secret('CLU-Endpoint')
-		self.clu_project_name = config.retrieve_secret('CLU-Poject-Name')
-		self.clu_deployment_name = config.retrieve_secret('CLU-Deployment-Name')
+		self.luis_app_id = config.retrieve_secret('LUIS-App-ID')
+		self.luis_key = config.retrieve_secret('LUIS-API')
 		self.openai_key = config.retrieve_secret('OpenAI-API')
 		self.weather_key = config.retrieve_secret('Weather-API')
 		self.translator_key = config.retrieve_secret('Translator-API')
@@ -72,7 +70,7 @@ class BotInitializer:
 	def _initialize_speech_functionalities(self):
 		"""initializing speech recognition, speech processing, and speech verbalization"""""
 		self.speech_recognition = SpeechRecognition(self.speech_config, self.speech_recognizer, self.translator_key)
-		self.speech_processor = SpeechProcessor(self.clu_endpoint, self.clu_project_name, self.clu_deployment_name, self.clu_key, self.openai_key, self.translator_key, self.weather_key)
+		self.speech_processor = SpeechProcessor(self.luis_app_id, self.luis_key, self.openai_key, self.translator_key, self.weather_key)
 		self.speech_verbalizer  = SpeechVerbalizer(self.audio_config, self.speech_config, self.speech_synthesizer)
   
 	def _play_startup_sound_if_exists(self):
