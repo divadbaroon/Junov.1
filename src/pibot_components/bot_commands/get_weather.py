@@ -21,7 +21,7 @@ class GetWeather:
 		# Get the current temperature for the given location
 		location_temperature = self._send_request(location)
 		# Return an appropriate response given the location, temperature, and the user's preferred units
-		return self._create_response(self, location, location_temperature)
+		return self._create_response(location, location_temperature)
 
 	def _clean_location(self, location:str) -> str:
 		"""
@@ -78,4 +78,3 @@ class GetWeather:
 		else:
 			response = f"The weather in {location} is {round(temperature)} degrees Celsius"	
 		return response
-
