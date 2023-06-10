@@ -1,9 +1,12 @@
 {
-    "chatbot": {
-        "persona": "Chatbot",
+    "bot": {
+        "name": "Sarah",
+        "persona": "virtual assistant",
         "gender": "female",
         "language": "english",
-        "current_voice_name": "en-US-AmberNeural",
-        "mute_status": false
+        "current_voice_name": "en-US-AriaNeural",
+        "mute_status": false,
+        "idle_status": true,
+        "inactivity_timeout": 300
     }
 }
