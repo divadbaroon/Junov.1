@@ -1,11 +1,13 @@
 import json
 import os
+from settings.bot_settings.bot_settings_manager import BotSettingsManager
 
 # Get the current script's directory
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
 # Construct the path to the bot_settings.json file in the 'voice' folder
-voice_settings_path = os.path.join(current_directory, 'voice_settings.json')
+azure_voice_settings_path = os.path.join(current_directory, 'azure_voice_settings.json')
+elevenlabs_voice_settings_path = os.path.join(current_directory, 'elevenlabs_voice_settings.json')
 
 class VoiceSettingsManager:
     """
@@ -18,15 +20,23 @@ class VoiceSettingsManager:
         """
         Instantiates the class and loads the data from "voice_settings.json"
         """
+        self.bot_settings = BotSettingsManager()
+        self.voice_engine = self.bot_settings.retrieve_property('voice_engine')
         self.data = self.load_voice_settings()
   
-    def load_voice_settings(self):
+    def load_voice_settings(self, file_path:str=None):
         """
         Loads the settings from "voice_settings.json" and saves them in the instance variable 'data'
         """ 
-        # load data from "voice_settings.json"
+        if file_path:
+            pass
+        elif self.voice_engine == 'azure':
+            file_path = azure_voice_settings_path
+        else:
+            file_path = elevenlabs_voice_settings_path
+        
         try:
-            with open(voice_settings_path, "r") as f:
+            with open(file_path, "r") as f:
                 return json.load(f)
         except FileNotFoundError:
             print('The file "voice_settings.json" is missing.\nMake sure all files are located within the same folder.')
@@ -73,11 +83,13 @@ class VoiceSettingsManager:
         Retrieves the language code associated with a specified language
         from "voice_settings.json"
         """
-        language_codes = self.data["language_codes"].get(language, None)
+        data = self.load_voice_settings(azure_voice_settings_path)
+        language_codes = data["language_codes"].get(language, None)
         return language_codes
         
     def retrieve_language_country_code(self, language:str) -> str:
         """Gets the country code for the given language"""
-        country_code = self.data['language_country_codes'].get(language)
+        data = self.load_voice_settings(azure_voice_settings_path)
+        country_code = data['language_country_codes'].get(language)
         return country_code
     
