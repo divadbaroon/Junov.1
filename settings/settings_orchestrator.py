@@ -55,19 +55,19 @@ class SettingsOrchestrator:
 		"""
         return self.conversation_manager.load_conversation_history()
     
-    def get_conversation_history(self, persona: str) -> str:
+    def get_conversation_history(self, role: str) -> str:
         """
 		Gets the conversation history from the conversation_history.json file
 		and prints it to the console
 		"""
-        return self.conversation_manager.get_conversation_history(persona)
+        return self.conversation_manager.get_conversation_history(role)
     
-    def save_conversation_history(self, speech: str, response: str, persona: str, bot_name:str) -> None:
+    def save_conversation_history(self, speech: str, response: str, role: str, bot_name:str) -> None:
         """
 		Saves the new conversation along with the rest of the conversation
 		history to conversation_history.json file
 		"""
-        self.conversation_manager.save_conversation_history(speech, response, persona, bot_name)
+        self.conversation_manager.save_conversation_history(speech, response, role, bot_name)
         
     def clear_conversation_history(self) -> str:
         """
