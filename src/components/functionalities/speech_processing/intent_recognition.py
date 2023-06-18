@@ -6,9 +6,8 @@ class LuisIntentRecognition:
 		luis_key (str): subscription key for Azure's LUIS service
 		"""
 
-		def __init__(self, luis_app_id:str, luis_key:str):
-			self.luis_app_id = luis_app_id
-			self.luis_key = luis_key
+		def __init__(self, api_keys: dict):
+			self.api_keys = api_keys
 
 		def get_user_intent(self, speech:str):
 			"""
@@ -20,9 +19,9 @@ class LuisIntentRecognition:
 			if isinstance(speech, dict):
 				speech = speech['translated_speech']
 
-			endpoint_url = (f"https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.luis_app_id}"
+			endpoint_url = (f"https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.api_keys['luis_app_id']}"
 							f"/slots/production/predict?verbose=true&show-all-intents=true&log=true"
-							f"&subscription-key={self.luis_key}"
+							f"&subscription-key={self.api_keys['luis_key']}"
 							f"&query={speech}")
 
 			response = requests.get(endpoint_url)

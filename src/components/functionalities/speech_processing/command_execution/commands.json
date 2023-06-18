@@ -1,0 +1,21 @@
+[
+    "Ask_GPT",
+    "Translate_Speech",
+    "Get_Weather",
+    "Search_Google",
+    "Open_Website",
+    "Search_Youtube",
+    "Change_Persona",
+    "Change_Gender",
+    "Change_Language",
+    "Change_Voice",
+    "Randomize_Voice",
+    "Start_Timer",
+    "Generate_Password",
+    "Mute",
+    "Unmute",
+    "Pause",
+    "Get_Conversation_History",
+    "Clear",
+    "Quit"
+]

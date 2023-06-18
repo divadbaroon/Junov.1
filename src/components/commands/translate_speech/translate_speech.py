@@ -26,6 +26,12 @@ class TranslateSpeech:
 		:param language: (str) the language for the speech to be translated into
 		:return: (str) the translated speech
 		"""
+  
+		if speech_to_translate == 'Exiting. Goodbye!':
+			self.bot_settings.save_bot_property('exit_status', True)
+   
+		if one_shot_translation:
+			self.bot_settings.save_bot_property('reset_language', True)
 
 		# Clean the language input for any punctuation
 		current_language, new_language = self._clean_language(current_language, new_language)
@@ -44,10 +50,7 @@ class TranslateSpeech:
 		# Get the translated speech from Azure's Translator service
 		response = self._send_request(current_language_code, new_language_code, speech_to_translate)
    
-		if one_shot_translation:
-			return {'action': 'one_shot_translation', 'new_language': new_language, 'original': speech_to_translate, 'response': response}
-		else:
-			return {'action': 'translation', 'new_language': new_language, 'original': speech_to_translate, 'response': response}
+		return response
 
 	def _clean_language(self, current_language:str, new_language:str):
 		# Language sometimes ends in a question mark

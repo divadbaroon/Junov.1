@@ -3,17 +3,17 @@ import json
 import os
 
 # Relative path to the entities.json file
-utterance_file_path = os.path.join('../../', 'training_data/luis_training_data/utterances.json')
+utterance_file_path = os.path.join('luis_training_data/utterances.json')
 # Relative path to the entities.json file
-pattern_file_path = os.path.join('../../', 'training_data/luis_training_data/patterns.json')
+pattern_file_path = os.path.join('luis_training_data/patterns.json')
 # Relative path to the entities.json file
-entity_file_path = os.path.join('../../', 'training_data/luis_training_data/entities.json')
+entity_file_path = os.path.join('luis_training_data/entities.json')
 # Relative path to the entities.json file
-intent_file_path = os.path.join('../../', 'training_data/luis_training_data/intents.json')
+intent_file_path = os.path.join('luis_training_data/intents.json')
 
 import configuration.secrets.config as config
 
-class CreateLuisModel:
+class TrainLuisModel:
 	"""
  	Creates and trains a fully functioning Azure LUIS model
 	Training data is imported and used to train the LUIS models intent recognition.
@@ -36,8 +36,9 @@ class CreateLuisModel:
 		self.entity_data = None
 		self.intent_data = None
   
-	def create_luis_model(self) -> None:
+	def train_luis_model(self) -> None:
 		"""Creates and trains a LUIS model"""
+  
 		# load in the data
 		self._load_in_data()
 
@@ -48,7 +49,7 @@ class CreateLuisModel:
 		# import the data into the LUIS model
 		self._import_luis_data()
 		# train the LUIS model
-		self._train_luis_model()
+		#self._train_luis_model()
   
 	def _load_in_data(self) -> None:
 		"""Loads in the data to be imported into the LUIS model"""
@@ -164,7 +165,4 @@ class CreateLuisModel:
 		print('Request training status:')
 		print(response.json())
 
-if __name__ == '__main__':
-    new_model = CreateLuisModel()
-    new_model.create_luis_model()
 

@@ -12,10 +12,11 @@ class BotBehavior:
 	bot_properties: an object of the BotProperties class
 	"""
 			
-	def __init__(self):
+	def __init__(self, speech_verbalizer):
 		"""
 		Initializes an object of BotBehavior class.
 	   	"""
+		self.speech_verbalizer = speech_verbalizer
 		self.bot_settings = SettingsOrchestrator()
 
 	def mute(self) -> str:
@@ -45,15 +46,19 @@ class BotBehavior:
 		A dictionary containing the action and response of the bot is returned.
 		The actual action of pausing the bot is done in the speech_verbalizer.py file.
 		"""
-		return {'action':'pause', 'response':'I am now paused.'}
+		self.speech_verbalizer.verbalize_speech('I am now paused.')
+		key_stroke = input('To unpause, press enter.')
+		while key_stroke != '':
+			key_stroke = input('To unpause, press enter.')
+		return 'I am unpaused'
 
-	def change_persona(self, new_persona:str) -> str:
+	def change_role(self, new_role:str) -> str:
 		"""
-		Saves the new persona of the bot to bot_properties.json
-		:param new_persona: (str) the new persona to change to
+		Saves the new role of the bot to bot_properties.json
+		:param new_role: (str) the new role to change to
 		"""
-		self.bot_settings.save_bot_property('persona', new_persona)
-		return f'Ok, I have changed my persona to {new_persona}.'
+		self.bot_settings.save_bot_property('role', new_role)
+		return f'Ok, I have changed my role to {new_role}.'
 
 	def change_gender(self, new_gender:str) -> str:
 		"""
@@ -67,10 +72,10 @@ class BotBehavior:
 			gender = self.bot_settings.retrieve_bot_property('gender')
 			current_language = self.bot_settings.retrieve_bot_property('language')
 			new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
-			# Update the current voice name
-			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
+			
+			self._update_voice_name(new_voice_name)
    
-			return {'action': 'change_gender', 'response': f'Ok, I have changed my gender to {new_gender}.'}
+			return f'Ok, I have changed my gender to {new_gender}.'
 		else:
 			return f"Sorry, I only support 'Male' or 'Female' at the moment. Please choose one of these options."
 			
@@ -89,10 +94,10 @@ class BotBehavior:
 			gender = self.bot_settings.retrieve_bot_property('gender')
 			current_language = self.bot_settings.retrieve_bot_property('language')
 			new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
-			# Update the current voice name
-			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
+			
+			self._update_voice_name(new_voice_name)
    
-			return {'action': 'change_language', 'response': f'Ok, I have changed my language to {new_language}.'}
+			return f'Ok, I have changed my language to {new_language}.'
 		else:
 			return f'Sorry, {new_language} is not currently supported.'
 
@@ -118,11 +123,10 @@ class BotBehavior:
 					else:
 						new_voice_name = voices[index + 1]
 					break
-		
-		# Update the current voice name
-		self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
+ 
+		self._update_voice_name(new_voice_name)
   
-		return {'action': 'change_voice', 'response': 'Ok, I have changed my voice.'}
+		return 'Ok, I have changed my voice.'
 
 	def randomize_voice(self) -> str:
 		"""
@@ -141,7 +145,14 @@ class BotBehavior:
 		else:
 			new_voice_name = voices[random.randint(0, len(voices) - 1)]
 
-		# Update the current voice name
-		self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
+		self._update_voice_name(new_voice_name)
 
-		return {'action': 'randomize_voice', 'response': 'Ok, I have changed to a random voice.'}
+		return 'Ok, I have changed to a random voice.'
+
+	def _update_voice_name(self, new_voice_name):
+		# Update the current voice name
+		voice_engine = self.bot_settings.retrieve_bot_property('voice_engine')
+		if voice_engine == 'azure':
+			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
+		else:
+			self.bot_settings.save_bot_property('current_elevenlabs_voice_name', new_voice_name)
