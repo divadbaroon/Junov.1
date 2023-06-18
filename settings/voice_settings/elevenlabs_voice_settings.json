@@ -1,0 +1,9 @@
+
+{
+    "female_voices": {
+        "english": ["Bella", "Elli", "Rachel"]
+    },
+    "male_voices": {
+        "english": ["Adam", "Antoni", "Arnold", "Domi", "Josh", "Sam"]
+    }
+}

@@ -1,0 +1,85 @@
+
+{
+    "female_voices": {
+        "default": "en-US-AIGenerate2Neural",
+        "arabic": "ar-AE-FatimaNeural",
+        "english": [
+            "en-US-AmberNeural",
+            "en-US-AnaNeural",
+            "en-US-AriaNeural",
+            "en-US-AshleyNeural",
+            "en-US-CoraNeural",
+            "en-US-ElizabethNeural",
+            "en-US-JaneNeural",
+            "en-US-JennyNeural",
+            "en-US-MichelleNeural",
+            "en-US-MonicaNeural",
+            "en-US-NancyNeural",
+            "en-US-SaraNeural"
+        ],
+        "english_uk": "en-GB-BellaNeural",
+        "english_australia": "en-AU-JoanneNeural",
+        "english_ireland": "en-IE-EmilyNeural",
+        "spanish": "es-ES-AbrilNeural",
+        "french": "fr-FR-BrigitteNeural",
+        "mandarin": "wuu-CN-XiaotongNeural",
+        "hindi": "hi-IN-SwaraNeural",
+        "finnish": "fi-FI-NooraNeural",
+        "german": "de-DE-AmalaNeural",
+        "korean": "ko-KR-JiMinNeural",
+        "russian": "ru-RU-DariyaNeural"
+    },
+    "male_voices": {
+        "default": "en-US-AIGenerate1Neural",
+        "arabic": "ar-AE-HamdanNeural",
+        "english": [
+            "en-US-BrandonNeural",
+            "en-US-ChristopherNeural",
+            "en-US-DavisNeural",
+            "en-US-EricNeural",
+            "en-US-GuyNeural",
+            "en-US-JacobNeural",
+            "en-US-JasonNeural",
+            "en-US-RogerNeural",
+            "en-US-SteffanNeural",
+            "en-US-TonyNeural"
+        ],
+        "english_uk": "en-GB-AlfieNeural",
+        "english_australia": "en-AU-DarrenNeural",
+        "english_ireland": "en-IE-ConnorNeural",
+        "spanish": "es-ES-AlvaroNeural",
+        "french": "fr-FR-AlainNeural",
+        "mandarin": "zh-CN-YunfengNeural",
+        "hindi": "hi-IN-MadhurNeural",
+        "finnish": "fi-FI-HarriNeural",
+        "german": "de-DE-BerndNeural",
+        "korean": "ko-KR-BongJinNeural",
+        "russian": "ru-RU-DmitryNeural"
+    },
+    "language_codes": {
+        "arabic": "ar",
+        "english": "en",
+        "spanish": "es",
+        "french": "fr",
+        "italian": "it",
+        "mandarin": "lzh",
+        "hindi": "hi",
+        "finnish": "fi",
+        "german": "de",
+        "korean": "ko",
+        "russian": "ru"
+    },
+    "language_country_codes": {
+        "arabic": "ar-SA",
+        "english": "en-US",
+        "spanish": "es-ES",
+        "french": "fr-FR",
+        "italian": "it-IT",
+        "mandarin": "zh-CN",
+        "hindi": "hi-IN",
+        "finnish": "fi-FI",
+        "german": "de-DE",
+        "korean": "ko-KR",
+        "russian": "ru-RU"
+    }
+}
