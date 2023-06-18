@@ -12,7 +12,7 @@ A user-friendly virtual assistant designed for effortless setup, training, and u
 ### Broad Conversational Skills
 
 - Trained on an extensive dataset that covers a wide range of conversational commands, providing efficient responses across diverse scenarios and inquiries.
-- 
+
 ### Built-In Commands
 
 - Understands and can perform a variety of commands such as providing language translations, web browsing, and weather retrieval. 
