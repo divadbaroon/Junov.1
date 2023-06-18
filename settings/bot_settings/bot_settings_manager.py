@@ -3,7 +3,6 @@ import os
 
 # Get the current script's directory
 current_directory = os.path.dirname(os.path.abspath(__file__))
-
 # Construct the path to the bot_settings.json file in the 'voice' folder
 bot_settings_path = os.path.join(current_directory, 'bot_settings.json')
 
@@ -33,7 +32,8 @@ class BotSettingsManager:
 
     def save_property(self, setting: str, value: str) -> None:
         """Save a property to "bot_settings.json."""
-        if setting not in ['mute_status', 'current_voice_name', 'idle_status']:
+        if setting not in ['current_voice_name', 'previous_voice_name', 'mute_status', 
+                           'reset_language', 'idle_status', 'inactivity_timeout', 'exit_status']:
             value = value.lower()
         self.data['bot'][setting] = value
         with open(bot_settings_path, "w") as f:
