@@ -26,7 +26,7 @@ class ConversationHistoryManager:
 
 		return conversation_history
 
-	def get_conversation_history(self, persona: str):
+	def get_conversation_history(self, role: str):
 		"""
 		Gets the conversation history from the conversation_history.json file
 		and prints it to the console
@@ -40,12 +40,12 @@ class ConversationHistoryManager:
 		if conversation_history:
 			for conversation in conversation_history:
 				formatted_conversation_history += f"Input: \nUser: {conversation['User']}\n\n"
-				formatted_conversation_history += f"Response: \n{persona}: {conversation[persona]}\n\n"
+				formatted_conversation_history += f"Response: \n{role}: {conversation[role]}\n\n"
 
 		print(f'\nConversation History: \n{formatted_conversation_history}')
 		return 'Ok, I have printed the conversation history to the console'
 				
-	def save_conversation_history(self, speech: str, response: str, persona: str, bot_name:str):
+	def save_conversation_history(self, speech: str, response: str, role: str, bot_name:str):
 		"""
 		Saves the new conversation along with the rest of the conversation
 		history to conversation_history.json file
@@ -77,7 +77,7 @@ class ConversationHistoryManager:
 			json.dump({"conversation": []}, file)
 		return 'Ok, I have cleared the conversation history'
 						
-	def exit_and_clear(self):
+	def exit_and_clear_conversation_history(self):
 		"""
 		Clears the conversation history and exits the program
 		"""
