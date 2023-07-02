@@ -1,7 +1,7 @@
 import requests
 import uuid
 
-from settings.settings_orchestrator import SettingsOrchestrator
+from settings.settings_manager import SettingsOrchestrator
 
 class TranslateSpeech:
 	"""

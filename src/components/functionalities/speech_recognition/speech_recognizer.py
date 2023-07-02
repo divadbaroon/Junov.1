@@ -9,8 +9,9 @@ class SpeechRecognition:
 	A class that utilizes Azure's Cognitive Speech Service to recognize the user's speech input.
 	""" 
 	
-	def __init__(self, speech_recognizer, bot_settings, api_keys):
+	def __init__(self, speech_recognizer, speech_config, bot_settings, api_keys):
 		self.speech_recognizer = speech_recognizer
+		self.spech_config = speech_config
 		self.translator = TranslateSpeech(api_keys['translator_key'])
 		self.bot_settings = bot_settings
 		self.inavtivity_timeout = self.bot_settings.retrieve_bot_property('inactivity_timeout')

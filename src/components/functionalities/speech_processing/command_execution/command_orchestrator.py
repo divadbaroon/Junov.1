@@ -2,30 +2,24 @@ from src.components.commands.ask_gpt.ask_gpt import AskGPT
 from src.components.commands.translate_speech.translate_speech import TranslateSpeech
 from src.components.commands.get_weather.get_weather import GetWeather
 from src.components.commands.web_searcher.web_searcher import WebSearcher
-from src.components.commands.behavior.behavior import BotBehavior
+from src.components.commands.bot_behavior.bot_behavior import BotBehavior
 from src.components.commands.timer.timer import StartTimer
 from src.components.commands.password_generator.password_generator import PasswordGenerator
 from settings.conversation_history.conversation_history_manager import ConversationHistoryManager
 from pathlib import Path
 import json
 
-class Commands:
-	
-	def __init__(self, api_keys:dict, speech_verbalizer:object, intents_json:dict, bot_settings:object) -> None:
+class CommandOrchestrator:
+	"""Orchestrates the execution of all bot commands."""
+ 
+	def __init__(self, api_keys:dict, speech_verbalizer:object, intents_json:dict, bot_settings:object):
 		
 		# retrieving the bot's role, language, and name
 		self.bot_settings = bot_settings
 		self._retrieve_bot_settings()
-     
+
 		# Initialize all bot commands
-		self.request_gpt = AskGPT(api_keys['openai_key'], self.bot_settings, self.bot_name)
-		self.request_translation = TranslateSpeech(api_keys['translator_key'])
-		self.request_weather = GetWeather(api_keys['weather_key'])
-		self.browser_request  = WebSearcher()
-		self.bot_behavior = BotBehavior(speech_verbalizer)
-		self.timer = StartTimer(speech_verbalizer)
-		self.password_generator = PasswordGenerator()
-		self.conversation_history = ConversationHistoryManager()
+		self._initilize_commands(api_keys)
   
 		self.intents_json = intents_json
   
@@ -37,12 +31,23 @@ class Commands:
 		self.language = self.bot_settings.retrieve_bot_property('language')
 		self.bot_name = self.bot_settings.retrieve_bot_property('name')
   
+	def _initilize_commands(self, api_keys:dict):
+		# Initialize all bot commands
+		self.request_gpt = AskGPT(api_keys['openai_key'], self.bot_settings, self.bot_name)
+		self.request_translation = TranslateSpeech(api_keys['translator_key'])
+		self.request_weather = GetWeather(api_keys['weather_key'])
+		self.browser_request  = WebSearcher()
+		self.bot_behavior = BotBehavior(self.speech_verbalizer)
+		self.timer = StartTimer(self.speech_verbalizer)
+		self.password_generator = PasswordGenerator()
+		self.conversation_history = ConversationHistoryManager()
+  
 	def load_commands(self):
 		# get the directory of the current Python script
 		current_directory = Path(__file__).parent
 
 		# construct the full path to the commands.json file
-		commands_file_path = current_directory / 'commands.json'
+		commands_file_path = current_directory / 'supported_commands.json'
 
 		# loads all currently supported bot commands
 		with open(commands_file_path, 'r') as file:
@@ -50,7 +55,7 @@ class Commands:
 			
 		return commands
 
-	def ask_gpt(self, speech):
+	def ask_gpt(self, speech:str):
 		response = self.request_gpt.ask_GPT(speech=speech, bot_name=self.bot_name) 
 		self.gpt_response = True
 		return response

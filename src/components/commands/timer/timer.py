@@ -1,4 +1,4 @@
-from time import time
+import time
 
 class StartTimer:
 	"""A class to start a timer for a given amount of time."""
@@ -24,6 +24,8 @@ class StartTimer:
 			user_time *= 60
 		elif metric == 'hours' or metric == 'hour':
 			user_time *= 3600
+   
+		return user_time
 
 	
 	

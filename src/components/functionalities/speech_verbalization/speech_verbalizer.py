@@ -1,5 +1,5 @@
-from .elevenlabs.text_to_speech import ElevenlabsTextToSpeech
-from .azure_speech_service.text_to_speech import AzureTextToSpeech
+from .elevenlabs.elevenlabs_text_to_speech import ElevenlabsTextToSpeech
+from .azure.azure_text_to_speech import AzureTextToSpeech
 import sys
 
 class SpeechVerbalizer:
@@ -48,7 +48,7 @@ class SpeechVerbalizer:
 
 				# Exit the program if the exit status is True
 				if exit_status:
-					self.bot_settings.save_bot_property('mute_status', False)
+					self.bot_settings.save_bot_property('exit_status', False)
 					sys.exit()
 			else:
 				print('\n(muted) Response:')

@@ -1,11 +1,12 @@
-from src.components.commands.ask_gpt.ask_gpt import AskGPT
+import unittest
 from configuration.secrets import config
-from settings.settings_orchestrator import SettingsOrchestrator
+from settings.settings_manager import SettingsOrchestrator
+from src.components.commands.ask_gpt.ask_gpt import AskGPT
 
-class TestAskGPT:
+class TestAskGPT(unittest.TestCase):
     """Class for testing the AskGPT command"""
-    
-    def __init__(self):
+
+    def setUp(self):
         self.openai_key = config.retrieve_secret('OpenAI-API')
         self.bot_settings = SettingsOrchestrator()
         self.bot_name = self.bot_settings.retrieve_bot_property('bot_name')
@@ -13,16 +14,14 @@ class TestAskGPT:
         self.ask_gpt = AskGPT(self.openai_key, self.bot_settings, self.bot_name)
         self.ask_gpt_incorrect = AskGPT("wrong_key", self.bot_settings, self.bot_name)
         
-    def _ask_GPT(self):
+    def test_ask_GPT(self):
         response = self.ask_gpt.ask_GPT("What are you?")
-        print(response)
+        self.assertNotEqual(response, "Sorry, I am currently experiencing technical difficulties. Please try again later.")
 
-    def _ask_GPT_with_incorrect_key(self):
+    def test_ask_GPT_with_incorrect_key(self):
         # Use a wrong key to provoke an error
-        response = self.ask_gpt_incorrect.ask_GPT("What is the capital of France?")
-        print(response)
+        response = self.ask_gpt_incorrect.ask_GPT("What are you?")
+        self.assertEqual(response, "Sorry, I am currently experiencing technical difficulties. Please try again later.")
         
 if __name__ == '__main__':
-    new_test = TestAskGPT()
-    new_test._ask_GPT()
-    new_test._ask_GPT_with_incorrect_key()
+    unittest.main()

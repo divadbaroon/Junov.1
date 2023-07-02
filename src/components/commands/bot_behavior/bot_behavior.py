@@ -1,4 +1,4 @@
-from settings.settings_orchestrator import SettingsOrchestrator
+from settings.settings_manager import SettingsOrchestrator
 import random
 
 class BotBehavior:
@@ -12,7 +12,7 @@ class BotBehavior:
 	bot_properties: an object of the BotProperties class
 	"""
 			
-	def __init__(self, speech_verbalizer):
+	def __init__(self, speech_verbalizer:object):
 		"""
 		Initializes an object of BotBehavior class.
 	   	"""

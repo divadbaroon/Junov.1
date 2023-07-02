@@ -1,5 +1,5 @@
 from src.components.commands.translate_speech.translate_speech import TranslateSpeech
-from .commands import Commands
+from .command_orchestrator import CommandOrchestrator
 
 class CommandParser:
 	"""
@@ -18,7 +18,7 @@ class CommandParser:
 		self.intents_json = intents_json
 	
 		# Initialize all bot commands
-		self.command = Commands(self.api_keys, speech_verbalizer, intents_json, bot_settings)
+		self.command = CommandOrchestrator(self.api_keys, speech_verbalizer, intents_json, bot_settings)
 		
 		# Minimum intent score for a command to be exucuted
 		# If score is not met GPT-3.5-Turbo is used to create a response

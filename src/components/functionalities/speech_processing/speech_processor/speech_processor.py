@@ -1,5 +1,5 @@
-from .intent_recognition import LuisIntentRecognition
-from .command_execution.command_parser import CommandParser
+from ..intent_recognition.intent_recognition import LuisIntentRecognition
+from ...speech_processing.command_execution.command_parser import CommandParser
  
 class SpeechProcessor:
 	"""
