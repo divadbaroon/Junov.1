@@ -11,13 +11,20 @@ class AskGPT:
 	openai_key (str): subscription key for OpenAi's GPT-3
 	"""
 	
-	def __init__(self, openai_key:str, bot_settings, bot_name:str):
+	def __init__(self, openai_key:str, bot_settings:object, bot_name:str, prompt=None):
 		self.openai_key = openai_key
 		self.bot_settings = bot_settings
 		self.bot_name = bot_name
+
+		# Construct the prompt for GPT-3.5-turbo
+		if prompt:
+			self.prompt = prompt
+		else:
+			self.prompt =  f"You are a helpful virtual assistant named {bot_name}. Keep your responses concise yet informative to the user."
+   
 		# Loading in the conversation history
 		self.conversation_history = self.bot_settings.load_conversation_history()
-		self.conversation_history = [{"role": "system", "content": f"You are a helpful virtual assistant named {bot_name}. Keep your responses concise."}]
+		self.conversation_history = [{"role": "system", "content": self.prompt}]
 
 	def ask_GPT(self, speech:str) -> str:
 		"""
@@ -40,6 +47,9 @@ class AskGPT:
 
 	def _update_conversation(self, role:str, content:str):
 		self.conversation_history.append({"role": role, "content": content})
+  
+	def _update_prompt(self, prompt):
+		self.prompt = prompt
 
 	def _send_gpt_request(self, openai_key, speech) -> str:
 		"""
