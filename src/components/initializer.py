@@ -1,14 +1,14 @@
 import azure.cognitiveservices.speech as speechsdk
-from src.components.functionalities.speech_to_text.speech_recognizer import SpeechRecognition
-from src.components.functionalities.speech_processing.speech_processor import SpeechProcessor
-from src.components.functionalities.text_to_speech.speech_verbalizer import SpeechVerbalizer
-from settings.settings_orchestrator import SettingsOrchestrator
+from src.components.functionalities.speech_recognition.speech_recognizer import SpeechRecognition
+from src.components.functionalities.speech_processing.speech_processor.speech_processor import SpeechProcessor
+from src.components.functionalities.speech_verbalization.speech_verbalizer import SpeechVerbalizer
+from settings.settings_manager import SettingsOrchestrator
 import configuration.secrets.config as config
 from assets.play_sound import PlaySound
 
 class BotInitializer:
 	'''
-	BotInitializer is a class that initializes a new PiBot object.
+	Initialize the bot's core functionalities: speech recognition, speech processing, and speech verbalization
  
 	Attributes:
 	bot_settings: (SettingsOrchestrator) an instance of the SettingsOrchestrator class
@@ -88,7 +88,7 @@ class BotInitializer:
   
 	def _initialize_speech_functionalities(self):
 		"""initializing speech recognition, speech processing, and speech verbalization"""""
-		self.speech_recognition = SpeechRecognition(self.speech_recognizer, self.bot_settings, self.api_keys)
+		self.speech_recognition = SpeechRecognition(self.speech_recognizer, self.speech_config, self.bot_settings, self.api_keys)
 		self.speech_processor = SpeechProcessor(self.api_keys, self.bot_settings)
 		self.speech_verbalizer  = SpeechVerbalizer(self.api_keys, self.bot_settings, self.speech_synthesizer, self.speech_config, self.audio_config)
 
