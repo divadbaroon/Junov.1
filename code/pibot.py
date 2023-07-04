@@ -1,4 +1,4 @@
-from code.initialize.initializer import BotInitializer
+from code.initialization.initializer import BotInitializer
 
 class PiBot:
 	"""PiBot is a class that provides a simple interface for creating a virtual assistant.
