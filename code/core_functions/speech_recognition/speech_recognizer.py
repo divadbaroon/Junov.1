@@ -9,13 +9,14 @@ class SpeechRecognition:
 	A class that utilizes Azure's Cognitive Speech Service to recognize the user's speech input.
 	""" 
 	
-	def __init__(self, speech_recognizer, speech_config, bot_settings, api_keys):
-		self.speech_recognizer = speech_recognizer
-		self.spech_config = speech_config
+	def __init__(self, speech_objects:dict, api_keys:dict, bot_settings:object, voice_settings:object):
+		self.speech_recognizer = speech_objects['speech_recognizer']
+		self.spech_config = speech_objects['audio_config']
 		self.api_keys = api_keys
-		self.translator = TranslateSpeech(api_keys['translator_key'], bot_settings)
+		self.translator = TranslateSpeech(api_keys['translator_key'], bot_settings, voice_settings)
 		self.bot_settings = bot_settings
-		self.inavtivity_timeout = self.bot_settings.retrieve_bot_property('inactivity_timeout')
+		self.voice_settings = voice_settings
+		self.inavtivity_timeout = self.bot_settings.retrieve_property('inactivity_timeout')
 
 	def listen(self):
 		"""
@@ -55,10 +56,10 @@ class SpeechRecognition:
 		"""Reconfigures the speech recognizer with the new language setting"""
   
 		# Get the new language setting
-		current_language = self.bot_settings.retrieve_bot_property('language')
+		current_language = self.bot_settings.retrieve_property('language')
 
 		# Recognizer needs language-country code
-		language_country_code = self.bot_settings.get_language_country_code(current_language)
+		language_country_code = self.voice_settings.retrieve_language_country_code(current_language)
 
 		self.speech_config.speech_recognition_language = language_country_code
 		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
@@ -67,17 +68,14 @@ class SpeechRecognition:
 		"""Handles the recognized speech input"""
   
 		# Get the current language setting
-		current_language = self.bot_settings.retrieve_bot_property('language')
+		current_language = self.bot_settings.retrieve_property('language')
 		print(f"\nInput:\nUser: {recognized_speech}")
 
 		# If the language is not English, translate the recognized speech to English	
 		# This is because the LUIS model is trained in English
 		if current_language != 'english':
-			translated_recognized_speech = self.translator.translate_speech(recognized_speech, current_language, 'english', self.api_keys['translator_key'])
-			return {
-				'original_speech': recognized_speech, 
-				'translated_speech': translated_recognized_speech['response'].replace('.', '').strip()
-			}
+			return self.translator.translate_speech(speech_to_translate=recognized_speech, current_language=current_language, new_language='english')
+
 		return recognized_speech.replace('.', '').strip()
 
 	def _handle_canceled_recognition(self, result:str) -> None:

@@ -11,23 +11,24 @@ class BotBehavior:
 	bot_properties: an object of the BotProperties class
 	"""
 			
-	def __init__(self, speech_verbalizer:object, bot_settings:object):
+	def __init__(self, speech_verbalizer:object, bot_settings:object, voice_settings:object):
 		"""
 		Initializes an object of BotBehavior class.
 	   	"""
 		self.speech_verbalizer = speech_verbalizer
 		self.bot_settings =  bot_settings
+		self.voice_settings = voice_settings
 
 	def mute(self) -> str:
 		"""
 		Saves the mute status of the bot to True in bot_properties.json
 		"""
-		mute_status = self.bot_settings.retrieve_bot_property('mute_status')
+		mute_status = self.bot_settings.retrieve_property('mute_status')
 		self.speech_verbalizer.verbalize_speech('I am now muted.')
 		if mute_status:
 			response = 'I am already muted.'
 		else:
-			self.bot_settings.save_bot_property('mute_status', True)
+			self.bot_settings.save_property('mute_status', True)
 			response =  'I am now muted.'
 
 		self.speech_verbalizer.verbalize_speech(response)
@@ -36,11 +37,11 @@ class BotBehavior:
 		"""
 		Saves the mute status of the bot to False in bot_properties.json
 		"""
-		mute_status = self.bot_settings.retrieve_bot_property('mute_status')
+		mute_status = self.bot_settings.retrieve_property('mute_status')
 		if not mute_status:
 			return 'I am already unmuted.'
 		else:
-			self.bot_settings.save_bot_property('mute_status', False)
+			self.bot_settings.save_property('mute_status', False)
 			return 'I am now unmuted.'
 
 	def pause(self) -> dict:
@@ -59,7 +60,7 @@ class BotBehavior:
 		Saves the new role of the bot to bot_properties.json
 		:param new_role: (str) the new role to change to
 		"""
-		self.bot_settings.save_bot_property('role', new_role)
+		self.bot_settings.save_property('role', new_role)
 		return f'Ok, I have changed my role to {new_role}.'
 
 	def change_gender(self, new_gender:str) -> str:
@@ -69,11 +70,11 @@ class BotBehavior:
 		"""
 		if new_gender in ['male', 'female']:
 			# Save the new gender to bot_properties.json
-			self.bot_settings.save_bot_property('gender', new_gender)
+			self.bot_settings.save_property('gender', new_gender)
 			# Get the new voice name
-			gender = self.bot_settings.retrieve_bot_property('gender')
-			current_language = self.bot_settings.retrieve_bot_property('language')
-			new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
+			gender = self.bot_settings.retrieve_property('gender')
+			current_language = self.bot_settings.retrieve_property('language')
+			new_voice_name = self.voice_settings.retrieve_voice(gender, current_language)
 			
 			self._update_voice_name(new_voice_name)
    
@@ -87,15 +88,15 @@ class BotBehavior:
 		:param new_language: (str) the new language to change to
 		"""
 		# Extracting all currently supported languages
-		languages = self.bot_settings.retrieve_available_languages()
+		languages = self.voice_settings.available_languages()
 		# Check if language is supported
 		if new_language.lower() in languages:
 			# Save the new language to bot_properties.json
-			self.bot_settings.save_bot_property('language', new_language.lower())
+			self.bot_settings.save_property('language', new_language.lower())
 			# Get the new voice name
-			gender = self.bot_settings.retrieve_bot_property('gender')
-			current_language = self.bot_settings.retrieve_bot_property('language')
-			new_voice_name = self.bot_settings.retrieve_voice_name(gender, current_language)
+			gender = self.bot_settings.retrieve_property('gender')
+			current_language = self.bot_settings.retrieve_property('language')
+			new_voice_name = self.bot_settings.retrieve_voice(gender, current_language)
 			
 			self._update_voice_name(new_voice_name)
    
@@ -107,10 +108,10 @@ class BotBehavior:
 		"""
 		Changes to the next bot's voice name
 		"""
-		gender = self.bot_settings.retrieve_bot_property('gender')
-		language = self.bot_settings.retrieve_bot_property('language')
-		voices = self.bot_settings.retrieve_voice_names(gender, language)
-		current_voice_name = self.bot_settings.retrieve_bot_property('current_voice_name')
+		gender = self.bot_settings.retrieve_property('gender')
+		language = self.bot_settings.retrieve_property('language')
+		voices = self.bot_settings.retrieve_voice(gender, language)
+		current_voice_name = self.bot_settings.retrieve_property('current_voice_name')
 		new_voice_name = ''
 
 		# If voices is not a list then there is only one available voice for that language
@@ -134,9 +135,9 @@ class BotBehavior:
 		"""
 		Randomizes the bot's voice
 		"""
-		gender = self.bot_settings.retrieve_bot_property('gender')
-		language = self.bot_settings.retrieve_bot_property('language')
-		voices = self.bot_settings.retrieve_voice_names(gender, language)
+		gender = self.bot_settings.retrieve_property('gender')
+		language = self.bot_settings.retrieve_property('language')
+		voices = self.voice_settings.retrieve_voice(gender, language)
 		new_voice_name = ''
   
 		# If there is only one voice available for that particular language and gender it cannot be changed
@@ -153,8 +154,8 @@ class BotBehavior:
 
 	def _update_voice_name(self, new_voice_name):
 		# Update the current voice name
-		voice_engine = self.bot_settings.retrieve_bot_property('voice_engine')
+		voice_engine = self.bot_settings.retrieve_property('voice_engine')
 		if voice_engine == 'azure':
-			self.bot_settings.save_bot_property('current_voice_name', new_voice_name)
+			self.bot_settings.save_property('current_voice_name', new_voice_name)
 		else:
-			self.bot_settings.save_bot_property('current_elevenlabs_voice_name', new_voice_name)
+			self.bot_settings.save_property('current_elevenlabs_voice_name', new_voice_name)

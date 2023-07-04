@@ -11,10 +11,11 @@ class TranslateSpeech:
 	bot_properties (BotProperties): BotProperties object
 	"""
 			
-	def __init__(self, translator_key, bot_settings:object):
+	def __init__(self, translator_key, bot_settings:object, voice_settings:object):
 		self.region = 'eastus'
 		self.translator_key = translator_key
 		self.bot_settings = bot_settings
+		self.voice_settings = voice_settings
 		self.endpoint = "https://api.cognitive.microsofttranslator.com/translate"
 			
 	def translate_speech(self, speech_to_translate:str, current_language:str, new_language:str, one_shot_translation:bool=False):
@@ -26,17 +27,17 @@ class TranslateSpeech:
 		"""
   
 		if speech_to_translate == 'Exiting. Goodbye!':
-			self.bot_settings.save_bot_property('exit_status', True)
+			self.bot_settings.save_property('exit_status', True)
    
 		if one_shot_translation:
-			self.bot_settings.save_bot_property('reset_language', True)
+			self.bot_settings.save_property('reset_language', True)
 
 		# Clean the language input for any punctuation
 		current_language, new_language = self._clean_language(current_language, new_language)
    
 		# Get the language codes for the current and new languages
-		current_language_code = self.bot_settings.retrieve_language_code(current_language.lower())
-		new_language_code = self.bot_settings.retrieve_language_code(new_language.lower())
+		current_language_code = self.voice_settings.retrieve_language_code(current_language.lower())
+		new_language_code = self.voice_settings.retrieve_language_code(new_language.lower())
   
 		# If the language is not supported, return an error message
 		if current_language_code is None:

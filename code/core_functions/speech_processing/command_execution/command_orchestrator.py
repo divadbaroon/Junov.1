@@ -1,3 +1,5 @@
+from pathlib import Path
+import json
 from code.components.commands.ask_gpt.ask_gpt import AskGPT
 from code.components.commands.translate_speech.translate_speech import TranslateSpeech
 from code.components.commands.get_weather.get_weather import GetWeather
@@ -6,16 +8,15 @@ from code.components.commands.bot_behavior.bot_behavior import BotBehavior
 from code.components.commands.set_timer.set_timer import StartTimer
 from code.components.commands.password_generator.password_generator import PasswordGenerator
 from code.components.settings.conversation_history.conversation_history_manager import ConversationHistoryManager
-from pathlib import Path
-import json
 
 class CommandOrchestrator:
 	"""Orchestrates the execution of all bot commands."""
  
-	def __init__(self, api_keys:dict, speech_verbalizer:object, intents_json:dict, bot_settings:object):
+	def __init__(self, api_keys:dict, speech_verbalizer:object, intents_json:dict, bot_settings:object, voice_settings:object):
 		
 		# retrieving the bot's role, language, and name
 		self.bot_settings = bot_settings
+		self.voice_settings = voice_settings
 		self._retrieve_bot_settings()
 
 		self.intents_json = intents_json
@@ -27,17 +28,17 @@ class CommandOrchestrator:
   
 	def _retrieve_bot_settings(self):
 		# retrieving the bot's role and language
-		self.role = self.bot_settings.retrieve_bot_property('role')
-		self.language = self.bot_settings.retrieve_bot_property('language')
-		self.bot_name = self.bot_settings.retrieve_bot_property('name')
+		self.role = self.bot_settings.retrieve_property('role')
+		self.language = self.bot_settings.retrieve_property('language')
+		self.bot_name = self.bot_settings.retrieve_property('name')
   
 	def _initilize_commands(self, api_keys:dict):
 		# Initialize all bot commands
 		self.request_gpt = AskGPT(api_keys['openai_key'], self.bot_settings, self.bot_name)
-		self.request_translation = TranslateSpeech(api_keys['translator_key'], self.bot_settings)
+		self.request_translation = TranslateSpeech(api_keys['translator_key'], self.bot_settings, self.voice_settings)
 		self.request_weather = GetWeather(api_keys['weather_key'])
 		self.browser_request  = WebSearcher()
-		self.bot_behavior = BotBehavior(self.speech_verbalizer, self.bot_settings)
+		self.bot_behavior = BotBehavior(self.speech_verbalizer, self.bot_settings, self.voice_settings)
 		self.timer = StartTimer(self.speech_verbalizer)
 		self.password_generator = PasswordGenerator()
 		self.conversation_history = ConversationHistoryManager()
@@ -62,9 +63,9 @@ class CommandOrchestrator:
 
 	def translate_speech(self):
 		speech_to_translate = self.intents_json["prediction"]["entities"]["translate_speech"][0]
-		language_to = self.intents_json["prediction"]["entities"]["language"][0]
-		language_from = self.language
-		response = self.request_translation.translate_speech(speech_to_translate, language_from, language_to, one_shot_translation=True)
+		current_language = self.intents_json["prediction"]["entities"]["language"][0]
+		new_language = self.language
+		response = self.request_translation.translate_speech(speech_to_translate, current_language, new_language, one_shot_translation=True)
 		return response
 
 	def get_weather(self):
@@ -142,5 +143,5 @@ class CommandOrchestrator:
 
 	def quit(self):
 		response = self.conversation_history.exit_and_clear_conversation_history()
-		self.bot_settings.save_bot_property('exit_status', True)
+		self.bot_settings.save_property('exit_status', True)
 		return response

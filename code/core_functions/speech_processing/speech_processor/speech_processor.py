@@ -14,9 +14,10 @@ class SpeechProcessor:
 	BotBehavior, and ConversationHistoryManager
 	"""
  
-	def __init__(self, api_keys: dict, bot_settings:object):
+	def __init__(self, api_keys: dict, bot_settings:object, voice_settings:object):
 		self.api_keys = api_keys
 		self.bot_settings = bot_settings
+		self.voice_settings = voice_settings
 
 	def process_speech(self, speech:str, speech_verbalizer:object): 
 		"""
@@ -28,5 +29,5 @@ class SpeechProcessor:
 		# Retrieves a json file containing similarity rankings between the user's speech and the trained CLU model
 		intents_json = LuisIntentRecognition(self.api_keys).get_user_intent(speech)
 		# Provides the most apporiate response and action to the user's speech given the similarity rankings
-		response = CommandParser(self.api_keys, speech_verbalizer, intents_json, self.bot_settings).parse_commands(speech)
+		response = CommandParser(self.api_keys, speech_verbalizer, intents_json, self.bot_settings, self.voice_settings).parse_commands(speech)
 		return response
