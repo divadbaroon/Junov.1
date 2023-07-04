@@ -1,0 +1,21 @@
+{
+    "bot": {
+        "name": "Sarah",
+        "role": "virtual assistant",
+        "gender": "female",
+        "previous_gender": "",
+        "language": "",
+        "previous_language": "",
+        "current_azure_voice_name": "en-US-AmberNeural",
+        "previous_azure_voice_name": "",
+        "current_elevenlabs_voice_name": "",
+        "previous_elevenlabs_voice_name": "",
+        "voice_engine": "azure",
+        "mute_status": false,
+        "reset_language": true,
+        "idle_status": false,
+        "inactivity_timeout": 300,
+        "exit_status": false,
+        "current_voice_name": "en-US-BrandonNeural"
+    }
+}
