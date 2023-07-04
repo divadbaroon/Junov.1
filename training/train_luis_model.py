@@ -1,17 +1,13 @@
 import requests
 import json
 import os
-
-# Relative path to the entities.json file
-utterance_file_path = os.path.join('luis_training_data/utterances.json')
-# Relative path to the entities.json file
-pattern_file_path = os.path.join('luis_training_data/patterns.json')
-# Relative path to the entities.json file
-entity_file_path = os.path.join('luis_training_data/entities.json')
-# Relative path to the entities.json file
-intent_file_path = os.path.join('luis_training_data/intents.json')
-
 import configuration.secrets.config as config
+
+# Relativing relative paths to training data
+utterance_file_path = os.path.join('luis_training_data/utterances.json')
+pattern_file_path = os.path.join('luis_training_data/patterns.json')
+entity_file_path = os.path.join('luis_training_data/entities.json')
+intent_file_path = os.path.join('luis_training_data/intents.json')
 
 class TrainLuisModel:
 	"""
@@ -19,7 +15,7 @@ class TrainLuisModel:
 	Training data is imported and used to train the LUIS models intent recognition.
 	The model is mainly used for recognizing and responding to commands given by the user.
   	"""
- 
+
 	def __init__(self) -> None:
 		"""Initializes the LUIS model"""
 		# LUIS app information
@@ -30,11 +26,8 @@ class TrainLuisModel:
 		self.headers = {'Ocp-Apim-Subscription-Key': self.luis_key}
 		self.params ={}
   
-		# data to be imported into the LUIS model
-		self.utterance_data = None
-		self.pattern_data = None
-		self.entity_data = None
-		self.intent_data = None
+		# load in training data
+		self._load_in_data()
   
 	def train_luis_model(self) -> None:
 		"""Creates and trains a LUIS model"""
