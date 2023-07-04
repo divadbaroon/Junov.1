@@ -2,7 +2,8 @@ import azure.cognitiveservices.speech as speechsdk
 from code.core_functions.speech_recognition.speech_recognizer import SpeechRecognition
 from code.core_functions.speech_processing.speech_processor.speech_processor import SpeechProcessor
 from code.core_functions.speech_verbalization.speech_verbalizer import SpeechVerbalizer
-from code.components.settings.settings_manager import SettingsOrchestrator
+from code.components.settings.bot_settings.bot_settings_manager import BotSettingsManager
+from code.components.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
 from code.components.sounds import play_sound
 from configuration.retrieve_secrets import load_api_keys
 
@@ -11,7 +12,7 @@ class BotInitializer:
 	Initialize the bot's core functionalities: speech recognition, speech processing, and speech verbalization
 	'''
 	
-	def __init__(self, role, gender, language):
+	def __init__(self, role:str, gender:str, language:str):
 		"""
 		Initializes a new PiBot object 
 		:param role: (str) name of person the bot will emobdy
@@ -23,19 +24,21 @@ class BotInitializer:
 		# check if given params are valid before saving them
 		gender, language = self._check_gender_and_language(gender, language)
   
-		# Save the following bot properties to bot_settings.json
-		self.bot_settings = SettingsOrchestrator()
+		# Load in settings objects
+		self.bot_settings = BotSettingsManager()
+		self.voice_settings = VoiceSettingsManager()
 		self._save_bot_properties(role, gender, language)
   
 		# Retrieving the bot's secret values as a dictionary
 		self.api_keys = load_api_keys()
 
 		# Language country code is used for speech recognizer initialization 
-		language = self.bot_settings.retrieve_bot_property('language')
-		language_country_code = self.bot_settings.get_language_country_code(language)
+		language = self.bot_settings.retrieve_property('language')
+		language_country_code = self.voice_settings.retrieve_language_country_code(language)
   
 		# Initializing the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer
-		self._setup_speech_and_audio(self.api_keys['cognitive_services_api'], self.api_keys['region'], language_country_code)
+		# The audio_config, speech_config, speech_recognizer, and speech_synthesizer are all being stored in a dictionary for ease of use  
+		self.speech_objects = self._setup_speech_and_audio(self.api_keys['cognitive_services_api'], self.api_keys['region'], language_country_code)
 
 		# initializing the bot's core functionalities: speech recognition, speech processing, and speech verbalization
 		self._initialize_speech_functionalities()
@@ -43,7 +46,7 @@ class BotInitializer:
 		# plays startup sound
 		play_sound.play_bot_sound('startup_sound')
   
-	def _check_gender_and_language(self, gender, language):
+	def _check_gender_and_language(self, gender:str, language:str) -> str:
 		"""Check if gender and langauge are valid"""
 		gender, language = gender.lower(), language.lower()
   
@@ -56,23 +59,25 @@ class BotInitializer:
    
 		return gender, language
 
-	def _save_bot_properties(self, role, gender, language):
+	def _save_bot_properties(self, role:str, gender:str, language:str) -> None:
 		"""Save the following bot properties to bot_settings.json"""
-		self.bot_settings.save_bot_property('role', role)
-		self.bot_settings.save_bot_property('gender', gender)
-		self.bot_settings.save_bot_property('language', language)
+		self.bot_settings.save_property('role', role)
+		self.bot_settings.save_property('gender', gender)
+		self.bot_settings.save_property('language', language)
 
-	def _setup_speech_and_audio(self, cognitive_services_api, region, language_country_code):
+	def _setup_speech_and_audio(self, cognitive_services_api:str, region:str, language_country_code:str) -> dict:
 		"""Initializes the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer"""
-		self.audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
-		self.speech_config = speechsdk.SpeechConfig(subscription = cognitive_services_api, region = region)
-		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config, audio_config=self.audio_config, language=language_country_code)
-		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
+		speech_objects = {}
+		speech_objects['audio_config'] = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
+		speech_objects['speech_config'] = speechsdk.SpeechConfig(subscription = cognitive_services_api, region = region)
+		speech_objects['speech_recognizer'] = speechsdk.SpeechRecognizer(speech_config=speech_objects['speech_config'], audio_config=speech_objects['audio_config'], language=language_country_code)
+		speech_objects['speech_synthesizer'] = speechsdk.SpeechSynthesizer(speech_config=speech_objects['speech_config'], audio_config=speech_objects['audio_config'])
+		return speech_objects
   
-	def _initialize_speech_functionalities(self):
+	def _initialize_speech_functionalities(self) -> None:
 		"""initializing speech recognition, speech processing, and speech verbalization"""""
-		self.speech_recognition = SpeechRecognition(self.speech_recognizer, self.speech_config, self.bot_settings, self.api_keys)
-		self.speech_processor = SpeechProcessor(self.api_keys, self.bot_settings)
-		self.speech_verbalizer  = SpeechVerbalizer(self.api_keys, self.bot_settings, self.speech_synthesizer, self.speech_config, self.audio_config)
+		self.speech_recognition = SpeechRecognition(self.speech_objects, self.api_keys, self.bot_settings, self.voice_settings)
+		self.speech_processor = SpeechProcessor(self.api_keys, self.bot_settings, self.voice_settings)
+		self.speech_verbalizer  = SpeechVerbalizer(self.speech_objects, self.api_keys, self.bot_settings)
 
 
