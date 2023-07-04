@@ -43,18 +43,19 @@ class SpeechVerbalizer:
 				# Verbalize the response
 				self.text_to_speech_engine.text_to_speech(speech)
     
-				if reset_language:
-					self._reset_language()
-
-				# Exit the program if the exit status is True
-				if exit_status:
-					self.bot_settings.save_bot_property('exit_status', False)
-					sys.exit()
 			else:
 				print('\n(muted) Response:')
 				print(f'{bot_name.title()}: {speech}')
 		else:
 			print('No speech has been provided to verbalize.')
+   
+		if reset_language:
+			self._reset_language()
+
+		# Exit the program if the exit status is True
+		if exit_status:
+			self.bot_settings.save_bot_property('exit_status', False)
+			sys.exit()
    
 	def _reset_language(self):
 		"""Reset the language."""
