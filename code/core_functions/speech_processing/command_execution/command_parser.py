@@ -37,7 +37,7 @@ class CommandParser:
 	def _retrieve_bot_settings(self):
 		"""Retrieves the bot's role, language, and name from the bot settings file"""
 		self.role = self.bot_settings.retrieve_property('role')
-		self.language = self.bot_settings.retrieve_property('language')
+		self.language = self.bot_settings.retrieve_property('language', 'current')
 		self.bot_name = self.bot_settings.retrieve_property('name')
 
 	def parse_commands(self, speech:str):
@@ -65,6 +65,6 @@ class CommandParser:
 		# If GPT-3 was not used, translate the response to the users specified language
 		# This is since GPT-3 is capable of translating the response itself
 		if not self.gpt_response and self.language != 'english' and top_intent != 'Translate_Speech':
-			response = TranslateSpeech(translator_key=self.api_keys['translator_key']).translate_speech(speech_to_translate=response, current_language='english', new_language=self.language, one_shot_translation=True)
+			response = TranslateSpeech(self.api_keys['translator_key'], self.bot_settings, self.voice_settings).translate_speech(response, 'english', self.language, True)
    
 		return response

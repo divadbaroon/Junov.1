@@ -29,8 +29,8 @@ class CommandOrchestrator:
 	def _retrieve_bot_settings(self):
 		# retrieving the bot's role and language
 		self.role = self.bot_settings.retrieve_property('role')
-		self.language = self.bot_settings.retrieve_property('language')
-		self.bot_name = self.bot_settings.retrieve_property('name')
+		self.language = self.bot_settings.retrieve_property('language', 'current')
+		self.bot_name = self.bot_settings.retrieve_property('name', 'current')
   
 	def _initilize_commands(self, api_keys:dict):
 		# Initialize all bot commands
@@ -143,5 +143,5 @@ class CommandOrchestrator:
 
 	def quit(self):
 		response = self.conversation_history.exit_and_clear_conversation_history()
-		self.bot_settings.save_property('exit_status', True)
+		self.bot_settings.save_property('status', True, 'exit')
 		return response

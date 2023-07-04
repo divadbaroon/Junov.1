@@ -22,20 +22,24 @@ class BotSettingsManager:
             print('The file "bot_settings.json" is missing.\nMake sure all files are located within the same folder.')
             raise SystemExit()
 
-    def retrieve_property(self, setting: str) -> str:
+    def retrieve_property(self, setting: str, subsetting:str = None) -> str:
         """Retrieves a property from "bot_settings.json" and returns it."""
-        return self.data['bot'].get(setting)
-    
+        if subsetting:
+            return self.data['bot'].get(setting).get(subsetting)
+        else:
+            return self.data['bot'].get(setting)
+            
     def retrieve_properties(self) -> dict:
         """Retrieves all properties from "bot_settings.json" and returns them."""
         return self.data['bot']
 
-    def save_property(self, setting: str, value: str) -> None:
+    def save_property(self, setting: str, value: str, subsetting:str = None) -> None:
         """Save a property to "bot_settings.json."""
-        if setting not in ['current_voice_name', 'previous_voice_name', 'mute_status', 
-                           'reset_language', 'idle_status', 'inactivity_timeout', 'exit_status']:
-            value = value.lower()
-        self.data['bot'][setting] = value
+        if subsetting:
+            self.data['bot'][setting][subsetting] = value
+        else:
+            self.data['bot'][setting] = value
+        # write data back
         with open(bot_settings_path, "w") as f:
             json.dump(self.data, f, indent=4)
 

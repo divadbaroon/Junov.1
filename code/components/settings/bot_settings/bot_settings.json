@@ -2,20 +2,31 @@
     "bot": {
         "name": "Sarah",
         "role": "virtual assistant",
-        "gender": "female",
-        "previous_gender": "female",
-        "language": "english",
-        "previous_language": "english",
-        "current_azure_voice_name": "en-US-AmberNeural",
-        "previous_azure_voice_name": "en-US-AmberNeural",
-        "current_elevenlabs_voice_name": "",
-        "previous_elevenlabs_voice_name": "",
-        "voice_engine": "azure",
-        "mute_status": false,
-        "reset_language": false,
-        "idle_status": false,
-        "inactivity_timeout": 300,
-        "exit_status": false,
-        "current_voice_name": "en-US-BrandonNeural"
+        "gender": {
+            "current": "female",
+            "previous": "female",
+            "reset": false
+        },
+        "language": {
+            "current": "english",
+            "previous": "english",
+            "reset": false
+        },
+        "voice": {
+            "engine": "azure",
+            "current_azure_voice_name": "en-US-BrandonNeural",
+            "previous_azure_voice_name": "en-US-AmberNeural",
+            "current_elevenlabs_voice_name": "",
+            "previous_elevenlabs_voice_name": "",
+            "reconfigure": false
+        },
+        "status": {
+            "mute": false,
+            "idle": false,
+            "exit": false
+        },
+        "timeout": {
+            "inactivity": 300
+        }
     }
 }

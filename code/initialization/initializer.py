@@ -21,13 +21,13 @@ class BotInitializer:
 		Note: Plays startup sound once initialization of PiBot object is complete.
 		"""
   
-		# check if given params are valid before saving them
-		gender, language = self._check_gender_and_language(gender, language)
-  
 		# Load in settings objects
 		self.bot_settings = BotSettingsManager()
 		self.voice_settings = VoiceSettingsManager()
 		self._save_bot_properties(role, gender, language)
+  
+		# check if given params are valid before saving them
+		gender, language = self._check_gender_and_language(gender, language)
   
 		# Retrieving the bot's secret values as a dictionary
 		self.api_keys = load_api_keys()
@@ -47,14 +47,12 @@ class BotInitializer:
 		play_sound.play_bot_sound('startup_sound')
   
 	def _check_gender_and_language(self, gender:str, language:str) -> str:
-		"""Check if gender and langauge are valid"""
+		"""Check if gender and langauge are valid before saving them"""
 		gender, language = gender.lower(), language.lower()
-  
 		# Ensure gender and language provided are currently supported, if not set them to default values
 		if gender not in ['male', 'female']:
 			gender = 'female'
-		if language not in ['arabic', 'english', 'spanish', 'french', 'mandarin', 
-                      		'hindi', 'finnish', 'german', 'korean', 'russian']:
+		if language not in self.voice_settings.available_languages():
 			language = 'english'
    
 		return gender, language
@@ -62,8 +60,8 @@ class BotInitializer:
 	def _save_bot_properties(self, role:str, gender:str, language:str) -> None:
 		"""Save the following bot properties to bot_settings.json"""
 		self.bot_settings.save_property('role', role)
-		self.bot_settings.save_property('gender', gender)
-		self.bot_settings.save_property('language', language)
+		self.bot_settings.save_property('gender', gender, 'current')
+		self.bot_settings.save_property('language', language, 'current')
 
 	def _setup_speech_and_audio(self, cognitive_services_api:str, region:str, language_country_code:str) -> dict:
 		"""Initializes the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer"""
@@ -78,6 +76,6 @@ class BotInitializer:
 		"""initializing speech recognition, speech processing, and speech verbalization"""""
 		self.speech_recognition = SpeechRecognition(self.speech_objects, self.api_keys, self.bot_settings, self.voice_settings)
 		self.speech_processor = SpeechProcessor(self.api_keys, self.bot_settings, self.voice_settings)
-		self.speech_verbalizer  = SpeechVerbalizer(self.speech_objects, self.api_keys, self.bot_settings)
+		self.speech_verbalizer  = SpeechVerbalizer(self.speech_objects, self.api_keys, self.bot_settings, self.voice_settings)
 
 

@@ -13,11 +13,11 @@ class SpeechRecognition:
 		self.speech_recognizer = speech_objects['speech_recognizer']
 		self.spech_config = speech_objects['audio_config']
 		self.api_keys = api_keys
-		self.translator = TranslateSpeech(api_keys['translator_key'], bot_settings, voice_settings)
 		self.bot_settings = bot_settings
 		self.voice_settings = voice_settings
-		self.inavtivity_timeout = self.bot_settings.retrieve_property('inactivity_timeout')
-
+		self.inavtivity_timeout = self.bot_settings.retrieve_property('timeout', 'inactivity')
+		self.translator = TranslateSpeech(api_keys['translator_key'], bot_settings, voice_settings)
+  
 	def listen(self):
 		"""
 		Listens for speech input and returns the recognized text in lowercase.
@@ -56,7 +56,7 @@ class SpeechRecognition:
 		"""Reconfigures the speech recognizer with the new language setting"""
   
 		# Get the new language setting
-		current_language = self.bot_settings.retrieve_property('language')
+		current_language = self.bot_settings.retrieve_property('language', 'current')
 
 		# Recognizer needs language-country code
 		language_country_code = self.voice_settings.retrieve_language_country_code(current_language)
@@ -68,7 +68,7 @@ class SpeechRecognition:
 		"""Handles the recognized speech input"""
   
 		# Get the current language setting
-		current_language = self.bot_settings.retrieve_property('language')
+		current_language = self.bot_settings.retrieve_property('language', 'current')
 		print(f"\nInput:\nUser: {recognized_speech}")
 
 		# If the language is not English, translate the recognized speech to English	

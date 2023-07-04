@@ -27,10 +27,10 @@ class TranslateSpeech:
 		"""
   
 		if speech_to_translate == 'Exiting. Goodbye!':
-			self.bot_settings.save_property('exit_status', True)
+			self.bot_settings.save_property('status', True, 'exit')
    
 		if one_shot_translation:
-			self.bot_settings.save_property('reset_language', True)
+			self.bot_settings.save_property('language', True, 'reset')
 
 		# Clean the language input for any punctuation
 		current_language, new_language = self._clean_language(current_language, new_language)
