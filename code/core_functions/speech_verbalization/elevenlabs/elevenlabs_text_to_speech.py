@@ -4,7 +4,7 @@ class ElevenlabsTextToSpeech:
   """
   A class that utilizes Elevenlabs' API to verbalize the bot's response.
   """
-  def __init__(self, api_keys:dict, bot_settings):
+  def __init__(self, api_keys:dict, bot_settings:object):
     set_api_key(api_keys['elevenlabs_api_key'])
     self.voice_name = bot_settings.retrieve_bot_property('current_elevenlabs_voice_name')
   
