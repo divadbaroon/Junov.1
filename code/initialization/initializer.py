@@ -33,7 +33,7 @@ class BotInitializer:
 		self.api_keys = load_api_keys()
 
 		# Language country code is used for speech recognizer initialization 
-		language = self.bot_settings.retrieve_property('language')
+		language = self.bot_settings.retrieve_property('language', 'current')
 		language_country_code = self.voice_settings.retrieve_language_country_code(language)
   
 		# Initializing the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer
