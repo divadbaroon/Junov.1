@@ -4,20 +4,18 @@
         "role": "virtual assistant",
         "gender": {
             "current": "female",
-            "previous": "female",
+            "previous": "",
             "reset": false
         },
         "language": {
             "current": "english",
-            "previous": "english",
+            "previous": "",
             "reset": false
         },
         "voice": {
             "engine": "azure",
-            "current_azure_voice_name": "en-US-BrandonNeural",
-            "previous_azure_voice_name": "en-US-AmberNeural",
-            "current_elevenlabs_voice_name": "",
-            "previous_elevenlabs_voice_name": "",
+            "current_voice_name": "Amber",
+            "previous_voice_name": "",
             "reconfigure": false
         },
         "status": {
