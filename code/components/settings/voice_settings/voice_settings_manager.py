@@ -2,10 +2,8 @@ import json
 import os
 from ..bot_settings.bot_settings_manager import BotSettingsManager
 
-# Get the current script's directory
-current_directory = os.path.dirname(os.path.abspath(__file__))
-
 # Construct the path to the bot_settings.json file in the 'voice' folder
+current_directory = os.path.dirname(os.path.abspath(__file__))
 azure_voice_settings_path = os.path.join(current_directory, 'azure_voice_settings.json')
 elevenlabs_voice_settings_path = os.path.join(current_directory, 'elevenlabs_voice_settings.json')
 
@@ -21,20 +19,20 @@ class VoiceSettingsManager:
         Instantiates the class and loads the data from "voice_settings.json"
         """
         self.bot_settings = BotSettingsManager()
-        self.voice_engine = self.bot_settings.retrieve_property('voice_engine')
+        self.voice_engine = self.bot_settings.retrieve_property('voice', 'engine')
         self.data = self.load_voice_settings()
   
     def load_voice_settings(self, file_path:str=None):
         """
         Loads the settings from "voice_settings.json" and saves them in the instance variable 'data'
         """ 
-        if file_path:
-            pass
-        elif self.voice_engine == 'azure':
-            file_path = azure_voice_settings_path
-        else:
-            file_path = elevenlabs_voice_settings_path
-        
+        # get appropriate file path
+        if not file_path:
+            if self.voice_engine == 'azure':
+                file_path = azure_voice_settings_path
+            elif self.voice_engine == 'elevenlabs':
+                file_path = elevenlabs_voice_settings_path
+
         try:
             with open(file_path, "r") as f:
                 return json.load(f)
@@ -43,36 +41,26 @@ class VoiceSettingsManager:
 
     def retrieve_next_voice_name(self, gender:str, language:str, current_name:str=None) -> str:
         """
-        Returns the desired voice name from "voice_settings.json"
-        :name (str): The name of the voice name
+        Returns the next voice name from the given name
         """
         voice_names = self.retrieve_voice_names(gender, language)
-
+        
         for index, name in enumerate(voice_names):
             if name == current_name:
                 if index + 1 < len(voice_names): # Check if there's a next element in the list
                     new_voice_name = voice_names[index + 1]
-                else: # If there's no next element, loop back to the start of the list
+                else: 
                     new_voice_name = voice_names[0]
-                if self.voice_engine == 'elevenlabs':
-                    return new_voice_name
+        return new_voice_name
                         
-                elif self.voice_engine == 'azure':
-                    for name_pair in self.data['name_pairs']:
-                        if new_voice_name in name_pair:
-                            return name_pair[new_voice_name]
-                        
-    def retrieve_voice_name(self, gender:str, language:str) -> list:
+    def retrieve_voice_name(self, gender:str, language:str, index:int=0) -> str:
         """
-        Returns all voice names associated with a specific 
+        Returns a voice name associated with a specific 
         gender and language from "voice_settings.json" as a list
-        :gender (str): The gender of the voice name
-        :language (str): The language of the voice name
         """
         voice_name = self.retrieve_voice_names(gender, language)
-        
         if isinstance(voice_name, list):
-            return voice_name[0]
+            return voice_name[index]
         else:
             return voice_name
              
@@ -80,17 +68,18 @@ class VoiceSettingsManager:
         """
         Returns all voice names associated with a specific 
         gender and language from "voice_settings.json" as a list
-        :gender (str): The gender of the voice name
-        :language (str): The language of the voice name
         """
         if gender == 'female':
             voice_names = self.data["female_voices"][language.lower()]
         if gender == 'male':
             voice_names = self.data["male_voices"][language.lower()]
-        
         return voice_names
     
-    def retrieve_azure_voice_name(self, voice_name):
+    def retrieve_azure_voice_name(self, voice_name:str) -> str:
+        """
+        Returns the Azure voice name assocaited with a given voice name.
+        For example, the arg Amber would return en-US-AmberNeural
+        """
         for name_pair in self.data['name_pairs']:
             if voice_name in name_pair:
                 return name_pair[voice_name]
@@ -107,12 +96,15 @@ class VoiceSettingsManager:
         Retrieves the language code associated with a specified language
         from "voice_settings.json"
         """
+        # method is only applicable for azure text-to-speech engine
         data = self.load_voice_settings(azure_voice_settings_path)
-        language_codes = data["language_codes"].get(language, None)
+        language_codes = data["language_codes"].get(language)
         return language_codes
         
     def retrieve_language_country_code(self, language:str) -> str:
         """Gets the country code for the given language"""
+        # method is only applicable for azure text-to-speech engine
         data = self.load_voice_settings(azure_voice_settings_path)
-        country_code = data['language_country_codes'].get(language)
-        return country_code
+        country_codes = data['language_country_codes'].get(language)
+        return country_codes
+    
