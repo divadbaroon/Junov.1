@@ -4,18 +4,8 @@
         "default": "AIGenerate2",
         "arabic": "Fatima",
         "english": [
-            "Amber",
-            "Ana",
-            "Aria",
-            "Ashley",
-            "Cora",
-            "Elizabeth",
-            "Jane",
-            "Jenny",
-            "Michelle",
-            "Monica",
-            "Nancy",
-            "Sara"
+            "Amber", "Ana", "Aria", "Ashley", "Cora", "Elizabeth", 
+            "Jane", "Jenny", "Michelle", "Monica", "Nancy", "Sara"
         ],
         "english_uk": "Bella",
         "english_australia": "Joanne",
@@ -33,16 +23,8 @@
         "default": "AIGenerate1",
         "arabic": "Hamdan",
         "english": [
-            "Brandon",
-            "Christopher",
-            "Davis",
-            "Eric",
-            "Guy",
-            "Jacob",
-            "Jason",
-            "Roger",
-            "Steffan",
-            "Tony"
+            "Brandon", "Christopher", "Davis", "Eric", "Guy", 
+            "Jacob", "Jason", "Roger", "Steffan", "Tony"
         ],
         "english_uk": "Alfie",
         "english_australia": "Darren",
