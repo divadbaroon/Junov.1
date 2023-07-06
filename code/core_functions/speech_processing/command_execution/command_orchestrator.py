@@ -30,7 +30,7 @@ class CommandOrchestrator:
 		# retrieving the bot's role and language
 		self.role = self.bot_settings.retrieve_property('role')
 		self.language = self.bot_settings.retrieve_property('language', 'current')
-		self.bot_name = self.bot_settings.retrieve_property('name', 'current')
+		self.bot_name = self.bot_settings.retrieve_property('name')
   
 	def _initilize_commands(self, api_keys:dict):
 		# Initialize all bot commands
