@@ -1,4 +1,4 @@
-from code.pibot import PiBot
+from src.pibot import PiBot
 
 def main():
 	# Create an instance of pibot

@@ -1,13 +1,13 @@
 import unittest
 
 # import all command test classes
-from ..code.components.commands.ask_gpt.test_command.test_ask_gpt import TestAskGPT
-from ..code.components.commands.bot_behavior.test_command.test_bot_behavior import TestBotBehavior
-from ..code.components.commands.get_weather.test_command.test_get_weather import TestGetWeather
-from ..code.components.commands.password_generator.test_command.test_password_generator import TestPasswordGenerator
-from ..code.components.commands.timer.test_command.test_timer import TestStartTimer
-from ..code.components.commands.translate_speech.test_command.test_translate_speech import TestTranslateSpeech
-from ..code.components.commands.web_searcher.test_command.test_web_searcher import TestWebSearcher
+from ..src.components.commands.ask_gpt.test_command.test_ask_gpt import TestAskGPT
+from ..src.components.commands.bot_behavior.test_command.test_bot_behavior import TestBotBehavior
+from ..src.components.commands.get_weather.test_command.test_get_weather import TestGetWeather
+from ..src.components.commands.password_generator.test_command.test_password_generator import TestPasswordGenerator
+from ..src.components.commands.set_timer.test_command.test_timer import TestStartTimer
+from ..src.components.commands.translate_speech.test_command.test_translate_speech import TestTranslateSpeech
+from ..src.components.commands.web_searcher.test_command.test_web_searcher import TestWebSearcher
 
 def comprehensive_test():
     """
