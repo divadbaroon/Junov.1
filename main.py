@@ -6,7 +6,13 @@ def main():
 
 	# The bot will continuously listen for user input, process it, and produce a response
 	# Exit the program by saying a generic exit command such as: 'exit', 'quit', 'terminate', or 'end conversation'
-	new_bot.run()
+	while True:
+		speech = new_bot.listen()
+		response = new_bot.process(speech)
+		new_bot.verbalize(response)
+  
+		# or
+		# new_bot.run()
          
 if __name__ == '__main__':
 	main()
