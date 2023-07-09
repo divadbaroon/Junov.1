@@ -17,5 +17,9 @@
     "Pause",
     "Get_Conversation_History",
     "Clear",
-    "Quit"
+    "Quit",
+    "Play_Song",
+    "Set_Alarm",
+    "Set_Reminder",
+    "Get_News"
 ]

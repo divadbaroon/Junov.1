@@ -1,22 +1,28 @@
 from pathlib import Path
 import json
+
+# Import all commands
 from src.components.commands.ask_gpt.ask_gpt import AskGPT
 from src.components.commands.translate_speech.translate_speech import TranslateSpeech
 from src.components.commands.get_weather.get_weather import GetWeather
 from src.components.commands.web_searcher.web_searcher import WebSearcher
 from src.components.commands.bot_behavior.bot_behavior import BotBehavior
 from src.components.commands.set_timer.set_timer import StartTimer
-from src.components.commands.password_generator.password_generator import PasswordGenerator
+from src.components.commands.generate_password.password_generator import PasswordGenerator
+from src.components.commands.get_news.get_news import GetNews
+from src.components.commands.play_music.play_music import PlaySong
+from src.components.commands.schedule_event.scheduler import Scheduler
 from src.components.settings.conversation_history.conversation_history_manager import ConversationHistoryManager
 
 class CommandOrchestrator:
 	"""Orchestrates the execution of all bot commands."""
  
-	def __init__(self, api_keys:dict, speech_verbalizer:object, intents_json:dict, bot_settings:object, voice_settings:object):
+	def __init__(self, api_keys:dict, speech_verbalizer:object, intents_json:dict, bot_settings:object, voice_settings:object, command_setttings:object):
 		
 		# retrieving the bot's role, language, and name
 		self.bot_settings = bot_settings
 		self.voice_settings = voice_settings
+		self.command_setttings = command_setttings
 		self._retrieve_bot_settings()
 
 		self.intents_json = intents_json
@@ -42,6 +48,9 @@ class CommandOrchestrator:
 		self.timer = StartTimer(self.speech_verbalizer)
 		self.password_generator = PasswordGenerator()
 		self.conversation_history = ConversationHistoryManager()
+		self.request_news = GetNews(self.request_gpt, api_keys)
+		self.request_song = PlaySong(self.command_setttings, api_keys)
+		self.schedule_event = Scheduler(self.bot_settings)
   
 	def load_commands(self):
 		# get the directory of the current Python script
@@ -145,3 +154,31 @@ class CommandOrchestrator:
 		response = self.conversation_history.exit_and_clear_conversation_history()
 		self.bot_settings.save_property('status', True, 'exit')
 		return response
+
+	def get_news(self):
+		response = self.request_news.get_current_news()
+		return response
+
+	def play_song(self):
+		song_name = self.intents_json["prediction"]["entities"]["song_name"][0]
+		response = self.request_song.play_song(song_name)
+		return response
+
+	def set_alarm(self):
+		hour = self.intents_json["prediction"]["entities"].get("hour", [0])[0]
+		minute = self.intents_json["prediction"]["entities"].get("minute", [0])[0]
+		second = self.intents_json["prediction"]["entities"].get("second", [0])[0]
+		am_or_pm = self.intents_json["prediction"]["entities"].get("am_or_pm", [0])[0]
+		response = self.schedule_event.set_alarm(hour, minute, second, am_or_pm)
+		return response
+
+	def set_reminder(self):
+		hour = self.intents_json["prediction"]["entities"].get("hour", [0])[0]
+		minute = self.intents_json["prediction"]["entities"].get("minute", [0])[0]
+		second = self.intents_json["prediction"]["entities"].get("second", [0])[0]
+		am_or_pm = self.intents_json["prediction"]["entities"].get("am_or_pm", [0])[0]
+		reminder = self.intents_json["prediction"]["entities"].get("reminder", [0])[0]
+		response = self.schedule_event.set_reminder(hour, minute, second, am_or_pm, reminder)
+		return response
+
+

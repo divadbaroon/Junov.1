@@ -9,7 +9,7 @@ class CommandParser:
 	If the top intent's score is greater than 70% the associated entity is retrieved and the appropriate action is executed.
 	"""
   
-	def __init__(self, api_keys: dict, speech_verbalizer:object, intents_json:dict, bot_settings:object, voice_settings:object):
+	def __init__(self, api_keys: dict, speech_verbalizer:object, intents_json:dict, bot_settings:object, voice_settings:object, command_settings:object):
 		
 		# load in the intents json produced by luis
 		self.intents_json = intents_json
@@ -17,7 +17,7 @@ class CommandParser:
 		self.api_keys = api_keys
 	
 		# Initialize all bot commands
-		self.command = CommandOrchestrator(self.api_keys, speech_verbalizer, intents_json, bot_settings, voice_settings)
+		self.command = CommandOrchestrator(self.api_keys, speech_verbalizer, intents_json, bot_settings, voice_settings, command_settings)
 		
 		# Minimum intent score for a command to be exucuted
 		# If score is not met GPT-3.5-Turbo is used to create a response
@@ -32,6 +32,7 @@ class CommandParser:
 		# retrieving the bot's role, language, and name
 		self.bot_settings = bot_settings
 		self.voice_settings = voice_settings
+		self.command_settings = command_settings
 		self._retrieve_bot_settings()
   
 	def _retrieve_bot_settings(self):
