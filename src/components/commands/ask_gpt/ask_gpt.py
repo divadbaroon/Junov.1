@@ -15,6 +15,8 @@ class AskGPT:
 		self.openai_key = openai_key
 		self.bot_settings = bot_settings
 		self.bot_name = bot_name
+  
+		self.model = "gpt-3.5-turbo"
 
 		# Construct the prompt for GPT-3.5-turbo
 		if prompt:
@@ -26,7 +28,7 @@ class AskGPT:
 		# self.conversation_history = self.bot_settings.load_conversation_history()
 		self.conversation_history = [{"role": "assistant", "content": self.prompt}]
 
-	def ask_GPT(self, speech:str) -> str:
+	def ask_GPT(self, speech:str, model=None, manual_request=False) -> str:
 		"""
 		Uses the user's speech, the bot's role, and the conversation history 
 		to create a response using OpenAI's GPT-3.5-turbo model API.
@@ -34,9 +36,13 @@ class AskGPT:
   
 		:return response: (str) response from GPT-3.5-turbo model 
 		"""
-		# Send a POST request to OpenAI's GPT-3 API
-		response = self._send_gpt_request(self.openai_key, speech)
+		# check if model needs to be updated
+		if model:
+			self.model = model
   
+		# get response from gpt
+		response = self._send_gpt_request(self.openai_key, speech, manual_request)
+		# cleanup response
 		response = self._clean_response(response, self.bot_name)
 	
 		return response
@@ -47,7 +53,7 @@ class AskGPT:
 	def _update_prompt(self, prompt:str) -> None:
 		self.prompt = prompt
 
-	def _send_gpt_request(self, openai_key:str, speech:str) -> str:
+	def _send_gpt_request(self, openai_key:str, speech:str, manual_request=False) -> str:
 		"""
 		Sends a POST request to the OpenAI's GPT-3.5-turbo API and returns the response.
 		:param openai_key: (str) the API key for OpenAI's GPT-3.5-turbo
@@ -55,14 +61,19 @@ class AskGPT:
 
 		:return response: (str) the response from GPT-3.5-turbo, or an error message if the request fails
 		"""
+		if manual_request:
+			message = [{"role": "user", "content": speech}] 
+		else:
+			self._update_conversation("user", speech)
+			message = self.conversation_history
+  
 		# url to OpenAI's GPT-3 API
 		url = "https://api.openai.com/v1/chat/completions"
 
-		self._update_conversation("user", speech)
 		# Now using the GPT-3.5-turbo model
 		payload = {
-			"model": "gpt-3.5-turbo-0613",
-			"messages": self.conversation_history,
+			"model": self.model,
+			"messages": message,
 			"max_tokens": 100,
     		"top_p": 1
 		}
@@ -76,6 +87,8 @@ class AskGPT:
 		if request.status_code == 200:
 			content = request.json()
 		else:
+			# print error message
+			print(request.text)
 			# If the request fails, return a message to the user
 			return "Sorry, I am currently experiencing technical difficulties. Please try again later."
 
