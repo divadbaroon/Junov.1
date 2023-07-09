@@ -24,14 +24,14 @@ class BotBehavior:
 		Saves the mute status of the bot to True in bot_properties.json
 		"""
 		mute_status = self.bot_settings.retrieve_property('status', 'mute')
-		self.speech_verbalizer.verbalize_speech('I am now muted.')
 		if mute_status:
 			response = 'I am already muted.'
 		else:
-			self.bot_settings.save_property('status', True, 'mute')
 			response =  'I am now muted.'
+			# reset status 
+			self.bot_settings.save_property('status', True, 'mute')
 
-		self.speech_verbalizer.verbalize_speech(response)
+		return response
 		
 	def unmute(self) -> str:
 		"""
@@ -44,7 +44,7 @@ class BotBehavior:
 			self.bot_settings.save_property('status', False, 'mute')
 			return 'I am now unmuted.'
 
-	def pause(self) -> dict:
+	def pause(self) -> str:
 		"""
 		A dictionary containing the action and response of the bot is returned.
 		The actual action of pausing the bot is done in the speech_verbalizer.py file.
@@ -68,25 +68,16 @@ class BotBehavior:
 		Changes the bot's gender
 		:param new_gender: (str) the new gender to change to
 		"""
-		if new_gender in ['male', 'female']:
-			# Save the new gender to bot_properties.json
-			self.bot_settings.save_property('gender', new_gender, 'current')
-			# Get the new voice name
-			current_language = self.bot_settings.retrieve_property('language', 'current')
-			new_voice_name = self.voice_settings.retrieve_voice_name(new_gender, current_language)
-			
-			current_engine = self.bot_settings.retrieve_property('voice', 'engine')
-			if current_engine == 'azure':
-				current_voice_name = self.bot_settings.retrieve_property('voice', 'current_azure_voice_name')
-			else:
-				current_voice_name = self.bot_settings.retrieve_property('voice', 'current_elevenlabs_voice_name')
-
-			self._update_voice_name(new_voice_name, current_voice_name)
-   
-			return f'Ok, I have changed my gender to {new_gender}.'
-		else:
+		# check if gender is currently supported
+		if new_gender not in ['male', 'female']:
 			return f"Sorry, I only support 'Male' or 'Female' at the moment. Please choose one of these options."
-			
+      
+		# Save the new gender and update the voice
+		self.bot_settings.save_property('gender', new_gender, 'current')
+		self._reconfigure_voice(new_gender)
+  
+		return f'Ok, I have changed my gender to {new_gender}.'
+
 	def change_language(self, new_language:str) -> str:
 		"""
 		Changes the bot's language
@@ -95,24 +86,16 @@ class BotBehavior:
 		# Extracting all currently supported languages
 		languages = self.voice_settings.available_languages()
 		new_language = new_language.lower()
-		# Check if language is supported
-		if new_language in languages:
-			# Save the new language to bot_properties.json
-			self.bot_settings.save_property('language', new_language, 'current')
-			# Get the new voice name
-			gender = self.bot_settings.retrieve_property('gender', 'current')
-			new_voice_name = self.voice_settings.retrieve_voice_name(gender, new_language)
-			
-			current_engine = self.bot_settings.retrieve_property('voice', 'engine')
-			if current_engine == 'azure':
-				current_voice_name = self.bot_settings.retrieve_property('voice', 'current_azure_voice_name')
-			else:
-				current_voice_name = self.bot_settings.retrieve_property('voice', 'current_elevenlabs_voice_name')
-			self._update_voice_name(new_voice_name, current_voice_name)
-   
-			return f'Ok, I have changed my language to {new_language}.'
-		else:
-			return f'Sorry, {new_language} is not currently supported.'
+
+		# check if language is currently supported
+		if new_language not in languages:
+			return f'Sorry, {new_language} is not currently supported.' 
+      
+		# Save the new language and update the voice
+		self.bot_settings.save_property('language', new_language, 'current')
+		self._reconfigure_voice(new_language)
+  
+		return f'Ok, I have changed my language to {new_language}.'
 
 	def change_voice(self) -> str:
 		"""
@@ -120,15 +103,11 @@ class BotBehavior:
 		"""
 		gender = self.bot_settings.retrieve_property('gender', 'current')
 		language = self.bot_settings.retrieve_property('language', 'current')
-		current_engine = self.bot_settings.retrieve_property('voice', 'engine')
-		if current_engine == 'azure':
-			current_voice_name = self.bot_settings.retrieve_property('voice', 'current_azure_voice_name')
-		else:
-			current_voice_name = self.bot_settings.retrieve_property('voice', 'current_elevenlabs_voice_name')
+		current_voice_name = self.bot_settings.retrieve_property('voice', 'name')
 
 		new_voice_name = self.voice_settings.retrieve_next_voice_name(gender, language, current_voice_name)
  
-		self._update_voice_name(new_voice_name, current_voice_name)
+		self._update_bot_voice_name(new_voice_name)
   
 		return 'Ok, I have changed my voice.'
 
@@ -138,13 +117,7 @@ class BotBehavior:
 		"""
 		gender = self.bot_settings.retrieve_property('gender', 'current')
 		language = self.bot_settings.retrieve_property('language', 'current')
-		current_engine = self.bot_settings.retrieve_property('voice', 'engine')
-		if current_engine == 'azure':
-			current_voice_name = self.bot_settings.retrieve_property('voice', 'current_azure_voice_name')
-		else:
-			current_voice_name = self.bot_settings.retrieve_property('voice', 'current_elevenlabs_voice_name')
 		voices = self.voice_settings.retrieve_voice_names(gender, language)
-		new_voice_name = ''
   
 		# If there is only one voice available for that particular language and gender it cannot be changed
 		if len(voices) == 1:
@@ -154,17 +127,27 @@ class BotBehavior:
 		else:
 			new_voice_name = voices[random.randint(0, len(voices) - 1)]
 
-		self._update_voice_name(new_voice_name, current_voice_name)
+		self._update_bot_voice_name(new_voice_name)
 
 		return 'Ok, I have changed to a random voice.'
 
-	def _update_voice_name(self, new_voice_name, previous_voice_name):
-		# Update the current voice name
-		voice_engine = self.bot_settings.retrieve_property('voice', 'engine')
-		if voice_engine == 'azure':
-			self.bot_settings.save_property('current_azure_voice_name', new_voice_name)
-			self.bot_settings.save_property('previous_azure_voice_name', previous_voice_name)
-		elif voice_engine == 'elevenlabs':
-			self.bot_settings.save_property('current_elevenlabs_voice_name', new_voice_name)
-			self.bot_settings.save_property('previous_elevenlabs_voice_name', previous_voice_name)
-		self.bot_settings.save_property('reconfigure_voice', True)
+	def _reconfigure_voice(self, new_property):
+		# checking if gender is being changed
+		if new_property in ['male', 'female']:
+			
+			# if changing gender
+			current_language = self.bot_settings.retrieve_property('language', 'current')
+			new_voice_name = self.voice_settings.retrieve_voice_name(new_property, current_language)
+		else:
+			# if changing language
+			current_gender = self.bot_settings.retrieve_property('gender', 'current')	
+			new_voice_name = self.voice_settings.retrieve_voice_name(current_gender, new_property)
+   
+		self._update_bot_voice_name(new_voice_name)
+
+	def _update_bot_voice_name(self, new_voice_name):
+		# Saving current voice name first before it is replaced
+		current_voice_name = self.bot_settings.retrieve_property('voice', 'name')
+		self.bot_settings.save_property('voice', current_voice_name, 'previous_voice_name')
+		# Setting new voice name as current
+		self.bot_settings.save_property('voice', new_voice_name, 'current_voice_name')
