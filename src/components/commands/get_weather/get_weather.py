@@ -1,4 +1,5 @@
 import requests
+from src.components.settings.command_settings.command_settings_manager import BotCommandManager
 
 class GetWeather:
 	"""
@@ -7,7 +8,8 @@ class GetWeather:
  
 	def __init__(self, weather_key:str):
 		self.weather_key = weather_key
-		self.units = "imperial"
+		self.command_manager = BotCommandManager()
+		self.units = self.command_manager.retrieve_property(command='get_weather', setting='units')
 		
 	def get_weather(self, location:str):
 		"""
