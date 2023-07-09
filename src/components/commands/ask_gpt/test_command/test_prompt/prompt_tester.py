@@ -20,7 +20,7 @@ class TestPrompt:
         self.ask_gpt = AskGPT(self.openai_key, self.bot_settings, self.bot_name, self.prompt)
         
     def _ask_GPT(self):
-        response = self.ask_gpt.ask_GPT('What are your thoughts on climate change?')
+        response = self.ask_gpt.ask_GPT(speech='What are your thoughts on climate change?', model='gpt-4', manual_request=True)
         return response
     
     def _read_prompt(self):
