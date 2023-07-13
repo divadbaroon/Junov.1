@@ -8,14 +8,21 @@ class PlaySong():
         ' streaming playlist-modify-private playlist-read-private playlist-modify-public user-library-modify '
         self.clientID = api_keys['spotify_client_id']
         self.clientSecret = api_keys['spotify_client_secret']
-        self.redirectURI = 'http://localhost:8000/callback'
+        redirectURI = 'http://localhost:8000/callback'
 
-        self.oauth = spotipy.SpotifyOAuth(client_id=self.clientID, client_secret=self.clientSecret, redirect_uri=self.redirectURI, scope=self.scope)
+        self.oauth = spotipy.SpotifyOAuth(client_id=self.clientID, client_secret=self.clientSecret, redirect_uri=redirectURI, scope=self.scope)
         
         token_info = self.oauth.get_cached_token()
         
         if not token_info:
-            token_info = self.oauth.get_access_token()
+            auth_url = self.oauth.get_authorize_url()
+            print(f"Please go here and authorize: {auth_url}")
+            response = input("Paste the redirected URL here:")
+            code = self.oauth.parse_response_code(response)
+            token_info = self.oauth.get_access_token(code)
+        
+        if self.oauth.is_token_expired(token_info):
+            token_info = self.oauth.refresh_access_token(token_info['refresh_token'])
 
         self.token = token_info['access_token']
         self.sp = spotipy.Spotify(auth=self.token)
