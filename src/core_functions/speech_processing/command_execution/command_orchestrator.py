@@ -78,7 +78,7 @@ class CommandOrchestrator:
 		return response
 
 	def get_weather(self):
-		location = self.intents_json["prediction"]["entities"]["weather_location"][0]
+		location = self.intents_json["prediction"]["entities"].get("weather_location", [0])[0]
 		response = self.request_weather.get_weather(location)
 		return response
 
@@ -156,7 +156,7 @@ class CommandOrchestrator:
 		return response
 
 	def get_news(self):
-		response = self.request_news.get_current_news()
+		response = self.request_news.get_news()
 		return response
 
 	def play_song(self):
