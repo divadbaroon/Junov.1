@@ -18,7 +18,7 @@ class AskGPT:
   
 		self.model = "gpt-3.5-turbo"
 
-		# Construct the prompt for GPT-3.5-turbo
+		# Construct the prompt model 
 		if prompt:
 			self.prompt = prompt
 		else:
