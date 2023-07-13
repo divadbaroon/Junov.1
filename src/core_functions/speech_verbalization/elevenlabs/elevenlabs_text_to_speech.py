@@ -7,7 +7,7 @@ class ElevenlabsTextToSpeech:
   def __init__(self, api_keys:dict, bot_settings:object):
     set_api_key(api_keys['elevenlabs_api_key'])
     self.bot_settings = bot_settings
-    self.voice_name = self.bot_settings.retrieve_property('voice', 'current_elevenlabs_voice_name')
+    self.voice_name = 'Adam'
   
   def text_to_speech(self, speech:str):
     """Peforms text-to-speech using Elevenlabs' API."""
@@ -21,4 +21,5 @@ class ElevenlabsTextToSpeech:
     
   def update_voice(self):
     """Updates the voice name used for Elevenlabs' API."""
-    self.voice_name = self.bot_settings.retrieve_property('voice', 'current_elevenlabs_voice_name')
+    self.bot_settings.reload_settings()
+    self.voice_name = self.bot_settings.retrieve_property('voice', 'current_voice_name')
