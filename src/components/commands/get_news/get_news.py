@@ -13,7 +13,7 @@ class GetNews():
 		# used to summarize articles
 		self.gpt = ask_gpt
 	
-	def get_current_news(self, number_of_articles:int=3) -> dict:
+	def get_news(self, number_of_articles:int=3) -> dict:
 		 # fetching data in json format
 		data = requests.get(self.main_url, params=self.query_params)
 		open_bbc_page = data.json()
