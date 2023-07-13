@@ -10,6 +10,7 @@ class GetWeather:
 		self.weather_key = weather_key
 		self.command_manager = BotCommandManager()
 		self.units = self.command_manager.retrieve_property(command='get_weather', setting='units')
+		self.default_location = self.command_manager.retrieve_property(command='get_weather', setting='default_location')
 		
 	def get_weather(self, location:str):
 		"""
@@ -18,8 +19,13 @@ class GetWeather:
   
 		:return: A string containing a human-readable description of the current temperature at the given location.
 		"""
-		# Clean the user's location input
-		location = self._clean_location(location)
+		if location:
+			# Clean the user's location input
+			location = self._clean_location(location)
+		else:
+			# use default location if one is not provided
+			location = self.default_location 
+   
 		# Get the current temperature for the given location
 		location_temperature = self._send_request(location)
 		# Return an appropriate response given the location, temperature, and the user's preferred units
