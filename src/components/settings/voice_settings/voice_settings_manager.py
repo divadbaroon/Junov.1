@@ -44,6 +44,7 @@ class VoiceSettingsManager:
         Returns the next voice name from the given name
         """
         voice_names = self.retrieve_voice_names(gender, language)
+        new_voice_name = None
         
         for index, name in enumerate(voice_names):
             if name == current_name:
@@ -88,7 +89,8 @@ class VoiceSettingsManager:
         """
         Retrieves all of the available languages from "voice_settings.json"
         """
-        language_codes = list(self.data["language_codes"].keys())
+        data = self.load_voice_settings(azure_voice_settings_path)
+        language_codes = list(data["language_codes"].keys())
         return language_codes
     
     def retrieve_language_code(self, language:str) -> str:
