@@ -103,7 +103,7 @@ class BotBehavior:
 		"""
 		gender = self.bot_settings.retrieve_property('gender', 'current')
 		language = self.bot_settings.retrieve_property('language', 'current')
-		current_voice_name = self.bot_settings.retrieve_property('voice', 'name')
+		current_voice_name = self.bot_settings.retrieve_property('voice', 'current_voice_name')
 
 		new_voice_name = self.voice_settings.retrieve_next_voice_name(gender, language, current_voice_name)
  
@@ -131,7 +131,7 @@ class BotBehavior:
 
 		return 'Ok, I have changed to a random voice.'
 
-	def _reconfigure_voice(self, new_property):
+	def _reconfigure_voice(self, new_property:str) -> None:
 		# checking if gender is being changed
 		if new_property in ['male', 'female']:
 			
@@ -142,12 +142,14 @@ class BotBehavior:
 			# if changing language
 			current_gender = self.bot_settings.retrieve_property('gender', 'current')	
 			new_voice_name = self.voice_settings.retrieve_voice_name(current_gender, new_property)
-   
+		
 		self._update_bot_voice_name(new_voice_name)
 
-	def _update_bot_voice_name(self, new_voice_name):
+	def _update_bot_voice_name(self, new_voice_name:str) -> None:
 		# Saving current voice name first before it is replaced
 		current_voice_name = self.bot_settings.retrieve_property('voice', 'name')
 		self.bot_settings.save_property('voice', current_voice_name, 'previous_voice_name')
 		# Setting new voice name as current
 		self.bot_settings.save_property('voice', new_voice_name, 'current_voice_name')
+		# Telling the bot to reconfigure the voice synthesizer using the new voice name
+		self.bot_settings.save_property('voice', True, 'reconfigure')
