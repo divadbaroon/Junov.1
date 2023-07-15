@@ -18,12 +18,11 @@ class SpeechRecognition:
 		self.inavtivity_timeout = self.bot_settings.retrieve_property('timeout', 'inactivity')
 		self.translator = TranslateSpeech(api_keys['translator_key'], bot_settings, voice_settings)
   
-	def listen(self):
+	def listen(self) -> str:
 		"""
 		Listens for speech input and returns the recognized text in lowercase.
 		:return: (str) The recognized speech input as a lowercase string.
 		"""
-
 		# Start a timer to keep track of the user's inactivity
 		begin_timer = time()
 	  
@@ -44,8 +43,10 @@ class SpeechRecognition:
 				sys.exit()
 	
 	def _attempt_speech_recognition(self) -> str:
+		"""
+		A 5-second attempt to recognize the user's speech input
+  		"""
 		try:
-			# A 5-second attempt to recognize the user's speech input
 			result = self.speech_recognizer.recognize_once_async().get() 
 		except Exception as e:
 			print(f"Error occurred during speech recognition: {e}")
@@ -64,7 +65,7 @@ class SpeechRecognition:
 		self.speech_config.speech_recognition_language = language_country_code
 		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
   
-	def _handle_recognized_speech(self, recognized_speech:str or dict) -> str or dict:
+	def _handle_recognized_speech(self, recognized_speech:str) -> str:
 		"""Handles the recognized speech input"""
   
 		# Get the current language setting

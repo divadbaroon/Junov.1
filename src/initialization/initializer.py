@@ -21,7 +21,6 @@ class BotInitializer:
 		- Initialize the bot's core functionalities: speech recognition, speech processing, and speech verbalization
 		- Play startup sound once initialization is complete.
 		"""
-  
 		# Load in settings 
 		self.bot_settings = BotSettingsManager()
 		self.voice_settings = VoiceSettingsManager()
@@ -74,7 +73,7 @@ class BotInitializer:
 	def _initialize_speech_functionalities(self) -> None:
 		"""initializing speech recognition, speech processing, and speech verbalization"""""
 		self.speech_recognition = SpeechRecognition(self.speech_objects, self.api_keys, self.bot_settings, self.voice_settings)
-		self.speech_processor = SpeechProcessor(self.api_keys, self.bot_settings, self.voice_settings, self.command_settings)
 		self.speech_verbalizer  = SpeechVerbalizer(self.speech_objects, self.api_keys, self.bot_settings, self.voice_settings)
+		self.speech_processor = SpeechProcessor(self.api_keys, self.bot_settings, self.voice_settings, self.command_settings, self.speech_verbalizer)
 
 
