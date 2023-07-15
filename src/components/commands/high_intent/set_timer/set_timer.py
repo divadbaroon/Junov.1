@@ -6,7 +6,9 @@ class StartTimer:
 	def __init__(self, speech_verbalizer):
 		self.speech_verbalizer = speech_verbalizer
 		
-	def start_timer(self, user_time, metric):
+	def start_timer(self, user_time:int, metric:str) -> str:
+		"""Starts a timer for a given amount of time."""
+  
 		self.speech_verbalizer.verbalize_speech(f'Ok, I will start a timer for {user_time} {metric[0]}')
 		user_time = self._convert_to_seconds(user_time, metric)
 		
@@ -15,9 +17,9 @@ class StartTimer:
   
 		return 'Time is up!'
 		
-	def _convert_to_seconds(self, user_time, metric):
-		"""Starts a timer for a given amount of time."""
-		# Convert user_time to seconds
+	def _convert_to_seconds(self, user_time:int, metric:str) -> int:
+		"""Converts user_time depending on the given metric."""
+  
 		if metric == 'seconds' or metric == 'second':
 			pass
 		elif metric == 'minutes' or metric == 'minute':

@@ -3,12 +3,9 @@ import json
 
 class AskGPT:
 	"""
-	A class that creates a response using OpenAI's GPT-3.5-turbo model API.
-	A rolelize response is created depening on the user's specified role and
-	the past conversation history to provie context to the conversation.
-		
-	Atributes:
-	openai_key (str): subscription key for OpenAi's GPT-3
+	A class that creates a response using a specified OpenAI GPT model.
+	A response is created depending on the user's speech, the bot's role, the prompt used,
+ 	and the conversation history.
 	"""
 	
 	def __init__(self, openai_key:str, bot_settings:object, bot_name:str, prompt=None):
@@ -31,10 +28,7 @@ class AskGPT:
 	def ask_GPT(self, speech:str, model=None, manual_request=False) -> str:
 		"""
 		Uses the user's speech, the bot's role, and the conversation history 
-		to create a response using OpenAI's GPT-3.5-turbo model API.
-		:param speech: (str) speech input
-  
-		:return response: (str) response from GPT-3.5-turbo model 
+		to create a response using OpenAI's GPT model.
 		"""
 		# check if model needs to be updated
 		if model:
@@ -47,19 +41,9 @@ class AskGPT:
 	
 		return response
 
-	def _update_conversation(self, role:str, content:str) -> None:
-		self.conversation_history.append({"role": role, "content": content})
-  
-	def _update_prompt(self, prompt:str) -> None:
-		self.prompt = prompt
-
 	def _send_gpt_request(self, openai_key:str, speech:str, manual_request=False) -> str:
 		"""
-		Sends a POST request to the OpenAI's GPT-3.5-turbo API and returns the response.
-		:param openai_key: (str) the API key for OpenAI's GPT-3.5-turbo
-		:param speech: (str) speech input
-
-		:return response: (str) the response from GPT-3.5-turbo, or an error message if the request fails
+		Sends a POST request to the GPT model and returns the response.
 		"""
 		if manual_request:
 			message = [{"role": "user", "content": speech}] 
@@ -67,10 +51,10 @@ class AskGPT:
 			self._update_conversation("user", speech)
 			message = self.conversation_history
   
-		# url to OpenAI's GPT-3 API
+		# url to the GPT model
 		url = "https://api.openai.com/v1/chat/completions"
 
-		# Now using the GPT-3.5-turbo model
+		# Now using the GPT model
 		payload = {
 			"model": self.model,
 			"messages": message,
@@ -82,7 +66,7 @@ class AskGPT:
 			"Authorization": f"Bearer {openai_key}"
 		}
 
-		# Send the POST request to OpenAI's GPT-3 API
+		# Send the POST request to the GPT model
 		request = requests.post(url, headers=headers, data=json.dumps(payload))
 		if request.status_code == 200:
 			content = request.json()
@@ -93,14 +77,22 @@ class AskGPT:
 			return "Sorry, I am currently experiencing technical difficulties. Please try again later."
 
 		# Extract the 'content' value from the response
-		# This is the response from the GPT-3.5-turbo model
+		# This is the response from the GPT model
 		response = content['choices'][0]['message']['content']
 		response = response.strip()
   
 		return response 
 
+	def _update_conversation(self, role:str, content:str) -> None:
+		"""Updates the conversation history with the user's speech and the bot's response."""
+		self.conversation_history.append({"role": role, "content": content})
+  
+	def _update_prompt(self, prompt:str) -> None:
+		"""Updates the prompt to be used for the GPT model."""
+		self.prompt = prompt
+  
 	def _clean_response(self, response:str, bot_name:str) -> str:
-		"""Sometimes the response from GPT-3.5-turbo model will incorrectly include the bot's name in the response."""
+		"""Sometimes the response from the GPT model will incorrectly include the bot's name in the response."""
   
 		bad_inputs = [f'{bot_name} said: ', f' {bot_name} said: ']
 		for example in bad_inputs:

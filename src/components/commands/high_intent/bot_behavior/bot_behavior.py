@@ -21,21 +21,20 @@ class BotBehavior:
 
 	def mute(self) -> str:
 		"""
-		Saves the mute status of the bot to True in bot_properties.json
+		Sets mute status to True in bot_settings.json
 		"""
 		mute_status = self.bot_settings.retrieve_property('status', 'mute')
 		if mute_status:
 			response = 'I am already muted.'
 		else:
-			response =  'I am now muted.'
-			# reset status 
 			self.bot_settings.save_property('status', True, 'mute')
+			response =  'I am now muted.'
 
 		return response
 		
 	def unmute(self) -> str:
 		"""
-		Saves the mute status of the bot to False in bot_properties.json
+		Sets mute status to False in bot_settings.json
 		"""
 		mute_status = self.bot_settings.retrieve_property('status', 'mute')
 		if not mute_status:
@@ -46,8 +45,7 @@ class BotBehavior:
 
 	def pause(self) -> str:
 		"""
-		A dictionary containing the action and response of the bot is returned.
-		The actual action of pausing the bot is done in the speech_verbalizer.py file.
+		Pauses the bot until the user presses enter
 		"""
 		self.speech_verbalizer.verbalize_speech('I am now paused.')
 		key_stroke = input('To unpause, press enter.')
@@ -57,16 +55,14 @@ class BotBehavior:
 
 	def change_role(self, new_role:str) -> str:
 		"""
-		Saves the new role of the bot to bot_properties.json
-		:param new_role: (str) the new role to change to
+		Saves the new role in bot_settings.json
 		"""
 		self.bot_settings.save_property('role', new_role)
 		return f'Ok, I have changed my role to {new_role}.'
 
 	def change_gender(self, new_gender:str) -> str:
 		"""
-		Changes the bot's gender
-		:param new_gender: (str) the new gender to change to
+		Saves the new role in bot_settings.json
 		"""
 		# check if gender is currently supported
 		if new_gender not in ['male', 'female']:
@@ -80,15 +76,14 @@ class BotBehavior:
 
 	def change_language(self, new_language:str) -> str:
 		"""
-		Changes the bot's language
-		:param new_language: (str) the new language to change to
+		Saves the new language in bot_settings.json
 		"""
 		# Extracting all currently supported languages
-		languages = self.voice_settings.available_languages()
+		currently_supported_languages = self.voice_settings.available_languages()
 		new_language = new_language.lower()
 
 		# check if language is currently supported
-		if new_language not in languages:
+		if new_language not in currently_supported_languages:
 			return f'Sorry, {new_language} is not currently supported.' 
       
 		# Save the new language and update the voice
@@ -99,7 +94,7 @@ class BotBehavior:
 
 	def change_voice(self) -> str:
 		"""
-		Changes to the next bot's voice name
+		Saves the new voice name in bot_settings.json
 		"""
 		gender = self.bot_settings.retrieve_property('gender', 'current')
 		language = self.bot_settings.retrieve_property('language', 'current')
@@ -107,13 +102,13 @@ class BotBehavior:
 
 		new_voice_name = self.voice_settings.retrieve_next_voice_name(gender, language, current_voice_name)
  
-		self._update_bot_voice_name(new_voice_name)
+		self._update_voice_name(new_voice_name)
   
 		return 'Ok, I have changed my voice.'
 
 	def randomize_voice(self) -> str:
 		"""
-		Randomizes the bot's voice
+		Saves the randomized voice name in bot_settings.json
 		"""
 		gender = self.bot_settings.retrieve_property('gender', 'current')
 		language = self.bot_settings.retrieve_property('language', 'current')
@@ -127,25 +122,25 @@ class BotBehavior:
 		else:
 			new_voice_name = voices[random.randint(0, len(voices) - 1)]
 
-		self._update_bot_voice_name(new_voice_name)
+		self._update_voice_name(new_voice_name)
 
 		return 'Ok, I have changed to a random voice.'
 
 	def _reconfigure_voice(self, new_property:str) -> None:
+		"""
+		Reconfigures the voice using the new gender or language.
+		"""
 		# checking if gender is being changed
-		if new_property in ['male', 'female']:
-			
-			# if changing gender
-			current_language = self.bot_settings.retrieve_property('language', 'current')
-			new_voice_name = self.voice_settings.retrieve_voice_name(new_property, current_language)
-		else:
-			# if changing language
+		if new_property not in ['male', 'female']:
 			current_gender = self.bot_settings.retrieve_property('gender', 'current')	
 			new_voice_name = self.voice_settings.retrieve_voice_name(current_gender, new_property)
+		else:
+			current_language = self.bot_settings.retrieve_property('language', 'current')
+			new_voice_name = self.voice_settings.retrieve_voice_name(new_property, current_language)
 		
-		self._update_bot_voice_name(new_voice_name)
+		self._update_voice_name(new_voice_name)
 
-	def _update_bot_voice_name(self, new_voice_name:str) -> None:
+	def _update_voice_name(self, new_voice_name:str) -> None:
 		# Saving current voice name first before it is replaced
 		current_voice_name = self.bot_settings.retrieve_property('voice', 'name')
 		self.bot_settings.save_property('voice', current_voice_name, 'previous_voice_name')

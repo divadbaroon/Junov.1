@@ -19,7 +19,7 @@ class Scheduler:
 		# attempt to format user given time as "Hour:Minute:Second"
 		try:    
 			self._format_time(hour, minute, second, am_or_pm)
-		except ValueError as e:
+		except ValueError:
 			return 'Beep beep boop boop, error setting a reminder. Please try asking again.'
 
 		self._schedule_event(reminder)

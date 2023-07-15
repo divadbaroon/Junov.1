@@ -4,26 +4,18 @@ import uuid
 class TranslateSpeech:
 	"""
 	A class that translates user given speech to a desired language.
-		
-	Atributes:
-	region (str): region for Azure's Translator service
-	translator_key (str): subscription key for Azure's Translator service
-	bot_properties (BotProperties): BotProperties object
 	"""
 			
-	def __init__(self, translator_key, bot_settings:object, voice_settings:object):
+	def __init__(self, translator_key:str, bot_settings:object, voice_settings:object):
 		self.region = 'eastus'
 		self.translator_key = translator_key
 		self.bot_settings = bot_settings
 		self.voice_settings = voice_settings
 		self.endpoint = "https://api.cognitive.microsofttranslator.com/translate"
 			
-	def translate_speech(self, speech_to_translate:str, current_language:str, new_language:str, one_shot_translation:bool=False):
+	def translate_speech(self, speech_to_translate:str, current_language:str, new_language:str, one_shot_translation:bool=False) -> str:
 		"""
 		Translates a given string of text to a desired langauge.
-		:param speech_to_translate: (str) the speech to be translated
-		:param language: (str) the language for the speech to be translated into
-		:return: (str) the translated speech
 		"""
   
 		if speech_to_translate == 'Exiting. Goodbye!':
@@ -51,7 +43,7 @@ class TranslateSpeech:
    
 		return response
 
-	def _clean_language(self, current_language:str, new_language:str):
+	def _clean_language(self, current_language:str, new_language:str) -> tuple:
 		# Language sometimes ends in a question mark
 		if current_language.endswith('?'):
 			current_language = current_language.rstrip('?')
@@ -61,7 +53,7 @@ class TranslateSpeech:
 
 		return current_language, new_language
 
-	def _send_request(self, current_language_code, new_language_code, speech_to_translate):
+	def _send_request(self, current_language_code:str, new_language_code:str, speech_to_translate:str) -> str:
 		"""Send a request to Azure's Translator service to translate a given string of text to a desired language."""
   
 		# prepare a request to Azure's Translator service

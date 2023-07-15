@@ -12,12 +12,9 @@ class GetWeather:
 		self.units = self.command_manager.retrieve_property(command='get_weather', setting='units')
 		self.default_location = self.command_manager.retrieve_property(command='get_weather', setting='default_location')
 		
-	def get_weather(self, location:str):
+	def get_weather(self, location:str) -> str:
 		"""
 		Fetches the current temperature for a specific location.
-		:param location: The name of the location(city name) to get the weather for.
-  
-		:return: A string containing a human-readable description of the current temperature at the given location.
 		"""
 		if location:
 			# Clean the user's location input
@@ -34,9 +31,6 @@ class GetWeather:
 	def _clean_location(self, location:str) -> str:
 		"""
 		Cleans the location input to remove any trailing punctuation.
-		:param location: The raw location string provided by the user.
-  
-		:return: The cleaned location string, with any trailing question marks removed.
 		"""
 		if location.endswith('?'):
 			location = location.rstrip('?')
@@ -46,16 +40,10 @@ class GetWeather:
 	def _send_request(self, location:str) -> str:
 		"""
   		Sends a request to the OpenWeatherMap API for the current temperature of a given location
-		:param location: The name of the location to get the weather for. It should be a cleaned string representing a city,
-                     state, or country.
-                     
-    	:return: The current temperature at the given location, in the units specified by `self.units`. If the API request
-             fails for any reason, returns None.
   		"""
 		try:
 			response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={location}&units={self.units}&appid={self.weather_key}")
 		except Exception as e:
-			print(f"An error occurred while trying to send a request to openweathermap. Error: {e}")
 			response = "Sorry, an error has occured. Please try asking again."
 			return response
 
@@ -73,11 +61,6 @@ class GetWeather:
 	def _create_response(self, location:str, temperature:float) -> str:
 		"""
   		Creates a user-friendly response based on the retrieved temperature.
-		:param location: The name of the location for which weather was requested. 
-		:param temperature: The current temperature at the given location, or None if the temperature could not be retrieved.
-  
-		:return: A string response indicating the current temperature at the given location in the appropriate units. If the
-				temperature could not be retrieved, returns an error message instead.
     	"""
 		if temperature is None:
 			response = f"Sorry, there was error while retrieving the weather for {location}. Please try asking again."
