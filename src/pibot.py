@@ -25,7 +25,7 @@ class PiBot:
 		:param speech: (str) speech input
 		:return: (str) response to users speech
 		"""
-		return self.speech_processor.process_speech(speech, self.speech_verbalizer)
+		return self.speech_processor.process_speech(speech)
 	
 	def verbalize(self, response: str):
 		"""
