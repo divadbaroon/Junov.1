@@ -22,8 +22,8 @@ class ConfigureSecrets():
          print('The file "secret_config.yaml" is missing.\nMake sure all files are located within the same folder.')
      
    def load_api_keys(self) -> dict:
-      """Retrieving the bot's secret values from Azure Key Vault
-         storing the bot's secret values in a hash map for ease of use"""
+      """Retrieving the bot's secret values from Azure Key Vault.
+         Secret values are stored in a hash map for ease of use"""
       if self.preferred_secret_storage == 'azure':
          api_keys = self._keyvault_secrets()
       elif self.preferred_secret_storage == 'environment':
