@@ -1,9 +1,8 @@
 import json
 import os
 
-# Get the current script's directory
+# Construct the path to the bot_settings.json file in the 'bot_settings' folder
 current_directory = os.path.dirname(os.path.abspath(__file__))
-# Construct the path to the bot_settings.json file in the 'voice' folder
 bot_settings_path = os.path.join(current_directory, 'bot_settings.json')
 
 class BotSettingsManager:
