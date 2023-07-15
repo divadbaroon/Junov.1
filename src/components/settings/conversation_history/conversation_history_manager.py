@@ -1,10 +1,8 @@
 import json
 import os
 
-# Get the current script's directory
+# Construct the path to the conversation_history.json file in the 'conversation_history' folder
 current_directory = os.path.dirname(os.path.abspath(__file__))
-
-# Construct the path to the configuration directory and the conversation_history.json file
 conversation_history_path = os.path.join(current_directory, 'conversation_history.json')
 
 class ConversationHistoryManager:

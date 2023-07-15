@@ -2,21 +2,21 @@ import json
 import os
 from ..bot_settings.bot_settings_manager import BotSettingsManager
 
-# Construct the path to the bot_settings.json file in the 'voice' folder
+# Construct the path to the bot_settings.json file in the 'voice_settings' folder
 current_directory = os.path.dirname(os.path.abspath(__file__))
 azure_voice_settings_path = os.path.join(current_directory, 'azure_voice_settings.json')
 elevenlabs_voice_settings_path = os.path.join(current_directory, 'elevenlabs_voice_settings.json')
 
 class VoiceSettingsManager:
     """
-    A class that can retrieve and save properties in "voice_settings.json".
-    Data is loaded from the "voice_settings.json" when the class is instantiated.
-    The user can then retrieve or save properties from the file.
+    A class that can retrieve and save properties from either "azure_voice_settings.json" 
+    or "elevenlabs_voice_settings.json". Data is loaded from the "voice_settings.json" when 
+    the class is instantiated. The user can then retrieve or save properties from the file.
     """
  
     def __init__(self):
         """
-        Instantiates the class and loads the data from "voice_settings.json"
+        Instantiates the class and loads the data from either "azure_voice_settings.json" or "elevenlabs_voice_settings.json"
         """
         self.bot_settings = BotSettingsManager()
         self.voice_engine = self.bot_settings.retrieve_property('voice', 'engine')
@@ -24,7 +24,7 @@ class VoiceSettingsManager:
   
     def load_voice_settings(self, file_path:str=None):
         """
-        Loads the settings from "voice_settings.json" and saves them in the instance variable 'data'
+        Loads the settings from the appropriate file.
         """ 
         # get appropriate file path
         if not file_path:
@@ -56,8 +56,8 @@ class VoiceSettingsManager:
                         
     def retrieve_voice_name(self, gender:str, language:str, index:int=0) -> str:
         """
-        Returns a voice name associated with a specific 
-        gender and language from "voice_settings.json" as a list
+        Returns a voice name associated with a specified
+        gender and language
         """
         voice_name = self.retrieve_voice_names(gender, language)
         if isinstance(voice_name, list):
@@ -67,8 +67,8 @@ class VoiceSettingsManager:
              
     def retrieve_voice_names(self, gender:str, language:str) -> list:
         """
-        Returns all voice names associated with a specific 
-        gender and language from "voice_settings.json" as a list
+        Returns all voice names associated with a specified 
+        gender and language
         """
         if gender == 'female':
             voice_names = self.data["female_voices"][language.lower()]
@@ -87,7 +87,7 @@ class VoiceSettingsManager:
     
     def available_languages(self) -> list:
         """
-        Retrieves all of the available languages from "voice_settings.json"
+        Retrieves all of the available languages 
         """
         data = self.load_voice_settings(azure_voice_settings_path)
         language_codes = list(data["language_codes"].keys())
@@ -96,7 +96,6 @@ class VoiceSettingsManager:
     def retrieve_language_code(self, language:str) -> str:
         """
         Retrieves the language code associated with a specified language
-        from "voice_settings.json"
         """
         # method is only applicable for azure text-to-speech engine
         data = self.load_voice_settings(azure_voice_settings_path)
@@ -104,7 +103,9 @@ class VoiceSettingsManager:
         return language_codes
         
     def retrieve_language_country_code(self, language:str) -> str:
-        """Gets the country code for the given language"""
+        """
+        Gets the country code for the given language
+        """
         # method is only applicable for azure text-to-speech engine
         data = self.load_voice_settings(azure_voice_settings_path)
         country_codes = data['language_country_codes'].get(language)
