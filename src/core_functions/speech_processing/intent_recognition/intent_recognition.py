@@ -2,18 +2,17 @@ import requests
 
 class LuisIntentRecognition:
 		"""
-		luis_app_id (str): application id for Azure's LUIS service
-		luis_key (str): subscription key for Azure's LUIS service
+		A class that detects the user intent from the user's speech using the trained LUIS model.
 		"""
 
 		def __init__(self, api_keys: dict):
 			self.api_keys = api_keys
 
-		def get_user_intent(self, speech:str):
+		def get_user_intent(self, speech:str) -> dict:
 			"""
 			Retrieves the similarity rankings between the user's speech and the trained LUIS model.
 			:param speech: (str) speech input
-			:return: (str) json file containing similarity rankings between the user's speech and the trained luis model
+			:return: (dict) Dictionary containing similarity rankings between the user's speech and the trained luis model
 			"""
 
 			if isinstance(speech, dict):
@@ -28,8 +27,8 @@ class LuisIntentRecognition:
 			# Check whether request was successful
 			if response.status_code == 200:
 				# Returned json file of the similarity rankings between the user's speech and the trained luis model
-				intents_json = response.json()
+				intents_data = response.json()
 			else:
 				raise ValueError(f"The request sent to the LUIS model was unsuccessful. Error: {response.status_code}")
 
-			return intents_json
+			return intents_data
