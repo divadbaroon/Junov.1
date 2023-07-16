@@ -12,7 +12,8 @@ class SpeechVerbalizer:
 		Initializes a new SpeechVerbalizer object
 		"""
 		self.bot_settings = bot_settings
-		self.voice_settings = voice_settings
+		self.voice_settings = voice_settings 
+		# check which speech engine is used
 		if self.bot_settings.retrieve_property('voice', 'engine') == 'azure':
 			self.text_to_speech_engine = AzureTextToSpeech(speech_objects, bot_settings, voice_settings)
 		else:
@@ -21,31 +22,20 @@ class SpeechVerbalizer:
 	def verbalize_speech(self, speech: str):
 		"""Verbalize the bot's response using the speech synthesizer."""
   
+		# loading in necessary data from 'bot_settings.json'
 		self._load_in_settings()
 
-		# check if there is user input
-		if speech:
-			# check if the bot is muted
-			if not self.mute_status:
-				# check if voice need to be reconfigured
-				if self.reconfigure_voice:
-					self.text_to_speech_engine.update_voice()
-					# reset the reconfigure_voice flag
-					self.bot_settings.save_property('voice', False, 'reconfigure')
+		# initiale flag to check whether the speech synthesizer needs to be reconfigured or the bot is muted
+		if self._pre_check_and_handle_flags(speech):
 				
-				print('\nResponse:')
-				print(f'{self.bot_name.title()}: {speech}')
+			print('\nResponse:')
+			print(f'{self.bot_name.title()}: {speech}')
 
-				# Verbalize the response
-				self.text_to_speech_engine.text_to_speech(speech)
-			else:
-				print('\n(muted) Response:')
-				print(f'{self.bot_name.title()}: {speech}')
-		else:
-			print('No speech has been provided to verbalize.')
+			# Verbalize the response
+			self.text_to_speech_engine.text_to_speech(speech)
 
 		# Checks whether the following params are true and executed the appropriate actions
-		self._check_for_flags(self.reset_language, self.exit_status)
+		self._post_check_and_handle_flags(self.reset_language, self.exit_status)
   
 	def _load_in_settings(self):
 		"""Loading in necessary data from 'bot_settings.json'"""
@@ -55,13 +45,37 @@ class SpeechVerbalizer:
 		self.exit_status = self.bot_settings.retrieve_property('status', 'exit')
 		self.reset_language = self.bot_settings.retrieve_property('language', 'reset')
 		self.reconfigure_voice = self.bot_settings.retrieve_property('voice', 'reconfigure')
+  
+	def _pre_check_and_handle_flags(self, speech:str) -> bool:
+		"""
+		Initial flag check
+		"""
+		# check whether speech was given
+		if not speech:
+			print('No speech has been provided to verbalize.')
+			return False
+		
+		# check if bot is muted
+		if self.mute_status:
+			print('\n(muted) Response:')
+			print(f'{self.bot_name.title()}: {speech}')
+			return False
    
-	def _check_for_flags(self, reset_language, exit_status):
-		"""Checks whether the language needs to be reset or the program needs to exit"""
+		# check if voice need to be reconfigured
+		if self.reconfigure_voice:
+			self.text_to_speech_engine.update_voice()
+			self.bot_settings.save_property('voice', False, 'reconfigure')
+			return True
+   
+		return True
+   
+	def _post_check_and_handle_flags(self, reset_language, exit_status):
+		"""Post verbalization flag check"""
+		# check if language needs to be reset (this is done after one-shot speach translationions)
 		if reset_language:
 			self._reset_language()
 
-		# Exit the program if the exit status is True
+		# Exit the program needs to be exited
 		if exit_status:
 			self.bot_settings.save_property('status', False, 'exit')
 			sys.exit()
