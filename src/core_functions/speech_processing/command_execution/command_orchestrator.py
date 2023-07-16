@@ -2,16 +2,16 @@ from pathlib import Path
 import json
 
 # Import all commands
-from src.components.commands.ask_gpt.ask_gpt import AskGPT
-from src.components.commands.translate_speech.translate_speech import TranslateSpeech
-from src.components.commands.get_weather.get_weather import GetWeather
-from src.components.commands.web_searcher.web_searcher import WebSearcher
-from src.components.commands.bot_behavior.bot_behavior import BotBehavior
-from src.components.commands.set_timer.set_timer import StartTimer
-from src.components.commands.generate_password.password_generator import PasswordGenerator
-from src.components.commands.get_news.get_news import GetNews
-from src.components.commands.play_music.play_music import PlaySong
-from src.components.commands.schedule_event.scheduler import Scheduler
+from src.components.commands.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.components.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.components.commands.high_intent.get_weather.get_weather import GetWeather
+from src.components.commands.high_intent.web_searcher.web_searcher import WebSearcher
+from src.components.commands.high_intent.bot_behavior.bot_behavior import BotBehavior
+from src.components.commands.high_intent.set_timer.set_timer import StartTimer
+from src.components.commands.high_intent.generate_password.password_generator import PasswordGenerator
+from src.components.commands.high_intent.get_news.get_news import GetNews
+#from src.components.commands.high_intent.play_music.play_music import PlaySong
+from src.components.commands.high_intent.schedule_event.scheduler import Scheduler
 from src.components.settings.conversation_history.conversation_history_manager import ConversationHistoryManager
 
 class CommandOrchestrator:
@@ -48,7 +48,7 @@ class CommandOrchestrator:
 		self.password_generator = PasswordGenerator()
 		self.conversation_history = ConversationHistoryManager()
 		self.request_news = GetNews(self.request_gpt, api_keys)
-		self.request_song = PlaySong(self.command_setttings, api_keys)
+		#self.request_song = PlaySong(self.command_setttings, api_keys)
 		self.schedule_event = Scheduler(self.bot_settings)
   
 	def load_commands(self):

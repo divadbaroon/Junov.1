@@ -1,4 +1,4 @@
-from src.components.commands.translate_speech.translate_speech import TranslateSpeech
+from src.components.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
 from .command_orchestrator import CommandOrchestrator
 
 class CommandParser:
