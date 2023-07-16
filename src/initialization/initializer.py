@@ -6,7 +6,7 @@ from src.components.settings.bot_settings.bot_settings_manager import BotSetting
 from src.components.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
 from src.components.settings.command_settings.command_settings_manager import BotCommandManager
 from src.components.sounds import play_sound
-from configuration.retrieve_secrets import ConfigureSecrets
+from configuration.configuration_settings_manager import ConfigurationManager
 
 class BotInitializer:
 	'''
@@ -30,7 +30,7 @@ class BotInitializer:
 		self._save_bot_properties(role, gender, language)
   
 		# Retrieving the bot's secret values as a dictionary
-		self.api_keys = ConfigureSecrets().load_api_keys()
+		self.api_keys = ConfigurationManager().load_api_keys()
   
 		# Initializing the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer
 		# The audio_config, speech_config, speech_recognizer, and speech_synthesizer are all being stored in a dictionary for ease of use  

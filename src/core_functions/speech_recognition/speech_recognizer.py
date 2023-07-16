@@ -2,7 +2,7 @@ import azure.cognitiveservices.speech as speechsdk
 from time import time
 import sys
 
-from src.components.commands.translate_speech.translate_speech import TranslateSpeech
+from src.components.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
 
 class SpeechRecognition:
 	"""
