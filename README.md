@@ -19,7 +19,7 @@ A virtual assistant designed for effortless setup, training, and usage. It excel
 
 ### Contextual Awareness
 
-- Stores and utilizes conversations history to provide contextual awareness to the assistant.
+- Stores and utilizes conversation history to provide contextual awareness to the assistant.
 
 ## Requirements
 - Azure account and subscription
@@ -39,20 +39,20 @@ A virtual assistant designed for effortless setup, training, and usage. It excel
 ## Supported Commands
 Intent recognition is done using your trained LUIS model, allowing for versatile command phrasing.
 
-### Weather
+### Weather Retrieval
 | Command | Response |
 | ------- | -------- |
 | What is the weather in {location} | Provides the current temperature in {location} |
-### Translation
+### Speech Translation
 | Command | Response |
 | ------- | -------- |
 | Translate {speech} into {language} | Translates {speech} into {language} |
-### Lights
+### Control Lights
 | Command | Response |
 | ------- | -------- |
 | Turn lights {off/on} | Turns the lights {off/on} |
 | Change light color to {color} | Changes the light color to {color} |
-### Music 
+### Control Music 
 | Command | Response |
 | ------- | -------- |
 | Play {song} | Plays {song} |
@@ -60,38 +60,42 @@ Intent recognition is done using your trained LUIS model, allowing for versatile
 | Play next song | Plays next song |
 | Lower volume | Lowers volume of song playing by 10% |
 | Raise volume | Raises volume of song playing by 10% |
-### Alarm
+### Set Alarm
 | Command | Response |
 | ------- | -------- |
 | Set an alarm for {day and time} | Sets an alarm for {day and time} |
-### Reminder
+### Set Reminder
 | Command | Response |
 | ------- | -------- |
 | Set a reminder for {day and time} to do {reminder} | Sets a reminder for {day and time} to do {reminder} |
-### Timer
+### Set Timer
 | Command | Response |
 | ------- | -------- |
 | Set a timer for {time} {metric} | Sets a timer for {time} {metric} |
-### News 
+### News Retrieval 
 | Command | Response |
 | ------- | -------- |
-| Give me the current news | A summary of the current top news stories (summarized using GPT) |
+| Give me the news | A summary of the current top news stories (summarized using GPT) |
 ### Web Browsing
 | Command | Response |
 | ------- | -------- |
 | Open {website} | Opens the specified {website} |
 | Search {speech} | Conducts a Google search for {speech} |
 | Search youtube for {speech} | Conducts a YouTube search for {speech} |
-### Behavior
+### Control Behavior
 | Command | Response |
 | ------- | -------- |
-| Change role to {role} | Changes the role of the assistant to {role} |
-| Change gender to {gender} | Changes the gender of the assistant to {gender} |
-| Change language to {language} | Changes the language of the assistant to {language} |
 | Mute | Mutes the assistant's responses |
 | Unmute | Unmutes the assistant's responses |
 | Pause | Pauses all of the assistant's functionalities |
 | Exit | Terminates the program |
+### Personalization
+| Command | Response |
+| ------- | -------- |
+| Change language to {language} | Changes the language of the assistant to {language} |
+| Change gender to {gender} | Changes the gender of the assistant to {gender} |
+| Change role to {role} | Changes the role of the assistant to {role} |
+| Change voice | Changes the assistant's voice |
 
 Note: If a command is given that is not included in the above list, a response will be given using GPT.
    
