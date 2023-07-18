@@ -1,10 +1,9 @@
 # Juno
-A virtual assistant designed for effortless setup, training, and usage. Built with adaptability as a core principle, its main components - speech recognition, intent recognition, and text-to-speech - are intentionally designed to be easily replaceable as more advanced solutions become available. It excels in executing a diverse range of built-in commands and utilizes OpenAI's GPT-3.5-Turbo to enable dynamic and natural language interactions.
+A virtual assistant designed for effortless setup, training, and usage. Its core functionalities - speech recognition, intent recognition, and text-to-speech - are currently powered using Azure's Cognitive Services. Components are intentionally designed to be easily replaceable as more advanced solutions become available. It excels in executing a diverse range of built-in commands and utilizes OpenAI's GPT-3.5-Turbo for dynamic and natural language interactions.
 
 ### Azure Powered
 
-- Leverages Azure's Cognitive Services for advanced speech recognition and intent recognition.
-- Utilizes either Azure's Cognitive Services or Elevenlabs for cutting-edge text-to-speech capabilities.
+- Leverages Azure's Cognitive Services for advanced speech recognition, intent recognition, and text-to-speech capabilities..
 
 ### Human-Like Interactions
 
