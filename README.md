@@ -1,4 +1,4 @@
-# PiBot
+# Juno
 A virtual assistant designed for effortless setup, training, and usage. Built with adaptability as a core principle, its main components - speech recognition, intent recognition, and text-to-speech - are intentionally designed to be easily replaceable as more advanced solutions become available. It excels in executing a diverse range of built-in commands and utilizes OpenAI's GPT-3.5-Turbo to enable dynamic and natural language interactions.
 
 ### Azure Powered
