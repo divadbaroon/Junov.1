@@ -30,7 +30,7 @@ A virtual assistant designed for effortless setup, training, and usage. With ada
 ## Installation
 1. Install the required packages: `pip install -r requirements.txt`
 2. Sign into your Azure account: `az login`
-3. Create necessary Azure resources: `python build.py`
+3. Create necessary Azure resources: `cd infra && terraform apply`
 4. Train LUIS model with training data: `python train.py`
 
 ## Usage
