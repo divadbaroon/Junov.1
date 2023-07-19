@@ -5,7 +5,7 @@ A virtual assistant designed for effortless setup, training, and usage. With ada
 
 ### Azure Powered
 
-- Currently, Juno leverages Azure's Cognitive Services for speech recognition, intent recognition, and text-to-speech capabilities. Elevenlabs is also available as an alternate option for text-to-speech.
+- Currently leverages Azure's Cognitive Services for speech recognition, intent recognition, and text-to-speech capabilities. Elevenlabs is also available as an alternate option for text-to-speech.
 
 ### Human-Like Interactions
 
