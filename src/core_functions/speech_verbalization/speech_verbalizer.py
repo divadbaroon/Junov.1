@@ -26,7 +26,7 @@ class SpeechVerbalizer:
 		self._load_in_settings()
 
 		# initiale flag to check whether the speech synthesizer needs to be reconfigured or the bot is muted
-		if self._pre_check_and_handle_flags(speech):
+		if self._check_and_handle_preconditions(speech):
 				
 			print('\nResponse:')
 			print(f'{self.bot_name.title()}: {speech}')
@@ -35,10 +35,12 @@ class SpeechVerbalizer:
 			self.text_to_speech_engine.text_to_speech(speech)
 
 		# Checks whether the following params are true and executed the appropriate actions
-		self._post_check_and_handle_flags(self.reset_language, self.exit_status)
+		self._check_and_handle_postconditions(self.reset_language, self.exit_status)
   
 	def _load_in_settings(self):
-		"""Loading in necessary data from 'bot_settings.json'"""
+		"""
+  		Loading in necessary data from 'bot_settings.json'
+    	"""
 		self.bot_settings.reload_settings()
 		self.mute_status = self.bot_settings.retrieve_property('status', 'mute')
 		self.bot_name = self.bot_settings.retrieve_property('name')
@@ -46,7 +48,7 @@ class SpeechVerbalizer:
 		self.reset_language = self.bot_settings.retrieve_property('language', 'reset')
 		self.reconfigure_voice = self.bot_settings.retrieve_property('voice', 'reconfigure')
   
-	def _pre_check_and_handle_flags(self, speech:str) -> bool:
+	def _check_and_handle_preconditions(self, speech:str) -> bool:
 		"""
 		Initial flag check
 		"""
@@ -69,7 +71,7 @@ class SpeechVerbalizer:
    
 		return True
    
-	def _post_check_and_handle_flags(self, reset_language, exit_status):
+	def _check_and_handle_postconditions(self, reset_language, exit_status):
 		"""Post verbalization flag check"""
 		# check if language needs to be reset (this is done after one-shot speach translationions)
 		if reset_language:
