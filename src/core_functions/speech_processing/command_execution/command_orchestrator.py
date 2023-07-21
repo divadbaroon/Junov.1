@@ -12,7 +12,7 @@ from src.components.commands.high_intent.generate_password.password_generator im
 from src.components.commands.high_intent.get_news.get_news import GetNews
 #from src.components.commands.high_intent.play_music.play_music import PlaySong
 from src.components.commands.high_intent.schedule_event.scheduler import Scheduler
-from src.components.settings.conversation_history.conversation_history_manager import ConversationHistoryManager
+from src.components.conversation_history.conversation_history_manager import ConversationHistoryManager
 
 class CommandOrchestrator:
 	"""Orchestrates the execution of all bot commands."""
@@ -39,9 +39,9 @@ class CommandOrchestrator:
   
 	def _initilize_commands(self, api_keys:dict):
 		# Initialize all bot commands
-		self.request_gpt = AskGPT(api_keys['openai_key'], self.bot_settings, self.bot_name)
-		self.request_translation = TranslateSpeech(api_keys['translator_key'], self.bot_settings, self.voice_settings)
-		self.request_weather = GetWeather(api_keys['weather_key'])
+		self.request_gpt = AskGPT(api_keys['OpenAI-API'], self.bot_settings, self.bot_name)
+		self.request_translation = TranslateSpeech(api_keys['Translator-API'], self.bot_settings, self.voice_settings)
+		self.request_weather = GetWeather(api_keys['Weather-API'])
 		self.browser_request  = WebSearcher()
 		self.bot_behavior = BotBehavior(self.speech_verbalizer, self.bot_settings, self.voice_settings)
 		self.timer = StartTimer(self.speech_verbalizer)
