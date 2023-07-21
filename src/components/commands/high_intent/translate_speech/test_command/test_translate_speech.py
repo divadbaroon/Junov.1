@@ -1,6 +1,6 @@
 import unittest
-from configuration.secrets import config
-from src.components.commands.translate_speech.translate_speech import TranslateSpeech
+from configuration.key_vault import config
+from src.components.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
 
 class TestTranslateSpeech(unittest.TestCase):
     """Class for testing the TranslateSpeech command"""

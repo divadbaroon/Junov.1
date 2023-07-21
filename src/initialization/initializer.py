@@ -6,7 +6,7 @@ from src.components.settings.bot_settings.bot_settings_manager import BotSetting
 from src.components.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
 from src.components.settings.command_settings.command_settings_manager import BotCommandManager
 from src.components.sounds import play_sound
-from configuration.configuration_settings_manager import ConfigurationManager
+from configuration.configuration_manager import ConfigurationManager
 
 class BotInitializer:
 	'''

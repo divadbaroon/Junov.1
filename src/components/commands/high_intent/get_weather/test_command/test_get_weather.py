@@ -1,6 +1,6 @@
 import unittest
 from configuration.secrets import config
-from src.components.commands.get_weather.get_weather import GetWeather
+from src.components.commands.high_intent.get_weather.get_weather import GetWeather
 
 class TestGetWeather(unittest.TestCase):
     """Class for testing the GetWeather command"""
