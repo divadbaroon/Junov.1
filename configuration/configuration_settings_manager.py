@@ -13,7 +13,7 @@ class ConfigurationManager:
 	def __init__(self):
 		self.data = self.load_in_data()
 		self.preferred_secret_storage = self.data['preferred_secret_storage']
-		self.api_key = self.data['api_keys']
+		self.api_keys = self.data['api_keys']
 
 	def load_in_data(self):
 		"""Load in data from 'secret_config.yaml'"""
@@ -30,27 +30,22 @@ class ConfigurationManager:
 			api_keys = self._get_keyvault_secrets()
 		elif self.preferred_secret_storage == 'environment':
 			api_keys = self._get_local_secrets()
+   
+		api_keys['region'] = 'eastus'
 		return api_keys 
 		 
 	def _get_keyvault_secrets(self) -> dict:
 		"""
 		Load secrets from Azure keyvault
 		"""
-		api_keys= {}
-		for name in self._secret_names():
-			self.api_key[name] = config.retrieve_secret(name)
-		return api_keys
+		for secret in self.api_keys.keys():
+			self.api_keys[secret] = config.retrieve_secret(secret)
+		return self.api_keys
 
 	def _get_local_secrets(self) -> dict:
 		"""
 		Load secrets from environment variables
 		"""
-		api_keys= {}
-		for name in self._secret_names():
-			self.api_key[name] = os.getenv(name)
-		return api_keys
-
-	def _secret_names(self) -> list:
-		"""Retrieve the names of the keys in the api_keys dictionary"""
-		return list(self.api_key.keys())
-
+		for secret in self.api_keys.keys():
+			self.api_keys[secret] = os.getenv(secret)
+		return self.api_keys
