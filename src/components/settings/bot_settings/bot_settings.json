@@ -18,6 +18,10 @@
             "previous_voice_name": "",
             "reconfigure": false
         },
+        "speech_recognition": {
+            "engine": "azure",
+            "reconfigure_recognizer": false
+        },
         "status": {
             "mute": false,
             "idle": false,
