@@ -34,7 +34,7 @@ class BotInitializer:
   
 		# Initializing the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer
 		# The audio_config, speech_config, speech_recognizer, and speech_synthesizer are all being stored in a dictionary for ease of use  
-		self.speech_objects = self._setup_speech_and_audio(self.api_keys['cognitive_services_api'], self.api_keys['region'], language)
+		self.speech_objects = self._setup_speech_and_audio(self.api_keys['Cognitive-Services-API'], self.api_keys['region'], language)
 
 		# initializing the bot's core functionalities: speech recognition, speech processing, and speech verbalization
 		self._initialize_speech_functionalities()
@@ -44,11 +44,9 @@ class BotInitializer:
   
 	def _check_gender_and_language(self, gender:str, language:str) -> str:
 		"""Check if gender and langauge are valid before saving them"""
-		gender, language = gender.lower(), language.lower()
-		# Ensure gender and language provided are currently supported, if not set them to default values
-		if gender not in ['male', 'female']:
+		if gender and gender.lower() not in ['male', 'female']:
 			gender = 'female'
-		if language not in self.voice_settings.available_languages():
+		if language and language.lower() not in self.voice_settings.available_languages():
 			language = 'english'
    
 		return gender, language
@@ -57,9 +55,12 @@ class BotInitializer:
 		"""Save the following bot properties to bot_settings.json"""
 		# check if given params are valid before saving them
 		gender, language = self._check_gender_and_language(gender, language)
-		self.bot_settings.save_property('role', role)
-		self.bot_settings.save_property('gender', gender, 'current')
-		self.bot_settings.save_property('language', language, 'current')
+		if role:
+			self.bot_settings.save_property('role', role)
+		if gender:
+			self.bot_settings.save_property('gender', gender, 'current')
+		if language:
+			self.bot_settings.save_property('language', language, 'current')
 
 	def _setup_speech_and_audio(self, cognitive_services_api:str, region:str, language:str) -> dict:
 		"""Initializes the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer"""
