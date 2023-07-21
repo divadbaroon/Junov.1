@@ -1,6 +1,7 @@
 import azure.cognitiveservices.speech as speechsdk
 from ..speech_recognizer import SpeechRecognition
-from settings.settings_manager import SettingsOrchestrator
+from src.components.settings.bot_settings.bot_settings_manager import BotSettingsManager
+from src.components.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
 import configuration.secrets.config as config
 
 class ManuallyTestSpeechRecognition():
@@ -8,11 +9,12 @@ class ManuallyTestSpeechRecognition():
  
 	def __init__(self) -> None:
      
-		self.bot_settings = SettingsOrchestrator()
+		self.bot_settings = BotSettingsManager()
+		self.voice_settings = VoiceSettingsManager()
   
 		# Language country code is used for speech recognizer initialization 
-		language = self.bot_settings.retrieve_bot_property('language')
-		language_country_code = self.bot_settings.get_language_country_code(language)
+		language = self.bot_settings.retrieve_property('language')
+		language_country_code = self.voice_settings.retrieve_language_country_code(language)
   
 		# API keys are retrieved from the config file with only necessary keys being retrieved
 		self.api_keys = {'cognitive_services_api': config.retrieve_secret('Cognitive-Services-API'), 'region': 'eastus', 'translator_key': config.retrieve_secret('Translator-API')}
