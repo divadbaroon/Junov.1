@@ -1,8 +1,8 @@
 from src.initialization.initializer import BotInitializer
 
-class PiBot:
+class Juno:
 	"""
- 	PiBot is a class that provides a simple interface for creating a virtual assistant.
+ 	Juno is a class that provides a simple interface for creating a virtual assistant.
 	Three methods are initialized from the BotInitializer class 
  	for the speech recognition, speech processing, and speech verbalization.
  	As well as a run all method that performs all of the bot's functionalities.

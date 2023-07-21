@@ -1,8 +1,8 @@
-from src.pibot import PiBot
+from src.juno import Juno
 
 def main():
 
-	new_bot = PiBot()
+	new_bot = Juno()
 
 	# The bot will continuously listen for user input, process it, and produce a response
 	# Exit the program by saying a generic exit command such as: 'exit', 'quit', 'terminate', or 'end conversation'
