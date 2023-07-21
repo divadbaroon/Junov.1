@@ -1,12 +1,14 @@
 from src.initialization.initializer import BotInitializer
 
 class PiBot:
-	"""PiBot is a class that provides a simple interface for creating a virtual assistant.
+	"""
+ 	PiBot is a class that provides a simple interface for creating a virtual assistant.
 	Three methods are initialized from the BotInitializer class 
  	for the speech recognition, speech processing, and speech verbalization.
- 	As well as a run all method that performs all of the bot's functionalities."""
+ 	As well as a run all method that performs all of the bot's functionalities.
+  	"""
  
-	def __init__(self, role='virtual assistant', gender='female', language='english'):
+	def __init__(self, role=None, gender=None, language=None):
 		self.BotInitializer = BotInitializer(role, gender, language)
 		self.speech_recognition = self.BotInitializer.speech_recognition
 		self.speech_processor = self.BotInitializer.speech_processor
@@ -27,25 +29,14 @@ class PiBot:
 		"""
 		return self.speech_processor.process_speech(speech)
 	
-	def verbalize(self, response: str):
+	def verbalize(self, response: str) -> str:
 		"""
 		Verbalizes a string
 		:param response: (str) string to be verbalized
 		"""
 		self.speech_verbalizer.verbalize_speech(response)
-
-	def run_once(self):
-		"""
-		Peforms all of bot's functionalities once including:
-		:.listen() # Listens for users speech
-		:.process() # Processes and produces a response to users speech
-		:.verbalize() # Verbalizes the response
-		"""
-		speech = self.listen()
-		response = self.process(speech)
-		self.verbalize(response)
-
-	def run(self):
+  
+	def run(self) -> str:
 		"""
 		Peforms all of bot's functionalities continuosly including:
 		:.listen() # Listens for users speech
