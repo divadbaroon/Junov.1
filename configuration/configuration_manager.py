@@ -16,7 +16,9 @@ class ConfigurationManager:
 		self.api_keys = self.data['api_keys']
 
 	def load_in_data(self):
-		"""Load in data from 'secret_config.yaml'"""
+		"""
+  		Load in data from 'secret_config.yaml
+    		'"""
 		try:
 			with open(secret_config_path, "r") as f:
 				return yaml.safe_load(f)
@@ -24,8 +26,10 @@ class ConfigurationManager:
 			print('The file "secret_config.yaml" is missing.\nMake sure all files are located within the same folder.')
 	
 	def load_api_keys(self) -> dict:
-		"""Retrieving the bot's secret values from Azure Key Vault.
-			Secret values are stored in a hash map for ease of use"""
+		"""
+  		Retrieving the bot's secret values from Azure Key Vault.
+		Secret values are stored in a dictionary for ease of use
+   		"""
 		if self.preferred_secret_storage == 'azure':
 			api_keys = self._get_keyvault_secrets()
 		elif self.preferred_secret_storage == 'environment':
@@ -39,7 +43,10 @@ class ConfigurationManager:
 		Load secrets from Azure keyvault
 		"""
 		for secret in self.api_keys.keys():
-			self.api_keys[secret] = config.retrieve_secret(secret)
+			try:
+				self.api_keys[secret] = config.retrieve_secret(secret)
+			except:
+				self.api_keys[secret] = None
 		return self.api_keys
 
 	def _get_local_secrets(self) -> dict:
@@ -47,5 +54,8 @@ class ConfigurationManager:
 		Load secrets from environment variables
 		"""
 		for secret in self.api_keys.keys():
-			self.api_keys[secret] = os.getenv(secret)
+			try:
+				self.api_keys[secret] = os.getenv(secret)
+			except:
+				self.api_keys[secret] = None
 		return self.api_keys
