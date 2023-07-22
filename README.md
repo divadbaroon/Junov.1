@@ -28,10 +28,12 @@ A virtual assistant designed for effortless setup, training, and usage. Its core
 - Python 3.x
 
 ## Installation
+Run all commands from root directory
 1. Install the required packages: `pip install -r requirements.txt`
-2. Sign into your Azure account: `az login`
-3. Create necessary Azure resources: `cd infra && terraform apply`
-4. Train LUIS model with training data: `python train.py`
+2. Customize configuration: `code configuration/secrets/secret_config.yaml` 
+3. Sign into your Azure account: `az login`
+4. Create necessary Azure resources: `cd infra && terraform apply`
+6. Train LUIS model with training data: `python train.py`
 
 ## Usage
 1. Run the program: `python main.py`
