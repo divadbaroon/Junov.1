@@ -22,13 +22,13 @@ class AzureSpeechRecognition:
 		return result
 
 	def handle_result(self, result:str) -> str:
-		"""_
+		"""
 		Handles the result of the speech recognition. Code is from Azure's Speech SDK documentation.
 		"""
 		if result.reason == speechsdk.ResultReason.RecognizedSpeech:
 			return True
 		elif result.reason == speechsdk.ResultReason.NoMatch:
-			print("No speech could be recognized: {}".format(result.no_match_details))
+			pass
 		elif result.reason == speechsdk.ResultReason.Canceled:
 			cancellation_details = result.cancellation_details
 			print("Speech Recognition canceled: {}".format(cancellation_details.reason))
@@ -38,8 +38,9 @@ class AzureSpeechRecognition:
 		return None
 
 	def handle_recognized_speech(self, result) -> str:
-		"""Handles the recognized speech input"""
-  
+		"""
+  		Handles the recognized speech input
+    	"""
 		recognized_speech = result.text
   
 		# Get the current language setting
@@ -57,7 +58,6 @@ class AzureSpeechRecognition:
 		"""
   		Reconfigures the speech recognizer with the new language setting
     	"""
-  
 		# Get the new language setting
 		current_language = self.bot_settings.retrieve_property('language', 'current')
 

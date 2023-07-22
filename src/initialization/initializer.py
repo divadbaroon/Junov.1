@@ -6,7 +6,7 @@ from src.components.settings.bot_settings.bot_settings_manager import BotSetting
 from src.components.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
 from src.components.settings.command_settings.command_settings_manager import BotCommandManager
 from src.components.sounds import play_sound
-from configuration.configuration_manager import ConfigurationManager
+from configuration.manage_secrets import ConfigurationManager
 
 class BotInitializer:
 	'''
@@ -21,7 +21,8 @@ class BotInitializer:
 		- Initialize the bot's core functionalities: speech recognition, speech processing, and speech verbalization
 		- Play startup sound once initialization is complete.
 		"""
-		# Load in settings 
+  
+		# Load in setting objects
 		self.bot_settings = BotSettingsManager()
 		self.voice_settings = VoiceSettingsManager()
 		self.command_settings = BotCommandManager()
@@ -30,7 +31,7 @@ class BotInitializer:
 		self._save_bot_properties(role, gender, language)
   
 		# Retrieving the bot's secret values as a dictionary
-		self.api_keys = ConfigurationManager().load_api_keys()
+		self.api_keys = ConfigurationManager().retrieve_api_keys()
   
 		# Initializing the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer
 		# The audio_config, speech_config, speech_recognizer, and speech_synthesizer are all being stored in a dictionary for ease of use  
@@ -41,15 +42,6 @@ class BotInitializer:
 
 		# plays startup sound
 		play_sound.play_bot_sound('startup_sound')
-  
-	def _check_gender_and_language(self, gender:str, language:str) -> str:
-		"""Check if gender and langauge are valid before saving them"""
-		if gender and gender.lower() not in ['male', 'female']:
-			gender = 'female'
-		if language and language.lower() not in self.voice_settings.available_languages():
-			language = 'english'
-   
-		return gender, language
 
 	def _save_bot_properties(self, role:str, gender:str, language:str) -> None:
 		"""Save the following bot properties to bot_settings.json"""
@@ -76,5 +68,14 @@ class BotInitializer:
 		self.speech_recognition = SpeechRecognition(self.speech_objects, self.api_keys, self.bot_settings, self.voice_settings)
 		self.speech_verbalizer  = SpeechVerbalizer(self.speech_objects, self.api_keys, self.bot_settings, self.voice_settings)
 		self.speech_processor = SpeechProcessor(self.api_keys, self.bot_settings, self.voice_settings, self.command_settings, self.speech_verbalizer)
+  
+	def _check_gender_and_language(self, gender:str, language:str) -> str:
+		"""Check if gender and langauge are valid before saving them"""
+		if gender and gender.lower() not in ['male', 'female']:
+			gender = 'female'
+		if language and language.lower() not in self.voice_settings.available_languages():
+			language = 'english'
+   
+		return gender, language
 
 
