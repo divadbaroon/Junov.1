@@ -18,9 +18,9 @@ class LuisIntentRecognition:
 			if isinstance(speech, dict):
 				speech = speech['translated_speech']
 
-			endpoint_url = (f"https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.api_keys['LUIS-APP-ID']}"
+			endpoint_url = (f"https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/{self.api_keys['LUIS-APPLICATION-ID']}"
 							f"/slots/production/predict?verbose=true&show-all-intents=true&log=true"
-							f"&subscription-key={self.api_keys['LUIS-API']}"
+							f"&subscription-key={self.api_keys['LUIS-API-KEY']}"
 							f"&query={speech}")
 
 			response = requests.get(endpoint_url)

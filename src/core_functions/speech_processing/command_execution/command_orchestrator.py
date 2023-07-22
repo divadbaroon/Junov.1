@@ -39,9 +39,9 @@ class CommandOrchestrator:
   
 	def _initilize_commands(self, api_keys:dict):
 		# Initialize all bot commands
-		self.request_gpt = AskGPT(api_keys['OpenAI-API'], self.bot_settings, self.bot_name)
-		self.request_translation = TranslateSpeech(api_keys['Translator-API'], self.bot_settings, self.voice_settings)
-		self.request_weather = GetWeather(api_keys['Weather-API'])
+		self.request_gpt = AskGPT(api_keys['OPENAI-API-KEY'], self.bot_settings, self.bot_name)
+		self.request_translation = TranslateSpeech(api_keys['TRANSLATOR-API-KEY'], self.bot_settings, self.voice_settings)
+		self.request_weather = GetWeather(api_keys['WEATHER-API-KEY'])
 		self.browser_request  = WebSearcher()
 		self.bot_behavior = BotBehavior(self.speech_verbalizer, self.bot_settings, self.voice_settings)
 		self.timer = StartTimer(self.speech_verbalizer)

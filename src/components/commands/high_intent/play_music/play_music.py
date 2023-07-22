@@ -6,8 +6,8 @@ class PlaySong():
         self.scope = 'user-library-read user-modify-playback-state user-read-playback-state user-read-playback-position' \
         ' user-read-email user-read-private user-read-recently-played' \
         ' streaming playlist-modify-private playlist-read-private playlist-modify-public user-library-modify '
-        self.clientID = api_keys['spotify_client_id']
-        self.clientSecret = api_keys['spotify_client_secret']
+        self.clientID = api_keys['SPOTIFY-CLIENT-ID']
+        self.clientSecret = api_keys['SPOTIFY-CLIENT-SECRET']
         redirectURI = 'http://localhost:8000/callback'
 
         self.oauth = spotipy.SpotifyOAuth(client_id=self.clientID, client_secret=self.clientSecret, redirect_uri=redirectURI, scope=self.scope)

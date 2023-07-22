@@ -6,7 +6,7 @@ class GetNews():
 		self.query_params = {
 		"source": "bbc-news",
 		"sortBy": "top",
-		"apiKey": api_keys['News-Key']
+		"apiKey": api_keys['NEWS-API-KEY']
 		}
 		self.main_url = " https://newsapi.org/v1/articles"
 

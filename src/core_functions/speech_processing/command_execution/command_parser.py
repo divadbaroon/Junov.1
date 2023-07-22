@@ -57,7 +57,7 @@ class CommandParser:
 		# If GPT-3 was not used, translate the response to the users specified language
 		# This is since GPT-3 is capable of translating the response itself
 		if not self.gpt_response and self.language != 'english' and top_intent != 'Translate_Speech':
-			response = TranslateSpeech(self.api_keys['translator_key'], self.bot_settings, self.voice_settings).translate_speech(response, 'english', self.language, True)
+			response = TranslateSpeech(self.api_keys['TRANSLATOR-API-KEY'], self.bot_settings, self.voice_settings).translate_speech(response, 'english', self.language, True)
    
 		return response
 
