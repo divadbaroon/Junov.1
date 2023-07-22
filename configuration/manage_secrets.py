@@ -62,6 +62,3 @@ class ConfigurationManager:
 			except:
 				self.api_keys[secret] = None
 		return self.api_keys
-
-test = ConfigurationManager()
-test.retrieve_api_keys()
