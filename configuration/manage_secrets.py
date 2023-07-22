@@ -25,8 +25,6 @@ class ConfigurationManager:
 			api_keys = self._get_keyvault_secrets()
 		elif self.preferred_secret_storage == 'environment':
 			api_keys = self._get_local_secrets()
-   
-		api_keys['region'] = 'eastus'
 		return api_keys 
 
 	def _load_in_data(self):
@@ -64,3 +62,6 @@ class ConfigurationManager:
 			except:
 				self.api_keys[secret] = None
 		return self.api_keys
+
+test = ConfigurationManager()
+test.retrieve_api_keys()
