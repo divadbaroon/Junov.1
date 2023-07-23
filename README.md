@@ -1,5 +1,5 @@
 # Juno
-A flexible foundation for creating advanced conversational assistants. It's designed for effortless setup, training, and usage. Juno integrates core functionalities — speech recognition, intent recognition, and text-to-speech, and uses OpenAI's GPT model for dynamic and natural language interactions. It's built to be modular, easily customizable and extensible, making it suitable for a wide range of use cases.
+A flexible foundation for creating advanced conversational applications. It's designed for effortless setup, training, and usage. Juno integrates core functionalities — speech recognition, intent recognition, and text-to-speech, and uses OpenAI's GPT model for dynamic and natural language interactions. It's built to be modular, easily customizable and extensible, making it suitable for a wide range of use cases.
 
 ## Key Features
 
@@ -32,7 +32,7 @@ Run all commands from root directory
 1. Install the required packages: `pip install -r requirements.txt`
 2. Customize configuration: `code configuration/secrets/secret_config.yaml` 
 3. Sign into your Azure account: `az login`
-4. Create necessary Azure resources: `cd infra && terraform apply`
+4. Create necessary Azure resources: `terraform apply ./infra`
 6. Train LUIS model with training data: `python train.py`
 
 ## Usage
