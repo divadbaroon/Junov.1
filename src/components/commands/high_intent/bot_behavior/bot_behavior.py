@@ -11,13 +11,13 @@ class BotBehavior:
 	bot_properties: an object of the BotProperties class
 	"""
 			
-	def __init__(self, speech_verbalizer:object, bot_settings:object, voice_settings:object):
+	def __init__(self, speech_verbalizer:object, setting_objects:dict):
 		"""
 		Initializes an object of BotBehavior class.
 	   	"""
 		self.speech_verbalizer = speech_verbalizer
-		self.bot_settings =  bot_settings
-		self.voice_settings = voice_settings
+		self.bot_settings =  setting_objects['bot_settings']
+		self.voice_settings = setting_objects['voice_settings']
 
 	def mute(self) -> str:
 		"""

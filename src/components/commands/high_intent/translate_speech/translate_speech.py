@@ -6,11 +6,11 @@ class TranslateSpeech:
 	A class that translates user given speech to a desired language.
 	"""
 			
-	def __init__(self, translator_key:str, bot_settings:object, voice_settings:object):
+	def __init__(self, translator_key:str, setting_objects:dict):
 		self.region = 'eastus'
 		self.translator_key = translator_key
-		self.bot_settings = bot_settings
-		self.voice_settings = voice_settings
+		self.bot_settings = setting_objects['bot_settings']
+		self.voice_settings = setting_objects['voice_settings']
 		self.endpoint = "https://api.cognitive.microsofttranslator.com/translate"
 			
 	def translate_speech(self, speech_to_translate:str, current_language:str, new_language:str, one_shot_translation:bool=False) -> str:

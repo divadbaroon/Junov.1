@@ -7,13 +7,13 @@ class SpeechRecognition:
 	A class that utilizes Azure's Cognitive Speech Service to recognize the user's speech input.
 	""" 
 	
-	def __init__(self, speech_objects:dict, api_keys:dict, bot_settings:object, voice_settings:object):
-		self.bot_settings = bot_settings
-		self.inavtivity_timeout = bot_settings.retrieve_property('timeout', 'inactivity')
-		self.speech_recognition_engine = bot_settings.retrieve_property('speech_recognition', 'engine')
+	def __init__(self, speech_objects:dict, api_keys:dict, setting_objects:dict):
+		self.bot_settings = setting_objects['bot_settings']
+		self.inavtivity_timeout = self.bot_settings.retrieve_property('timeout', 'inactivity')
+		self.speech_recognition_engine = self.bot_settings.retrieve_property('speech_recognition', 'engine')
   
 		if self.speech_recognition_engine == 'azure':
-			self.speech_recognition_engine = AzureSpeechRecognition(speech_objects, api_keys, bot_settings, voice_settings)
+			self.speech_recognition_engine = AzureSpeechRecognition(speech_objects, api_keys, setting_objects)
   
 	def listen(self) -> str:
 		"""
@@ -27,10 +27,10 @@ class SpeechRecognition:
 		# initiale flag to check whether the speech recognizer needs to be reconfigured
 		self._check_and_handle_preconditions()
   
-		# Start a timer to keep track of the user's inactivity
+		# Start timer to keep track of the user's inactivity
 		begin_timer = time()
 	  
-		print('Listening...')
+		print('\nListening...')
 		while True:
       
 			result = self.speech_recognition_engine.attempt_speech_recognition()

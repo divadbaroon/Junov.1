@@ -7,17 +7,17 @@ class SpeechVerbalizer:
 	A class that utilizes Azure's Cognitive Speech Service to verbalize the bot's response.
 	"""
  
-	def __init__(self, speech_objects:dict, api_keys:dict, bot_settings:object, voice_settings:object):
+	def __init__(self, speech_objects:dict, api_keys:dict, setting_objects:dict):
 		"""
 		Initializes a new SpeechVerbalizer object
 		"""
-		self.bot_settings = bot_settings
-		self.voice_settings = voice_settings 
+		self.bot_settings = setting_objects['bot_settings']
+		self.voice_settings = setting_objects['voice_settings']
 		# check which speech engine is used
 		if self.bot_settings.retrieve_property('voice', 'engine') == 'azure':
-			self.text_to_speech_engine = AzureTextToSpeech(speech_objects, bot_settings, voice_settings)
+			self.text_to_speech_engine = AzureTextToSpeech(speech_objects, setting_objects)
 		else:
-			self.text_to_speech_engine = ElevenlabsTextToSpeech(api_keys, bot_settings)
+			self.text_to_speech_engine = ElevenlabsTextToSpeech(api_keys, setting_objects)
   
 	def verbalize_speech(self, speech: str):
 		"""Verbalize the bot's response using the speech synthesizer."""

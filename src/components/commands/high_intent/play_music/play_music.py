@@ -2,7 +2,7 @@ import spotipy
 
 class PlaySong():
     
-    def __init__(self, command_settings:object, api_keys:dict):
+    def __init__(self, setting_objects:dict, api_keys:dict):
         self.scope = 'user-library-read user-modify-playback-state user-read-playback-state user-read-playback-position' \
         ' user-read-email user-read-private user-read-recently-played' \
         ' streaming playlist-modify-private playlist-read-private playlist-modify-public user-library-modify '
@@ -34,7 +34,7 @@ class PlaySong():
             print('No devices available')
             self.device = None
             
-        self.command_settings = command_settings
+        self.command_settings = setting_objects['command_settings']
         self.track_name = None
         
     def play_song(self, track_name, artist_name=None):

@@ -8,9 +8,9 @@ class AskGPT:
  	and the conversation history.
 	"""
 	
-	def __init__(self, openai_key:str, bot_settings:object, bot_name:str, prompt=None):
+	def __init__(self, openai_key:str, setting_objects:dict, bot_name:str, prompt=None):
 		self.openai_key = openai_key
-		self.bot_settings = bot_settings
+		self.bot_settings = setting_objects['bot_settings']
 		self.bot_name = bot_name
   
 		self.model = "gpt-3.5-turbo"

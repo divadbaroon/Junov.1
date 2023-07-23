@@ -6,8 +6,8 @@ import threading
 class Scheduler:
 	"""Sets an alarm for a given time"""
 	
-	def __init__(self, command_settings:object):
-		self.command_settings = command_settings
+	def __init__(self, setting_objects:dict):
+		self.command_settings = setting_objects['command_settings']
 		self.scheduler = sched.scheduler(time.time, time.sleep)
 		self.alarm_time = None
 		self.response = None
