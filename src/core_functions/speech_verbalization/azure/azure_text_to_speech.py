@@ -2,9 +2,9 @@ import azure.cognitiveservices.speech as speechsdk
 
 class AzureTextToSpeech:
 	"""A class that utilizes Azure's Speech Service to verbalize the bot's response."""
-	def __init__(self, speech_objects:dict, bot_settings:object, voice_settings:object):
-		self.bot_setting = bot_settings
-		self.voice_settings = voice_settings
+	def __init__(self, speech_objects:dict, setting_objects:dict):
+		self.bot_setting = setting_objects['bot_settings']
+		self.voice_settings = setting_objects['voice_settings']
 		self.speech_synthesizer = speech_objects['speech_synthesizer']
 		self.speech_config = speech_objects['speech_config']
 		self.audio_config = speech_objects['audio_config']
