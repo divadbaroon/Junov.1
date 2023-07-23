@@ -1,5 +1,5 @@
 # Juno
-A virtual assistant designed for effortless setup, training, and usage. Its core functionalities — speech recognition, intent recognition, and text-to-speech - are designed to be easily replaceable as more advanced solutions become available. Juno excels in executing a diverse range of built-in commands and utilizes OpenAI's GPT-3.5-Turbo for dynamic and natural language interactions.
+A flexible foundation for creating advanced conversational assistants. It's designed for effortless setup, training, and usage. Juno integrates core functionalities — speech recognition, intent recognition, and text-to-speech, and uses OpenAI's GPT model for dynamic and natural language interactions. It's built to be modular, easily customizable and extensible, making it suitable for a wide range of use cases.
 
 ## Key Features
 
