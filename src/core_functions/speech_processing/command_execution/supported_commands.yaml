@@ -1,0 +1,20 @@
+- Ask_GPT           # sends a request to GPT and recieves a response for the user
+- Translate_Speech  # translates user speech to a given language
+- Get_Weather       # retrieves weather information for a given location
+- Search_Google     # peforms a google search for a given query
+- Open_Website      # opens a desired website
+- Search_Youtube    # peforms a youtube search for a given query
+- Change_Gender     # changes the bots current gender
+- Change_Language   # changes the bots current language
+- Change_Voice      # changes the bots voice name to the next available one
+- Randomize_Voice   # randomizes the bots voice
+- Start_Timer       # starts a timer
+- Mute              # mutes the bot
+- Unmute            # unmutes the bot
+- Pause             # pauses the bot
+- Clear             # clears conversation history
+- Quit              # ends the program
+- Play_Song         # control spotify
+- Set_Alarm         # set an alarm
+- Set_Reminder      # set a reminder
+- Get_News          # retrieve news information
