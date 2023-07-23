@@ -1,7 +1,7 @@
 from src.juno import Juno
 
 def main():
-
+	# Create an instance of Juno
 	new_bot = Juno()
 
 	# The bot will continuously listen for user input, process it, and produce a response
@@ -11,8 +11,8 @@ def main():
 		response = new_bot.process(speech)
 		new_bot.verbalize(response)
   
-		# or
-		# new_bot.run()
+	# or
+	# new_bot.run()
          
 if __name__ == '__main__':
 	main()
