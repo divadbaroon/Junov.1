@@ -31,7 +31,7 @@ class CommandOrchestrator:
 		self.setting_objects = setting_objects
 		self._retrieve_bot_settings()
 
-	def parse_commands(self, speech:str) -> str:
+	def process_command(self, speech:str) -> str:
 		"""
 		Provides the most apporiate response and action to the user's speech given the similarity rankings.
 		"""
