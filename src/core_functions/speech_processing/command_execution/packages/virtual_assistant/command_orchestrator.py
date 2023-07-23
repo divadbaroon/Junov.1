@@ -1,4 +1,4 @@
-from src.components.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.components.commands.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
 from .command_parser import CommandParser
 
 class CommandOrchestrator:
@@ -14,16 +14,16 @@ class CommandOrchestrator:
 		# dict of all api keys
 		self.api_keys = api_keys
   
+		# initialize and load in all currently supported bot commands 
+		self.command = CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
+		self.commands = self.command.load_commands()
+  
 		# dict of similarity rankings returned by luis
 		self.intents_data = intents_data
 		
 		# minimum intent score for a command to be exucuted
 		# if minimum intent score is not met GPT-3.5-Turbo is used to create a response
 		self.MINIMUM_INTENT_SCORE = .90
-  
-		# initialize and load in all currently supported bot commands 
-		self.command = CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
-		self.commands = self.command.load_commands()
 
 		# used to track if GPT-3.5-Turbo was used to create a response
 		self.gpt_response = False

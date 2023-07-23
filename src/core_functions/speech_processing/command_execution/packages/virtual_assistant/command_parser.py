@@ -2,16 +2,16 @@ import os
 import yaml
 
 # Import all commands
-from src.components.commands.low_intent.ask_gpt.ask_gpt import AskGPT
-from src.components.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
-from src.components.commands.high_intent.get_weather.get_weather import GetWeather
-from src.components.commands.high_intent.web_searcher.web_searcher import WebSearcher
-from src.components.commands.high_intent.bot_behavior.bot_behavior import BotBehavior
-from src.components.commands.high_intent.set_timer.set_timer import StartTimer
-from src.components.commands.high_intent.generate_password.password_generator import PasswordGenerator
-from src.components.commands.high_intent.get_news.get_news import GetNews
-#from src.components.commands.high_intent.play_music.play_music import PlaySong
-from src.components.commands.high_intent.schedule_event.scheduler import Scheduler
+from src.components.commands.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.components.commands.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.components.commands.packages.virtual_assistant.high_intent.get_weather.get_weather import GetWeather
+from src.components.commands.packages.virtual_assistant.high_intent.web_searcher.web_searcher import WebSearcher
+from src.components.commands.packages.virtual_assistant.high_intent.bot_behavior.bot_behavior import BotBehavior
+from src.components.commands.packages.virtual_assistant.high_intent.set_timer.set_timer import StartTimer
+from src.components.commands.packages.virtual_assistant.high_intent.generate_password.password_generator import PasswordGenerator
+from src.components.commands.packages.virtual_assistant.high_intent.get_news.get_news import GetNews
+#from src.components.commands.packages.virtual_assistant.high_intent.play_music.play_music import PlaySong
+from src.components.commands.packages.virtual_assistant.high_intent.schedule_event.scheduler import Scheduler
 from src.components.conversation_history.conversation_history_manager import ConversationHistoryManager
 
 class CommandParser:
