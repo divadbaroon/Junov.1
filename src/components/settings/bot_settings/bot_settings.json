@@ -1,6 +1,7 @@
 {
     "bot": {
         "name": "Sarah",
+        "package": "virtual_assistant",
         "role": "virtual assistant",
         "gender": {
             "current": "female",
