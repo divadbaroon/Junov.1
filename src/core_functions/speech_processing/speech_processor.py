@@ -1,5 +1,5 @@
 from .intent_recognition.intent_recognition import LuisIntentRecognition
-from .command_execution.command_orchestrator import CommandOrchestrator
+from importlib import import_module
  
 class SpeechProcessor:
 	"""
@@ -7,13 +7,16 @@ class SpeechProcessor:
 	"""
  
 	def __init__(self, api_keys: dict, setting_objects:dict, speech_verbalizer:object):
-		# intents_data set to None since it will be updated in process_speech
-		self.command_orchestrator = CommandOrchestrator(api_keys, speech_verbalizer, None, setting_objects)
+		# dynamically import the CommandOrchestrator depending on the package specified in 'bot_settings.json'
+		self.package_name = setting_objects['bot_settings'].retrieve_property('package')
+		self.CommandOrchestrator = getattr(import_module(f"src.core_functions.speech_processing.command_execution.packages.{self.package_name}.command_orchestrator"), "CommandOrchestrator")
+		# initialize the LuisIntentRecognition and CommandOrchestrator objects
 		self.get_intent = LuisIntentRecognition(api_keys)
+		self.command_orchestrator = self.CommandOrchestrator(api_keys, speech_verbalizer, None, setting_objects)
 
 	def process_speech(self, speech:str) -> str: 
 		"""
-		Processes the user's input using a trained CLU model and produces an appropriate response and action.
+		Processes the user's input using a trained LUIS model and produces an appropriate response and action.
 		:param speech: (str) speech input
 		:return: (str) response to users speech and appropriate action to be taken
 		"""
