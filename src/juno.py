@@ -2,14 +2,17 @@ from src.initialization.initializer import BotInitializer
 
 class Juno:
 	"""
- 	Juno is a class that provides a simple interface for creating a virtual assistant.
-	Three methods are initialized from the BotInitializer class 
- 	for the speech recognition, speech processing, and speech verbalization.
- 	As well as a run all method that performs all of the bot's functionalities.
+ 	A simple interface for creating an intelligent and interactive agent.
   	"""
  
-	def __init__(self, role=None, gender=None, language=None):
-		self.BotInitializer = BotInitializer(role, gender, language)
+	def __init__(self):
+		self._initalize()
+  
+	def _initalize(self) -> None:
+		"""
+		Initializes the speech recognition, speech processing, and speech verbalization
+		"""	
+		self.BotInitializer = BotInitializer()
 		self.speech_recognition = self.BotInitializer.speech_recognition
 		self.speech_processor = self.BotInitializer.speech_processor
 		self.speech_verbalizer = self.BotInitializer.speech_verbalizer
