@@ -1,5 +1,5 @@
 # Juno
-A flexible foundation for creating advanced conversational assistants. It's designed for effortless setup, training, and usage. Juno integrates core functionalities — speech recognition, intent recognition, and text-to-speech, and uses OpenAI's GPT model for dynamic and natural language interactions. It's built to be modular, easily customizable and extensible for various AI research purposes.
+A flexible foundation for creating advanced conversational assistants. It's designed for effortless setup, training, and usage. Juno integrates core functionalities — speech recognition, intent recognition, and text-to-speech, and uses OpenAI's GPT model for dynamic and natural language interactions. It's built to be modular, easily customizable and extensible, making it suitable for a wide range of use cases.
 
 ## Key Features
 
