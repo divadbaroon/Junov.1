@@ -1,5 +1,5 @@
 import azure.cognitiveservices.speech as speechsdk
-from src.components.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.components.commands.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
 
 class AzureSpeechRecognition:
 	
