@@ -32,8 +32,9 @@ class SpeechRecognition:
 	  
 		print('\nListening...')
 		while True:
-      
+			# Attempt to recognize the user's speech input
 			result = self.speech_recognition_engine.attempt_speech_recognition()
+			# If the user's speech input was recognized, return the recognized text
 			if self.speech_recognition_engine.handle_result(result):
 				return self.speech_recognition_engine.handle_recognized_speech(result)
 

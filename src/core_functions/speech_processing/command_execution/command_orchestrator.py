@@ -11,22 +11,21 @@ class CommandOrchestrator:
   
 	def __init__(self, api_keys: dict, speech_verbalizer:object, intents_data:dict, setting_objects:dict):
   
+		# dict of all api keys
 		self.api_keys = api_keys
-	
-		# Initialize all bot commands
-		self.command = CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
   
-		# load in the intents json produced by luis
+		# dict of similarity rankings returned by luis
 		self.intents_data = intents_data
 		
-		# Minimum intent score for a command to be exucuted
-		# If score is not met GPT-3.5-Turbo is used to create a response
+		# minimum intent score for a command to be exucuted
+		# if minimum intent score is not met GPT-3.5-Turbo is used to create a response
 		self.MINIMUM_INTENT_SCORE = .90
   
-		# loads in all currently supported bot commands 
+		# initialize and load in all currently supported bot commands 
+		self.command = CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
 		self.commands = self.command.load_commands()
 
-		# Set to True if GPT was used to create a response
+		# used to track if GPT-3.5-Turbo was used to create a response
 		self.gpt_response = False
 
 		self.setting_objects = setting_objects
