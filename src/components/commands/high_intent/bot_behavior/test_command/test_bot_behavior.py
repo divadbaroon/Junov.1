@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock, patch
-from src.components.commands.bot_behavior.bot_behavior import BotBehavior
+from src.components.commands.high_intent.bot_behavior.bot_behavior import BotBehavior
 
 class TestBotBehavior(unittest.TestCase):
     """Class for testing the AskGPT command"""

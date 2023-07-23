@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from src.components.commands.set_timer.set_timer import StartTimer  
+from src.components.commands.high_intent.set_timer.set_timer import StartTimer  
 
 class TestStartTimer(unittest.TestCase):
     """Class for testing the StartTimer command"""

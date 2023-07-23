@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from src.components.commands.web_searcher.web_searcher import WebSearcher
+from src.components.commands.high_intent.web_searcher.web_searcher import WebSearcher
 
 class TestWebSearcher(unittest.TestCase):
     """Class for testing the WebSearcher command"""

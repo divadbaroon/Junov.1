@@ -1,12 +1,13 @@
 import unittest
-from configuration.key_vault import config
+from configuration.secrets.config import KeyVaultManager
 from src.components.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
 
 class TestTranslateSpeech(unittest.TestCase):
     """Class for testing the TranslateSpeech command"""
     
     def setUp(self):
-        self.translator_key = config.retrieve_secret('Translator-API')
+        self.key_vault = KeyVaultManager()
+        self.translator_key = self.key_vault.retrieve_secret('TRANSLATOR-API-KEY')
         self.translator = TranslateSpeech(self.translator_key)
         self.translator_incorrect = TranslateSpeech("wrong key")
         

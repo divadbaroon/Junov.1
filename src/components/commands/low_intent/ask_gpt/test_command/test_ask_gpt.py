@@ -1,5 +1,5 @@
 import unittest
-from configuration.key_vault import config
+from configuration.secrets import config
 from src.components.settings.bot_settings.bot_settings_manager import BotSettingsManager
 from src.components.commands.low_intent.ask_gpt.ask_gpt import AskGPT
 

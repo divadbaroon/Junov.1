@@ -1,5 +1,5 @@
 import unittest
-from src.components.commands.password_generator.password_generator import PasswordGenerator
+from src.components.commands.high_intent.generate_password.password_generator import PasswordGenerator
 
 class TestPasswordGenerator(unittest.TestCase):
     """Class for testing the PasswordGenerator command"""
