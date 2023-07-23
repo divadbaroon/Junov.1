@@ -30,6 +30,6 @@ class GetNews():
 			information[f"article {i + 1}"] = {"title": articles[i]["title"], "description": articles[i]["description"]}
    
 		# using GPT to summarize articles 
-		response = self.gpt.ask_GPT(speech=f'Provide a summary of the daily news with these articles: {information}', model='gpt-4', manual_request=True)
+		response = self.gpt.ask_GPT(speech=f'You are a virtual assistant tasked with providing a summary of the daily news given these news articles: {information}', manual_request=True)
 
-		return response
+		return f'Sure! Here are some of the latest news stories. {response}'
