@@ -11,16 +11,17 @@ class AskGPT:
 	def __init__(self, openai_key:str, setting_objects:dict, bot_name:str, prompt=None):
 		self.openai_key = openai_key
 		self.bot_settings = setting_objects['bot_settings']
+		self.command_settings = setting_objects['command_settings']
 		self.bot_name = bot_name
-  
 		self.model = "gpt-3.5-turbo"
 
+		self.command_settings.reload_settings()
+		prompt = self.command_settings.retrieve_property("ask_gpt", "prompt")
 		# Construct the prompt model 
 		if prompt:
 			self.prompt = prompt
 		else:
 			self.prompt =  f"You are a helpful virtual assistant named {bot_name}. Keep your responses concise yet informative to the user."
-   
 		# Loading in the conversation history
 		# self.conversation_history = self.bot_settings.load_conversation_history()
 		self.conversation_history = [{"role": "assistant", "content": self.prompt}]
