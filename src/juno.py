@@ -5,14 +5,14 @@ class Juno:
  	A simple interface for creating an intelligent and interactive agent.
   	"""
  
-	def __init__(self):
-		self._initalize()
+	def __init__(self, **kwargs):
+		self._initalize(**kwargs)
   
-	def _initalize(self) -> None:
+	def _initalize(self, **kwargs) -> None:
 		"""
 		Initializes the speech recognition, speech processing, and speech verbalization
 		"""	
-		self.BotInitializer = BotInitializer()
+		self.BotInitializer = BotInitializer(**kwargs)
 		self.speech_recognition = self.BotInitializer.speech_recognition
 		self.speech_processor = self.BotInitializer.speech_processor
 		self.speech_verbalizer = self.BotInitializer.speech_verbalizer
@@ -41,7 +41,7 @@ class Juno:
   
 	def run(self) -> str:
 		"""
-		Peforms all of bot's functionalities continuosly including:
+		Performs all of bot's functionalities continuously, running indefinitely:
 		:.listen() # Listens for users speech
 		:.process() # Processes and produces a response to users speech
 		:.verbalize() # Verbalizes the response
