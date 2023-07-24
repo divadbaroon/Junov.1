@@ -24,8 +24,7 @@ class BotCommandManager:
 	def retrieve_property(self, command:str, setting: str) -> str:
 		"""Retrieves a property from "command_settings.json" and returns it."""
 		
-		if command in ['get_weather', 'password_generator']:
-			return self.data[command].get(setting)
+		return self.data[command].get(setting)
 		
 	def retrieve_properties(self) -> dict:
 		"""Retrieves all properties from "command_settings.json" and returns them."""
@@ -34,8 +33,7 @@ class BotCommandManager:
 	def save_property(self, command:str, setting: str, value: str) -> None:
 		"""Save a property to "command_settings.json."""
 		
-		if command in ['get_weather', 'password_generator']:
-			self.data[command][setting] = value
+		self.data[command][setting] = value
 		
 		# write data back
 		with open(command_settings_path, "w") as f:
