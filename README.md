@@ -1,5 +1,5 @@
 # Juno
-A flexible foundation for creating advanced conversational applications. It's designed for effortless setup, training, and usage. Juno integrates core functionalities — speech recognition, intent recognition, and text-to-speech, and uses OpenAI's GPT model for dynamic and natural language interactions. It's built to be modular, easily customizable and extensible, making it suitable for a wide range of use cases.
+A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. It seamlessly integrates Azure powered: speech recognition, intent recognition, and text-to-speech capabilities. OpenAI's GPT model is integrated for dynamic and natural language interactions. Its modular, customizable, and extensible design makes it suitable for a wide range of use cases
 
 ## Key Features
 
