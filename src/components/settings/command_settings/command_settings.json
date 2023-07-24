@@ -1,4 +1,7 @@
 {
+    "ask_gpt": {
+        "prompt": null
+    },
     "get_weather": {
         "units": "imperial",
         "default_location": "Plymouth"
