@@ -1,0 +1,745 @@
+{
+    "log_sessions": [
+        {
+            "Session": {
+                "log_session": {
+                    "Date": "2023-07-24",
+                    "Action Performed": "speech recognition",
+                    "Input": "User input",
+                    "Output": "Hello",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 2.3312868000066373
+                }
+            }
+        },
+        {
+            "Session": {
+                "log_session": {
+                    "Date": "2023-07-24",
+                    "Action Performed": "speech recognition",
+                    "Input": "User input",
+                    "Output": "Hello",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 1.8994013000046834
+                }
+            }
+        },
+        {
+            "Session": {
+                "log_session": {
+                    "Date": "2023-07-24",
+                    "Action Performed": "speech recognition",
+                    "Input": "User input",
+                    "Output": "Hello",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 2.1946888000238687
+                }
+            }
+        },
+        {
+            "Session": {
+                "log_session": {
+                    "Date": "2023-07-24",
+                    "Action Performed": "speech recognition",
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 2.7781677000166383
+                }
+            }
+        },
+        {
+            "Session": {
+                "speech recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Hello",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 1.8089325999899302
+                }
+            }
+        },
+        {
+            "Session": {
+                "speech recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 3.105481200007489
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_recognition.speech_recognizer.SpeechRecognition object at 0x000001808F718B80>,) {}",
+                    "Output": "Hello",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 3.099099999992177
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_recognition.speech_recognizer.SpeechRecognition object at 0x000001C575078B50>,) {}",
+                    "Output": "Hello",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 2.263623800012283
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_recognition.speech_recognizer.SpeechRecognition object at 0x000001C575078B50>,) {}",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 3.0732830000051763
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Hello",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 1.781750900001498
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 15.541365799988853
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Hello",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 2.121761099988362
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 3.6269495000015013
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Put",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 1.8137434999807738
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Hello",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 1.8012082999921404
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 5.895143500005361
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 4.130654099979438
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 4.208403700002236
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 23.393716399994446
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 16.60178860000451
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 6.0259296000003815
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 10.055976100004045
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "What are you?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 2.61864400000195
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 8.201269599987427
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Hey, how's it going?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 2.6146764000004623
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 2.6209535999805667
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001A6F5E4B250>, \"Actually, I'd like to order a pepperoni pizza with extra cheese, please. And, yes, I'd also like to add some garlic breadsticks as a side dish. Do you have any soda options available for drinks?\") {}",
+                    "Output": "Actually, I'd like to order a pepperoni pizza with extra cheese, please. And, yes, I'd also like to add some garlic breadsticks as a side dish. Do you have any soda options available for drinks?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 14.716830899997149
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001A6F5EBE950>, 'Of course! A pepperoni pizza with extra cheese and garlic breadsticks sounds delicious. As for drinks, we have a variety of soda options available such as Coca-Cola, Pepsi, Sprite, and Dr. Pepper. Which one would you like?') {}",
+                    "Output": "Of course! A pepperoni pizza with extra cheese and garlic breadsticks sounds delicious. As for drinks, we have a variety of soda options available such as Coca-Cola, Pepsi, Sprite, and Dr. Pepper. Which one would you like?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 17.89049929997418
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001A6F5E4B250>, 'Great choice! We can definitely add a pepperoni pizza with extra cheese and garlic breadsticks to your order. For the drinks, we have Coca-Cola, Pepsi, Sprite, and Dr. Pepper. Which one would you like?') {}",
+                    "Output": "Great choice! We can definitely add a pepperoni pizza with extra cheese and garlic breadsticks to your order. For the drinks, we have Coca-Cola, Pepsi, Sprite, and Dr. Pepper. Which one would you like?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 15.726979200000642
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001A6F5EBE950>, \"Alright, one pepperoni pizza with extra cheese, garlic breadsticks, and a Coca-Cola coming right up! Can I get your name and your address for the delivery? And is there anything else you'd like to add to your order?\") {}",
+                    "Output": "Alright, one pepperoni pizza with extra cheese, garlic breadsticks, and a Coca-Cola coming right up! Can I get your name and your address for the delivery? And is there anything else you'd like to add to your order?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 13.90386849999777
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000002352541A8F0>, 'Certainly! Would you like a small, medium, or large cheese pizza?') {}",
+                    "Output": "Certainly! Would you like a small, medium, or large cheese pizza?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 6.047625699982746
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x00000235253AF310>, 'Could I please have a large cheese pizza, please?') {}",
+                    "Output": "Could I please have a large cheese pizza, please?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 3.855358000000706
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000002352541A8F0>, 'Certainly! We can definitely make that for you. Would you like any additional toppings or just a plain cheese pizza?') {}",
+                    "Output": "Certainly! We can definitely make that for you. Would you like any additional toppings or just a plain cheese pizza?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 9.101254199980758
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x00000235253AF310>, 'Certainly! Would you like any additional toppings on your pizza?') {}",
+                    "Output": "Certainly! Would you like any additional toppings on your pizza?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 5.260317800013581
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000002352541A8F0>, 'No, thank you. Just extra cheese, please.') {}",
+                    "Output": "No, thank you. Just extra cheese, please.",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 5.066641699988395
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x00000235253AF310>, 'Great! A cheese pizza with extra cheese. Anything else you would like to add to your order?') {}",
+                    "Output": "Great! A cheese pizza with extra cheese. Anything else you would like to add to your order?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 7.673207399988314
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000002352541A8F0>, 'Sure, just to confirm, you would like a large cheese pizza with extra cheese, right? Any other toppings or sides you would like to add to your order?') {}",
+                    "Output": "Sure, just to confirm, you would like a large cheese pizza with extra cheese, right? Any other toppings or sides you would like to add to your order?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 10.24598840001272
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000018F6BE53460>, 'I would like a cheese pizza with extra cheese please') {}",
+                    "Output": "I would like a cheese pizza with extra cheese please",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 4.5296870000020135
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000018F6BEBEC50>, 'Sure, we can definitely make that for you! Our cheese pizza is a classic choice. Would you like the regular size or a larger one?') {}",
+                    "Output": "Sure, we can definitely make that for you! Our cheese pizza is a classic choice. Would you like the regular size or a larger one?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 10.493634199985536
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000018F6BE53460>, \"I'll have a regular-sized cheese pizza, please. And could you add some extra cheese on top? That would be great.\") {}",
+                    "Output": "I'll have a regular-sized cheese pizza, please. And could you add some extra cheese on top? That would be great.",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 8.791744699992705
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000018F6BEBEC50>, 'Sure, I can definitely help you with that. Just to confirm, you would like a regular-sized cheese pizza with extra cheese on top, correct?') {}",
+                    "Output": "Sure, I can definitely help you with that. Just to confirm, you would like a regular-sized cheese pizza with extra cheese on top, correct?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 9.982378599990625
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000018F6BE53460>, 'Sure! How about our signature three cheese pizza? It comes with a blend of mozzarella, cheddar, and parmesan for a deliciously cheesy experience. Would you like any additional toppings on your pizza?') {}",
+                    "Output": "Sure! How about our signature three cheese pizza? It comes with a blend of mozzarella, cheddar, and parmesan for a deliciously cheesy experience. Would you like any additional toppings on your pizza?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 14.640328899986343
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000018F6BEBEC50>, 'Yes, we can definitely make that for you! Our signature three cheese pizza with extra cheese on top sounds absolutely delicious. Would you like any additional toppings on your pizza?') {}",
+                    "Output": "Yes, we can definitely make that for you! Our signature three cheese pizza with extra cheese on top sounds absolutely delicious. Would you like any additional toppings on your pizza?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 13.126790399983292
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Recognition": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "User input",
+                    "Output": "Exit",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 8.88049989999854
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001B3AEF03460>, 'I would like a cheese pizza with extra cheese please') {}",
+                    "Output": "I would like a cheese pizza with extra cheese please",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 4.485689699999057
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001B3AEF6AC50>, 'Of course, we can definitely do that for you! Our cheese pizza is always a popular choice. Would you like any additional toppings on your pizza?') {}",
+                    "Output": "Of course, we can definitely do that for you! Our cheese pizza is always a popular choice. Would you like any additional toppings on your pizza?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 11.142549599986523
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000024ECD023460>, 'I would like a cheese pizza with extra cheese please') {}",
+                    "Output": "I would like a cheese pizza with extra cheese please",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 4.501576300011948
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000024ECD086C50>, \"Sure, I can help you with that! Just to confirm, you'd like a cheese pizza with extra cheese, correct?\") {}",
+                    "Output": "Sure, I can help you with that! Just to confirm, you'd like a cheese pizza with extra cheese, correct?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 8.237798599991947
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000024ECD023460>, \"Yes, that's correct! I would like a cheese pizza with extra cheese.\") {}",
+                    "Output": "Yes, that's correct! I would like a cheese pizza with extra cheese.",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 5.968544799980009
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000024ECD086C50>, 'Great choice! Our delicious cheese pizza with extra cheese is a classic favorite. Is there anything else you would like to add to your order, like any toppings or sides?') {}",
+                    "Output": "Great choice! Our delicious cheese pizza with extra cheese is a classic favorite. Is there anything else you would like to add to your order, like any toppings or sides?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 11.99097559999791
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x0000024ECD023460>, 'No, thank you. Just the cheese pizza with extra cheese is perfect for now. How long do you think it will take for the delivery?') {}",
+                    "Output": "No, thank you. Just the cheese pizza with extra cheese is perfect for now. How long do you think it will take for the delivery?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 9.54234539999743
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001C550F7B5E0>, 'I would like a cheese pizza with extra cheese please') {}",
+                    "Output": "I would like a cheese pizza with extra cheese please",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 4.469222599989735
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001FCB1FFB5B0>, 'I would like a cheese pizza with extra cheese please') {}",
+                    "Output": "I would like a cheese pizza with extra cheese please",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 4.483954900002573
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001ECD0A3B460>, 'I would like a cheese pizza with extra cheese please') {}",
+                    "Output": "I would like a cheese pizza with extra cheese please",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 4.5148926000110805
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001ECD0A9AFB0>, 'Certainly! We can definitely make you a cheese pizza with extra cheese. Would you like any additional toppings or just the cheese?') {}",
+                    "Output": "Certainly! We can definitely make you a cheese pizza with extra cheese. Would you like any additional toppings or just the cheese?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 10.122728400019696
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001ECD0A3B460>, 'Can I add some pepperoni and mushrooms to that? And can you make the crust extra crispy please?') {}",
+                    "Output": "Can I add some pepperoni and mushrooms to that? And can you make the crust extra crispy please?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 6.884030400018673
+                }
+            }
+        },
+        {
+            "Session": {
+                "Speech Verbalization": {
+                    "Date": "2023-07-24",
+                    "Action Performed": null,
+                    "Input": "(<src.core_functions.speech_verbalization.speech_verbalizer.SpeechVerbalizer object at 0x000001ECD0A9AFB0>, \"Sure! I can definitely add some pepperoni and mushrooms to your cheese pizza. Would you like the toppings spread evenly or concentrated in certain areas? And no problem, we can make the crust extra crispy for you. Anything else you'd like to add to your order?\") {}",
+                    "Output": "Sure! I can definitely add some pepperoni and mushrooms to your cheese pizza. Would you like the toppings spread evenly or concentrated in certain areas? And no problem, we can make the crust extra crispy for you. Anything else you'd like to add to your order?",
+                    "Success": true,
+                    "Error": null,
+                    "Run time": 17.958327100001043
+                }
+            }
+        }
+    ]
+}

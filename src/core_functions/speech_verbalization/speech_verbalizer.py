@@ -1,6 +1,9 @@
 import sys
 from .elevenlabs.elevenlabs_text_to_speech import ElevenlabsTextToSpeech
 from .azure.azure_text_to_speech import AzureTextToSpeech
+from ...components.logs.log_performance import PerformanceLogger
+
+logger = PerformanceLogger()
 
 class SpeechVerbalizer:
 	"""
@@ -18,7 +21,8 @@ class SpeechVerbalizer:
 			self.text_to_speech_engine = AzureTextToSpeech(speech_objects, setting_objects)
 		else:
 			self.text_to_speech_engine = ElevenlabsTextToSpeech(api_keys, setting_objects)
-  
+
+	@logger.log_operation
 	def verbalize_speech(self, speech: str):
 		"""Verbalize the bot's response using the speech synthesizer."""
   
@@ -36,6 +40,8 @@ class SpeechVerbalizer:
 
 		# Checks whether the following params are true and executed the appropriate actions
 		self._check_and_handle_postconditions(self.reset_language, self.exit_status)
+  
+		return speech
   
 	def _load_in_settings(self):
 		"""

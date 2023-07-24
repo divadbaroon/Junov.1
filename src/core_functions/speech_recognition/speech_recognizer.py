@@ -1,6 +1,9 @@
 import sys
 from time import time
 from .azure.azure_speech_recognition import AzureSpeechRecognition
+from ...components.logs.log_performance import PerformanceLogger
+
+logger = PerformanceLogger()
 
 class SpeechRecognition:
 	"""
@@ -15,6 +18,7 @@ class SpeechRecognition:
 		if self.speech_recognition_engine == 'azure':
 			self.speech_recognition_engine = AzureSpeechRecognition(speech_objects, api_keys, setting_objects)
   
+	@logger.log_operation
 	def listen(self) -> str:
 		"""
 		Listens for speech input and returns the recognized text in lowercase.
@@ -32,11 +36,14 @@ class SpeechRecognition:
 	  
 		print('\nListening...')
 		while True:
-			# Attempt to recognize the user's speech input
-			result = self.speech_recognition_engine.attempt_speech_recognition()
-			# If the user's speech input was recognized, return the recognized text
-			if self.speech_recognition_engine.handle_result(result):
-				return self.speech_recognition_engine.handle_recognized_speech(result)
+			try:
+				# Attempt to recognize the user's speech input
+				result = self.speech_recognition_engine.attempt_speech_recognition()
+				# If the user's speech input was recognized, return the recognized text
+				if self.speech_recognition_engine.handle_result(result):
+					return self.speech_recognition_engine.handle_recognized_speech(result)
+			except Exception as e:
+				return e
 
 			# Terminate the program if there is no user input for a default of 5 minutes
 			if time() - begin_timer >= self.inavtivity_timeout:  
