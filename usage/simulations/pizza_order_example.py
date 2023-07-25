@@ -2,34 +2,40 @@ from src.juno import Juno
 
 def pizza_order_simulation():
     """
-    A simulation of two agents talking to each other about ordering pizza
+    A simulation of two agents talking to each other about ordering a pizza
+    
+    Agents are created using Juno and use the following methods to interact:
+    .process() is used to process the input of the other agent
+    .verbalize() is used to produce a response to the other agent
+    Note:
+    .listen() is not used since input is coming from the other agent rather than the user
     """
     
-    # Prompt for Agent One
+    # Instructions for agent one
     agent_one_prompt = "Pretend you are ordering a pizza over the phone"
-    # Prompt for Agent Two
-    agent_two_prompt = "Pretend you work at a pizza place and are taking an order from over the phone"
+    # Instructions for agent two
+    agent_two_prompt = "Pretend you work at a pizza place and are taking an order from a customer over the phone"
     
     # Creating the agents
-    agent_one = Juno(name='John', gender='male', prompt=agent_one_prompt)
-    agent_two = Juno(name='Sarah', gender='female', prompt=agent_two_prompt)
+    customer = Juno(name='John', gender='male', prompt=agent_one_prompt)
+    employee = Juno(name='Sarah', gender='female', prompt=agent_two_prompt)
     
-    # To start the conversation, agent one will say something first
+    # starting the conversation with agent one's initial input
     beginning_input = 'I would like a cheese pizza with extra cheese please'
-    agent_one.verbalize(beginning_input)
+    customer.verbalize(beginning_input)
     
-    # Agent two will process agent one's response and respond
-    agent_two_response = agent_two.process(beginning_input)
-    agent_two.verbalize(agent_two_response)
+    # agent two's initial response
+    employee_response = employee.process(beginning_input)
+    employee.verbalize(employee_response)
     
-    # Endless loop of both agents talking to each other about ordering pizza :)
+    # Endless loop of both agents exchanging pizza-order-related dialog :)
     while True:
         
-        agent_one_response = agent_one.process(agent_two_response)
-        agent_one.verbalize(agent_one_response)
+        customer_response = customer.process(employee_response)
+        customer.verbalize(customer_response)
         
-        agent_two_response = agent_two.process(agent_one_response)
-        agent_two.verbalize(agent_two_response)
+        employee_response = employee.process(customer_response)
+        employee.verbalize(employee_response)
         
 if __name__ == '__main__':  
     pizza_order_simulation()
