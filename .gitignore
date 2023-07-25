@@ -3,5 +3,5 @@
 config.py
 **/*.pyc
 # Ignore personal log file, this file will be automatically created for new users
-logs.json
+log.json
 
