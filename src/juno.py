@@ -2,32 +2,33 @@ from src.initialization.initializer import BotInitializer
 
 class Juno:
 	"""
- 	A simple interface for creating an intelligent and interactive agent.
+	A simple interface for creating an intelligent and interactive agent.
   
-	Params: (all params are optional)
-  
-	Basic Info:
-	- name (str): Name of the agent.
-	- role (str): Role of the agent (e.g. virtual assistant, customer, employee, etc.)
-	- gender (str): Gender of the agent.
-	- language (str): Language of the agent.
-
-	Personality Settings:
-	- personality (str): Personality of the agent.
-	- prompt (str): Prompt that GPT-3.5-Turbo will use to generate a response.
-
-	Saving Settings:
-	- unique (bool): If True, the agent will have its own settings file.
-	- save (bool): If false, the agent's settings will not be saved after the program is terminated.
-
-	Voice Settings:
-	- voice_engine (str): Voice engine to be used for text-to-speech (currently only supports 'azure' or 'elevenlabs').
-	- voice_name (str): Name of the voice to be used for text-to-speech.
-
-	Other Settings:
-	- package (str): Package of the agent (only package currently supported is 'virtual assistant').
-	- max_response_time (int): Maximum time (in seconds) the agent should take to formulate a response.
-  	"""
+	Params: 
+		Basic Info:
+		- name (str, default='Juno'): Name of the agent.
+		- role (str, default='assistant'): Role of the agent.
+		- gender (str, default='female'): Gender of the agent.
+		- language (str, default='english'): Language of the agent.
+		
+		Personality Settings:
+		- personality (str, default='friendly'): Personality of the agent.
+		- prompt (str, default=''): Prompt for GPT to generate a response.
+		- gpt_model (str, default='GPT-3.5-Trubo'): GPT model for generating responses.
+		
+		Saving Settings:
+		- unique (bool, default=False): If True, agent will have its own settings file.
+		- save (bool, default=True): If False, agent's settings won't be saved post termination.
+		
+		Voice Settings:
+		- voice_engine (str, default='azure'): Voice engine for text-to-speech.
+		- voice_name (str, default='Amber'): Voice name for text-to-speech.
+		
+		Other Settings:
+		- package (str, default=None): Package of the agent.
+		- max_response_time (int): Maximum response time in seconds.
+		- startup_sound (bool, default=True): If True, bot plays a startup sound on initialization.
+	"""
  
 	def __init__(self, **kwargs):
 		self._initalize(**kwargs)
