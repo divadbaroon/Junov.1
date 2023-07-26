@@ -38,7 +38,8 @@ class BotInitializer:
 		self._initialize_speech_functionalities()
 
 		# plays startup sound
-		play_sound.play_bot_sound('startup_sound')
+		if kwargs.get('startup_sound'):
+			play_sound.play_bot_sound('startup_sound')
   
 	def _load_in_setting_objects(self) -> dict:
 		"""
@@ -54,6 +55,10 @@ class BotInitializer:
 		"""
   		Save the following bot properties to bot_settings.json
     	"""
+     
+		if kwargs.get('unique'):
+			pass
+     
 		# check if given params are valid before saving them
 		gender, language = self._check_gender_and_language(kwargs.get('gender'), kwargs.get('language'))
 		bot_settings = self.setting_objects['bot_settings']
