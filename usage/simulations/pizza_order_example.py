@@ -5,18 +5,18 @@ def pizza_order_simulation():
     A simulation of two agents talking to each other about ordering a pizza
     
     Agents are created using Juno and use the following methods to interact:
-    .process() is used to process the input of the other agent
-    .verbalize() is used to produce a response to the other agent
+    .process() used to process and produce a response to the other agent's input
+    .verbalize() performs text-to-speech on the agent's response
     Note:
     .listen() is not used since input is coming from the other agent rather than the user
     """
     
-    # Instructions for agent one
+    # instructions for agent one
     agent_one_prompt = "Pretend you are ordering a pizza over the phone"
-    # Instructions for agent two
+    # instructions for agent two
     agent_two_prompt = "Pretend you work at a pizza place and are taking an order from a customer over the phone"
     
-    # Creating the agents
+    # creating the agents
     customer = Juno(name='John', gender='male', prompt=agent_one_prompt)
     employee = Juno(name='Sarah', gender='female', prompt=agent_two_prompt)
     
@@ -28,7 +28,7 @@ def pizza_order_simulation():
     employee_response = employee.process(beginning_input)
     employee.verbalize(employee_response)
     
-    # Endless loop of both agents exchanging pizza-order-related dialog :)
+    # endless loop of both agents exchanging pizza-order-related dialog :)
     while True:
         
         customer_response = customer.process(employee_response)
