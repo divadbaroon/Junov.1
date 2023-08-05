@@ -5,8 +5,8 @@ class ElevenlabsTextToSpeech:
   A class that utilizes Elevenlabs' API to verbalize the bot's response.
   """
   def __init__(self, api_keys:dict, setting_objects:dict):
-    set_api_key(api_keys['elevenlabs_api_key'])
-    self.bot_settings = setting_objects['bot_settings']
+    set_api_key(api_keys['ELEVENLABS-API-KEY'])
+    self.profile_settings = setting_objects['profile_settings']
     self.voice_name = 'Adam'
   
   def text_to_speech(self, speech:str):
@@ -21,5 +21,4 @@ class ElevenlabsTextToSpeech:
     
   def update_voice(self):
     """Updates the voice name used for Elevenlabs' API."""
-    self.bot_settings.reload_settings()
-    self.voice_name = self.bot_settings.retrieve_property('voice', 'current_voice_name')
+    self.voice_name =  self.profile_settings.retrieve_property('voice_name')
