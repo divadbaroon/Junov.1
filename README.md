@@ -2,24 +2,23 @@
 A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. It seamlessly integrates Azure powered: speech recognition, intent recognition, and text-to-speech capabilities. OpenAI's GPT model is integrated for dynamic and natural language interactions. Its modular, customizable, and extensible design makes it suitable for a wide range of use cases
 
 ## Key Features
+### Azure Powered 
 
-### Azure Powered
+- Leverages Azure's Cognitive Services for speech recognition, intent recognition, and text-to-speech capabilities. Elevenlabs is also available as an alternate option for text-to-speech.
 
-- Currently leverages Azure's Cognitive Services for speech recognition, intent recognition, and text-to-speech capabilities. Elevenlabs is also available as an alternate option for text-to-speech.
-
-### Human-Like Interactions
+### Human-Like Interactions 
 
 - Integrates OpenAI's GPT-3.5-Turbo to provide a more natural, human-like conversation experience.
 
-### Broad Conversational Skills
+### Broad Conversational Skills 
 
 - Trained on an extensive dataset that covers a wide range of conversational commands, providing efficient responses across diverse scenarios and inquiries.
 
-### Built-In Commands
+### Built-In Commands 
 
 - Understands and can perform a variety of commands. Examples are shown below.
 
-### Contextual Awareness
+### Contextual Awareness 
 
 - Stores and utilizes conversation history to provide contextual awareness to the assistant.
 
@@ -48,17 +47,17 @@ Intent recognition is done using your trained LUIS model, allowing for versatile
 #### Control Behavior
 | Command | Response |
 | ------- | -------- |
-| Mute | Mutes the assistant's responses |
-| Unmute | Unmutes the assistant's responses |
-| Pause | Pauses all of the assistant's functionalities |
+| Mute | Mutes the agent's responses |
+| Unmute | Unmutes the agent's responses |
+| Pause | Pauses all of the agent's functionalities |
 | Exit | Terminates the program |
 #### Personalization
 | Command | Response |
 | ------- | -------- |
-| Change language to {language} | Changes the language of the assistant to {language} |
-| Change gender to {gender} | Changes the gender of the assistant to {gender} |
-| Change role to {role} | Changes the role of the assistant to {role} |
-| Change voice | Changes the assistant's voice |
+| Change language to {language} | Changes the language of the agent to {language} |
+| Change gender to {gender} | Changes the gender of the agent to {gender} |
+| Change role to {role} | Changes the role of the agent to {role} |
+| Change voice | Changes the agent's voice |
 
 ### Virtual Assistant Package (includes Basic)
 #### Weather Retrieval
