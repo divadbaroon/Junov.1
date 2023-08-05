@@ -7,8 +7,8 @@ class SpeechProcessor:
 	"""
  
 	def __init__(self, api_keys: dict, setting_objects:dict, speech_verbalizer:object):
-		# dynamically import the CommandOrchestrator depending on the package specified in 'bot_settings.json'
-		self.package_name = setting_objects['bot_settings'].retrieve_property('package')
+		# dynamically import the CommandOrchestrator depending on the package specified in 'master_settings.json'
+		self.package_name = setting_objects['master_settings'].retrieve_property('package')
 		self.CommandOrchestrator = getattr(import_module(f"src.core_functions.speech_processing.command_execution.packages.{self.package_name}.command_orchestrator"), "CommandOrchestrator")
 		# initialize the LuisIntentRecognition and CommandOrchestrator objects
 		self.get_intent = LuisIntentRecognition(api_keys)
