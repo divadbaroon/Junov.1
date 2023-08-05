@@ -1,7 +1,7 @@
 import sys
 from time import time
 from .azure.azure_speech_recognition import AzureSpeechRecognition
-from ...components.logs.log_performance import PerformanceLogger
+from src.utils.logs.log_performance import PerformanceLogger
 
 logger = PerformanceLogger()
 
@@ -11,21 +11,21 @@ class SpeechRecognition:
 	""" 
 	
 	def __init__(self, speech_objects:dict, api_keys:dict, setting_objects:dict):
-		self.bot_settings = setting_objects['bot_settings']
-		self.inavtivity_timeout = self.bot_settings.retrieve_property('timeout', 'inactivity')
-		self.speech_recognition_engine = self.bot_settings.retrieve_property('speech_recognition', 'engine')
+		self.master_settings = setting_objects['master_settings']
+		self.profile_settings = setting_objects['profile_settings']
+		self.inavtivity_timeout = self.master_settings.retrieve_property('timeout', 'inactivity')
+		self.speech_recognition_engine = self.profile_settings.retrieve_property('voice_recognition_engine')
   
 		if self.speech_recognition_engine == 'azure':
 			self.speech_recognition_engine = AzureSpeechRecognition(speech_objects, api_keys, setting_objects)
   
-	@logger.log_operation
 	def listen(self) -> str:
 		"""
 		Listens for speech input and returns the recognized text in lowercase.
 		:return: (str) The recognized speech input as a lowercase string.
 		"""
   
-		# loading in necessary data from 'bot_settings.json'
+		# loading in necessary data from 'master_settings.json'
 		self._load_in_settings()
   
 		# initiale flag to check whether the speech recognizer needs to be reconfigured
@@ -52,9 +52,9 @@ class SpeechRecognition:
     
 	def _load_in_settings(self):
 		"""
-  		Loading in necessary data from 'bot_settings.json'
+  		Loading in necessary data from 'master_settings.json'
     	"""
-		self.reconfigure_recognizer = self.bot_settings.retrieve_property('speech_recognition', 'reconfigure_recognizer')
+		self.reconfigure_recognizer = self.master_settings.retrieve_property('functions', 'reconfigure_recognizer')
    
 	def _check_and_handle_preconditions(self):
 		"""
