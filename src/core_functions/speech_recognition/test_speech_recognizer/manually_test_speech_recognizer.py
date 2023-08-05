@@ -1,7 +1,7 @@
 import azure.cognitiveservices.speech as speechsdk
 from ..speech_recognizer import SpeechRecognition
-from src.components.settings.bot_settings.bot_settings_manager import BotSettingsManager
-from src.components.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
+from src.utils.settings.master_settings.master_settings_manager import MasterSettingsManager
+from src.utils.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
 import configuration.secrets.config as config
 
 class ManuallyTestSpeechRecognition():
@@ -9,11 +9,11 @@ class ManuallyTestSpeechRecognition():
  
 	def __init__(self) -> None:
      
-		self.bot_settings = BotSettingsManager()
+		self.master_settings = MasterSettingsManager()
 		self.voice_settings = VoiceSettingsManager()
   
 		# Language country code is used for speech recognizer initialization 
-		language = self.bot_settings.retrieve_property('language')
+		language = self.master_settings.retrieve_property('language')
 		language_country_code = self.voice_settings.retrieve_language_country_code(language)
   
 		# API keys are retrieved from the config file with only necessary keys being retrieved
@@ -22,7 +22,7 @@ class ManuallyTestSpeechRecognition():
 		# Initializing the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer
 		self._setup_speech_and_audio(self.api_keys['cognitive_services_api'], self.api_keys['region'], language_country_code)
   
-		self.speech_recognition = SpeechRecognition(self.speech_recognizer, self.speech_config, self.bot_settings, self.api_keys)
+		self.speech_recognition = SpeechRecognition(self.speech_recognizer, self.speech_config, self.master_settings, self.api_keys)
 		
 	def _setup_speech_and_audio(self, cognitive_services_api, region, language_country_code):
 		"""Initializes the bot's audio configuration, speech configuration, and speech recognizer"""

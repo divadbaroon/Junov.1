@@ -1,7 +1,7 @@
 import sys
 from .elevenlabs.elevenlabs_text_to_speech import ElevenlabsTextToSpeech
 from .azure.azure_text_to_speech import AzureTextToSpeech
-from ...components.logs.log_performance import PerformanceLogger
+from src.utils.logs.log_performance import PerformanceLogger
 
 logger = PerformanceLogger()
 
@@ -14,19 +14,19 @@ class SpeechVerbalizer:
 		"""
 		Initializes a new SpeechVerbalizer object
 		"""
-		self.bot_settings = setting_objects['bot_settings']
+		self.master_settings = setting_objects['master_settings']
+		self.profile_settings = setting_objects['profile_settings']
 		self.voice_settings = setting_objects['voice_settings']
 		# check which speech engine is used
-		if self.bot_settings.retrieve_property('voice', 'engine') == 'azure':
+		if self.profile_settings.retrieve_property('voice_engine') == 'azure':
 			self.text_to_speech_engine = AzureTextToSpeech(speech_objects, setting_objects)
 		else:
 			self.text_to_speech_engine = ElevenlabsTextToSpeech(api_keys, setting_objects)
-
-	@logger.log_operation
+   
 	def verbalize_speech(self, speech: str):
 		"""Verbalize the bot's response using the speech synthesizer."""
   
-		# loading in necessary data from 'bot_settings.json'
+		# loading in necessary data from 'master_settings.json'
 		self._load_in_settings()
 
 		# initiale flag to check whether the speech synthesizer needs to be reconfigured or the bot is muted
@@ -45,14 +45,14 @@ class SpeechVerbalizer:
   
 	def _load_in_settings(self):
 		"""
-  		Loading in necessary data from 'bot_settings.json'
+  		Loading in necessary data from 'master_settings.json'
     	"""
-		self.bot_settings.reload_settings()
-		self.mute_status = self.bot_settings.retrieve_property('status', 'mute')
-		self.bot_name = self.bot_settings.retrieve_property('name')
-		self.exit_status = self.bot_settings.retrieve_property('status', 'exit')
-		self.reset_language = self.bot_settings.retrieve_property('language', 'reset')
-		self.reconfigure_voice = self.bot_settings.retrieve_property('voice', 'reconfigure')
+		self.master_settings.reload_settings()
+		self.bot_name = self.profile_settings.retrieve_property('name')
+		self.mute_status = self.master_settings.retrieve_property('status', 'mute')
+		self.exit_status = self.master_settings.retrieve_property('status', 'exit')
+		self.reset_language = self.master_settings.retrieve_property('functions', 'reset_language')
+		self.reconfigure_voice = self.master_settings.retrieve_property('functions', 'reconfigure_verbalizer')
   
 	def _check_and_handle_preconditions(self, speech:str) -> bool:
 		"""
@@ -72,7 +72,7 @@ class SpeechVerbalizer:
 		# check if voice need to be reconfigured
 		if self.reconfigure_voice:
 			self.text_to_speech_engine.update_voice()
-			self.bot_settings.save_property('voice', False, 'reconfigure')
+			self.master_settings.save_property('functions', False, 'reconfigure_verbalizer')
 			return True
    
 		return True
@@ -81,22 +81,13 @@ class SpeechVerbalizer:
 		"""Post verbalization flag check"""
 		# check if language needs to be reset (this is done after one-shot speach translationions)
 		if reset_language:
-			self._reset_language()
+			pass
 
 		# Exit the program needs to be exited
 		if exit_status:
-			self.bot_settings.save_property('status', False, 'exit')
+			self.master_settings.save_property('status', False, 'exit')
 			sys.exit()
    
-	def _reset_language(self):
-		"""Reset the language, this is done after one-shot speach translationions"""
-		# Reset the language to the previous language
-		previous_language = self.bot_settings.retrieve_property('language', 'previous')
-		self.bot_settings.save_property('language', previous_language, 'current')
-		# Set reconfigure_voice to True to reconfigure the speech synthesizer
-		self.bot_settings.save_property('voice', True, 'reconfigure')
-		# Reset the reset language flag
-		self.bot_settings.save_property('language', False, 'reset')
   
 
    

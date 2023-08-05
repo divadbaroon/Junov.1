@@ -1,12 +1,12 @@
 import azure.cognitiveservices.speech as speechsdk
-from src.components.commands.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
 
 class AzureSpeechRecognition:
 	
 	def __init__(self, speech_objects:dict, api_keys:dict, setting_objects:dict):
 		self.speech_recognizer = speech_objects['speech_recognizer']
 		self.speech_config = speech_objects['audio_config']
-		self.bot_settings = setting_objects['bot_settings']
+		self.profile_settings = setting_objects['profile_settings']
 		self.voice_settings = setting_objects['voice_settings']
 		self.translator = TranslateSpeech(api_keys['TRANSLATOR-API-KEY'], setting_objects)
   
@@ -44,7 +44,7 @@ class AzureSpeechRecognition:
 		recognized_speech = result.text
   
 		# Get the current language setting
-		current_language = self.bot_settings.retrieve_property('language', 'current')
+		current_language = self.profile_settings.retrieve_property('language')
 		print(f"\nInput:\nUser: {recognized_speech}")
 
 		# If the language is not English, translate the recognized speech to English	
@@ -59,7 +59,7 @@ class AzureSpeechRecognition:
   		Reconfigures the speech recognizer with the new language setting
     	"""
 		# Get the new language setting
-		current_language = self.bot_settings.retrieve_property('language', 'current')
+		current_language = self.profile_settings.retrieve_property('language')
 
 		# Recognizer needs language-country code
 		language_country_code = self.voice_settings.retrieve_language_country_code(current_language)

@@ -2,17 +2,17 @@ import os
 import yaml
 
 # Import all commands
-from src.components.commands.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
-from src.components.commands.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
-from src.components.commands.packages.virtual_assistant.high_intent.get_weather.get_weather import GetWeather
-from src.components.commands.packages.virtual_assistant.high_intent.web_searcher.web_searcher import WebSearcher
-from src.components.commands.packages.virtual_assistant.high_intent.bot_behavior.bot_behavior import BotBehavior
-from src.components.commands.packages.virtual_assistant.high_intent.set_timer.set_timer import StartTimer
-from src.components.commands.packages.virtual_assistant.high_intent.generate_password.password_generator import PasswordGenerator
-from src.components.commands.packages.virtual_assistant.high_intent.get_news.get_news import GetNews
-#from src.components.commands.packages.virtual_assistant.high_intent.play_music.play_music import PlaySong
-from src.components.commands.packages.virtual_assistant.high_intent.schedule_event.scheduler import Scheduler
-from src.components.conversation_history.conversation_history_manager import ConversationHistoryManager
+from src.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.packages.virtual_assistant.high_intent.get_weather.get_weather import GetWeather
+from src.packages.virtual_assistant.high_intent.web_searcher.web_searcher import WebSearcher
+from src.packages.virtual_assistant.high_intent.bot_behavior.bot_behavior import BotBehavior
+from src.packages.virtual_assistant.high_intent.set_timer.set_timer import StartTimer
+from src.packages.virtual_assistant.high_intent.generate_password.password_generator import PasswordGenerator
+from src.packages.virtual_assistant.high_intent.get_news.get_news import GetNews
+#from src.packages.virtual_assistant.high_intent.play_music.play_music import PlaySong
+from src.packages.virtual_assistant.high_intent.schedule_event.scheduler import Scheduler
+from src.utils.conversation_history.conversation_history_manager import ConversationHistoryManager
 
 class CommandParser:
 	"""
@@ -22,7 +22,7 @@ class CommandParser:
 	def __init__(self, api_keys:dict, speech_verbalizer:object, intents_data:dict, setting_objects:dict):
 		# retrieving the bot's role, language, and name
 		self.setting_objects = setting_objects
-		self._retrieve_bot_settings()
+		self._retrieve_master_settings()
 
 		self.intents_data = intents_data
   
@@ -31,12 +31,12 @@ class CommandParser:
 		# Initialize all bot commands
 		self._initilize_commands(api_keys)
   
-	def _retrieve_bot_settings(self):
+	def _retrieve_master_settings(self):
 		# retrieving the bot's role and language
-		bot_settings = self.setting_objects['bot_settings']
-		self.role = bot_settings.retrieve_property('role')
-		self.language = bot_settings.retrieve_property('language', 'current')
-		self.bot_name = bot_settings.retrieve_property('name')
+		profile_settings = self.setting_objects['profile_settings']
+		self.role = profile_settings.retrieve_property('role')
+		self.language = profile_settings.retrieve_property('language')
+		self.bot_name = profile_settings.retrieve_property('name')
   
 	def _initilize_commands(self, api_keys:dict):
 		# Initialize all bot commands
@@ -150,7 +150,7 @@ class CommandParser:
 
 	def quit(self):
 		response = self.conversation_history.exit_and_clear_conversation_history()
-		self.setting_objects['bot_settings'].save_property('status', True, 'exit')
+		self.setting_objects['master_settings'].save_property('status', True, 'exit')
 		return response
 
 	def get_news(self):
