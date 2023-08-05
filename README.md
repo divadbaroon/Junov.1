@@ -61,7 +61,7 @@ Intent recognition is done using your trained LUIS model, allowing for versatile
 | Change role to {role} | Changes the role of the agent to {role} |
 | Change voice | Changes the agent's voice |
 
-<details>
+</details>
 
 <details>
 <summary><b>Virtual Assistant Package</b> (includes Basic)</summary>
