@@ -1,46 +1,23 @@
 from src.initialization.initializer import BotInitializer
+from src.profiles.profile_manager import ProfileManager
 
 class Juno:
 	"""
 	A simple interface for creating an intelligent and interactive agent.
-  
-	Params: 
-		Basic Info:
-		- name (str, default='Juno'): Name of the agent.
-		- role (str, default='assistant'): Role of the agent.
-		- gender (str, default='female'): Gender of the agent.
-		- language (str, default='english'): Language of the agent.
-		
-		Personality Settings:
-		- personality (str, default='friendly'): Personality of the agent.
-		- prompt (str, default=''): Prompt for GPT to generate a response.
-		- gpt_model (str, default='GPT-3.5-Trubo'): GPT model for generating responses.
-		
-		Saving Settings:
-		- unique (bool, default=False): If True, agent will have its own settings file.
-		- save (bool, default=True): If False, agent's settings won't be saved post termination.
-		
-		Voice Settings:
-		- voice_engine (str, default='azure'): Voice engine for text-to-speech.
-		- voice_name (str, default='Amber'): Voice name for text-to-speech.
-		
-		Other Settings:
-		- package (str, default=None): Package of the agent.
-		- max_response_time (int): Maximum response time in seconds.
-		- startup_sound (bool, default=True): If True, bot plays a startup sound on initialization.
 	"""
  
-	def __init__(self, **kwargs):
-		self._initalize(**kwargs)
+	def __init__(self, profile_name:str='default'):
+		self._initalize(profile_name)
   
-	def _initalize(self, **kwargs) -> None:
+	def _initalize(self, profile_name:str) -> None:
 		"""
 		Initializes the speech recognition, speech processing, and speech verbalization
 		"""	
-		self.BotInitializer = BotInitializer(**kwargs)
+		self.BotInitializer = BotInitializer(profile_name)
 		self.speech_recognition = self.BotInitializer.speech_recognition
 		self.speech_processor = self.BotInitializer.speech_processor
 		self.speech_verbalizer = self.BotInitializer.speech_verbalizer
+		self.profile_manager = ProfileManager()
 	
 	def listen(self) -> str:
 		"""
@@ -75,4 +52,31 @@ class Juno:
 			speech = self.listen()
 			response = self.process(speech)
 			self.verbalize(response)
+   
+	def create_profile(self, profile:dict) -> None:
+		"""
+		Adds a profile to the bot
+		:param profile: (dict) profile to be added
+		"""
+		self.profile_manager.create_profile(profile)
   
+	def remove_profile(self, profile:dict) -> None:
+		"""
+		Adds a profile to the bot
+		:param profile: (dict) profile to be added
+		"""
+		self.profile_manager.remove_profile(profile)
+  
+	def get_profiles(self) -> dict:
+		"""
+		Gets all profiles
+		:return: (dict) all profiles
+		"""
+		return self.profile_manager.load_profile_data()
+
+	def get_voices(self, engine='azure') -> list:
+		"""
+		Gets all voices
+		:return: (dict) all voices
+		"""
+		return self.BotInitializer.get_voices(engine=engine)
