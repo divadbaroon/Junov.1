@@ -16,11 +16,11 @@ A platform designed for effortless setup, training, and usage in creating intell
 
 ### Built-In Commands 
 
-- Understands and can perform a variety of commands. Examples are shown below.
+- Commands come in packages for specific use cases. See the 'Supported Packages' section for more details.
 
 ### Contextual Awareness 
 
-- Stores and utilizes conversation history to provide contextual awareness to the assistant.
+- Stores and utilizes conversation history to provide contextual awareness to the agents.
 
 ## Requirements
 - Azure account and subscription
@@ -112,7 +112,7 @@ Intent recognition is done using your trained LUIS model, allowing for versatile
 
 </details>
 
-Note: If a command is given that is not included in the above list, a response will be given using GPT.
+Note: If a command is given that is not included in the above packages, a response will be given using GPT.
    
  ## Supported Langauges
  Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish
