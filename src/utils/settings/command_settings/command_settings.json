@@ -1,0 +1,22 @@
+{
+    "ask_gpt": {
+        "prompt": "Pretend you work at a pizza place and are taking an order from a customer over the phone"
+    },
+    "get_weather": {
+        "units": "imperial",
+        "default_location": "Plymouth"
+    },
+    "password_generator": {
+        "copy_to_clipboard": true
+    },
+    "set_alarm": {
+        "end_time": null
+    },
+    "set_reminder": {
+        "end_time": null,
+        "reminder": null
+    },
+    "play_song": {
+        "song_playing": null
+    }
+}

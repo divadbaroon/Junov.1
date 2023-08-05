@@ -1,0 +1,20 @@
+{
+    "settings": {
+        "profile": "default",
+        "package": "virtual_assistant",
+        "functions": {
+            "reset_gender": false,
+            "reset_language": false,
+            "reconfigure_verbalizer": false,
+            "reconfigure_recognizer": false
+        },
+        "status": {
+            "mute": false,
+            "idle": false,
+            "exit": false
+        },
+        "timeout": {
+            "inactivity": 300
+        }
+    }
+}

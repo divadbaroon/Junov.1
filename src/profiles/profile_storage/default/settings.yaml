@@ -1,0 +1,13 @@
+interaction:
+  personality: sassy
+  prompt: you are a virtual assistant
+  role: assistant
+  language: english
+system:
+  startup_sound: false
+  voice_recognition_engine: azure
+  voice_engine: azure
+  voice_name: Ana
+user:
+  gender: female
+  name: Juno
