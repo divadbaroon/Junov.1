@@ -1,4 +1,4 @@
-from src.components.commands.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
 from .command_parser import CommandParser
 
 class CommandOrchestrator:
@@ -29,7 +29,7 @@ class CommandOrchestrator:
 		self.gpt_response = False
 
 		self.setting_objects = setting_objects
-		self._retrieve_bot_settings()
+		self._retrieve_master_settings()
 
 	def process_command(self, speech:str) -> str:
 		"""
@@ -66,9 +66,9 @@ class CommandOrchestrator:
 		self._intents_data = value
 		self.command.intents_data = value
 	
-	def _retrieve_bot_settings(self) -> None:
+	def _retrieve_master_settings(self) -> None:
 		"""Retrieves the bot's role, language, and name from the bot settings file"""
-		bot_settings = self.setting_objects['bot_settings']
-		self.role = bot_settings.retrieve_property('role')
-		self.language = bot_settings.retrieve_property('language', 'current')
-		self.bot_name = bot_settings.retrieve_property('name')
+		profile_settings = self.setting_objects['profile_settings']
+		self.role = profile_settings.retrieve_property('role')
+		self.language = profile_settings.retrieve_property('language')
+		self.bot_name = profile_settings.retrieve_property('name')
