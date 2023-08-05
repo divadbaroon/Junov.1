@@ -43,7 +43,7 @@ Run all commands from root directory
 Packages come with prebuilt commands.
 Intent recognition is done using your trained LUIS model, allowing for versatile command phrasing.
 
-<details open>
+<details>
 <summary><b>Basic Package</b></summary>
 
 ##### Control Behavior
@@ -61,7 +61,9 @@ Intent recognition is done using your trained LUIS model, allowing for versatile
 | Change role to {role} | Changes the role of the agent to {role} |
 | Change voice | Changes the agent's voice |
 
-<details open>
+<details>
+
+<details>
 <summary><b>Virtual Assistant Package</b> (includes Basic)</summary>
 
 ##### Weather Retrieval
@@ -107,6 +109,8 @@ Intent recognition is done using your trained LUIS model, allowing for versatile
 | Open {website} | Opens the specified {website} |
 | Search {speech} | Conducts a Google search for {speech} |
 | Search youtube for {speech} | Conducts a YouTube search for {speech} |
+
+</details>
 
 Note: If a command is given that is not included in the above list, a response will be given using GPT.
    
