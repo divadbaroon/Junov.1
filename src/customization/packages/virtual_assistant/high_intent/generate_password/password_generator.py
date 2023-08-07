@@ -1,7 +1,7 @@
 import string
 import pyperclip
 from random import choice
-from src.utils.settings.command_settings.command_settings_manager import BotCommandManager
+from src.utilities.settings.command_settings.command_settings_manager import BotCommandManager
 
 class PasswordGenerator:
 	"""

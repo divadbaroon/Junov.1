@@ -1,5 +1,5 @@
 import requests
-from src.utils.settings.command_settings.command_settings_manager import BotCommandManager
+from src.utilities.settings.command_settings.command_settings_manager import BotCommandManager
 
 class GetWeather:
 	"""

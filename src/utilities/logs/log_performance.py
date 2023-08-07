@@ -1,7 +1,7 @@
 import json
 import datetime
 import time
-from src.utils.settings.master_settings.master_settings_manager import MasterSettingsManager
+from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
 
 class PerformanceLogger:
 	"""

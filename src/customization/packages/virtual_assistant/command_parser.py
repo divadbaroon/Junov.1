@@ -9,7 +9,7 @@ from src.customization.packages.virtual_assistant.high_intent.generate_password.
 from src.customization.packages.virtual_assistant.high_intent.get_news.get_news import GetNews
 #from src.packages.virtual_assistant.high_intent.play_music.play_music import PlaySong
 from src.customization.packages.virtual_assistant.high_intent.schedule_event.scheduler import Scheduler
-from src.utils.conversation_history.conversation_history_manager import ConversationHistoryManager
+from src.utilities.conversation_history.conversation_history_manager import ConversationHistoryManager
 
 class CommandParser:
 	

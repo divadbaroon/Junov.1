@@ -1,7 +1,7 @@
 import azure.cognitiveservices.speech as speechsdk
 from ..speech_recognizer import SpeechRecognition
-from src.utils.settings.master_settings.master_settings_manager import MasterSettingsManager
-from src.utils.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
+from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
+from src.utilities.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
 import configuration.secrets.config as config
 
 class ManuallyTestSpeechRecognition():

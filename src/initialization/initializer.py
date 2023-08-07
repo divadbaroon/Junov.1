@@ -2,13 +2,13 @@ import azure.cognitiveservices.speech as speechsdk
 from src.core_functions.speech_recognition.speech_recognizer import SpeechRecognition
 from src.core_functions.speech_processing.speech_processor import SpeechProcessor
 from src.core_functions.speech_verbalization.speech_verbalizer import SpeechVerbalizer
-from src.utils.settings.master_settings.master_settings_manager import MasterSettingsManager
-from src.utils.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
-from src.utils.settings.command_settings.command_settings_manager import BotCommandManager
+from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
+from src.utilities.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
+from src.utilities.settings.command_settings.command_settings_manager import BotCommandManager
 from src.customization.profiles.profile_manager import ProfileManager
 from configuration.manage_secrets import ConfigurationManager
 
-from src.utils.sounds import play_sound
+from src.utilities.sounds import play_sound
 
 class BotInitializer:
 	'''

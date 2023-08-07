@@ -1,7 +1,7 @@
 import json
 import os
 from configuration.secrets import config
-from src.utils.settings.master_settings.master_settings_manager import MasterSettingsManager
+from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
 from src.customization.packages.basic.low_intent.ask_gpt.ask_gpt import AskGPT
 
 # Relative path to mock_prompt.json file

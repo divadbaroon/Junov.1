@@ -1,7 +1,7 @@
 import sys
 from .elevenlabs.elevenlabs_text_to_speech import ElevenlabsTextToSpeech
 from .azure.azure_text_to_speech import AzureTextToSpeech
-from src.utils.logs.log_performance import PerformanceLogger
+from src.utilities.logs.log_performance import PerformanceLogger
 
 logger = PerformanceLogger()
 

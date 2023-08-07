@@ -1,7 +1,7 @@
 import os
 import yaml
 import shutil
-from src.utils.settings.master_settings.master_settings_manager import MasterSettingsManager
+from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
 
 profiles_path = os.path.join('src/profiles/profile_storage')
 
