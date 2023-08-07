@@ -1,6 +1,6 @@
 import yaml
-from src.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
-from src.packages.virtual_assistant.high_intent.bot_behavior.bot_behavior import BotBehavior
+from src.customize.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.customize.packages.virtual_assistant.high_intent.bot_behavior.bot_behavior import BotBehavior
 
 class CommandParser:
 	

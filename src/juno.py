@@ -1,5 +1,5 @@
-from src.initialization.initializer import BotInitializer
-from src.profiles.profile_manager import ProfileManager
+from src.initialize.initializer import BotInitializer
+from src.customize.profiles.profile_manager import ProfileManager
 
 class Juno:
 	"""

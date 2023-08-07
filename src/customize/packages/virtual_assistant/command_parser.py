@@ -1,14 +1,14 @@
 import yaml
 # Import all commands
-from src.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
-from src.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
-from src.packages.virtual_assistant.high_intent.get_weather.get_weather import GetWeather
-from src.packages.virtual_assistant.high_intent.web_searcher.web_searcher import WebSearcher
-from src.packages.virtual_assistant.high_intent.set_timer.set_timer import StartTimer
-from src.packages.virtual_assistant.high_intent.generate_password.password_generator import PasswordGenerator
-from src.packages.virtual_assistant.high_intent.get_news.get_news import GetNews
+from src.customize.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.customize.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.customize.packages.virtual_assistant.high_intent.get_weather.get_weather import GetWeather
+from src.customize.packages.virtual_assistant.high_intent.web_searcher.web_searcher import WebSearcher
+from src.customize.packages.virtual_assistant.high_intent.set_timer.set_timer import StartTimer
+from src.customize.packages.virtual_assistant.high_intent.generate_password.password_generator import PasswordGenerator
+from src.customize.packages.virtual_assistant.high_intent.get_news.get_news import GetNews
 #from src.packages.virtual_assistant.high_intent.play_music.play_music import PlaySong
-from src.packages.virtual_assistant.high_intent.schedule_event.scheduler import Scheduler
+from src.customize.packages.virtual_assistant.high_intent.schedule_event.scheduler import Scheduler
 from src.utils.conversation_history.conversation_history_manager import ConversationHistoryManager
 
 class CommandParser:

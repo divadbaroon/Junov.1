@@ -2,7 +2,7 @@ import json
 import os
 from configuration.secrets import config
 from src.utils.settings.master_settings.master_settings_manager import MasterSettingsManager
-from src.packages.basic.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.customize.packages.basic.low_intent.ask_gpt.ask_gpt import AskGPT
 
 # Relative path to mock_prompt.json file
 mock_prompt_path = os.path.join('src/components/commands/ask_gpt/test_command/test_prompt/mock_prompt.json')
