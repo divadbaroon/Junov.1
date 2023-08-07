@@ -1,7 +1,7 @@
-# Juno
-A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. It seamlessly integrates Azure powered: speech recognition, intent recognition, and text-to-speech capabilities. OpenAI's GPT model is integrated for dynamic and natural language interactions. Its modular, customizable, and extensible design makes it suitable for a wide range of use cases
+# Juno 
+A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. Juno was designed to be modular, customizable, and extensible making it suitable for a wide range of use cases.
 
-## Key Features
+## Key Features 
 ### Azure Powered 
 
 - Leverages Azure's Cognitive Services for speech recognition, intent recognition, and text-to-speech capabilities. Elevenlabs is also available as an alternate option for text-to-speech.
@@ -16,11 +16,11 @@ A platform designed for effortless setup, training, and usage in creating intell
 
 ### Built-In Commands 
 
-- Understands and can perform a variety of commands. Examples are shown below.
+- Commands come in packages for specific use cases. See the 'Supported Packages' section for more details.
 
 ### Contextual Awareness 
 
-- Stores and utilizes conversation history to provide contextual awareness to the assistant.
+- Stores and utilizes conversation history to provide contextual awareness to the agents.
 
 ## Requirements
 - Azure account and subscription
@@ -39,11 +39,13 @@ Run all commands from root directory
 2. Wait for the startup sound to play, indicating that the assistant is now listening for input
 3. Interact with the assistant by speaking
 
-## Supported Packages
+## 📦 Supported Packages
 Packages come with prebuilt commands.
 Intent recognition is done using your trained LUIS model, allowing for versatile command phrasing.
 
-### Basic Package
+<details>
+<summary><b>Basic Package</b></summary>
+
 #### Control Behavior
 | Command | Response |
 | ------- | -------- |
@@ -59,7 +61,11 @@ Intent recognition is done using your trained LUIS model, allowing for versatile
 | Change role to {role} | Changes the role of the agent to {role} |
 | Change voice | Changes the agent's voice |
 
-### Virtual Assistant Package (includes Basic)
+</details>
+
+<details>
+<summary><b>Virtual Assistant Package</b> (includes Basic)</summary>
+
 #### Weather Retrieval
 | Command | Response |
 | ------- | -------- |
@@ -89,22 +95,24 @@ Intent recognition is done using your trained LUIS model, allowing for versatile
 | Command | Response |
 | ------- | -------- |
 | Set a reminder for {day and time} to do {reminder} | Sets a reminder for {day and time} to do {reminder} |
-### Set Timer
+#### Set Timer
 | Command | Response |
 | ------- | -------- |
 | Set a timer for {time} {metric} | Sets a timer for {time} {metric} |
-### News Retrieval 
+#### News Retrieval 
 | Command | Response |
 | ------- | -------- |
 | Give me the news | A summary of the current top news stories (summarized using GPT) |
-### Web Browsing
+#### Web Browsing
 | Command | Response |
 | ------- | -------- |
 | Open {website} | Opens the specified {website} |
 | Search {speech} | Conducts a Google search for {speech} |
 | Search youtube for {speech} | Conducts a YouTube search for {speech} |
 
-Note: If a command is given that is not included in the above list, a response will be given using GPT.
+</details>
+
+Note: If a command is given that is not included in the above packages, a response will be given using GPT.
    
  ## Supported Langauges
  Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish
