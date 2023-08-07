@@ -1,5 +1,4 @@
 from src.initialization.initializer import BotInitializer
-from src.customization.profiles.profile_manager import ProfileManager
 
 class Juno:
 	"""
@@ -17,7 +16,6 @@ class Juno:
 		self.speech_recognition = self.BotInitializer.speech_recognition
 		self.speech_processor = self.BotInitializer.speech_processor
 		self.speech_verbalizer = self.BotInitializer.speech_verbalizer
-		self.profile_manager = ProfileManager()
 	
 	def listen(self) -> str:
 		"""
