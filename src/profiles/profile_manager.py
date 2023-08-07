@@ -7,9 +7,6 @@ profiles_path = os.path.join('src/profiles/profile_storage')
 
 class ProfileManager:
     
-    def __init__(self):
-        self.profile_name = MasterSettingsManager().retrieve_property('profile')
-    
     def create_profile(self, profile_name, config) -> None:
         """
         Creates a new profile with a given name and config
@@ -30,15 +27,17 @@ class ProfileManager:
         except  FileNotFoundError:
             return
     
-    def retrieve_property(self, property_name:str) -> str:
+    def retrieve_property(self, property_name:str, profile_name=None) -> str:
         """
         Gets a given property from a given profile
         """
-        profile_data = self.load_profile_data(self.profile_name)
+        if not profile_name:    
+            profile_name = MasterSettingsManager().retrieve_property('profile')
+        profile_data = self.load_profile_data(profile_name)
         
         if property_name in ['personality', 'prompt', 'role', 'language']:
             return profile_data['interaction'][property_name]
-        if property_name in ['startup_sound', 'voice_recognition_engine', 'voice_engine', 'voice_name']:
+        if property_name in ['startup_sound', 'voice_recognition_engine', 'voice_engine', 'voice_name', 'package']:
             return profile_data['system'][property_name]
         if property_name in ['gender', 'name']:
             return profile_data['user'][property_name]
@@ -88,12 +87,14 @@ class ProfileManager:
             'system': {
                 'startup_sound': config.get('startup_sound', False),
                 'voice_engine': config.get('voice_engine', 'azure'),
-                'voice_name': config.get('voice_name', 'Ana')
+                'voice_name': config.get('voice_name', 'Ana'),
+                'package': config.get('package', None)
             },
             'interaction': {
                 'role': config.get('role', None),
                 'prompt': config.get('prompt', "you are a virtual assistant"),
                 'personality': config.get('personality', 'friendly'),
+                'language': config.get('language', 'english')
             }
         }
         
