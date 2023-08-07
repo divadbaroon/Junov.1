@@ -1,13 +1,13 @@
-from src.juno import Juno
+from src.profiles.profile_manager import ProfileManager
  
 def create_custom_profile():
     """
     Create and save a custom profile to be used by Juno
     """
     # Get available voice names for Elevenlabs or Azure voice engine
-    Juno.get_voices(engine='elevenlabs') 
+    #Juno.get_voices(engine='elevenlabs') 
     # Test text-to-speech with a given voice name and engine
-    Juno.verbalize(input='This is to test a voice name before using it', voice_name='sarah', engine='elevenlabs') 
+    #Juno.verbalize(input='This is to test a voice name before using it', voice_name='sarah', engine='elevenlabs') 
     
    # Creating configs for both agents with optional args
     time_traveler_config = {
@@ -40,15 +40,17 @@ def create_custom_profile():
         'startup_sound': False
     }
     
-    #save profiles
-    Juno.create_profile(name='time_traveler', config=time_traveler_config) 
-    Juno.create_profile(name='alien', config=alien_config)
+    # Creates and saves profiles
+    ProfileManager().create_profile(profile_name='time traveler', config=time_traveler_config) 
+    # ProfileManager().create_profile(profile_name='alien', config=alien_config)
     
     #see profiles
-    print(Juno.load_profile_data())
+    #print(ProfileManager().load_profile_data())
     
     # delete profiles
-    # Juno.remove_profile(name='pilot') 
-    # Juno.remove_profile(name='atc')
+    # ProfileManager().remove_profile(profile_name='time_traveler') 
+    # ProfileManager().remove_profile(profile_name='alien')
     
     # example of usage for created profiles can be seen in pizza_order_example.py
+    
+create_custom_profile()
