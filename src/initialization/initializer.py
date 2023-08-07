@@ -24,6 +24,8 @@ class BotInitializer:
 		- Play startup sound once initialization is complete.
 		"""
   
+		self.profile_name = profile_name
+  
 		# load in bot, voice, command, and profile setting objects and store them in a dictionary for ease of use
 		self.setting_objects = self._load_in_setting_objects(profile_name)
   
@@ -69,7 +71,7 @@ class BotInitializer:
   		initializing speech recognition, speech processing, and speech verbalization
     	"""
 		self.speech_recognition = SpeechRecognition(self.speech_objects, self.api_keys, self.setting_objects)
-		self.speech_verbalizer  = SpeechVerbalizer(self.speech_objects, self.api_keys, self.setting_objects)
+		self.speech_verbalizer  = SpeechVerbalizer(self.profile_name, self.speech_objects, self.api_keys, self.setting_objects)
 		self.speech_processor = SpeechProcessor(self.api_keys, self.setting_objects, self.speech_verbalizer)
   
 	def get_voices(self, engine:str='elevenlabs') -> list:
