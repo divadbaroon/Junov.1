@@ -1,12 +1,9 @@
-import os
 import yaml
-
 # Import all commands
 from src.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
 from src.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
 from src.packages.virtual_assistant.high_intent.get_weather.get_weather import GetWeather
 from src.packages.virtual_assistant.high_intent.web_searcher.web_searcher import WebSearcher
-from src.packages.virtual_assistant.high_intent.bot_behavior.bot_behavior import BotBehavior
 from src.packages.virtual_assistant.high_intent.set_timer.set_timer import StartTimer
 from src.packages.virtual_assistant.high_intent.generate_password.password_generator import PasswordGenerator
 from src.packages.virtual_assistant.high_intent.get_news.get_news import GetNews
@@ -15,22 +12,38 @@ from src.packages.virtual_assistant.high_intent.schedule_event.scheduler import 
 from src.utils.conversation_history.conversation_history_manager import ConversationHistoryManager
 
 class CommandParser:
-	"""
- 	Initializes and parses all commands.
-  	"""
- 
+	
 	def __init__(self, api_keys:dict, speech_verbalizer:object, intents_data:dict, setting_objects:dict):
-		# retrieving the bot's role, language, and name
-		self.setting_objects = setting_objects
-		self._retrieve_master_settings()
-
-		self.intents_data = intents_data
-  
 		self.speech_verbalizer = speech_verbalizer
+		self.setting_objects = setting_objects
+		self.intents_data = intents_data
+		
+		self._retrieve_master_settings()
+		self._initialize_commands(api_keys)
   
+	def load_commands(self):
+		# path to 'supported_commands.yaml'
+		commands_file_path = 'src/packages/virtual_assistant/supported_commands.yaml'
+  
+		# loads all currently supported bot commands
+		with open(commands_file_path, 'r') as f:
+			commands = yaml.safe_load(f)
+			
+		return commands
+	
+	def _initialize_commands(self, api_keys:dict):
 		# Initialize all bot commands
-		self._initilize_commands(api_keys)
-  
+		self.request_gpt = AskGPT(api_keys['OPENAI-API-KEY'], self.setting_objects, self.bot_name)
+		self.request_translation = TranslateSpeech(api_keys['TRANSLATOR-API-KEY'], self.setting_objects)
+		self.request_weather = GetWeather(api_keys['WEATHER-API-KEY'])
+		self.browser_request  = WebSearcher()
+		self.timer = StartTimer(self.speech_verbalizer)
+		self.password_generator = PasswordGenerator()
+		self.conversation_history = ConversationHistoryManager()
+		self.request_news = GetNews(self.request_gpt, api_keys)
+		#self.request_song = PlaySong(self.command_setttings, api_keys)
+		self.schedule_event = Scheduler(self.setting_objects)
+		
 	def _retrieve_master_settings(self):
 		# retrieving the bot's role and language
 		profile_settings = self.setting_objects['profile_settings']
@@ -38,31 +51,6 @@ class CommandParser:
 		self.language = profile_settings.retrieve_property('language')
 		self.bot_name = profile_settings.retrieve_property('name')
   
-	def _initilize_commands(self, api_keys:dict):
-		# Initialize all bot commands
-		self.request_gpt = AskGPT(api_keys['OPENAI-API-KEY'], self.setting_objects, self.bot_name)
-		self.request_translation = TranslateSpeech(api_keys['TRANSLATOR-API-KEY'], self.setting_objects)
-		self.request_weather = GetWeather(api_keys['WEATHER-API-KEY'])
-		self.browser_request  = WebSearcher()
-		self.bot_behavior = BotBehavior(self.speech_verbalizer, self.setting_objects)
-		self.timer = StartTimer(self.speech_verbalizer)
-		self.password_generator = PasswordGenerator()
-		self.conversation_history = ConversationHistoryManager()
-		self.request_news = GetNews(self.request_gpt, api_keys)
-		#self.request_song = PlaySong(self.command_setttings, api_keys)
-		self.schedule_event = Scheduler(self.setting_objects)
-  
-	def load_commands(self):
-		# path to 'supported_commands.yaml'
-		current_directory = os.path.dirname(os.path.abspath(__file__))
-		commands_file_path = os.path.join(current_directory, 'supported_commands.yaml')
-  
-		# loads all currently supported bot commands
-		with open(commands_file_path, 'r') as f:
-			commands = yaml.safe_load(f)
-			
-		return commands
-
 	def ask_gpt(self, speech:str):
 		response = self.request_gpt.ask_GPT(speech=speech) 
 		self.gpt_response = True
@@ -95,29 +83,6 @@ class CommandParser:
 		response = self.browser_request.search_youtube(search_request)
 		return response
 
-	def change_role(self):
-		new_role = self.intents_data["prediction"]["entities"]["new_role"][0]
-		response = self.bot_behavior.change_role(new_role)
-		return response
-
-	def change_gender(self):
-		new_gender = self.intents_data["prediction"]["entities"]["new_gender"][0]
-		response = self.bot_behavior.change_gender(new_gender)
-		return response
-
-	def change_language(self):
-		new_language = self.intents_data["prediction"]["entities"]["new_language"][0]
-		response = self.bot_behavior.change_language(new_language)
-		return response
-
-	def change_voice(self):
-		response = self.bot_behavior.change_voice()
-		return response
-
-	def randomize_voice(self):
-		response = self.bot_behavior.randomize_voice()
-		return response
-
 	def start_timer(self):
 		user_time = self.intents_data["prediction"]["entities"]["user_timer"][0]
 		metric = self.intents_data["prediction"]["entities"]["metric"][0]
@@ -128,35 +93,11 @@ class CommandParser:
 		response = self.password_generator.generate_password()
 		return response
 
-	def mute(self):
-		response = self.bot_behavior.mute()
-		return response
-
-	def unmute(self):
-		response = self.bot_behavior.unmute()
-		return response
-
-	def pause(self):
-		response = self.bot_behavior.pause()
-		return response
-
-	def get_conversation_history(self):
-		response = self.conversation_history.get_conversation_history(self.role)
-		return response
-
-	def clear(self):
-		response = self.conversation_history.clear_conversation_history()
-		return response
-
-	def quit(self):
-		response = self.conversation_history.exit_and_clear_conversation_history()
-		self.setting_objects['master_settings'].save_property('status', True, 'exit')
-		return response
-
 	def get_news(self):
 		response = self.request_news.get_news()
 		return response
 
+	# FIX
 	def play_song(self):
 		song_name = self.intents_data["prediction"]["entities"]["song_name"][0]
 		response = self.request_song.play_song(song_name)
@@ -178,5 +119,3 @@ class CommandParser:
 		reminder = self.intents_data["prediction"]["entities"].get("reminder", [0])[0]
 		response = self.schedule_event.set_reminder(hour, minute, second, am_or_pm, reminder)
 		return response
-
-

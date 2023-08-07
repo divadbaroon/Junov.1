@@ -1,0 +1,497 @@
+[
+    {
+        "text": "change the bot's gender to male",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 27,
+                "endCharIndex": 31
+            }
+        ]
+    },
+    {
+        "text": "change the bot's gender to female",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 27,
+                "endCharIndex": 33
+            }
+        ]
+    },
+    {
+        "text": "set the bot's gender male",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 21,
+                "endCharIndex": 25
+            }
+        ]
+    },
+    {
+        "text": "set the bot's gender to female",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 21,
+                "endCharIndex": 27
+            }
+        ]
+    },
+    {
+        "text": "set gender to male",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 14,
+                "endCharIndex": 18
+            }
+        ]
+    },
+    {
+        "text": "set gender to female",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 14,
+                "endCharIndex": 20
+            }
+        ]
+    },
+    {
+        "text": "make the bot's gender male",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 22,
+                "endCharIndex": 26
+            }
+        ]
+    },
+    {
+        "text": "make the bot's gender female",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 22,
+                "endCharIndex": 28
+            }
+        ]
+    },
+    {
+        "text": "switch the gender to male",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 21,
+                "endCharIndex": 25
+            }
+        ]
+    },
+    {
+        "text": "switch the gender to female",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 21,
+                "endCharIndex": 27
+            }
+        ]
+    },
+    {
+        "text": "I want the gender to be male",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 24,
+                "endCharIndex": 28
+            }
+        ]
+    },
+    {
+        "text": "I want the gender to be female",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 24,
+                "endCharIndex": 30
+            }
+        ]
+    },
+    {
+        "text": "change bot's gender to male",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 23,
+                "endCharIndex": 27
+            }
+        ]
+    },
+    {
+        "text": "change bot's gender to female",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 23,
+                "endCharIndex": 29
+            }
+        ]
+    },
+    {
+        "text": "update gender to male",
+        "intentName": "Change_Gender",
+        "entityLabels": [
+            {
+                "entityName": "new_gender",
+                "startCharIndex": 17,
+                "endCharIndex": 21
+            }
+        ]
+    },
+    {
+        "text": "Switch the bot's language to French",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 29,
+                "endCharIndex": 35
+            }
+        ]
+    },
+    {
+        "text": "Switch the bot's language to Spanish",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 29,
+                "endCharIndex": 36
+            }
+        ]
+    },
+    {
+        "text": "Switch the bot's language to English",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 29,
+                "endCharIndex": 36
+            }
+        ]
+    },
+    {
+        "text": "Change the language to Spanish",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 23,
+                "endCharIndex": 29
+            }
+        ]
+    },
+    {
+        "text": "Change the language to French",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 23,
+                "endCharIndex": 29
+            }
+        ]
+    },
+    {
+        "text": "Change the language to Korean",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 23,
+                "endCharIndex": 29
+            }
+        ]
+    },
+    {
+        "text": "Change the language to English",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 23,
+                "endCharIndex": 30
+            }
+        ]
+    },
+    {
+        "text": "Switch language to Russian",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 19,
+                "endCharIndex": 26
+            }
+        ]
+    },
+    {
+        "text": "Switch language to Spanish",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 19,
+                "endCharIndex": 26
+            }
+        ]
+    },
+    {
+        "text": "Switch language to Mandarin",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 19,
+                "endCharIndex": 27
+            }
+        ]
+    },
+    {
+        "text": "Set the bot's language to be Korean",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 19,
+                "endCharIndex": 25
+            }
+        ]
+    },
+    {
+        "text": "Please change the bot's language to French",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 36,
+                "endCharIndex": 42
+            }
+        ]
+    },
+    {
+        "text": " Please change the bot's language to Finnish",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 36,
+                "endCharIndex": 43
+            }
+        ]
+    },
+    {
+        "text": " Please change the bot's language to Spanish",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 36,
+                "endCharIndex": 43
+            }
+        ]
+    },
+    {
+        "text": "Make the language Spanish",
+        "intentName": "Change_Language",
+        "entityLabels": [
+            {
+                "entityName": "new_language",
+                "startCharIndex": 18,
+                "endCharIndex": 25
+            }
+        ]
+    },
+    {
+        "text": "Change persona to Obama",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 18,
+                "endCharIndex": 23
+            }
+        ]
+    },
+    {
+        "text": "Change persona to Donald Trump",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 18,
+                "endCharIndex": 30
+            }
+        ]
+    },
+    {
+        "text": "Change persona to Queen Elizabeth",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 18,
+                "endCharIndex": 33
+            }
+        ]
+    },
+    {
+        "text": "Switch persona to Tony Stark",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 18,
+                "endCharIndex": 28
+            }
+        ]
+    },
+    {
+        "text": "Switch persona to Neil Armstrong",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 18,
+                "endCharIndex": 32
+            }
+        ]
+    },
+    {
+        "text": "Switch persona to Bill Clinton",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 18,
+                "endCharIndex": 30
+            }
+        ]
+    },
+    {
+        "text": "Change bot persona to Nelson Mandela",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 22,
+                "endCharIndex": 36
+            }
+        ]
+    },
+    {
+        "text": " Change bot persona to Abraham Lincoln",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 22,
+                "endCharIndex": 37
+            }
+        ]
+    },
+    {
+        "text": " Change bot persona to Martin Luther King",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 22,
+                "endCharIndex": 40
+            }
+        ]
+    },
+    {
+        "text": "Change your persona to Mother Teresa",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 23,
+                "endCharIndex": 36
+            }
+        ]
+    },
+    {
+        "text": "Change your persona to Elvis Presley",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 23,
+                "endCharIndex": 36
+            }
+        ]
+    },
+    {
+        "text": "Change your persona to Leonardo da Vinci",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 23,
+                "endCharIndex": 40
+            }
+        ]
+    },
+    {
+        "text": "Make your persona Rosa Parks",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 18,
+                "endCharIndex": 28
+            }
+        ]
+    },
+    {
+        "text": "Make your persona Lyndon Johnson",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 18,
+                "endCharIndex": 32
+            }
+        ]
+    },
+    {
+        "text": "Adopt the persona of Marilyn Monroe",
+        "intentName": "Change_Persona",
+        "entityLabels": [
+            {
+                "entityName": "new_persona",
+                "startCharIndex": 21,
+                "endCharIndex": 35
+            }
+        ]
+    }
+]

@@ -1,0 +1,15 @@
+# Intent levels represent the confidence with which the model has determined a user's intention.
+# If the intent is recognized with a confidence of less than 90%, it's considered "low intent".
+# If the confidence is 90% or higher, it's considered "high intent".
+
+low_intent:
+  - Ask_GPT           # sends a request to GPT and recieves a response for the user
+high intent:
+  - Change_Gender     # changes the bots current gender
+  - Change_Language   # changes the bots current language
+  - Change_Voice      # changes the bots voice name to the next available one
+  - Randomize_Voice   # randomizes the bots voice
+  - Mute              # mutes the bot
+  - Unmute            # unmutes the bot
+  - Pause             # pauses the bot
+  - Quit              # ends the program

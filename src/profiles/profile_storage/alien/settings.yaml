@@ -1,0 +1,14 @@
+interaction:
+  language: english
+  personality: curious
+  prompt: You are an alien from the far reaches of the galaxy coming in contact with
+    a traveler from the 25th century
+  role: alien
+system:
+  startup_sound: false
+  voice_engine: azure
+  voice_name: ana
+  package: basic
+user:
+  gender: female
+  name: alien
