@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from src.customize.packages.virtual_assistant.high_intent.web_searcher.web_searcher import WebSearcher
+from src.customization.packages.virtual_assistant.high_intent.web_searcher.web_searcher import WebSearcher
 
 class TestWebSearcher(unittest.TestCase):
     """Class for testing the WebSearcher command"""
