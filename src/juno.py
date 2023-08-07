@@ -52,31 +52,4 @@ class Juno:
 			speech = self.listen()
 			response = self.process(speech)
 			self.verbalize(response)
-   
-	def create_profile(self, profile:dict) -> None:
-		"""
-		Adds a profile to the bot
-		:param profile: (dict) profile to be added
-		"""
-		self.profile_manager.create_profile(profile)
-  
-	def remove_profile(self, profile:dict) -> None:
-		"""
-		Adds a profile to the bot
-		:param profile: (dict) profile to be added
-		"""
-		self.profile_manager.remove_profile(profile)
-  
-	def get_profiles(self) -> dict:
-		"""
-		Gets all profiles
-		:return: (dict) all profiles
-		"""
-		return self.profile_manager.load_profile_data()
 
-	def get_voices(self, engine='azure') -> list:
-		"""
-		Gets all voices
-		:return: (dict) all voices
-		"""
-		return self.BotInitializer.get_voices(engine=engine)
