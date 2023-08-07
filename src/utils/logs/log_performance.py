@@ -1,10 +1,7 @@
-import os
 import json
 import datetime
 import time
-
-# path to 'logs.json'
-log_path = os.path.join('src/components/logs', 'log.json')
+from src.utils.settings.master_settings.master_settings_manager import MasterSettingsManager
 
 class PerformanceLogger:
 	"""
@@ -12,6 +9,8 @@ class PerformanceLogger:
 	"""
 	
 	def __init__(self):
+		self.profile_name = MasterSettingsManager().retrieve_property('profile')
+		self.log_path = f'src/profiles/profile_storage/{self.profile_name}/log_path.json'
 		# today's date
 		self.today = datetime.datetime.now().strftime("%Y-%m-%d")
 		#self.data = self._load_in_data()
@@ -23,7 +22,7 @@ class PerformanceLogger:
   		load in data from 'logs.json'
 		"""
 		try:
-			with open(log_path, "r") as f:
+			with open(self.log_path, "r") as f:
 				return json.load(f)
 		except FileNotFoundError:
 			print('The file: "logs.json" was not found')
@@ -35,7 +34,7 @@ class PerformanceLogger:
 		# add new log session to data
 		self.data["log_sessions"].append(new_log_session)
   
-		with open(log_path, "w") as f:
+		with open(self.log_path, "w") as f:
 			json.dump(self.data, f, indent=4)
   
 	def _load_fresh_log_template(self):
