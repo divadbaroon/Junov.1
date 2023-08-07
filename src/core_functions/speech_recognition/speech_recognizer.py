@@ -14,7 +14,7 @@ class SpeechRecognition:
 		self.master_settings = setting_objects['master_settings']
 		self.profile_settings = setting_objects['profile_settings']
 		self.inavtivity_timeout = self.master_settings.retrieve_property('timeout', 'inactivity')
-		self.speech_recognition_engine = self.profile_settings.retrieve_property('voice_recognition_engine')
+		self.speech_recognition_engine = self.profile_settings.retrieve_property('voice_engine')
   
 		if self.speech_recognition_engine == 'azure':
 			self.speech_recognition_engine = AzureSpeechRecognition(speech_objects, api_keys, setting_objects)
