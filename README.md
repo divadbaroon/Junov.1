@@ -39,7 +39,7 @@ Run all commands from root directory
 2. Wait for the startup sound to play, indicating that the assistant is now listening for input
 3. Interact with the assistant by speaking
 
-## 📦 Supported Packages
+## Supported Packages
 Packages come with prebuilt commands.
 Intent recognition is done using your trained LUIS model, allowing for versatile command phrasing.
 
