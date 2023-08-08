@@ -11,15 +11,66 @@ class CommandOrchestrator:
 	"""
   
 	def __init__(self, api_keys: dict, speech_verbalizer:object, intents_data:dict, setting_objects:dict):
-  
-		# dict of all api keys
 		self.api_keys = api_keys
-  
 		self.setting_objects = setting_objects
 		self._retrieve_master_settings()
+		self._load_in_commands(speech_verbalizer, intents_data, setting_objects)
+		self.MINIMUM_INTENT_SCORE = .90
+		self.gpt_response = False
+
+	def process_command(self, speech:str) -> str:
+		"""
+		Provides the most apporiate response and action to the user's speech given the similarity rankings.
+		"""
+		# Retrieve the top intent and its associated entity if applicable from the trained LUIS model
+		if self.intents_data:
+			self._retrieve_top_intent()
+			response = self._execute_command(speech)
+		else:
+			response = self.command.ask_GPT(speech)
+			self.gpt_response = True
   
+		return self._check_post_conditions(response)
+
+	def _retrieve_top_intent(self) -> str:
+		"""
+		Retrieves the top intent and its associated entity if applicable from data returned from the trained LUIS model.
+		"""
+		# Extract top intent and top intent's score from intents_data
+		self.top_intent = self.intents_data["prediction"]["topIntent"]
+		self.top_intent_score = self.intents_data["prediction"]["intents"][self.top_intent]["score"]
+   
+	def _execute_command(self, speech:str) -> None:
+		"""
+		Executes the appropriate action given the top intent and its associated entity if applicable.
+		"""
+		# If the top intent's score is less than the minimum intent score, use GPT-3.5-Turbo to create a response
+		if self.top_intent_score < self.MINIMUM_INTENT_SCORE:
+			response = self.command.ask_GPT(speech)
+			self.gpt_response = True
+		else:
+			# Ensure the top intent is a supported command
+			if self.top_intent in self.commands:
+				response = getattr(self.command, self.top_intent.lower())()
+			else:
+				response = "Sorry, I don't understand that command. Please try asking again."
+		return response
+
+	def _retrieve_master_settings(self) -> None:
+		"""
+  		Retrieves the bot's role, language, and name from the bot settings file
+    	"""
+		profile_settings = self.setting_objects['profile_settings']
+		self.role = profile_settings.retrieve_property('role')
+		self.language = profile_settings.retrieve_property('language')
+		self.bot_name = profile_settings.retrieve_property('name')
+		self.package = profile_settings.retrieve_property('package')
+
+	def _load_in_commands(self, speech_verbalizer:object, intents_data:dict, setting_objects:dict):
+		"""
+  		Loads in all currently supported bot commands supported by the bot's package.
+    	"""
 		if self.package:
-      
 			# initialize and load in all currently supported bot commands 
 			self.CommandParser = getattr(import_module(f"src.packages.{self.package}.command_parser"), "CommandParser")
 
@@ -29,39 +80,16 @@ class CommandOrchestrator:
 			self.intents_data = intents_data
 		else:
 			self.command = AskGPT(self.api_keys, speech_verbalizer, intents_data, setting_objects)
-			self.top_intent_score = 0
+			self.top_intent_score = None
 			self.intents_data = None
-		
-		# minimum intent score for a command to be exucuted
-		# if minimum intent score is not met GPT-3.5-Turbo is used to create a response
-		self.MINIMUM_INTENT_SCORE = .90
-
-		# used to track if GPT-3.5-Turbo was used to create a response
-		self.gpt_response = False
-
-	def process_command(self, speech:str) -> str:
+   
+	def _check_post_conditions(self, response:str) -> str:
 		"""
-		Provides the most apporiate response and action to the user's speech given the similarity rankings.
+		Checks if the response needs to be translated to the user's specified language.
 		"""
-
-		if self.intents_data:
-			# Extract top intent and top intent's score from intents_data
-			top_intent = self.intents_data["prediction"]["topIntent"]
-			self.top_intent_score = self.intents_data["prediction"]["intents"][top_intent]["score"]
-
-		# If the top intent's score is less than the minimum intent score, use GPT-3.5-Turbo to create a response
-		if self.top_intent_score < self.MINIMUM_INTENT_SCORE:
-			response = self.command.ask_GPT(speech)
-		else:
-			# Ensure the top intent is a supported command
-			if top_intent in self.commands:
-				response = getattr(self.command, top_intent.lower())()
-			else:
-				response = "Sorry, I don't understand that command. Please try asking again."
-
 		# If GPT-3 was not used, translate the response to the users specified language
 		# This is since GPT-3 is capable of translating the response itself
-		if not self.gpt_response and self.language != 'english' and top_intent != 'Translate_Speech':
+		if not self.gpt_response and self.language != 'english' and self.top_intent != 'Translate_Speech':
 			response = TranslateSpeech(self.api_keys['TRANSLATOR-API-KEY'], self.setting_objects).translate_speech(response, 'english', self.language, True)
    
 		return response
@@ -75,10 +103,3 @@ class CommandOrchestrator:
 		self._intents_data = value
 		self.command.intents_data = value
 	
-	def _retrieve_master_settings(self) -> None:
-		"""Retrieves the bot's role, language, and name from the bot settings file"""
-		profile_settings = self.setting_objects['profile_settings']
-		self.role = profile_settings.retrieve_property('role')
-		self.language = profile_settings.retrieve_property('language')
-		self.bot_name = profile_settings.retrieve_property('name')
-		self.package = profile_settings.retrieve_property('package')
