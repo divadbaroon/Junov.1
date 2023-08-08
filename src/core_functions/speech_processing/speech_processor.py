@@ -21,10 +21,11 @@ class SpeechProcessor:
 		:return: (str) response to users speech and appropriate action to be taken
 		"""
 		print('\nThinking...')
-		# Returns a dictionary containing similarity rankings between the user's speech and the trained LUIS model
-		intents_data = self.get_intent.get_user_intent(speech)
-		# Updates the intents_data property in the command_orchestrator object with the intents data retrieved from the LUIS model
-		self.command_orchestrator.intents_data = intents_data
+		if self.package_name: 
+			# Returns a dictionary containing similarity rankings between the user's speech and the trained LUIS model
+			intents_data = self.get_intent.get_user_intent(speech)
+			# Updates the intents_data property in the command_orchestrator object with the intents data retrieved from the LUIS model
+			self.command_orchestrator.intents_data = intents_data
 		# Provides the most apporiate response and action to the user's speech given the similarity rankings
 		response = self.command_orchestrator.process_command(speech)
 		return response
