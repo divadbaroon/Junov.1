@@ -1,4 +1,5 @@
-from src.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.customization.packages.virtual_assistant.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.customization.packages.virtual_assistant.commands.low_intent.ask_gpt.ask_gpt import AskGPT
 from importlib import import_module
 
 class CommandOrchestrator:
@@ -17,14 +18,19 @@ class CommandOrchestrator:
 		self.setting_objects = setting_objects
 		self._retrieve_master_settings()
   
-		# initialize and load in all currently supported bot commands 
-		self.CommandParser = getattr(import_module(f"src.packages.{self.package}.command_parser"), "CommandParser")
+		if self.package:
+      
+			# initialize and load in all currently supported bot commands 
+			self.CommandParser = getattr(import_module(f"src.packages.{self.package}.command_parser"), "CommandParser")
 
-		self.command = self.CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
-		self.commands = self.command.load_commands()
-  
-		# dict of similarity rankings returned by luis
-		self.intents_data = intents_data
+			self.command = self.CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
+			self.commands = self.command.load_commands()
+			# dict of similarity rankings returned by luis
+			self.intents_data = intents_data
+		else:
+			self.command = AskGPT(self.api_keys, speech_verbalizer, intents_data, setting_objects)
+			self.top_intent_score = 0
+			self.intents_data = None
 		
 		# minimum intent score for a command to be exucuted
 		# if minimum intent score is not met GPT-3.5-Turbo is used to create a response
@@ -38,13 +44,14 @@ class CommandOrchestrator:
 		Provides the most apporiate response and action to the user's speech given the similarity rankings.
 		"""
 
-		# Extract top intent and top intent's score from intents_data
-		top_intent = self.intents_data["prediction"]["topIntent"]
-		top_intent_score = self.intents_data["prediction"]["intents"][top_intent]["score"]
+		if self.intents_data:
+			# Extract top intent and top intent's score from intents_data
+			top_intent = self.intents_data["prediction"]["topIntent"]
+			self.top_intent_score = self.intents_data["prediction"]["intents"][top_intent]["score"]
 
 		# If the top intent's score is less than the minimum intent score, use GPT-3.5-Turbo to create a response
-		if top_intent_score < self.MINIMUM_INTENT_SCORE:
-			response = self.command.ask_gpt(speech)
+		if self.top_intent_score < self.MINIMUM_INTENT_SCORE:
+			response = self.command.ask_GPT(speech)
 		else:
 			# Ensure the top intent is a supported command
 			if top_intent in self.commands:
