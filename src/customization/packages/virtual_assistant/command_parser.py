@@ -10,6 +10,7 @@ from src.customization.packages.virtual_assistant.commands.high_intent.get_news.
 #from src.customization.packages.virtual_assistant.commands.high_intent.play_music.play_music import PlaySong
 from src.customization.packages.virtual_assistant.commands.high_intent.schedule_event.scheduler import Scheduler
 from src.utilities.conversation_history.conversation_history_manager import ConversationHistoryManager
+from src.customization.packages.basic.commands.high_intent.bot_behavior.bot_behavior import BotBehavior
 
 class CommandParser:
 	
@@ -23,7 +24,7 @@ class CommandParser:
   
 	def load_commands(self):
 		# path to 'supported_commands.yaml'
-		commands_file_path = 'src/packages/virtual_assistant/supported_commands.yaml'
+		commands_file_path = 'src/customization/packages/virtual_assistant/supported_commands.yaml'
   
 		# loads all currently supported bot commands
 		with open(commands_file_path, 'r') as f:
@@ -43,6 +44,7 @@ class CommandParser:
 		self.request_news = GetNews(self.request_gpt, api_keys)
 		#self.request_song = PlaySong(self.command_setttings, api_keys)
 		self.schedule_event = Scheduler(self.setting_objects)
+		self.bot_behavior = BotBehavior(self.speech_verbalizer, self.setting_objects)
 		
 	def _retrieve_master_settings(self):
 		# retrieving the bot's role and language
@@ -118,4 +120,43 @@ class CommandParser:
 		am_or_pm = self.intents_data["prediction"]["entities"].get("am_or_pm", [0])[0]
 		reminder = self.intents_data["prediction"]["entities"].get("reminder", [0])[0]
 		response = self.schedule_event.set_reminder(hour, minute, second, am_or_pm, reminder)
+		return response
+
+	def change_role(self):
+		new_role = self.intents_data["prediction"]["entities"]["new_role"][0]
+		response = self.bot_behavior.change_role(new_role)
+		return response
+
+	def change_gender(self):
+		new_gender = self.intents_data["prediction"]["entities"]["new_gender"][0]
+		response = self.bot_behavior.change_gender(new_gender)
+		return response
+
+	def change_language(self):
+		new_language = self.intents_data["prediction"]["entities"]["new_language"][0]
+		response = self.bot_behavior.change_language(new_language)
+		return response
+
+	def change_voice(self):
+		response = self.bot_behavior.change_voice()
+		return response
+
+	def randomize_voice(self):
+		response = self.bot_behavior.randomize_voice()
+		return response
+
+	def mute(self):
+		response = self.bot_behavior.mute()
+		return response
+
+	def unmute(self):
+		response = self.bot_behavior.unmute()
+		return response
+
+	def pause(self):
+		response = self.bot_behavior.pause()
+		return response
+
+	def quit(self):
+		response = self.bot_behavior.exit()
 		return response
