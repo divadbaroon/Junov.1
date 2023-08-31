@@ -7,9 +7,7 @@ class SpeechProcessor:
 	"""
  
 	def __init__(self, api_keys: dict, setting_objects:dict, speech_verbalizer:object):
-		# retrieve the package name from profile settings object
 		self.package_name = setting_objects['profile_settings'].retrieve_property('package')
-		# initialize the LuisIntentRecognition and CommandOrchestrator objects
 		self.get_intent = LuisIntentRecognition(api_keys)
 		self.command_orchestrator = CommandOrchestrator(api_keys, speech_verbalizer, None, setting_objects)
 
@@ -19,9 +17,9 @@ class SpeechProcessor:
 		:param speech: (str) speech input
 		:return: (str) response to users speech and appropriate action to be taken
 		"""
-		print('\nThinking...')
   
-		# If a package is being used, retrieve the user's intent using the trained LUIS model
+		print('\nThinking...')
+		# If a package is provided, retrieve the user's intent using the trained LUIS model
 		if self.package_name: 
 			# Returns a dictionary containing similarity rankings between the user's speech and the trained LUIS model
 			intents_data = self.get_intent.get_user_intent(speech)
