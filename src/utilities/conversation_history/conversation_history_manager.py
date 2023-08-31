@@ -1,4 +1,4 @@
-import json
+import yaml
 from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
 
 class ConversationHistoryManager:
@@ -17,7 +17,7 @@ class ConversationHistoryManager:
 		"""
 		try:
 			with open(self.conversation_history_path, 'r', encoding='utf-8') as f:
-				data = json.load(f)
+				data = yaml.safe_load(f)
 				conversation_history = data["conversation"]
 		except FileNotFoundError:
 			print('The file "conversation_history.json" is missing.\nMake sure all files are located within the same folder')
@@ -43,7 +43,7 @@ class ConversationHistoryManager:
 		data = {"conversation": conversation_history}
 		try:
 			with open(self.conversation_history_path, "w", encoding="utf-8") as f:
-				json.dump(data, f, ensure_ascii=False, indent=4)
+				yaml.safe_load(data, f, ensure_ascii=False, indent=4)
 		except FileNotFoundError:
 			print('The file "conversation_history.json" is missing.Make sure all files are located within the same folder')
 
@@ -53,7 +53,7 @@ class ConversationHistoryManager:
 		"""
 		# Reset the contents of conversation_history.json
 		with open(self.conversation_history_path, "w") as file:
-			json.dump({"conversation": []}, file)
+			yaml.safe_load({"conversation": []}, file)
 		return 'Ok, I have cleared the conversation history'
 						
 	def exit_and_clear_conversation_history(self):
@@ -62,7 +62,7 @@ class ConversationHistoryManager:
 		"""
 		# Reset the contents of conversation_history.json	
 		with open(self.conversation_history_path, "w") as file:
-			json.dump({"conversation": []}, file)
+			yaml.safe_load({"conversation": []}, file)
 
 		# verbalize a response before exiting the program
 		return 'Exiting. Goodbye!'
