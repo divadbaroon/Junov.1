@@ -8,7 +8,7 @@ class AskGPT:
  	and the conversation history.
 	"""
 	
-	def __init__(self, openai_key:str, setting_objects:dict, bot_name:str, prompt=None):
+	def __init__(self, openai_key:str, setting_objects:dict, bot_name:str='Juno', prompt=None):
 		self.openai_key = openai_key
 		self.profile_settings = setting_objects['profile_settings']
 		self.bot_name = bot_name
