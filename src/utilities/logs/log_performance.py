@@ -1,4 +1,4 @@
-import json
+import yaml
 import datetime
 import time
 from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
@@ -23,7 +23,7 @@ class PerformanceLogger:
 		"""
 		try:
 			with open(self.log_path, "r") as f:
-				return json.load(f)
+				return yaml.safe_load(f)
 		except FileNotFoundError:
 			print('The file: "logs.json" was not found')
    
@@ -35,7 +35,7 @@ class PerformanceLogger:
 		self.data["log_sessions"].append(new_log_session)
   
 		with open(self.log_path, "w") as f:
-			json.dump(self.data, f, indent=4)
+			yaml.safe_load(self.data, f, indent=4)
   
 	def _load_fresh_log_template(self):
 		return {
