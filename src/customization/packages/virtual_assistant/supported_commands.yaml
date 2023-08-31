@@ -4,7 +4,7 @@
 
 low_intent:
   - Ask_GPT           # sends a request to GPT and recieves a response for the user
-high intent:
+high_intent:
   - Translate_Speech  # translates user speech to a given language
   - Get_Weather       # retrieves weather information for a given location
   - Search_Google     # peforms a google search for a given query
