@@ -17,6 +17,7 @@ class CommandOrchestrator:
 		self._load_in_commands(speech_verbalizer, intents_data, setting_objects)
 		self.MINIMUM_INTENT_SCORE = .90
 		self.gpt_response = False
+		self._intents_data = intents_data
 
 	def process_command(self, speech:str) -> str:
 		"""
@@ -49,7 +50,6 @@ class CommandOrchestrator:
 			response = self.command.ask_GPT(speech)
 			self.gpt_response = True
 		else:
-			# Ensure the top intent is a supported command
 			if self.top_intent in self.commands:
 				response = getattr(self.command, self.top_intent.lower())()
 			else:
@@ -72,16 +72,23 @@ class CommandOrchestrator:
     	"""
 		if self.package:
 			# initialize and load in all currently supported bot commands 
-			self.CommandParser = getattr(import_module(f"src.packages.{self.package}.command_parser"), "CommandParser")
+			self.CommandParser = getattr(import_module(f"src.customization.packages.{self.package}.command_parser"), "CommandParser")
 
 			self.command = self.CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
 			self.commands = self.command.load_commands()
 			# dict of similarity rankings returned by luis
 			self.intents_data = intents_data
 		else:
-			self.command = AskGPT(self.api_keys, speech_verbalizer, intents_data, setting_objects)
+			self.command = AskGPT(self.api_keys['OPENAI-API-KEY'], setting_objects)
 			self.top_intent_score = None
 			self.intents_data = None
+   
+		all_commands = []
+		for command in self.commands['high_intent']:
+			all_commands.append(command)
+		for command in self.commands['low_intent']:
+			all_commands.append(command)
+		self.commands = all_commands
    
 	def _check_post_conditions(self, response:str) -> str:
 		"""
