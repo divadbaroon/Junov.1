@@ -14,7 +14,7 @@ class CommandParser:
   
 	def load_commands(self):
 		# path to 'supported_commands.yaml'
-		commands_file_path = 'src/packages/basic/supported_commands.yaml'
+		commands_file_path = 'src/customization/packages/basic/supported_commands.yaml'
   
 		# loads all currently supported bot commands
 		with open(commands_file_path, 'r') as f:
@@ -73,8 +73,6 @@ class CommandParser:
 		response = self.bot_behavior.pause()
 		return response
 
-	# FIX
 	def quit(self):
-		#response = self.conversation_history.exit_and_clear_conversation_history()
-		self.setting_objects['master_settings'].save_property('status', True, 'exit')
-		#return response
+		response = self.bot_behavior.exit()
+		return response
