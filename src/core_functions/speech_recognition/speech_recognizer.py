@@ -14,7 +14,7 @@ class SpeechRecognition:
 		self.master_settings = setting_objects['master_settings']
 		self.profile_settings = setting_objects['profile_settings']
 		self.inavtivity_timeout = self.master_settings.retrieve_property('timeout', 'inactivity')
-		self.speech_recognition_engine = self.profile_settings.retrieve_property('voice_engine')
+		self.speech_recognition_engine = self.profile_settings.retrieve_property('voice_recognition_engine')
   
 		if self.speech_recognition_engine == 'azure':
 			self.speech_recognition_engine = AzureSpeechRecognition(speech_objects, api_keys, setting_objects)
@@ -43,7 +43,7 @@ class SpeechRecognition:
 				if self.speech_recognition_engine.handle_result(result):
 					return self.speech_recognition_engine.handle_recognized_speech(result)
 			except Exception as e:
-				return e
+				print(f"Error occurred during speech recognition: {e}")
 
 			# Terminate the program if there is no user input for a default of 5 minutes
 			if time() - begin_timer >= self.inavtivity_timeout:  
