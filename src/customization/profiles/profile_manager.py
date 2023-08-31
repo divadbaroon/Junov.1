@@ -3,7 +3,7 @@ import yaml
 import shutil
 from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
 
-profiles_path = os.path.join('src/profiles/profile_storage')
+profiles_path = 'src/customization/profiles/profile_storage'
 
 class ProfileManager:
     
@@ -69,10 +69,11 @@ class ProfileManager:
         Loads a profile with a given name
         """
         try:
-            with open(os.path.join(profiles_path, profile_name, 'settings.yaml'), 'r') as file:
+            with open(os.path.join('src', 'customization', 'profiles', 'profile_storage', profile_name, 'settings.yaml'), 'r') as file:
                 return yaml.safe_load(file)
         except FileNotFoundError:
             return 
+
         
     def _format_config(self, config) -> dict:
         """
