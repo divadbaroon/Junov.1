@@ -1,4 +1,5 @@
 import random
+import yaml
 
 class BotBehavior:
 	"""
@@ -18,6 +19,13 @@ class BotBehavior:
 		self.speech_verbalizer = speech_verbalizer
 		self.master_settings =  setting_objects['master_settings']
 		self.voice_settings = setting_objects['voice_settings']
+  
+	def exit(self) -> str:
+		"""
+  		Exits the program after last response is verbalized.	
+		"""
+		self.master_settings.save_property('status', True, 'exit')
+		return 'Exiting. Goodbye!'
 
 	def mute(self) -> str:
 		"""
