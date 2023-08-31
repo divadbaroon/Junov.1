@@ -26,9 +26,6 @@ class TrainLuisModel:
 		self.headers = {'Ocp-Apim-Subscription-Key': self.luis_key}
 		self.params ={}
   
-		# load in training data
-		self._load_in_data()
-  
 	def train_luis_model(self) -> None:
 		"""Creates and trains a LUIS model"""
   
