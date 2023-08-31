@@ -4,10 +4,11 @@ interaction:
   role: assistant
   language: english
 system:
-  startup_sound: false
+  startup_sound: true
   voice_recognition_engine: azure
   voice_engine: azure
   voice_name: Ana
+  package: virtual_assistant
 user:
   gender: female
   name: Juno
