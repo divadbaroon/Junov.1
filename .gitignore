@@ -3,4 +3,4 @@
 log.json
 secret_config.yaml
 # Ignore Terraform files
-*.key
+
