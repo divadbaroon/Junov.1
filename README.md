@@ -1,7 +1,9 @@
 # Juno 
 A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. Juno was designed to be modular, customizable, and extensible making it suitable for a wide range of use cases.
 
-## Key Features 
+<details>
+<summary><b>Key Features :star:</summary>
+   
 ### Azure Powered 
 
 - Leverages Azure's Cognitive Services for speech recognition, intent recognition, and text-to-speech capabilities. Elevenlabs is also available as an alternate option for text-to-speech.
@@ -21,10 +23,13 @@ A platform designed for effortless setup, training, and usage in creating intell
 ### Contextual Awareness 
 
 - Stores and utilizes conversation history to provide contextual awareness to the agents.
+  
+</details>
 
 ## Requirements
 - Azure account and subscription
 - Python 3.x
+- Terraform 1.4.6
 
 ## Installation
 Run all commands from root directory
