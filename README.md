@@ -33,7 +33,7 @@ Run all commands from root directory
 3. Sign into your Azure account: `az login`
 4. Create necessary Azure resources: `cd ./infra && ./infra/create_infrastructure.sh`
 5. Encrypt and secure your configuration secrets: `cd .. && python configuration/encrypt_secrets`
-6. Train LUIS model with training data: `python training/begin_training_session.py`
+6. Train CLU model with training data: `python training/begin_training_session.py`
 
 ## Usage
 1. Run the program: `python main.py`
@@ -42,7 +42,7 @@ Run all commands from root directory
 
 ## Supported Packages
 Packages come with prebuilt commands.
-Intent recognition is done using your trained LUIS model, allowing for versatile command phrasing.
+Intent recognition is done using your trained CLU model, allowing for versatile command phrasing.
 
 <details>
 <summary><b>Basic Package</b></summary>
