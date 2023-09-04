@@ -31,9 +31,9 @@ Run all commands from root directory
 1. Install the required packages: `pip install -r requirements.txt`
 2. Customize configuration: `code configuration/secrets/secret_config.yaml` 
 3. Sign into your Azure account: `az login`
-4. Create necessary Azure resources: `./infra/create_infrastructure.sh`
-5. Encrypt and secure your configuration secrets: `python configuration/encrypt_secrets`
-6. Train LUIS model with training data: `python train.py`
+4. Create necessary Azure resources: `cd ./infra && ./infra/create_infrastructure.sh`
+5. Encrypt and secure your configuration secrets: `cd .. && python configuration/encrypt_secrets`
+6. Train LUIS model with training data: `python training/begin_training_session.py`
 
 ## Usage
 1. Run the program: `python main.py`
