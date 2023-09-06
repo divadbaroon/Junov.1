@@ -1,6 +1,9 @@
 **/*.pyc
 # Ignore personal log file, this file will be automatically created for new users
 log.json
-secret_config.yaml
 # Ignore Terraform files
-
+*.hcl
+*.tfstate
+*.tfstate.backup
+modules.json
+*.exe
