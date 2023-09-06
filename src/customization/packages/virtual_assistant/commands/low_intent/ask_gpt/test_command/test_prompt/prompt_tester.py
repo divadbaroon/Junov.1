@@ -1,8 +1,8 @@
 import json
 import os
-from configuration.secrets import config
+from configuration.secrets import key_vault
 from src.utilities.settings.master_settings.master_settings_manager import BotSettingsManager
-from src.customization.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.customization.packages.virtual_assistant.commands.low_intent.ask_gpt.ask_gpt import AskGPT
 
 # Relative path to mock_prompt.json file
 mock_prompt_path = os.path.join('src/components/commands/ask_gpt/test_command/test_prompt/mock_prompt.json')
@@ -11,7 +11,7 @@ class TestPrompt:
     """A class for testing prompts on the AskGPT command"""
     
     def __init__(self):
-        self.openai_key = config.retrieve_secret('OpenAI-API')
+        self.openai_key = key_vault.retrieve_secret('OpenAI-API')
         self.master_settings = BotSettingsManager()
         self.bot_name = self.master_settings.retrieve_property('bot_name')
         

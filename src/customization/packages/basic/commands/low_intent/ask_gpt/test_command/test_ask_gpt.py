@@ -1,13 +1,13 @@
 import unittest
-from configuration.secrets import config
+from configuration.secrets import key_vault
 from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
-from src.customization.packages.basic.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.customization.packages.basic.commands.low_intent.ask_gpt.ask_gpt import AskGPT
 
 class TestAskGPT(unittest.TestCase):
     """Class for testing the AskGPT command"""
 
     def setUp(self):
-        self.openai_key = config.retrieve_secret('OpenAI-API')
+        self.openai_key = key_vault.retrieve_secret('OpenAI-API')
         self.master_settings = MasterSettingsManager()
         self.bot_name = self.master_settings.retrieve_property('name')
         

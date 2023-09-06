@@ -1,6 +1,6 @@
 import unittest
-from configuration.secrets.config import KeyVaultManager
-from src.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
+from configuration.secrets.key_vault import KeyVaultManager
+from src.customization.packages.virtual_assistant.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
 
 class TestTranslateSpeech(unittest.TestCase):
     """Class for testing the TranslateSpeech command"""

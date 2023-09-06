@@ -2,7 +2,7 @@ import azure.cognitiveservices.speech as speechsdk
 from ..speech_recognizer import SpeechRecognition
 from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
 from src.utilities.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
-import configuration.secrets.config as config
+import configuration.secrets.key_vault as key_vault
 
 class ManuallyTestSpeechRecognition():
 	"""Performs a one shot manual test of the speech recognizer"""
@@ -17,7 +17,7 @@ class ManuallyTestSpeechRecognition():
 		language_country_code = self.voice_settings.retrieve_language_country_code(language)
   
 		# API keys are retrieved from the config file with only necessary keys being retrieved
-		self.api_keys = {'cognitive_services_api': config.retrieve_secret('Cognitive-Services-API'), 'region': 'eastus', 'translator_key': config.retrieve_secret('Translator-API')}
+		self.api_keys = {'cognitive_services_api': key_vault.retrieve_secret('Cognitive-Services-API'), 'region': 'eastus', 'translator_key': key_vault.retrieve_secret('Translator-API')}
   
 		# Initializing the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer
 		self._setup_speech_and_audio(self.api_keys['cognitive_services_api'], self.api_keys['region'], language_country_code)
