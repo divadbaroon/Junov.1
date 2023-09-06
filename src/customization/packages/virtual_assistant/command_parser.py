@@ -59,35 +59,35 @@ class CommandParser:
 		return response
 
 	def translate_speech(self):
-		speech_to_translate = self.intents_data["prediction"]["entities"]["translate_speech"][0]
-		current_language = self.intents_data["prediction"]["entities"]["language"][0]
+		speech_to_translate = self.intents_data["result"]["prediction"]["entities"][0]["text"]
+		current_language = self.intents_data["result"]["prediction"]["entities"][1]["text"]
 		new_language = self.language
 		response = self.request_translation.translate_speech(speech_to_translate, current_language, new_language, one_shot_translation=True)
 		return response
 
 	def get_weather(self):
-		location = self.intents_data["prediction"]["entities"].get("weather_location", [0])[0]
+		location = self.intents_data["result"]["prediction"]["entities"][0]["text"]
 		response = self.request_weather.get_weather(location)
 		return response
 
 	def search_google(self):
-		search_request = self.intents_data["prediction"]["entities"]["search_google"][0]
+		search_request = self.intents_data["result"]["prediction"]["entities"][0]["text"]
 		response = self.browser_request.search_google(search_request)
 		return response
 
 	def open_website(self):
-		website = self.intents_data["prediction"]["entities"]["open_website"][0]
+		website = self.intents_data["result"]["prediction"]["entities"][0]["text"]
 		response = self.browser_request.open_website(website)
 		return response
 
 	def search_youtube(self):
-		search_request = self.intents_data["prediction"]["entities"]["search_youtube"][0]
+		search_request = self.intents_data["result"]["prediction"]["entities"][0]["text"]
 		response = self.browser_request.search_youtube(search_request)
 		return response
 
 	def start_timer(self):
-		user_time = self.intents_data["prediction"]["entities"]["user_timer"][0]
-		metric = self.intents_data["prediction"]["entities"]["metric"][0]
+		user_time = self.intents_data["result"]["prediction"]["entities"]["user_timer"][0]
+		metric = self.intents_data["result"]["prediction"]["entities"]["metric"][0]
 		response = self.timer.start_timer(user_time, metric)
 		return response
 
@@ -101,39 +101,39 @@ class CommandParser:
 
 	# FIX
 	def play_song(self):
-		song_name = self.intents_data["prediction"]["entities"]["song_name"][0]
+		song_name = self.intents_data["result"]["prediction"]["entities"][0]["text"]
 		response = self.request_song.play_song(song_name)
 		return response
 
 	def set_alarm(self):
-		hour = self.intents_data["prediction"]["entities"].get("hour", [0])[0]
-		minute = self.intents_data["prediction"]["entities"].get("minute", [0])[0]
-		second = self.intents_data["prediction"]["entities"].get("second", [0])[0]
-		am_or_pm = self.intents_data["prediction"]["entities"].get("am_or_pm", [0])[0]
+		hour = self.intents_data["result"]["prediction"]["entities"].get("hour", [0])[0]
+		minute = self.intents_data["result"]["prediction"]["entities"].get("minute", [0])[0]
+		second = self.intents_data["result"]["prediction"]["entities"].get("second", [0])[0]
+		am_or_pm = self.intents_data["result"]["prediction"]["entities"].get("am_or_pm", [0])[0]
 		response = self.schedule_event.set_alarm(hour, minute, second, am_or_pm)
 		return response
 
 	def set_reminder(self):
-		hour = self.intents_data["prediction"]["entities"].get("hour", [0])[0]
-		minute = self.intents_data["prediction"]["entities"].get("minute", [0])[0]
-		second = self.intents_data["prediction"]["entities"].get("second", [0])[0]
-		am_or_pm = self.intents_data["prediction"]["entities"].get("am_or_pm", [0])[0]
-		reminder = self.intents_data["prediction"]["entities"].get("reminder", [0])[0]
+		hour = self.intents_data["result"]["prediction"]["entities"].get("hour", [0])[0]
+		minute = self.intents_data["result"]["prediction"]["entities"].get("minute", [0])[0]
+		second = self.intents_data["result"]["prediction"]["entities"].get("second", [0])[0]
+		am_or_pm = self.intents_data["result"]["prediction"]["entities"].get("am_or_pm", [0])[0]
+		reminder = self.intents_data["result"]["prediction"]["entities"].get("reminder", [0])[0]
 		response = self.schedule_event.set_reminder(hour, minute, second, am_or_pm, reminder)
 		return response
 
 	def change_role(self):
-		new_role = self.intents_data["prediction"]["entities"]["new_role"][0]
+		new_role = self.intents_data["result"]["prediction"]["entities"][0]["text"]
 		response = self.bot_behavior.change_role(new_role)
 		return response
 
 	def change_gender(self):
-		new_gender = self.intents_data["prediction"]["entities"]["new_gender"][0]
+		new_gender = self.intents_data["result"]["prediction"]["entities"][0]["text"]
 		response = self.bot_behavior.change_gender(new_gender)
 		return response
 
 	def change_language(self):
-		new_language = self.intents_data["prediction"]["entities"]["new_language"][0]
+		new_language = self.intents_data["result"]["prediction"]["entities"][0]["text"]
 		response = self.bot_behavior.change_language(new_language)
 		return response
 
