@@ -31,14 +31,58 @@ A platform designed for effortless setup, training, and usage in creating intell
 - Python 3.x
 - Terraform 1.4.6
 
-## Installation
-Run all commands from root directory
-1. Install the required packages: `pip install -r requirements.txt`
-2. Customize configuration: `code configuration/secrets/secret_config.yaml` 
-3. Sign into your Azure account: `az login`
-4. Create necessary Azure resources: `cd ./infra && ./create_infrastructure.sh`
-6. Encrypt and secure your configuration secrets: `cd .. && python configuration/encrypt_secrets`
-7. Train CLU model with training data: `python training/begin_training_session.py`
+## Installation Guide
+
+Please follow these steps to install and configure the project. Make sure to execute all commands from the root directory of the project.
+
+### Step 1: Install Required Packages
+
+Run the following command to install the necessary packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 2: Install Required Packages
+
+Open the secret configuration file in your text editor for customization:
+
+```bash
+code configuration/secrets/secret_config.yaml
+```
+Update the file with your personal settings and save it.
+
+### Step 3: Azure Account Setup
+
+Log into your Azure account using the Azure CLI:
+
+```bash
+az login
+```
+
+### Step 4: Create Azure Resources
+
+Navigate to the infra directory and run the script to create the necessary Azure resources:
+
+```bash
+cd infra && ./create_infrastructure.sh
+```
+
+### Step 5: Encrypt and Secure Configuration
+
+Navigate back to root directory and run the script to save and encrypt all secret data locally:
+
+```bash
+cd .. && python -m configuration.manage_secrets
+```
+
+### Step 6: Train CLU Model
+
+Start the training session for your Conversation Language Understanding (CLU) model:
+
+```bash
+python -m training.begin_training_session
+```
 
 ## Usage
 1. Run the program: `python main.py`
