@@ -1,538 +1,538 @@
 [
     {
         "text": "Change my voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Change the bot's voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Change the voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Change the bot's voice name",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Give the bot a new voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Give me a new voice name",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Please change the voice name",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Can you switch the voice?",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "I'd like a different voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Could you change your voice?",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "I want to hear a new voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Switch to a new voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Use a different voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Please use a new voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Let's try a new voice",
-        "intentName": "Change_Voice"
+        "intent": "Change_Voice"
     },
     {
         "text": "Can you clear our conversation history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Can you clear the conversation history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Clear",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Clear conversation history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Clear our conversation history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Clear the conversation history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Please clear the conversation history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Erase our conversation",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Delete the conversation history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Please delete our chat",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Get rid of the conversation history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Wipe out our conversation history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "I want to clear the chat history",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Could you clear our chat?",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Let's start fresh, clear the conversation",
-        "intentName": "Clear"
+        "intent": "Clear"
     },
     {
         "text": "Generate our conversation history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Give me my conversation history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Give me the conversation history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Give our conversation history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Please print our conversation history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Print the conversation history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Can you create a randomly generated password for me",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Can you show me our conversation history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "I'd like to see the chat history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Could you provide the chat log",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Show me our chat log",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Display our conversation history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Let's review our chat history",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "I want to see our previous chats",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Can you recap our conversation",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Generate a report of our chats",
-        "intentName": "Generate_Conversation_History"
+        "intent": "Generate_Conversation_History"
     },
     {
         "text": "Create a random password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Generate a random password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Please give me a random password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "I need a random password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Can you give me a secure password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Create a secure password for me",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Generate a secure password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Produce a random password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Could you create a random password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "I'd like a new random password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Can you make a random password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Please generate a secure password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Give me a new secure password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "I need a secure password",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Can you create a secure password for me",
-        "intentName": "Generate_Password"
+        "intent": "Generate_Password"
     },
     {
         "text": "Can you mute",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Can you mute yourself",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Mute",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Mute yourself",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Mute yourself please",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Please mute",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "I want you to mute",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Can you stop talking",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Go silent",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Please go silent",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Stop speaking please",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Could you mute yourself",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Silence please",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Please be silent",
-        "intentName": "Mute"
+        "intent": "Mute"
     },
     {
         "text": "Can you pause our conversation",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Pause",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Pause our conversation",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Please pause our conversation",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Please pause",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Can we take a break",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Hold on",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Let's stop for a moment",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Let's pause this discussion",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Halt",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Hold our conversation",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Can we pause this chat",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "Stop for a moment",
-        "intentName": "Pause"
+        "intent": "Pause"
     },
     {
         "text": "End the program",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Exit",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Exit the program",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Please end the program",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Quit",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Stop the session",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Terminate",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Can you stop now?",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Please quit",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Finish",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Can we end this now?",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "End session",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "I would like to quit",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Let's wrap this up",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "I want to exit",
-        "intentName": "Quit"
+        "intent": "Quit"
     },
     {
         "text": "Give me a new random voice",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Give me a random voice",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Give me a random voice name",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Randomize the voice",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Change the voice randomly",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "I want a different voice",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Can you speak with a random voice?",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "I want a surprise voice",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Please change to a random voice",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Pick a random voice for me",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Surprise me with a new voice",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Generate a random voice for me",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Switch to a different voice",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Mix up the voice",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Random voice, please",
-        "intentName": "Randomize_Voice"
+        "intent": "Randomize_Voice"
     },
     {
         "text": "Please unmute",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "Please unmute yourself",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "Unmute",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "Unmute yourself",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "You can unmute",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "You can unmute now",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "Can you unmute yourself",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "I'd like you to unmute now",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "I think you can unmute now",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "Time to unmute",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "Unmute yourself please",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "Can we unmute now",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "It's time to unmute",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "We can unmute now",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "Ready to unmute",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     },
     {
         "text": "It's okay to unmute now",
-        "intentName": "Unmute"
+        "intent": "Unmute"
     }
 ]
