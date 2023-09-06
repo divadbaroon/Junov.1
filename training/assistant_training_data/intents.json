@@ -1,57 +1,61 @@
-[
-    {
-      "name": "Change_Gender"
-    },
-    {
-      "name": "Change_Language"
-    },
-    {
-      "name": "Change_Persona"
-    },
-    {
-      "name": "Change_Voice"
-    },
-    {
-      "name": "Clear"
-    },
-    {
-      "name": "Generate_Conversation_History"
-    },
-    {
-      "name": "Generate_Password"
-    },
-    {
-      "name": "Get_Weather"
-    },
-    {
-      "name": "Mute"
-    },
-    {
-      "name": "Open_Website"
-    },
-    {
-      "name": "Pause"
-    },
-    {
-      "name": "Quit"
-    },
-    {
-      "name": "Randomize_Voice"
-    },
-    {
-      "name": "Search_Google"
-    },
-    {
-      "name": "Search_Youtube"
-    },
-    {
-      "name": "Start_Timer"
-    },
-    {
-      "name": "Translate_Speech"
-    },
-    {
-      "name": "Unmute"
-    }
-  ]
-  
+
+  {
+    "intents": [
+            {
+              "category": "Change_Gender"
+            },
+            {
+              "category": "Change_Language"
+            },
+            {
+              "category": "Change_Persona"
+            },
+            {
+              "category": "Change_Voice"
+            },
+            {
+              "category": "Clear"
+            },
+            {
+              "category": "Generate_Conversation_History"
+            },
+            {
+              "category": "Generate_Password"
+            },
+            {
+              "category": "Get_Weather"
+            },
+            {
+              "category": "Mute"
+            },
+            {
+              "category": "Open_Website"
+            },
+            {
+              "category": "Pause"
+            },
+            {
+              "category": "Quit"
+            },
+            {
+              "category": "Randomize_Voice"
+            },
+            {
+              "category": "Search_Google"
+            },
+            {
+              "category": "Search_Youtube"
+            },
+            {
+              "category": "Start_Timer"
+            },
+            {
+              "category": "Translate_Speech"
+            },
+            {
+              "category": "Unmute"
+            }
+          ]
+        
+        }
+        
