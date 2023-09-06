@@ -33,7 +33,10 @@ A platform designed for effortless setup, training, and usage in creating intell
 
 ## Installation Guide
 
-Please follow these steps to install and configure the project. Make sure to execute all commands from the root directory of the project.
+Follow these steps to install and configure the project. Execute all commands from the root directory of the project.
+
+<details>
+<summary><b>Steps 🔽 </b></summary>
 
 ### Step 1: Install Required Packages
 
@@ -43,7 +46,7 @@ Run the following command to install the necessary packages:
 pip install -r requirements.txt
 ```
 
-### Step 2: Install Required Packages
+### Step 2: Customize Configuration
 
 Open the secret configuration file in your text editor for customization:
 
@@ -52,7 +55,7 @@ code configuration/secrets/secret_config.yaml
 ```
 Update the file with your personal settings and save it.
 
-### Step 3: Azure Account Setup
+### Step 3: Sign into Azure Acount
 
 Log into your Azure account using the Azure CLI:
 
@@ -68,7 +71,7 @@ Navigate to the infra directory and run the script to create the necessary Azure
 cd infra && ./create_infrastructure.sh
 ```
 
-### Step 5: Encrypt and Secure Configuration
+### Step 5: Encrypt and Secure Secret Data
 
 Navigate back to root directory and run the script to save and encrypt all secret data locally:
 
@@ -83,6 +86,8 @@ Start the training session for your Conversation Language Understanding (CLU) mo
 ```bash
 python -m training.begin_training_session
 ```
+
+</details>
 
 ## Usage
 1. Run the program: `python main.py`
