@@ -21,7 +21,7 @@ class EncryptionHandler:
 	
 	def save_and_encrypt_local_secrets(self, api_keys):
 	 
-		encrypted_local_data_path = 'configuration/secrets/encrypted_local_data.yaml'
+		encrypted_local_data_path = 'configuration/secrets/encrypted_secret_data.yaml'
   
 		key = self._save_key()
 		cipher_suite = Fernet(key)
@@ -36,7 +36,7 @@ class EncryptionHandler:
    	
 	def load_in_encrypted_secrets(self) -> dict:
 	 
-		encrypted_local_data_path = 'configuration/secrets/encrypted_local_data.yaml'
+		encrypted_local_data_path = 'configuration/secrets/encrypted_secret_data.yaml'
   
 		key = self._retrieve_key()
 		cipher_suite = Fernet(key)
@@ -54,10 +54,13 @@ class EncryptionHandler:
 		return encrypted_api_keys
 
 	def _decrypt_api_keys(self, encrypted_api_keys, cipher_suite):
-		"""
-		encrypts api keys
-		"""
-		decrypted_api_keys = {key: cipher_suite.decrypt(value.encode()).decode() for key, value in encrypted_api_keys.items()}
+		decrypted_api_keys = {}
+		for key, value in encrypted_api_keys.items():
+			if value is not None:
+				decrypted_api_keys[key] = cipher_suite.decrypt(value.encode()).decode()
+			else:
+				decrypted_api_keys[key] = None
 		return decrypted_api_keys
+
   
 
