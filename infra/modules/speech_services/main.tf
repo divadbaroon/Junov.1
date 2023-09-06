@@ -1,3 +1,4 @@
+
 resource "azurerm_cognitive_account" "speech_service" {
   name                = var.speech_services_name
   location            = var.location
