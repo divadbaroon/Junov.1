@@ -41,3 +41,15 @@ resource "azurerm_key_vault_secret" "translator_key" {
   value        = var.translator_key
   key_vault_id = azurerm_key_vault.key_vault.id
 }
+
+resource "azurerm_key_vault_secret" "text_analysis_key" {
+  name         = "CLU-API-KEY"
+  value        = var.text_analysis_key
+  key_vault_id = azurerm_key_vault.key_vault.id
+}
+
+resource "azurerm_key_vault_secret" "text_analytics_endpoint" {
+  name         = "CLU-ENDPOINT"
+  value        = var.text_analytics_endpoint
+  key_vault_id = azurerm_key_vault.key_vault.id
+}
