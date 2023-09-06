@@ -1,13 +1,19 @@
-import requests
 import json
 import os
-import configuration.secrets.config as config
+import requests
+import time
+
+from azure.core.credentials import AzureKeyCredential
+from azure.ai.language.conversations.authoring import ConversationAuthoringClient
+
+from configuration.manage_secrets import ConfigurationManager
 
 # Relativing relative paths to training data
-utterance_file_path = os.path.join('luis_training_data/utterances.json')
-pattern_file_path = os.path.join('luis_training_data/patterns.json')
-entity_file_path = os.path.join('luis_training_data/entities.json')
-intent_file_path = os.path.join('luis_training_data/intents.json')
+project_header_path = os.path.join('training/assistant_training_data/project_header.json')
+utterance_file_path = os.path.join('training/assistant_training_data/utterances.json')
+patterns_file_path = os.path.join('training/assistant_training_data/patterns.json')
+entity_file_path = os.path.join('training/assistant_training_data/entities.json')
+intent_file_path = os.path.join('training/assistant_training_data/intents.json')
 
 class TrainLuisModel:
 	"""
@@ -18,141 +24,160 @@ class TrainLuisModel:
 
 	def __init__(self) -> None:
 		"""Initializes the LUIS model"""
-		# LUIS app information
-		self.luis_app_id = config.retrieve_secret('NEW-LUIS-APP-ID')
-		self.luis_key = config.retrieve_secret('LUIS-API')
-		self.authoring_endpoint = 'https://westus.api.cognitive.microsoft.com/'
-		self.app_version = '0.1'
-		self.headers = {'Ocp-Apim-Subscription-Key': self.luis_key}
-		self.params ={}
   
-	def train_luis_model(self) -> None:
-		"""Creates and trains a LUIS model"""
-  
-		# load in the data
-		self._load_in_data()
+		self.configuration_manager = ConfigurationManager()
+		self.api_keys = self.configuration_manager.retrieve_api_keys()
+		print(self.api_keys)
+		self.endpoint = self.api_keys['CLU-ENDPOINT']
+		credential = AzureKeyCredential(self.api_keys['CLU-API-KEY'])
+		self.client = ConversationAuthoringClient(self.endpoint, credential)
 
-		# LUIS API only takes 100 utterances and patterns at a time
-		self.utterance_data = self._split_data_into_chunks(self.utterance_data)
-		self.pattern_data = self._split_data_into_chunks(self.pattern_data)
+		self.project_name  = self.api_keys['CLU-PROJECT-NAME']
+		self.project_data = self._load_in_project_data()
   
-		# import the data into the LUIS model
-		self._import_luis_data()
-		# train the LUIS model
-		#self._train_luis_model()
+		self.training_model_name = self.api_keys['CLU-TRAINING-MODEL-NAME']
   
-	def _load_in_data(self) -> None:
-		"""Loads in the data to be imported into the LUIS model"""
-  		# load in example utterances 
+	def import_project_data(self) -> None:
+		"""
+		Creates a new CLU project and imports the training data located within 
+  		the /training sub-directory into it
+		"""
+		poller = self.client.begin_import_project(
+				project_name=self.project_name,
+				project={
+					"assets": self.project_data,
+					"stringIndexType": "Utf16CodeUnit",
+					"metadata": {
+						"projectKind": "Conversation",
+						"settings": {"confidenceThreshold": 0.7},
+						"projectName": self.project_name,
+						"multilingual": True,
+						"description": "Trying out CLU",
+						"language": "en-us",
+					},
+					"projectFileVersion": "2022-05-01",
+				},
+		)
+		print(f"\nImporting training data to project: {self.project_name}")
+		print(f'\n{poller.result()}')
+
+	def train_conversation_model(self):
+		"""
+		Begins a training session for the newly created CLU model
+		"""	
+
+		url = f"{self.endpoint}/language/authoring/analyze-conversations/projects/{self.project_name}/:train?api-version=2022-10-01-preview"
+
+		headers = {
+			"Ocp-Apim-Subscription-Key": self.api_keys['CLU-API-KEY'],
+			"Content-Type": "application/json"
+		}
+
+		body = {
+			"modelLabel": self.training_model_name,
+			"trainingMode": "standard",
+			"evaluationOptions": {
+				"kind": "percentage",
+				"testingSplitPercentage": 20,
+				"trainingSplitPercentage": 80
+			}
+		}
+
+		print(f"\nBeginning a training session for the project: {self.project_name}")
+		response = requests.post(url, headers=headers, json=body)
+
+		if response.status_code == 202:
+			operation_location = response.headers["operation-location"]
+			print(f"\nTraining started. Poll the operation location to get status: {operation_location}")
+			self.wait_for_operation_to_complete(operation_location, headers)
+		else:
+			print(f"Training failed. Error: {response.json()}")
+   
+	def deploy_conversation_model(self):
+		"""
+		Deploys the newly created CLU model
+		"""    
+
+		url = f"{self.endpoint}/language/authoring/analyze-conversations/projects/{self.project_name}/deployments/{self.training_model_name}?api-version=2023-04-01"
+
+		headers = {
+			"Ocp-Apim-Subscription-Key": self.api_keys['CLU-API-KEY'],
+			"Content-Type": "application/json"
+		}
+
+		body = {
+			"trainedModelLabel": self.training_model_name
+		}
+
+		print(f"\nDeploying the model: {self.training_model_name}")
+		response = requests.put(url, headers=headers, json=body)  
+
+		if response.status_code == 202:
+			operation_location = response.headers["operation-location"]
+			print(f"\nDeployment started. Poll the operation location to get status: {operation_location}")
+			self.wait_for_operation_to_complete(operation_location, headers)
+		else:
+			print(f"Deployment failed. Error: {response.json()}")
+
+  
+	def _load_in_project_data(self) -> dict:
+		# Load in project_header information
+		with open(project_header_path) as f:
+			project_header = json.load(f) 
+
+		# Load in example utterances 
 		with open(utterance_file_path) as f:
-			self.utterance_data = json.load(f) 
-		# load in example utterances 
-		with open(pattern_file_path) as f:
-			self.pattern_data = json.load(f) 
-		# load in entities
+			utterance_data = json.load(f) 
+	
+		# Load in example patterns
+		with open(patterns_file_path) as f:
+			pattern_data = json.load(f)
+
+		# Load in entities
 		with open(entity_file_path) as f:
-			self.entity_data = json.load(f) 
-		# load in intents
+			entity_data = json.load(f) 
+
+		# Load in intents
 		with open(intent_file_path) as f:
-			self.intent_data = json.load(f) 
+			intent_data = json.load(f) 
+
+		# Initialize an empty 'assets' dictionary within project_data
+		project_data = {}
+
+		# Update 'assets' with the various types of data
+		project_data["projectKind"] = "Conversation"
+		project_data["intents"] = intent_data["intents"]  # Assuming intent_data is a dictionary containing an 'intents' key
+		project_data["entities"] = entity_data
+		project_data["utterances"] = utterance_data + pattern_data
+
+		# Save the project data to a file
+		return project_data
    
-	def _split_data_into_chunks(self, data: list) -> list:
-		"""Splits the utterance and pattern data into chunks of 100 utterances"""
-		data_chunks = []
-		
-		# split the data into chunks of 100
-		for i in range(0, len(data), 100):
-				utterance_chunk = data[i:i + 100]
-				data_chunks.append(utterance_chunk)
-    
-		return data_chunks
+	def wait_for_operation_to_complete(self, operation_location, headers):
+		while True:
+			time.sleep(5)  # Wait for 5 seconds before checking the status again
+			response = requests.get(operation_location, headers=headers)
+			status = response.json().get("status")
+			if status == "succeeded":
+				print("Operation completed successfully.")
+				break
+			elif status == "failed":
+				print("Operation failed.")
+				break
    
-	def _import_luis_data(self) -> None:
-		"""Creates the LUIS model and trains it"""
-		# Make the REST call to import the LUIS model.
-		self._import_luis_entities()
-		self._import_luis_utterances()
-		self._import_luis_patterns()
+if __name__ == "__main__":
+	"""
+	Runs the training session
+	"""
+	print("\nImporting training data from the /training sub-directory into a new CLU project for training and deployment.")
+	print("Please note: The entire process may take up to 5 minutes to complete.")
 
-	def _import_luis_utterances(self) -> None:
-		"""Imports the list of utterances into the LUIS model"""
-		try:
-      
-			for chunk in range(len(self.utterance_data)):
-				# Make the REST call to POST the list of example utterances.
-				response = requests.post(f'{self.authoring_endpoint}luis/authoring/v3.0/apps/{self.luis_app_id}/versions/{self.app_version}/examples',
-					headers=self.headers, params=self.params, data=json.dumps(self.utterance_data[chunk]))
-
-			# Print the results on the console.
-			print(response.json())
-   
-		except Exception as e:
-			print(f'{e}')
-
-	def _import_luis_patterns(self) -> None:
-		"""Imports the list of patterns into the LUIS model"""
-		try:
-			for chunk in range(len(self.pattern_data)):
-				# Make the REST call to POST the list of example utterances.
-				response = requests.post(f'{self.authoring_endpoint}luis/authoring/v3.0/apps/{self.luis_app_id}/versions/{self.app_version}/patternrules',
-					headers=self.headers, params=self.params, data=json.dumps(self.pattern_data[chunk]))
-
-			# Print the results on the console.
-			print(response.json())
-   
-		except Exception as e:
-			print(f'{e}')
-
-	def _import_luis_entities(self) -> None:
-		"""Imports the list of entities into the LUIS model"""
-		try:
-			# Loop through the pattern.any entities
-			for entity in self.entity_data:
-				# Make the REST call to create each pattern.any entity.
-				response = requests.post(
-					f'{self.authoring_endpoint}luis/authoring/v3.0/apps/{self.luis_app_id}/versions/{self.app_version}/patternanyentities',
-					headers=self.headers, params=self.params, json=entity)
-
-				# Print the results on the console.
-				print(f'Create pattern.any entity {entity["name"]}:')
-				print(response.json())
-
-		except Exception as e:
-			print(f'{e}')
-   
-	def _import_luis_intents(self) -> None:
-		"""Imports the list of intents into the LUIS model"""
-		try:
-			# Loop through each intent
-			for intent in self.intent_data:
-				# Make the REST call to create the intent
-				response = requests.post(
-					f'{self.authoring_endpoint}luis/authoring/v3.0/apps/{self.luis_app_id}/versions/{self.app_version}/intents',
-					headers=self.headers, params=self.params, json=intent)
-				
-				# Print the results on the console.
-				print(f'Created the intent: {intent["name"]}')
-				print(response.json())
-
-		except Exception as e:
-			print(f'{e}')
-   	
-	def _train_luis_model(self) -> None:
-		"""Begin a training session for the LUIS model"""
-		# Make the REST call to initiate a training session.
-		response = requests.post(f'{self.authoring_endpoint}luis/authoring/v3.0/apps/{self.luis_app_id}/versions/{self.app_version}/train',
-			headers=self.headers, params=self.params, data=None)
-
-		# Print the results on the console.
-		print('Request training:')
-		print(response.json())
-
-		# Make the REST call to request the status of training.
-		response = requests.get(f'{self.authoring_endpoint}luis/authoring/v3.0/apps/{self.luis_app_id}/versions/{self.app_version}/train',
-			headers=self.headers, params=self.params, data=None)
-
-		# Print the results on the console.
-		print('Request training status:')
-		print(response.json())
+ 
+	test = TrainLuisModel()
+	test.import_project_data()
+	test.train_conversation_model()
+	test.deploy_conversation_model()
 
 
+  
+	
