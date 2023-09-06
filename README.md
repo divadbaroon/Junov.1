@@ -1,7 +1,9 @@
 # Juno 
 A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. Juno was designed to be modular, customizable, and extensible making it suitable for a wide range of use cases.
 
-## Key Features 
+<details>
+<summary><b>Key Features :star:</summary>
+   
 ### Azure Powered 
 
 - Leverages Azure's Cognitive Services for speech recognition, intent recognition, and text-to-speech capabilities. Elevenlabs is also available as an alternate option for text-to-speech.
@@ -21,19 +23,71 @@ A platform designed for effortless setup, training, and usage in creating intell
 ### Contextual Awareness 
 
 - Stores and utilizes conversation history to provide contextual awareness to the agents.
+  
+</details>
 
 ## Requirements
 - Azure account and subscription
 - Python 3.x
+- Terraform 1.4.6
 
-## Installation
-Run all commands from root directory
-1. Install the required packages: `pip install -r requirements.txt`
-2. Customize configuration: `code configuration/secrets/secret_config.yaml` 
-3. Sign into your Azure account: `az login`
-4. Create necessary Azure resources: `./infra/create_infrastructure.sh`
-5. Encrypt and secure your configuration secrets: `python configuration/encrypt_secrets`
-6. Train LUIS model with training data: `python train.py`
+## Installation Guide
+
+Follow these steps to install and configure the project. Execute all commands from the root directory of the project.
+
+<details>
+<summary><b>Steps 🔽 </b></summary>
+
+### Step 1: Install Required Packages
+
+Run the following command to install the necessary packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 2: Customize Configuration
+
+Open the secret configuration file in your text editor for customization:
+
+```bash
+code configuration/secrets/secret_config.yaml
+```
+Update the file with your personal settings and save it.
+
+### Step 3: Sign into Azure Acount
+
+Log into your Azure account using the Azure CLI:
+
+```bash
+az login
+```
+
+### Step 4: Create Azure Resources
+
+Navigate to the infra directory and run the script to create the necessary Azure resources:
+
+```bash
+cd infra && ./create_infrastructure.sh
+```
+
+### Step 5: Encrypt and Secure Secret Data
+
+Navigate back to root directory and run the script to save and encrypt all secret data locally:
+
+```bash
+cd .. && python -m configuration.manage_secrets
+```
+
+### Step 6: Train CLU Model
+
+Start the training session for your Conversation Language Understanding (CLU) model:
+
+```bash
+python -m training.begin_training_session
+```
+
+</details>
 
 ## Usage
 1. Run the program: `python main.py`
@@ -42,7 +96,7 @@ Run all commands from root directory
 
 ## Supported Packages
 Packages come with prebuilt commands.
-Intent recognition is done using your trained LUIS model, allowing for versatile command phrasing.
+Intent recognition is done using your trained CLU model, allowing for versatile command phrasing.
 
 <details>
 <summary><b>Basic Package</b></summary>
@@ -115,5 +169,5 @@ Intent recognition is done using your trained LUIS model, allowing for versatile
 
 Note: If a command is given that is not included in the above packages, a response will be given using GPT.
    
- ## Supported Langauges
+ ## Supported Languages
  Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish
