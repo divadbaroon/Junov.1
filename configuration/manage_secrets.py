@@ -1,5 +1,5 @@
-from configuration.utils import AzureKeyVaultHandler, EnvironmentVariableHandler, LocalSecretHandler, DataHandler, AzureResourceManager
-from configuration.encryption import EncryptionHandler
+from .utils import AzureKeyVaultHandler, EnvironmentVariableHandler, LocalSecretHandler, DataHandler, AzureResourceManager
+from .encryption import EncryptionHandler
 
 class ConfigurationManager:
 	"""
@@ -8,8 +8,8 @@ class ConfigurationManager:
 	def __init__(self):
 		self.azure_key_vault = AzureKeyVaultHandler()
 		self.environment_variables = EnvironmentVariableHandler()
-		self.local_secrets = LocalSecretHandler()
 		self.encryption_handler = EncryptionHandler()
+		self.local_secrets = LocalSecretHandler(self.encryption_handler)
   
 		self.data = DataHandler()._load_in_data()
 		self.preferred_secret_storage = self.data['preferred_secret_storage']
@@ -35,5 +35,15 @@ class ConfigurationManager:
 		elif self.preferred_secret_storage == 'environment':
 			api_keys = self.environment_variables._get_environment_secrets(self.api_keys)
 		elif self.preferred_secret_storage == 'local':
-			api_keys = self.local_secrets._load_in_local_secrets(self.encryption_handler)
+			api_keys = self.local_secrets._load_in_local_secrets()
 		return api_keys 
+
+	def retrieve_config_value(self, value) -> dict:
+		"""
+		used to retrieve the bot's configuration values from 'config.yaml'
+		"""
+		return self.data[value]
+
+if __name__ == "__main__":
+	ConfigurationManager().initial_setup()
+
