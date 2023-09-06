@@ -1,22 +1,25 @@
 import os
 import yaml
-from configuration.secrets.config import KeyVaultManager
+from .secrets.key_vault import KeyVaultManager
 
-# path to 'secret_config.yaml'
+# path to 'config.yaml'
 current_directory = os.path.dirname(os.path.abspath(__file__))
-secret_config_path = os.path.join(current_directory, 'secrets', 'secret_config.yaml')
+secret_config_path = os.path.join(current_directory, 'secrets', 'config.yaml')
 
 class DataHandler:
+	
+	def __init__(self):
+		self.data = self._load_in_data()
 		
 	def _load_in_data(self):
 		"""
-  		load in data from 'secret_config.yaml'
+  		load in data from 'config.yaml'
 		"""
 		try:
 			with open(secret_config_path, "r") as f:
 				return yaml.safe_load(f)
 		except FileNotFoundError:
-			print('The file: "secret_config.yaml" was not found. Ensure the file is located within the "configuration/secrets" directory')
+			print('The file: "config.yaml" was not found. Ensure the file is located within the "configuration/secrets" directory')
 	
 class AzureKeyVaultHandler:
 	
@@ -77,8 +80,15 @@ class AzureResourceManager:
 	
 	def __init__(self):
 		self.key_vault = KeyVaultManager()
+		self.data = DataHandler().data
   
 	def _retrieve_azure_secrets(self, api_keys):
 		api_keys['COGNITIVE-SERVICES-API-KEY'] = self.key_vault.retrieve_secret('COGNITIVE-SERVICES-API-KEY')
 		api_keys['TRANSLATOR-API-KEY'] = self.key_vault.retrieve_secret('TRANSLATOR-API-KEY')
+		api_keys['CLU-API-KEY'] = self.key_vault.retrieve_secret('CLU-API-KEY')
+		api_keys['CLU-ENDPOINT'] = self.key_vault.retrieve_secret('CLU-ENDPOINT')
+		api_keys['CLU-PROJECT-NAME'] = self.data['CLU_PROJECT_NAME']
+		api_keys['CLU-TRAINING-MODEL-NAME'] = self.data['CLU_TRAINING_MODEL_NAME']
+		api_keys['CLU-DEPLOYMENT-NAME'] = self.data['CLU_DEPLOYMENT_NAME']
+		api_keys['REGION'] = self.data['REGION']
 		return api_keys
