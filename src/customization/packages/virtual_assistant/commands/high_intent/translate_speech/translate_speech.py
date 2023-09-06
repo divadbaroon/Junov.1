@@ -22,7 +22,7 @@ class TranslateSpeech:
 			self.master_settings.save_property('status', True, 'exit')
    
 		if one_shot_translation:
-			self.master_settings.save_property('language', True, 'reset')
+			self.master_settings.save_property('functions', True, 'reset_language')
 
 		# Clean the language input for any punctuation
 		current_language, new_language = self._clean_language(current_language, new_language)
