@@ -15,7 +15,7 @@ class CommandOrchestrator:
 		self.setting_objects = setting_objects
 		self._retrieve_master_settings()
 		self._load_in_commands(speech_verbalizer, intents_data, setting_objects)
-		self.MINIMUM_INTENT_SCORE = .90
+		self.MINIMUM_INTENT_SCORE = .92
 		self.gpt_response = False
 		self._intents_data = intents_data
 
@@ -38,9 +38,13 @@ class CommandOrchestrator:
 		Retrieves the top intent and its associated entity if applicable from data returned from the trained LUIS model.
 		"""
 		# Extract top intent and top intent's score from intents_data
-		self.top_intent = self.intents_data["prediction"]["topIntent"]
-		self.top_intent_score = self.intents_data["prediction"]["intents"][self.top_intent]["score"]
-   
+		self.top_intent = self.intents_data["result"]["prediction"]["topIntent"]
+		# Now find the confidence score of this top intent
+		for intent_data in self.intents_data["result"]["prediction"]["intents"]:
+			if intent_data["category"] == self.top_intent:
+				self.top_intent_score = intent_data["confidenceScore"]
+				break
+
 	def _execute_command(self, speech:str) -> None:
 		"""
 		Executes the appropriate action given the top intent and its associated entity if applicable.
