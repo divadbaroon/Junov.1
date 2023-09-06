@@ -2,8 +2,17 @@
 # Ignore personal log file, this file will be automatically created for new users
 log.json
 # Ignore Terraform files
+<<<<<<< HEAD
 *.hcl
 *.tfstate
 *.tfstate.backup
 modules.json
 *.exe
+=======
+key.key
+*.hcl
+*.tfstate
+*.backup
+modules.json
+*.exe
+>>>>>>> 97a5cd120d46b818c957c7fa68eb9165efa9404b
