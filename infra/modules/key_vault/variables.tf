@@ -23,3 +23,13 @@ variable "translator_key" {
   description = "The Translator Key"
   type        = string
 }
+
+variable "text_analysis_key" {
+  description = "The Text Analysis Key "
+  type        = string
+}
+
+variable "text_analytics_endpoint" {
+  description = "The Text Analytics Endpoint"
+  type        = string
+}
