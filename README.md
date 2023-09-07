@@ -70,6 +70,9 @@ Navigate to the infra directory and run the script to create the necessary Azure
 ```bash
 cd infra && ./create_infrastructure.sh
 ```
+**What This Does**: 
+- A Resource Group is built containing Speech Services, Language Understanding, and Translator resources.
+- A Key Vault is also created to securely store all essential keys and endpoint values.
 
 ### Step 5: Encrypt and Secure Secret Data
 
