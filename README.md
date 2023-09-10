@@ -89,6 +89,7 @@ Start the training session for your Conversation Language Understanding (CLU) mo
 ```bash
 python -m training.begin_training_session
 ```
+After training and deploying is complete, you can view your trained model at: https://language.cognitive.azure.com/home
 
 </details>
 
