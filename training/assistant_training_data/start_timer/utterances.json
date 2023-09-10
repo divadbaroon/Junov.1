@@ -1,0 +1,258 @@
+[
+    {
+        "text": "Set a timer for 20 minutes",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 16,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 19,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "set a timer for 5 hours",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 16,
+                "length": 1
+            },
+            {
+                "category": "metric",
+                "offset": 18,
+                "length": 5
+            }
+        ]
+    },
+    {
+        "text": "set a timer for 10 minutes",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 16,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 19,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "set a timer for 15 seconds",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 16,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 19,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Set a timer for 3 hours",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 16,
+                "length": 1
+            },
+            {
+                "category": "metric",
+                "offset": 18,
+                "length": 5
+            }
+        ]
+    },
+    {
+        "text": "set a timer for 25 minutes",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 16,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 19,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Start a timer for 40 seconds",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 18,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 21,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "start a Timer for 50 minutes",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 18,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 21,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Start a timer for 30 seconds",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 18,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 21,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "start a timer for 45 minutes",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 18,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 21,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "begin a timer for 10 hours",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 18,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 21,
+                "length": 5
+            }
+        ]
+    },
+    {
+        "text": "begin a timer for 12 minutes",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 18,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 21,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "begin a timer for 20 seconds",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 18,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 21,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "I need a timer set for 30 minutes",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 23,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 26,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "begin a timer for 15 hours",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 18,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 21,
+                "length": 5
+            }
+        ]
+    },
+    {
+        "text": "please start a timer for 25 seconds",
+        "intent": "Start_Timer",
+        "entities": [
+            {
+                "category": "user_time",
+                "offset": 25,
+                "length": 2
+            },
+            {
+                "category": "metric",
+                "offset": 28,
+                "length": 7
+            }
+        ]
+    }
+]

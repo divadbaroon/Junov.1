@@ -1,0 +1,62 @@
+[
+    {
+        "text": "Change my voice",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Change the bot's voice",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Change the voice",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Change the bot's voice name",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Give the bot a new voice",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Give me a new voice name",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Please change the voice name",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Can you switch the voice?",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "I'd like a different voice",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Could you change your voice?",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "I want to hear a new voice",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Switch to a new voice",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Use a different voice",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Please use a new voice",
+        "intent": "Change_Voice"
+    },
+    {
+        "text": "Let's try a new voice",
+        "intent": "Change_Voice"
+    }
+]

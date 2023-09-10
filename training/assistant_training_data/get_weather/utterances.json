@@ -1,0 +1,167 @@
+[
+    {
+        "text": "What's the weather in New York City",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 22,
+                "length": 13
+            }
+        ]
+    },
+    {
+        "text": "What's the weather like in Plymouth",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 27,
+                "length": 8
+            }
+        ]
+    },
+    {
+        "text": "What's the weather in Blacksburg",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 22,
+                "length": 10
+            }
+        ]
+    },
+    {
+        "text": "What's the weather in Chicago",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 22,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Give me the weather for Los Angeles",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 24,
+                "length": 11
+            }
+        ]
+    },
+    {
+        "text": "Give me the weather for London",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 24,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "Give me the weather for Orlando",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 24,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "What's the weather like in Paris",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 27,
+                "length": 5
+            }
+        ]
+    },
+    {
+        "text": "What's the weather like in Denver",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 27,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "What's the weather like in Austin",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 27,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "What's the temperature in Paris",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 26,
+                "length": 5
+            }
+        ]
+    },
+    {
+        "text": "What's the temperature in Boston",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 26,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "What's the temperature in Phoenix",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 26,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "What's the temperature in Houston",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 26,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Could you tell me the forecast for Berlin",
+        "intent": "Get_Weather",
+        "entities": [
+            {
+                "category": "location",
+                "offset": 35,
+                "length": 6
+            }
+        ]
+    }
+]

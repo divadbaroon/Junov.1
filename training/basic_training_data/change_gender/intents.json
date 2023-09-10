@@ -1,0 +1,10 @@
+
+  {
+    "intents":  [
+                  {
+                    "category": "Change_Gender"
+                  }
+                ]
+        
+}
+        

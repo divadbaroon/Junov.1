@@ -1,0 +1,66 @@
+[
+    {
+        "text": "Please unmute",
+        "intent": "Unmute"
+    },
+    {
+        "text": "Please unmute yourself",
+        "intent": "Unmute"
+    },
+    {
+        "text": "Unmute",
+        "intent": "Unmute"
+    },
+    {
+        "text": "Unmute yourself",
+        "intent": "Unmute"
+    },
+    {
+        "text": "You can unmute",
+        "intent": "Unmute"
+    },
+    {
+        "text": "You can unmute now",
+        "intent": "Unmute"
+    },
+    {
+        "text": "Can you unmute yourself",
+        "intent": "Unmute"
+    },
+    {
+        "text": "I'd like you to unmute now",
+        "intent": "Unmute"
+    },
+    {
+        "text": "I think you can unmute now",
+        "intent": "Unmute"
+    },
+    {
+        "text": "Time to unmute",
+        "intent": "Unmute"
+    },
+    {
+        "text": "Unmute yourself please",
+        "intent": "Unmute"
+    },
+    {
+        "text": "Can we unmute now",
+        "intent": "Unmute"
+    },
+    {
+        "text": "It's time to unmute",
+        "intent": "Unmute"
+    },
+    {
+        "text": "We can unmute now",
+        "intent": "Unmute"
+    },
+    {
+        "text": "Ready to unmute",
+        "intent": "Unmute"
+    },
+    {
+        "text": "It's okay to unmute now",
+        "intent": "Unmute"
+    }
+]

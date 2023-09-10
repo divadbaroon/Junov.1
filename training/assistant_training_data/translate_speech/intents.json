@@ -1,0 +1,10 @@
+
+  {
+    "intents": [
+            {
+              "category": "Translate_Speech"
+            }
+          ]
+        
+        }
+        

@@ -1,0 +1,62 @@
+[
+    {
+        "text": "Give me a new random voice",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Give me a random voice",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Give me a random voice name",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Randomize the voice",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Change the voice randomly",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "I want a different voice",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Can you speak with a random voice?",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "I want a surprise voice",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Please change to a random voice",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Pick a random voice for me",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Surprise me with a new voice",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Generate a random voice for me",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Switch to a different voice",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Mix up the voice",
+        "intent": "Randomize_Voice"
+    },
+    {
+        "text": "Random voice, please",
+        "intent": "Randomize_Voice"
+    }
+]

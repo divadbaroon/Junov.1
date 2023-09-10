@@ -1,0 +1,167 @@
+[
+    {
+        "text": "google best pizza places in Chicago",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 7,
+                "length": 28
+            }
+        ]
+    },
+    {
+        "text": "google how to get better at chess",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 7,
+                "length": 26
+            }
+        ]
+    },
+    {
+        "text": "google pizza recipes",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 7,
+                "length": 13
+            }
+        ]
+    },
+    {
+        "text": "google how to solve a rubik's cube",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 7,
+                "length": 27
+            }
+        ]
+    },
+    {
+        "text": "google who is the president",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 7,
+                "length": 20
+            }
+        ]
+    },
+    {
+        "text": "search the closest barber shop",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 7,
+                "length": 23
+            }
+        ]
+    },
+    {
+        "text": "search for funny cat videos",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 7,
+                "length": 20
+            }
+        ]
+    },
+    {
+        "text": "search the fermi paradox",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 7,
+                "length": 17
+            }
+        ]
+    },
+    {
+        "text": "search covid-19",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 7,
+                "length": 8
+            }
+        ]
+    },
+    {
+        "text": "search google for information on Taiwan",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 14,
+                "length": 25
+            }
+        ]
+    },
+    {
+        "text": "Can you Google how long to let clothes air dry",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 15,
+                "length": 31
+            }
+        ]
+    },
+    {
+        "text": "can you google calculus",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 15,
+                "length": 8
+            }
+        ]
+    },
+    {
+        "text": "can you google information about mental health",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 15,
+                "length": 31
+            }
+        ]
+    },
+    {
+        "text": "can you google the moon landing",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 15,
+                "length": 16
+            }
+        ]
+    },
+    {
+        "text": "can you google how to get better at golf",
+        "intent": "Search_Google",
+        "entities": [
+            {
+                "category": "google_query",
+                "offset": 15,
+                "length": 25
+            }
+        ]
+    }
+]

@@ -1,0 +1,62 @@
+[
+    {
+        "text": "End the program",
+        "intent": "Quit"
+    },
+    {
+        "text": "Exit",
+        "intent": "Quit"
+    },
+    {
+        "text": "Exit the program",
+        "intent": "Quit"
+    },
+    {
+        "text": "Please end the program",
+        "intent": "Quit"
+    },
+    {
+        "text": "Quit",
+        "intent": "Quit"
+    },
+    {
+        "text": "Stop the session",
+        "intent": "Quit"
+    },
+    {
+        "text": "Terminate",
+        "intent": "Quit"
+    },
+    {
+        "text": "Can you stop now?",
+        "intent": "Quit"
+    },
+    {
+        "text": "Please quit",
+        "intent": "Quit"
+    },
+    {
+        "text": "Finish",
+        "intent": "Quit"
+    },
+    {
+        "text": "Can we end this now?",
+        "intent": "Quit"
+    },
+    {
+        "text": "End session",
+        "intent": "Quit"
+    },
+    {
+        "text": "I would like to quit",
+        "intent": "Quit"
+    },
+    {
+        "text": "Let's wrap this up",
+        "intent": "Quit"
+    },
+    {
+        "text": "I want to exit",
+        "intent": "Quit"
+    }
+]

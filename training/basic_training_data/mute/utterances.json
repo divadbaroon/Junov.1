@@ -1,0 +1,58 @@
+[
+    {
+        "text": "Can you mute",
+        "intent": "Mute"
+    },
+    {
+        "text": "Can you mute yourself",
+        "intent": "Mute"
+    },
+    {
+        "text": "Mute",
+        "intent": "Mute"
+    },
+    {
+        "text": "Mute yourself",
+        "intent": "Mute"
+    },
+    {
+        "text": "Mute yourself please",
+        "intent": "Mute"
+    },
+    {
+        "text": "Please mute",
+        "intent": "Mute"
+    },
+    {
+        "text": "I want you to mute",
+        "intent": "Mute"
+    },
+    {
+        "text": "Can you stop talking",
+        "intent": "Mute"
+    },
+    {
+        "text": "Go silent",
+        "intent": "Mute"
+    },
+    {
+        "text": "Please go silent",
+        "intent": "Mute"
+    },
+    {
+        "text": "Stop speaking please",
+        "intent": "Mute"
+    },
+    {
+        "text": "Could you mute yourself",
+        "intent": "Mute"
+    },
+    {
+        "text": "Silence please",
+        "intent": "Mute"
+    },
+    {
+        "text": "Please be silent",
+        "intent": "Mute"
+    }
+]

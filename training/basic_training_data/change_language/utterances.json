@@ -1,0 +1,168 @@
+[
+
+    {
+        "text": "Switch the bot's language to French",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 29,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "Switch the bot's language to Spanish",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 29,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Switch the bot's language to English",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 29,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Change the language to Spanish",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 23,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Change the language to French",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 23,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "Change the language to Korean",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 23,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "Change the language to English",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 23,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Switch language to Russian",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 19,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Switch language to Spanish",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 19,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Switch language to Mandarin",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 19,
+                "length": 8
+            }
+        ]
+    },
+    {
+        "text": "Set the bot's language to be Korean",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 29,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "Please change the bot's language to French",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 36,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "Please change the bot's language to Finnish",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 36,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Please change the bot's language to Spanish",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 36,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Make the language Spanish",
+        "intent": "Change_Language",
+        "entities": [
+            {
+                "category": "new_language",
+                "offset": 18,
+                "length": 7
+            }
+        ]
+    }
+]

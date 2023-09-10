@@ -1,0 +1,178 @@
+[
+    {
+        "text": "open Google",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 5,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "open Twitter",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 5,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "open Amazon",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 5,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "Open Gmail",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 5,
+                "length": 5
+            }
+        ]
+    },
+    {
+        "text": "open Youtube",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 5,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Launch Facebook",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 5,
+                "length": 8
+            }
+        ]
+    },
+    {
+        "text": "Launch Instagram",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 7,
+                "length": 9
+            }
+        ]
+    },
+    {
+        "text": "Launch Netflix",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 7,
+                "length": 7
+            }
+        ]
+    },
+    {
+        "text": "Please open Tiktok",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 12,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "Please open Bing",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 12,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "text": "Please open Microsoft",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 12,
+                "length": 9
+            }
+        ]
+    },
+    {
+        "text": "Launch LinkedIn",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 7,
+                "length": 8
+            }
+        ]
+    },
+    {
+        "text": "Please open Reddit",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 12,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "Go to eBay",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 6,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "text": "Go to Yahoo",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 6,
+                "length": 5
+            }
+        ]
+    },
+    {
+        "text": "Go to Wikipedia",
+        "intent": "Open_Website",
+        "entities": [
+            {
+                "category": "website",
+                "offset": 6,
+                "length": 9
+            }
+        ]
+    }
+]

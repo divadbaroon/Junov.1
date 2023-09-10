@@ -6,7 +6,7 @@
         "settings": {
             "confidenceThreshold": 0.7
         },
-        "projectName": "Juno-Virtual-Assistant",
+        "projectName": "Juno-Basic",
         "multilingual": true,
         "description": "",
         "language": "en-us"

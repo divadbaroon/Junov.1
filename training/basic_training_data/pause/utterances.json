@@ -1,0 +1,54 @@
+[
+    {
+        "text": "Can you pause our conversation",
+        "intent": "Pause"
+    },
+    {
+        "text": "Pause",
+        "intent": "Pause"
+    },
+    {
+        "text": "Pause our conversation",
+        "intent": "Pause"
+    },
+    {
+        "text": "Please pause our conversation",
+        "intent": "Pause"
+    },
+    {
+        "text": "Please pause",
+        "intent": "Pause"
+    },
+    {
+        "text": "Can we take a break",
+        "intent": "Pause"
+    },
+    {
+        "text": "Hold on",
+        "intent": "Pause"
+    },
+    {
+        "text": "Let's stop for a moment",
+        "intent": "Pause"
+    },
+    {
+        "text": "Let's pause this discussion",
+        "intent": "Pause"
+    },
+    {
+        "text": "Halt",
+        "intent": "Pause"
+    },
+    {
+        "text": "Hold our conversation",
+        "intent": "Pause"
+    },
+    {
+        "text": "Can we pause this chat",
+        "intent": "Pause"
+    },
+    {
+        "text": "Stop for a moment",
+        "intent": "Pause"
+    }
+]

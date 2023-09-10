@@ -1,0 +1,167 @@
+[
+    {
+        "text": "change the bot's gender to male",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 27,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "text": "change the bot's gender to female",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 27,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "set the bot's gender male",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 21,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "text": "set the bot's gender to female",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 24,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "set gender to male",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 14,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "text": "set gender to female",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 14,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "make the bot's gender male",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 22,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "text": "make the bot's gender female",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 22,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "switch the gender to male",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 21,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "text": "switch the gender to female",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 21,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "I want the gender to be male",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 24,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "text": "I want the gender to be female",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 24,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "change bot's gender to male",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 23,
+                "length": 4
+            }
+        ]
+    },
+    {
+        "text": "change bot's gender to female",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 23,
+                "length": 6
+            }
+        ]
+    },
+    {
+        "text": "update gender to male",
+        "intent": "Change_Gender",
+        "entities": [
+            {
+                "category": "new_gender",
+                "offset": 17,
+                "length": 4
+            }
+        ]
+    }
+]

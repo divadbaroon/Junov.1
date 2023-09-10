@@ -1,0 +1,167 @@
+[
+    {
+        "text": "Change persona to Obama",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 18,
+                "length": 5
+            }
+        ]
+    },
+    {
+        "text": "Change persona to Donald Trump",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 18,
+                "length": 12
+            }
+        ]
+    },
+    {
+        "text": "Change persona to Queen Elizabeth",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 18,
+                "length": 15
+            }
+        ]
+    },
+    {
+        "text": "Switch persona to Tony Stark",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 18,
+                "length": 10
+            }
+        ]
+    },
+    {
+        "text": "Switch persona to Neil Armstrong",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 18,
+                "length": 14
+            }
+        ]
+    },
+    {
+        "text": "Switch persona to Bill Clinton",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 18,
+                "length": 12
+            }
+        ]
+    },
+    {
+        "text": "Change bot persona to Nelson Mandela",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 22,
+                "length": 14
+            }
+        ]
+    },
+    {
+        "text": "Change bot persona to Abraham Lincoln",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 22,
+                "length": 15
+            }
+        ]
+    },
+    {
+        "text": "Change bot persona to Martin Luther King",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 22,
+                "length": 18
+            }
+        ]
+    },
+    {
+        "text": "Change your persona to Mother Teresa",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 23,
+                "length": 13
+            }
+        ]
+    },
+    {
+        "text": "Change your persona to Elvis Presley",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 23,
+                "length": 13
+            }
+        ]
+    },
+    {
+        "text": "Change your persona to Leonardo da Vinci",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 23,
+                "length": 17
+            }
+        ]
+    },
+    {
+        "text": "Make your persona Rosa Parks",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 18,
+                "length": 10
+            }
+        ]
+    },
+    {
+        "text": "Make your persona Lyndon Johnson",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 18,
+                "length": 14
+            }
+        ]
+    },
+    {
+        "text": "Adopt the persona of Marilyn Monroe",
+        "intent": "Change_Persona",
+        "entities": [
+            {
+                "category": "new_persona",
+                "offset": 21,
+                "length": 14
+            }
+        ]
+    }
+]
