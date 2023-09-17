@@ -1,5 +1,4 @@
 import random
-import yaml
 
 class BotBehavior:
 	"""
@@ -18,14 +17,9 @@ class BotBehavior:
 	   	"""
 		self.speech_verbalizer = speech_verbalizer
 		self.master_settings =  setting_objects['master_settings']
+		self.profile_settings = setting_objects['profile_settings']
+		self.profile_name = self.master_settings.retrieve_property('profile')
 		self.voice_settings = setting_objects['voice_settings']
-  
-	def exit(self) -> str:
-		"""
-  		Exits the program after last response is verbalized.	
-		"""
-		self.master_settings.save_property('status', True, 'exit')
-		return 'Exiting. Goodbye!'
 
 	def mute(self) -> str:
 		"""
@@ -61,11 +55,18 @@ class BotBehavior:
 			key_stroke = input('To unpause, press enter.')
 		return 'I am unpaused'
 
+	def exit(self) -> str:
+		"""
+		Set exit status to True in master_settings.json
+		"""
+		self.master_settings.save_property('status', True, 'exit')
+		return 'Ok, goodbye.'
+
 	def change_role(self, new_role:str) -> str:
 		"""
 		Saves the new role in master_settings.json
 		"""
-		self.master_settings.save_property('role', new_role)
+		self.profile_settings.save_property('role', new_role, self.profile_name)
 		return f'Ok, I have changed my role to {new_role}.'
 
 	def change_gender(self, new_gender:str) -> str:
@@ -77,7 +78,7 @@ class BotBehavior:
 			return f"Sorry, I only support 'Male' or 'Female' at the moment. Please choose one of these options."
       
 		# Save the new gender and update the voice
-		self.master_settings.save_property('gender', new_gender, 'current')
+		self.profile_settings.save_property('gender', new_gender, self.profile_name)
 		self._reconfigure_voice(new_gender)
   
 		return f'Ok, I have changed my gender to {new_gender}.'
@@ -95,7 +96,7 @@ class BotBehavior:
 			return f'Sorry, {new_language} is not currently supported.' 
       
 		# Save the new language and update the voice
-		self.master_settings.save_property('language', new_language, 'current')
+		self.profile_settings.save_property('language', new_language, self.profile_name)
 		self._reconfigure_voice(new_language)
   
 		return f'Ok, I have changed my language to {new_language}.'
@@ -104,9 +105,9 @@ class BotBehavior:
 		"""
 		Saves the new voice name in master_settings.json
 		"""
-		gender = self.master_settings.retrieve_property('gender', 'current')
-		language = self.master_settings.retrieve_property('language', 'current')
-		current_voice_name = self.master_settings.retrieve_property('voice', 'current_voice_name')
+		gender = self.profile_settings.retrieve_property('gender')
+		language = self.profile_settings.retrieve_property('language')
+		current_voice_name = self.profile_settings.retrieve_property('voice_name')
 
 		new_voice_name = self.voice_settings.retrieve_next_voice_name(gender, language, current_voice_name)
  
@@ -118,8 +119,8 @@ class BotBehavior:
 		"""
 		Saves the randomized voice name in master_settings.json
 		"""
-		gender = self.master_settings.retrieve_property('gender', 'current')
-		language = self.master_settings.retrieve_property('language', 'current')
+		gender = self.profile_settings.retrieve_property('gender')
+		language = self.profile_settings.retrieve_property('language')
 		voices = self.voice_settings.retrieve_voice_names(gender, language)
   
 		# If there is only one voice available for that particular language and gender it cannot be changed
@@ -140,19 +141,16 @@ class BotBehavior:
 		"""
 		# checking if gender is being changed
 		if new_property not in ['male', 'female']:
-			current_gender = self.master_settings.retrieve_property('gender', 'current')	
+			current_gender = self.profile_settings.retrieve_property('gender')	
 			new_voice_name = self.voice_settings.retrieve_voice_name(current_gender, new_property)
 		else:
-			current_language = self.master_settings.retrieve_property('language', 'current')
+			current_language = self.profile_settings.retrieve_property('language')
 			new_voice_name = self.voice_settings.retrieve_voice_name(new_property, current_language)
 		
 		self._update_voice_name(new_voice_name)
 
 	def _update_voice_name(self, new_voice_name:str) -> None:
-		# Saving current voice name first before it is replaced
-		current_voice_name = self.master_settings.retrieve_property('voice', 'name')
-		self.master_settings.save_property('voice', current_voice_name, 'previous_voice_name')
 		# Setting new voice name as current
-		self.master_settings.save_property('voice', new_voice_name, 'current_voice_name')
+		self.profile_settings.save_property('voice_name', new_voice_name, self.profile_name )
 		# Telling the bot to reconfigure the voice synthesizer using the new voice name
-		self.master_settings.save_property('voice', True, 'reconfigure')
+		self.master_settings.save_property('functions', True, 'reconfigure_verbalizer')
