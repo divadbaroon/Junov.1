@@ -84,7 +84,7 @@ class SpeechVerbalizer:
 		"""Post verbalization flag check"""
 		# check if language needs to be reset (this is done after one-shot speach translationions)
 		if reset_language:
-			pass
+			self.master_settings.save_property('functions', False, 'reset_language')
 
 		# Exit the program needs to be exited
 		if exit_status:
