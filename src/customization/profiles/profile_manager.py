@@ -42,6 +42,24 @@ class ProfileManager:
         if property_name in ['gender', 'name']:
             return profile_data['user'][property_name]
         
+    def save_property(self, property_name:str, property_value:str, profile_name=None) -> None:
+        """
+        Saves a given property to a given profile
+        """
+        if not profile_name:    
+            profile_name = MasterSettingsManager().retrieve_property('profile')
+        profile_data = self.load_profile_data(profile_name)
+        
+        if property_name in ['personality', 'prompt', 'role', 'language']:
+            profile_data['interaction'][property_name] = property_value
+        if property_name in ['startup_sound', 'voice_recognition_engine', 'voice_engine', 'voice_name', 'package']:
+            profile_data['system'][property_name] = property_value
+        if property_name in ['gender', 'name']:
+            profile_data['user'][property_name] = property_value
+            
+        with open (os.path.join('src', 'customization', 'profiles', 'profile_storage', profile_name, 'settings.yaml'), 'w') as file:
+            yaml.dump(profile_data, file)
+        
     def _make_profile_directory(self, profile_name, config) -> None:
         """
         Creates a directory with the given name and creates a settings.yaml, conversation_history.yaml, and logs.yaml file within the directory
