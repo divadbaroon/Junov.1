@@ -12,13 +12,14 @@ class AskGPT:
 		self.openai_key = openai_key
 		self.profile_settings = setting_objects['profile_settings']
 		self.bot_name = bot_name
-		self.model = "gpt-3.5-turbo"
+		self.model = "ft:gpt-3.5-turbo-0613:personal:juno-test:7zqjfAto"
 
 		self.prompt = self.profile_settings.retrieve_property('prompt')
 		
 		# Loading in the conversation history
 		# self.conversation_history = self.master_settings.load_conversation_history()
-		self.conversation_history = [{"role": "assistant", "content": self.prompt}]
+		#self.conversation_history = [{"role": "assistant", "content": "You are an assistant capable of answering questions in a friendly and concise manner"}]
+		self.conversation_history = []
 
 	def ask_GPT(self, speech:str, model=None, manual_request=False) -> str:
 		"""
@@ -54,8 +55,10 @@ class AskGPT:
 			"model": self.model,
 			"messages": message,
 			"max_tokens": 100,
+			"temperature": 0.5,
     		"top_p": 1
 		}
+		print(payload)
 		headers = {
 			"Content-Type": "application/json",
 			"Authorization": f"Bearer {openai_key}"
