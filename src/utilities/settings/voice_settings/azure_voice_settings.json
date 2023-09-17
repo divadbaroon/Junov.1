@@ -5,7 +5,8 @@
         "arabic": "Fatima",
         "english": [
             "Amber", "Ana", "Aria", "Ashley", "Cora", "Elizabeth", 
-            "Jane", "Jenny", "Michelle", "Monica", "Nancy", "Sara"
+            "Jane", "Jenny", "Michelle", "Monica", "Nancy", "Sara",
+            "Juno"
         ],
         "english_uk": "Bella",
         "english_australia": "Joanne",
@@ -87,7 +88,8 @@
         {"Harri":"fi-FI-HarriNeural"},
         {"Bernd":"de-DE-BerndNeural"},
         {"BongJin":"ko-KR-BongJinNeural"},
-        {"Dmitry":"ru-RU-DmitryNeural"}
+        {"Dmitry":"ru-RU-DmitryNeural"},
+        {"Juno":"en-US-JennyMultilingualNeural"}
     ],
     "language_codes": {
         "arabic": "ar",
