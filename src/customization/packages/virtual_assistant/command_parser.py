@@ -19,7 +19,7 @@ class CommandParser:
 		self.setting_objects = setting_objects
 		self.intents_data = intents_data
 		
-		self._retrieve_master_settings()
+		self._retrieve_settings()
 		self._initialize_commands(api_keys)
   
 	def load_commands(self):
@@ -42,16 +42,17 @@ class CommandParser:
 		self.password_generator = PasswordGenerator()
 		self.conversation_history = ConversationHistoryManager()
 		self.request_news = GetNews(self.request_gpt, api_keys)
-		#self.request_song = PlaySong(self.command_setttings, api_keys)
+		#self.request_song = PlaySong(self.setting_objects, api_keys)
 		self.schedule_event = Scheduler(self.setting_objects)
 		self.bot_behavior = BotBehavior(self.speech_verbalizer, self.setting_objects)
 		
-	def _retrieve_master_settings(self):
+	def _retrieve_settings(self):
 		# retrieving the bot's role and language
-		profile_settings = self.setting_objects['profile_settings']
-		self.role = profile_settings.retrieve_property('role')
-		self.language = profile_settings.retrieve_property('language')
-		self.bot_name = profile_settings.retrieve_property('name')
+		self.master_settings = self.setting_objects['master_settings']
+		self.profile_settings = self.setting_objects['profile_settings']
+		self.role = self.profile_settings.retrieve_property('role')
+		self.language = self.profile_settings.retrieve_property('language')
+		self.bot_name = self.profile_settings.retrieve_property('name')
   
 	def ask_GPT(self, speech:str):
 		response = self.request_gpt.ask_GPT(speech=speech) 
@@ -59,9 +60,12 @@ class CommandParser:
 		return response
 
 	def translate_speech(self):
+		print(self.intents_data["result"]["prediction"]["entities"])
 		speech_to_translate = self.intents_data["result"]["prediction"]["entities"][0]["text"]
-		current_language = self.intents_data["result"]["prediction"]["entities"][1]["text"]
-		new_language = self.language
+		new_language = self.intents_data["result"]["prediction"]["entities"][1]["text"]
+		current_language = self.language
+		self.profile_settings.save_property('language', new_language)
+		self.master_settings.save_property('functions', True, 'reconfigure_verbalizer')
 		response = self.request_translation.translate_speech(speech_to_translate, current_language, new_language, one_shot_translation=True)
 		return response
 
@@ -99,7 +103,6 @@ class CommandParser:
 		response = self.request_news.get_news()
 		return response
 
-	# FIX
 	def play_song(self):
 		song_name = self.intents_data["result"]["prediction"]["entities"][0]["text"]
 		response = self.request_song.play_song(song_name)
