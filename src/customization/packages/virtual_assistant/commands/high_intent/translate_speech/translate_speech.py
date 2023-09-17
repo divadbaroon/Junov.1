@@ -10,6 +10,7 @@ class TranslateSpeech:
 		self.region = 'eastus'
 		self.translator_key = translator_key
 		self.master_settings = setting_objects['master_settings']
+		self.profile_settings = setting_objects['profile_settings']
 		self.voice_settings = setting_objects['voice_settings']
 		self.endpoint = "https://api.cognitive.microsofttranslator.com/translate"
 			
@@ -18,18 +19,9 @@ class TranslateSpeech:
 		Translates a given string of text to a desired langauge.
 		"""
   
-		if speech_to_translate == 'Exiting. Goodbye!':
-			self.master_settings.save_property('status', True, 'exit')
-   
-		if one_shot_translation:
-			self.master_settings.save_property('functions', True, 'reset_language')
+		self._pre_flag_check(speech_to_translate, one_shot_translation)
 
-		# Clean the language input for any punctuation
-		current_language, new_language = self._clean_language(current_language, new_language)
-   
-		# Get the language codes for the current and new languages
-		current_language_code = self.voice_settings.retrieve_language_code(current_language.lower())
-		new_language_code = self.voice_settings.retrieve_language_code(new_language.lower())
+		current_language_code, new_language_code = self._retrieve_language_codes(current_language, new_language)
   
 		# If the language is not supported, return an error message
 		if current_language_code is None:
@@ -40,8 +32,27 @@ class TranslateSpeech:
 
 		# Get the translated speech from Azure's Translator service
 		response = self._send_request(current_language_code, new_language_code, speech_to_translate)
-   
+
 		return response
+
+	def _pre_flag_check(self, speech_to_translate, one_shot_translation):
+		if speech_to_translate == 'Exiting. Goodbye!':
+			self.master_settings.save_property('status', True, 'exit')
+   
+		if one_shot_translation:
+			self.master_settings.save_property('functions', True, 'reset_language')
+   
+	def _retrieve_language_codes(self, current_language:str, new_language:str) -> tuple:
+		"""Retrieves the language codes for the current and new languages."""
+
+		# Clean the language input for any punctuation
+		current_language, new_language = self._clean_language(current_language, new_language)
+
+		# Get the language codes for the current and new languages
+		current_language_code = self.voice_settings.retrieve_language_code(current_language.lower())
+		new_language_code = self.voice_settings.retrieve_language_code(new_language.lower())
+  
+		return current_language_code, new_language_code
 
 	def _clean_language(self, current_language:str, new_language:str) -> tuple:
 		# Language sometimes ends in a question mark
