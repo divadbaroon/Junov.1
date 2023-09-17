@@ -27,7 +27,6 @@ class TrainLuisModel:
   
 		self.configuration_manager = ConfigurationManager()
 		self.api_keys = self.configuration_manager.retrieve_api_keys()
-		print(self.api_keys)
 		self.endpoint = self.api_keys['CLU-ENDPOINT']
 		credential = AzureKeyCredential(self.api_keys['CLU-API-KEY'])
 		self.client = ConversationAuthoringClient(self.endpoint, credential)
@@ -119,8 +118,8 @@ class TrainLuisModel:
 		else:
 			print(f"Deployment failed. Error: {response.json()}")
 
-  
-	def _load_in_project_data(self) -> dict:
+	def _load_in_project_data(self, project) -> dict:
+     
 		# Load in project_header information
 		with open(project_header_path) as f:
 			project_header = json.load(f) 
@@ -142,16 +141,15 @@ class TrainLuisModel:
 			intent_data = json.load(f) 
 
 		# Initialize an empty 'assets' dictionary within project_data
-		project_data = {}
+		assets = {}
 
 		# Update 'assets' with the various types of data
-		project_data["projectKind"] = "Conversation"
-		project_data["intents"] = intent_data["intents"]  # Assuming intent_data is a dictionary containing an 'intents' key
-		project_data["entities"] = entity_data
-		project_data["utterances"] = utterance_data + pattern_data
+		assets["intents"] = intent_data["intents"]  
+		assets["entities"] = entity_data
+		assets["utterances"] = utterance_data 
 
 		# Save the project data to a file
-		return project_data
+		return assets
    
 	def wait_for_operation_to_complete(self, operation_location, headers):
 		while True:
