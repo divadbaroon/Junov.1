@@ -37,9 +37,8 @@ class SpeechVerbalizer:
 				
 			print('\nResponse:')
 			print(f'{self.bot_name.title()}: {speech}')
-
 			# Verbalize the response
-			self.text_to_speech_engine.text_to_speech(speech)
+			self.text_to_speech_engine.text_to_speech(speech, self.language_country_code)
 
 		# Checks whether the following params are true and executed the appropriate actions
 		self._check_and_handle_postconditions(self.reset_language, self.exit_status)
@@ -51,6 +50,8 @@ class SpeechVerbalizer:
   		Loading in necessary data from 'master_settings.json'
     	"""
 		self.master_settings.reload_settings()
+		self.language  = self.profile_settings.retrieve_property('language')
+		self.language_country_code = self.voice_settings.retrieve_language_country_code(self.language)
 		self.bot_name = self.profile_settings.retrieve_property('name', profile_name=self.profile_name)
 		self.mute_status = self.master_settings.retrieve_property('status', 'mute')
 		self.exit_status = self.master_settings.retrieve_property('status', 'exit')
