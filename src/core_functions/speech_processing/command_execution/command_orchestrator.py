@@ -1,5 +1,5 @@
-from src.customization.packages.virtual_assistant.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
-from src.customization.packages.virtual_assistant.commands.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.personalization.packages.virtual_assistant.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.personalization.packages.virtual_assistant.commands.low_intent.ask_gpt.ask_gpt import AskGPT
 from importlib import import_module
 
 class CommandOrchestrator:
@@ -15,7 +15,7 @@ class CommandOrchestrator:
 		self.setting_objects = setting_objects
 		self._retrieve_master_settings()
 		self._load_in_commands(speech_verbalizer, intents_data, setting_objects)
-		self.MINIMUM_INTENT_SCORE = .92
+		self.MINIMUM_INTENT_SCORE = .90
 		self.gpt_response = False
 		self._intents_data = intents_data
 
@@ -31,7 +31,7 @@ class CommandOrchestrator:
 			response = self.command.ask_GPT(speech)
 			self.gpt_response = True
   
-		return self._check_post_conditions(response)
+		return response
 
 	def _retrieve_top_intent(self) -> str:
 		"""
@@ -76,7 +76,7 @@ class CommandOrchestrator:
     	"""
 		if self.package:
 			# initialize and load in all currently supported bot commands 
-			self.CommandParser = getattr(import_module(f"src.customization.packages.{self.package}.command_parser"), "CommandParser")
+			self.CommandParser = getattr(import_module(f"src.personalization.packages.{self.package}.command_parser"), "CommandParser")
 
 			self.command = self.CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
 			self.commands = self.command.load_commands()
@@ -93,17 +93,6 @@ class CommandOrchestrator:
 		for command in self.commands['low_intent']:
 			all_commands.append(command)
 		self.commands = all_commands
-   
-	def _check_post_conditions(self, response:str) -> str:
-		"""
-		Checks if the response needs to be translated to the user's specified language.
-		"""
-		# If GPT-3 was not used, translate the response to the users specified language
-		# This is since GPT-3 is capable of translating the response itself
-		if not self.gpt_response and self.language != 'english' and self.top_intent != 'Translate_Speech':
-			response = TranslateSpeech(self.api_keys['TRANSLATOR-API-KEY'], self.setting_objects).translate_speech(response, 'english', self.language, True)
-   
-		return response
 
 	@property
 	def intents_data(self):
