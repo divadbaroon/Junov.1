@@ -1,0 +1,14 @@
+interaction:
+  language: english
+  personality: friendly 
+  prompt: you are a virtual assistant
+  role: assistant
+system:
+  package: virtual_assistant
+  startup_sound: true
+  voice_engine: azure
+  voice_name: Jenny
+  voice_recognition_engine: azure
+user:
+  gender: female
+  name: Juno
