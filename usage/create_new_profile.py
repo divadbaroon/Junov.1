@@ -1,4 +1,4 @@
-from src.customization.profiles.profile_manager import ProfileManager
+from src.personalization.profiles.profile_manager import ProfileManager
  
 def create_custom_profile():
     """

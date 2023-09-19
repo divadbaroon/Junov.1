@@ -1,6 +1,6 @@
 import json
 import os
-from src.customization.profiles.profile_manager import ProfileManager
+from src.personalization.profiles.profile_manager import ProfileManager
 
 # Construct the path to the master_settings.json file in the 'voice_settings' folder
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -81,16 +81,18 @@ class VoiceSettingsManager:
         Returns the Azure voice name assocaited with a given voice name.
         For example, the arg Amber would return en-US-AmberNeural
         """
-        for name_pair in self.data['name_pairs']:
-            if voice_name in name_pair:
-                return name_pair[voice_name]
+        # return voice name in its appropriate format 
+        if voice_name in self.data['female_voices']:
+                return f"en-US-{self.data['female_voices'][voice_name]}"
+        elif voice_name in self.data['male_voices']:
+                return f"en-US-{self.data['male_voices'][voice_name]}"
     
     def available_languages(self) -> list:
         """
         Retrieves all of the available languages 
         """
         data = self.load_voice_settings(azure_voice_settings_path)
-        language_codes = list(data["language_codes"].keys())
+        language_codes = list(data["language_country_codes"].keys())
         return language_codes
     
     def retrieve_language_code(self, language:str) -> str:
