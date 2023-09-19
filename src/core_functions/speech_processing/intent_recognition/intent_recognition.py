@@ -6,13 +6,15 @@ class LuisIntentRecognition:
 		A class that detects the user intent from the user's speech using the trained LUIS model.
 		"""
 
-		def __init__(self, api_keys: dict):	
+		def __init__(self, api_keys: dict, profile_settings:object, voice_settings:object):	
 			self.api_keys = api_keys
 			self.clu_endpoint = self.api_keys['CLU-ENDPOINT']
 			self.clu_key = AzureKeyCredential(self.api_keys['CLU-API-KEY'])
 			self.clu_project_name = self.api_keys['CLU-PROJECT-NAME']
 			self.clu_deployment_name = self.api_keys['CLU-TRAINING-MODEL-NAME']   
 			self.client = ConversationAnalysisClient(self.clu_endpoint, self.clu_key)
+			self.profile_settings = profile_settings
+			self.voice_settings = voice_settings
 
 		def get_user_intent(self, speech:str) -> dict:
 			"""
@@ -21,8 +23,8 @@ class LuisIntentRecognition:
 			:return: (dict) Dictionary containing similarity rankings between the user's speech and the trained luis model
 			"""
 			
-			if isinstance(speech, dict):
-				speech = speech['translated_speech']
+			language  = self.profile_settings.retrieve_property('language')
+			language_code = self.voice_settings.retrieve_language_code(language)
     
 			query = speech
 
@@ -34,7 +36,7 @@ class LuisIntentRecognition:
 							"participantId": "1",
 							"id": "1",
 							"modality": "text",
-							"language": "en",
+							"language": language_code,
 							"text": query
 						},
 						"isLoggingEnabled": False
@@ -46,7 +48,7 @@ class LuisIntentRecognition:
 					}
 				}
 			)
-		
+   
 			return result
 
 
