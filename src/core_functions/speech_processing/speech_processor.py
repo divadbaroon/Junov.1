@@ -1,4 +1,4 @@
-from .intent_recognition.intent_recognition import LuisIntentRecognition
+from .intent_recognition.intent_recognition import CLUIntentRecognition
 from .command_execution.command_orchestrator import CommandOrchestrator
  
 class SpeechProcessor:
@@ -11,7 +11,7 @@ class SpeechProcessor:
 		self.voice_settings = setting_objects['voice_settings']
 		self.package_name = self.profile_settings.retrieve_property('package')
 		self.package_name = self.profile_settings.retrieve_property('package')
-		self.get_intent = LuisIntentRecognition(api_keys, self.profile_settings, self.voice_settings)
+		self.get_intent = CLUIntentRecognition(api_keys, self.profile_settings, self.voice_settings)
 		self.command_orchestrator = CommandOrchestrator(api_keys, speech_verbalizer, None, setting_objects)
 
 	def process_speech(self, speech:str) -> str: 
