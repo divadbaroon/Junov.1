@@ -1,14 +1,17 @@
-# Table of Contents
-- [Juno](#juno)
+# Juno 
+A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. Juno was designed to be modular, customizable, and extensible making it suitable for a wide range of use cases.
+
+<details>
+<summary><b>Table of Contents 🔽</b></summary>
+
 - [Key Features](#key-features)
 - [Requirements](#requirements)
 - [Installation Guide](#installation-guide)
 - [Usage](#usage)
 - [Supported Packages](#supported-packages)
 - [Supported Languages](#supported-languages)
-  
-# Juno 
-A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. Juno was designed to be modular, customizable, and extensible making it suitable for a wide range of use cases.
+
+</details>
 
 ## Key Features 
    
@@ -61,7 +64,7 @@ code configuration/secrets/secret_config.yaml
 ```
 Update the file with your personal settings and save it.
 
-### Step 3: Sign into Azure Acount
+### Step 3: Sign into Azure Account
 
 Log into your Azure account using the Azure CLI:
 
