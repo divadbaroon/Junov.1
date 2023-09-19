@@ -1,11 +1,11 @@
 import azure.cognitiveservices.speech as speechsdk
-from src.customization.packages.virtual_assistant.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.personalization.packages.virtual_assistant.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
 
 class AzureSpeechRecognition:
 	
 	def __init__(self, speech_objects:dict, api_keys:dict, setting_objects:dict):
 		self.speech_recognizer = speech_objects['speech_recognizer']
-		self.speech_config = speech_objects['audio_config']
+		self.speech_config = speech_objects['speech_config']
 		self.profile_settings = setting_objects['profile_settings']
 		self.voice_settings = setting_objects['voice_settings']
 		self.translator = TranslateSpeech(api_keys['TRANSLATOR-API-KEY'], setting_objects)
@@ -43,15 +43,8 @@ class AzureSpeechRecognition:
     	"""
 		recognized_speech = result.text
   
-		# Get the current language setting
-		current_language = self.profile_settings.retrieve_property('language')
 		print(f"\nInput:\nUser: {recognized_speech}")
-
-		# If the language is not English, translate the recognized speech to English	
-		# This is because the LUIS model is trained in English
-		if current_language != 'english':
-			return self.translator.translate_speech(speech_to_translate=recognized_speech, current_language=current_language, new_language='english')
-
+  
 		return recognized_speech.replace('.', '').strip()
 
 	def reconfigure_recognizer(self) -> None:
