@@ -30,14 +30,14 @@ Used to effortless setup, train, and interact with intelligent text-to-speech ba
 ## Requirements
 - Azure account and subscription
 - Python 3.x
-- Terraform 1.4.6
+- Terraform 1.4.x
 
 ## Installation Guide
 
 Follow these steps to install and configure the project. Execute all commands from the root directory of the project.
 
 <details>
-<summary><b>Steps 🔽 </b></summary>
+<summary><b>Expand to view steps 🔽 </b></summary>
 
 ### Step 1: Install Required Packages
 
