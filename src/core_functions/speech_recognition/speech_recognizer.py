@@ -1,6 +1,6 @@
 import sys
 from time import time
-from .azure.azure_speech_recognition import AzureSpeechRecognition
+from .azure_speech_recognition.azure_speech_recognition import AzureSpeechRecognition
 from src.utilities.logs.log_performance import PerformanceLogger
 
 logger = PerformanceLogger()
