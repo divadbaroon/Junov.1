@@ -2,18 +2,7 @@
 A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. Juno was designed to be modular, customizable, and extensible making it suitable for a wide range of use cases.
 
 <details>
-<summary><b>Table of Contents 🔽</b></summary>
-
-- [Key Features](#key-features)
-- [Requirements](#requirements)
-- [Installation Guide](#installation-guide)
-- [Usage](#usage)
-- [Supported Packages](#supported-packages)
-- [Supported Languages](#supported-languages)
-
-</details>
-
-## Key Features 
+<summary><b>Key Features 🔽</b></summary>
    
 ### Azure Powered 
 
@@ -34,6 +23,8 @@ A platform designed for effortless setup, training, and usage in creating intell
 ### Contextual Awareness 
 
 - Stores and utilizes conversation history to provide contextual awareness to the agents.
+
+</details>
 
 ## Requirements
 - Azure account and subscription
