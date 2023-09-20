@@ -1,6 +1,6 @@
 import sys
-from .elevenlabs.elevenlabs_text_to_speech import ElevenlabsTextToSpeech
-from .azure.azure_text_to_speech import AzureTextToSpeech
+from .elevenlabs_text_to_speech.elevenlabs_text_to_speech import ElevenlabsTextToSpeech
+from .azure_text_to_speech.azure_text_to_speech import AzureTextToSpeech
 from src.utilities.logs.log_performance import PerformanceLogger
 
 logger = PerformanceLogger()
@@ -29,8 +29,6 @@ class SpeechVerbalizer:
   
 		# loading in necessary data from 'master_settings.json'
 		self._load_in_settings()
-  
-		self.text_to_speech_engine.update_voice()
 
 		# initiale flag to check whether the speech synthesizer needs to be reconfigured or the bot is muted
 		if self._check_and_handle_preconditions(speech):
@@ -50,7 +48,7 @@ class SpeechVerbalizer:
   		Loading in necessary data from 'master_settings.json'
     	"""
 		self.master_settings.reload_settings()
-		self.language  = self.profile_settings.retrieve_property('language')
+		self.language  = self.profile_settings.retrieve_property('current_language')
 		self.language_country_code = self.voice_settings.retrieve_language_country_code(self.language)
 		self.bot_name = self.profile_settings.retrieve_property('name', profile_name=self.profile_name)
 		self.mute_status = self.master_settings.retrieve_property('status', 'mute')
@@ -85,6 +83,8 @@ class SpeechVerbalizer:
 		"""Post verbalization flag check"""
 		# check if language needs to be reset (this is done after one-shot speach translationions)
 		if reset_language:
+			old_language = self.profile_settings.retrieve_property('old_language')
+			self.profile_settings.save_property('current_language', old_language)
 			self.master_settings.save_property('functions', False, 'reset_language')
 
 		# Exit the program needs to be exited
