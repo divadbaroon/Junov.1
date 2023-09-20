@@ -96,7 +96,7 @@ class BotBehavior:
 			return f'Sorry, {new_language} is not currently supported.' 
       
 		# Save the new language and update the voice
-		self.profile_settings.save_property('language', new_language, self.profile_name)
+		self.profile_settings.save_property('current_language', new_language, self.profile_name)
 		self.master_settings.save_property('functions', True, 'reconfigure_recognizer')
   
 		return f'Ok, I have changed my language to {new_language}.'
@@ -106,7 +106,7 @@ class BotBehavior:
 		Saves the new voice name in master_settings.json
 		"""
 		gender = self.profile_settings.retrieve_property('gender')
-		language = self.profile_settings.retrieve_property('language')
+		language = self.profile_settings.retrieve_property('current_language')
 		current_voice_name = self.profile_settings.retrieve_property('voice_name')
 
 		new_voice_name = self.voice_settings.retrieve_next_voice_name(gender, language, current_voice_name)
@@ -120,7 +120,7 @@ class BotBehavior:
 		Saves the randomized voice name in master_settings.json
 		"""
 		gender = self.profile_settings.retrieve_property('gender')
-		language = self.profile_settings.retrieve_property('language')
+		language = self.profile_settings.retrieve_property('current_language')
 		voices = self.voice_settings.retrieve_voice_names(gender, language)
   
 		# If there is only one voice available for that particular language and gender it cannot be changed
@@ -144,7 +144,7 @@ class BotBehavior:
 			current_gender = self.profile_settings.retrieve_property('gender')	
 			new_voice_name = self.voice_settings.retrieve_voice_name(current_gender, new_property)
 		else:
-			current_language = self.profile_settings.retrieve_property('language')
+			current_language = self.profile_settings.retrieve_property('current_language')
 			new_voice_name = self.voice_settings.retrieve_voice_name(new_property, current_language)
 		
 		self._update_voice_name(new_voice_name)

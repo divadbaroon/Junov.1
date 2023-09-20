@@ -51,7 +51,7 @@ class CommandParser:
 		self.master_settings = self.setting_objects['master_settings']
 		self.profile_settings = self.setting_objects['profile_settings']
 		self.role = self.profile_settings.retrieve_property('role')
-		self.language = self.profile_settings.retrieve_property('language')
+		self.language = self.profile_settings.retrieve_property('current_language')
 		self.bot_name = self.profile_settings.retrieve_property('name')
   
 	def ask_GPT(self, speech:str):

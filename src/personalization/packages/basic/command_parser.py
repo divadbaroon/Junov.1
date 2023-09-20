@@ -30,7 +30,7 @@ class CommandParser:
 		# retrieving the bot's role and language
 		profile_settings = self.setting_objects['profile_settings']
 		self.role = profile_settings.retrieve_property('role')
-		self.language = profile_settings.retrieve_property('language')
+		self.language = profile_settings.retrieve_property('current_language')
 		self.bot_name = profile_settings.retrieve_property('name')
   
 	def ask_GPT(self, speech:str):

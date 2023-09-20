@@ -45,7 +45,7 @@ class TestBotBehavior(unittest.TestCase):
         self.bot_behavior.master_settings.retrieve_available_languages.return_value = ['spanish', 'english']
         self.bot_behavior.master_settings.retrieve_bot_property.return_value = 'male'
         response = self.bot_behavior.change_language(new_language)
-        self.bot_behavior.master_settings.save_bot_property.assert_any_call('language', new_language.lower())
+        self.bot_behavior.master_settings.save_bot_property.assert_any_call('current_language', new_language.lower())
         self.assertEqual(response, f'Ok, I have changed my language to {new_language}.')
 
 
