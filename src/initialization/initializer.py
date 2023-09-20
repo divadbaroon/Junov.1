@@ -34,7 +34,7 @@ class BotInitializer:
   
 		# Initializing the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer
 		# The audio_config, speech_config, speech_recognizer, and speech_synthesizer are all being stored in a dictionary for ease of use  
-		self.speech_objects = self._setup_speech_and_audio(self.api_keys['COGNITIVE-SERVICES-API-KEY'], self.api_keys['REGION'], self.setting_objects['profile_settings'].retrieve_property('language'))
+		self.speech_objects = self._setup_speech_and_audio(self.api_keys['COGNITIVE-SERVICES-API-KEY'], self.api_keys['REGION'], self.setting_objects['profile_settings'].retrieve_property('current_language'))
 
 		# initializing the bot's core functionalities: speech recognition, speech processing, and speech verbalization
 		self._initialize_speech_functionalities()
