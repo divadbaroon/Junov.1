@@ -14,18 +14,21 @@ class TrainCLUModel:
   	"""
 
 	def __init__(self, folder_name) -> None:
-		"""Initializes the CLU model"""
+		"""
+  		Initializes the CLU model
+    	"""
+		# Initialize secrets
+		self._initialize_secrets()
+		# Initialize and prepares training data
+		self.project_data = DataHandler()._prepare_training_data(folder_name)
   
-		self.configuration_manager = ConfigurationManager()
-		self.api_keys = self.configuration_manager.retrieve_api_keys()
-		self.project_name  = self.api_keys['CLU-PROJECT-NAME']
-		self.training_model_name = self.api_keys['CLU-TRAINING-MODEL-NAME']
-		self.endpoint = self.api_keys['CLU-ENDPOINT']
-		credential = AzureKeyCredential(self.api_keys['CLU-API-KEY'])
-		self.client = ConversationAuthoringClient(self.endpoint, credential)
-  
-		self.data_handler = DataHandler()
-		self.project_data = self.data_handler._prepare_training_data(folder_name)
+	def orchestrate_training_session(self) -> None:
+		"""
+		Orchestrates the training of the CLU model
+		"""
+		self.import_project_data()
+		self.train_conversation_model()
+		self.deploy_conversation_model()
 
 	def import_project_data(self) -> None:
 		"""
@@ -120,11 +123,28 @@ class TrainCLUModel:
 			elif status == "failed":
 				print("Operation failed.")
 				break
+
+	def _initialize_secrets(self):
+		"""
+		Initializes secrets used for the CLU model
+		"""	
+		self.configuration_manager = ConfigurationManager()
+		self.api_keys = self.configuration_manager.retrieve_api_keys()
+		self.project_name  = self.api_keys['CLU-PROJECT-NAME']
+		self.training_model_name = self.api_keys['CLU-TRAINING-MODEL-NAME']
+		self.endpoint = self.api_keys['CLU-ENDPOINT']
+		credential = AzureKeyCredential(self.api_keys['CLU-API-KEY'])
+		self.client = ConversationAuthoringClient(self.endpoint, credential)
    
 class DataHandler:
+	"""
+	Used to load in and prepare the training data for the CLU model
+	"""
 
 	def _prepare_training_data(self, folder_name) -> dict:
-
+		"""
+		Prepares the training data for the CLU model
+		"""
 		# Initialize assets
 		assets = {
 			"projectKind": "Conversation",
@@ -148,7 +168,7 @@ class DataHandler:
 		Loads in the project data from the project_header.json file
 		"""
 		# Walk through the directory tree
-		for dirpath, dirnames, filenames in os.walk(f'training/{project}'):
+		for dirpath, filenames in os.walk(f'training/{project}'):
 			for filename in filenames:
 				if filename.endswith('.json'):
 					full_path = os.path.join(dirpath, filename)
@@ -174,6 +194,4 @@ if __name__ == "__main__":
 	folder_name = input("Enter the name of the folder used for training (i.e 'assistant_training_data', 'basic_training_data'): ")
 	
 	new_model = TrainCLUModel(folder_name)
-	new_model.import_project_data()
-	new_model.train_conversation_model()
-	new_model.deploy_conversation_model()
+	new_model.orchestrate_training_session()
