@@ -1,12 +1,13 @@
-# Juno 
-A platform designed for effortless setup, training, and usage in creating intelligent text-to-speech based agents. Juno was designed to be modular, customizable, and extensible making it suitable for a wide range of use cases.
+# Juno
+Used to effortless setup, train, and interact with intelligent text-to-speech based entites. Juno was designed to be modular, customizable, and extensible making it suitable for a wide range of use cases.
 
 <details>
-<summary><b>Key Features 🔽</b></summary>
+<summary><b>Key Features 🌐</b></summary>
    
 ### Azure Powered 
 
-- Leverages Azure's Cognitive Services for speech recognition, intent recognition, and text-to-speech capabilities. Elevenlabs is also available as an alternate option for text-to-speech.
+- Azure's Cognitive Services is used for top of the line speech recognition, intent recognition, and text-to-speech capabilities.
+- Elevenlabs is also an alternate option for text-to-speech.
 
 ### Human-Like Interactions 
 
