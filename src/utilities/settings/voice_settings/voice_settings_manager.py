@@ -83,9 +83,9 @@ class VoiceSettingsManager:
         """
         # return voice name in its appropriate format 
         if voice_name in self.data['female_voices']:
-                return f"en-US-{self.data['female_voices'][voice_name]}"
+                return self.data['female_voices'][voice_name]
         elif voice_name in self.data['male_voices']:
-                return f"en-US-{self.data['male_voices'][voice_name]}"
+                return self.data['male_voices'][voice_name]
     
     def available_languages(self) -> list:
         """

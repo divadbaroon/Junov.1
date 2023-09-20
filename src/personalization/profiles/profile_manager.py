@@ -36,7 +36,7 @@ class ProfileManager:
             profile_name = MasterSettingsManager().retrieve_property('profile')
         profile_data = self.load_profile_data(profile_name)
         
-        if property_name in ['personality', 'prompt', 'role', 'language']:
+        if property_name in ['personality', 'prompt', 'role', 'current_language', 'old_language']:
             return profile_data['interaction'][property_name]
         if property_name in ['startup_sound', 'voice_recognition_engine', 'voice_engine', 'voice_name', 'package']:
             return profile_data['system'][property_name]
@@ -51,7 +51,7 @@ class ProfileManager:
             profile_name = MasterSettingsManager().retrieve_property('profile')
         profile_data = self.load_profile_data(profile_name)
         
-        if property_name in ['personality', 'prompt', 'role', 'language']:
+        if property_name in ['personality', 'prompt', 'role', 'current_language']:
             profile_data['interaction'][property_name] = property_value
         if property_name in ['startup_sound', 'voice_recognition_engine', 'voice_engine', 'voice_name', 'package']:
             profile_data['system'][property_name] = property_value
@@ -113,7 +113,7 @@ class ProfileManager:
                 'role': config.get('role', None),
                 'prompt': config.get('prompt', "you are a virtual assistant"),
                 'personality': config.get('personality', 'friendly'),
-                'language': config.get('language', 'english')
+                'current_language': config.get('current_language', 'english')
             }
         }
         

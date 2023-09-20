@@ -1,6 +1,7 @@
 interaction:
-  language: english
-  personality: friendly 
+  current_language: english
+  old_language: english
+  personality: friendly
   prompt: you are a virtual assistant
   role: assistant
 system:
