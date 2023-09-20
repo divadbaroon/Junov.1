@@ -19,6 +19,9 @@ class TranslateSpeech:
 		Translates a given string of text to a desired langauge.
 		"""
   
+		# Update the current and old language settings
+		self._update_settings(new_language)
+  
 		self._pre_flag_check(speech_to_translate, one_shot_translation)
 
 		current_language_code, new_language_code = self._retrieve_language_codes(current_language, new_language)
@@ -35,7 +38,19 @@ class TranslateSpeech:
 
 		return response
 
-	def _pre_flag_check(self, speech_to_translate, one_shot_translation):
+	def _update_settings(self, new_language) -> None:
+		"""
+		Updates the current and old language settings.
+  		"""
+		print(new_language)
+		self.master_settings.save_property('functions', True, 'reconfigure_verbalizer')
+		self.profile_settings.save_property('old_language', self.profile_settings.retrieve_property('current_language'))
+		self.profile_settings.save_property('current_language', new_language.lower())
+
+	def _pre_flag_check(self, speech_to_translate, one_shot_translation) -> None:
+		"""
+		Checks whether the following params are true and executed the appropriate actions
+		"""
 		if speech_to_translate == 'Exiting. Goodbye!':
 			self.master_settings.save_property('status', True, 'exit')
    
