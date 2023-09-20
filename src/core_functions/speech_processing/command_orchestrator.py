@@ -66,7 +66,7 @@ class CommandOrchestrator:
     	"""
 		profile_settings = self.setting_objects['profile_settings']
 		self.role = profile_settings.retrieve_property('role')
-		self.language = profile_settings.retrieve_property('language')
+		self.language = profile_settings.retrieve_property('current_language')
 		self.bot_name = profile_settings.retrieve_property('name')
 		self.package = profile_settings.retrieve_property('package')
 

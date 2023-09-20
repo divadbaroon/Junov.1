@@ -18,12 +18,14 @@ class AzureTextToSpeech:
 		# perform text to speech
 		self.speech_synthesizer.speak_ssml(ssml)
   
-	def _prepare_smml(self, speech:str, language_country_code:str):
+	def _prepare_ssml(self, speech:str, language_country_code:str):
 		"""
 		Prepare ssml file to be used for azure text to speech
 		"""
+		voice_name = self.profile_settings.retrieve_property('voice_name', profile_name=self.profile_name)
+		azure_voice_name = self.voice_settings.retrieve_azure_voice_name(voice_name.title())
 		return f'<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="en-US">' \
-			   f'<voice name="{self.speech_config.speech_synthesis_voice_name}">' \
+			   f'<voice name="en-US-{azure_voice_name}">' \
 			   f'<prosody rate="1.0">' \
 			   f'<mstts:express-as style="assistant" styledegree="1">' \
 			   f'<lang xml:lang="{language_country_code}">' \

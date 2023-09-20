@@ -52,7 +52,7 @@ class AzureSpeechRecognition:
   		Reconfigures the speech recognizer with the new language setting
     	"""
 		# Get the new language setting
-		current_language = self.profile_settings.retrieve_property('language')
+		current_language = self.profile_settings.retrieve_property('current_language')
 
 		# Recognizer needs language-country code
 		language_country_code = self.voice_settings.retrieve_language_country_code(current_language)
