@@ -86,12 +86,21 @@ cd .. && python -m configuration.manage_secrets
 
 ### Step 6: Train CLU Model
 
-Start the training session for your Conversation Language Understanding (CLU) model:
+Start the training session for your Conversation Language Understanding (CLU) model using the provided training data
+located within 'training/virtual_assitant_training_data':
 
 ```bash
 python -m training.begin_training_session
 ```
 After training and deploying is complete, you can view your trained model at: https://language.cognitive.azure.com/home
+
+### Step 7: Fine-tune GPT (Optional)
+
+Begin a fine-tuning session for GPT using the provided training data located within 'training/gpt_training_data':
+
+```bash
+python -m training.begin_gpt_training_session
+```
 
 </details>
 
