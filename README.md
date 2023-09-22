@@ -1,6 +1,6 @@
 # Juno
 
-Designed for effortless setup, training, and usage of intelligent, text-to-speech entities. Built on leading AI platforms, it delivers a state-of-the-art virtual assistant that's modular, customizable, and versatile for various use cases.
+Designed for effortless setup, training, and usage of intelligent, text-to-speech entities. Built on leading AI platforms, Juno delivers a state-of-the-art virtual assistant that's modular, customizable, and versatile for various use cases.
 
 <details>
 <summary><b>Key Features 🌐</b></summary>
