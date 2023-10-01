@@ -53,7 +53,7 @@ pip install -r requirements.txt
 Open the secret configuration file in your text editor for customization:
 
 ```bash
-code configuration/secrets/secret_config.yaml
+code configuration/config.yaml
 ```
 Update the file with your personal settings and save it.
 
