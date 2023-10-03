@@ -5,96 +5,94 @@ from src.utilities.settings.master_settings.master_settings_manager import Maste
 
 class PerformanceLogger:
 	"""
-	A class that logs the performance of a function and stores the data in 'logs.json'
+	A class that logs the performance of a function and stores the data in 'logs.yaml'
 	"""
-	
+
 	def __init__(self):
 		self.profile_name = MasterSettingsManager().retrieve_property('profile')
-		self.log_path = f'src/profiles/profile_storage/{self.profile_name}/log_path.json'
-		# today's date
-		self.today = datetime.datetime.now().strftime("%Y-%m-%d")
-		#self.data = self._load_in_data()
-		self.action = None
-		self.actions = {'listen': 'Speech Recognition', 'process': 'Speech Processing', 'verbalize_speech': 'Speech Verbalization'}
-	
-	def _load_in_data(self):
+		self.log_path = f'src/profiles/profile_storage/{self.profile_name}/logs.yaml'
+		#self._initialize_new_session()
+		self.todays_date = datetime.datetime.now().strftime("%Y-%m-%d")
+		
+	def log_operation(self, func):
 		"""
-  		load in data from 'logs.json'
-		"""
-		try:
-			with open(self.log_path, "r") as f:
-				return yaml.safe_load(f)
-		except FileNotFoundError:
-			print('The file: "logs.json" was not found')
-   
-	def _save_data(self, new_log_session):
-		"""
-  		save data to 'logs.json'
-		"""	
-		# add new log session to data
-		self.data["log_sessions"].append(new_log_session)
-  
-		with open(self.log_path, "w") as f:
-			yaml.safe_load(self.data, f, indent=4)
-  
-	def _load_fresh_log_template(self):
-		return {
-                'Session': { 
-              				self.action: {
-									"Date": self.today,
-									"Action Performed": None,
-									"Input": None,
-									"Output": None,
-									"Success": False,
-									"Error": None,
-									"Run time": None
-									} 
-                        } 
-				}
-   
-	def	log_operation(self, func):
-		"""
-		decorator that logs the performance of a function and stores the data in 'logs.json'
+		decorator that logs the performance of a function and stores the data in 'logs.yaml'
 		"""
 		def wrapper(*args, **kwargs):
-   
-			# Ex. If func.__name__ == 'listen', actino is 'speech recognition'
-			self.action = self.actions[func.__name__]
-   
-			log_template = self._load_fresh_log_template()
-
-			# Speech recognition is the first action performed in a session
-			if self.action == 'Speech Recognition':
-				input = f"User input"
+			action = func.__name__
+			
+			if action == 'listen':
+				input_data = "User input"
+			elif action in ['process_speech', 'verbalize_speech']:
+				input_data = args[1]
+			elif action == '_retrieve_top_intent':
+				input_data = args
+				if input_data is None:
+					input_data = "ask_gpt"
 			else:
-				input = f"{args} {kwargs}"
-   
-			# record input
-			log_template["Session"][self.action]["Input"] = input
-   
-			# record start time
+				input_data = f"{args} {kwargs}"
+
+			log_template = self._load_fresh_log_template(action)
+
+			log_template[action]["Input"] = input_data
+
 			start_time = time.perf_counter()
-
-			# record output
 			result = func(*args, **kwargs)
-
-			# record end time
 			end_time = time.perf_counter()
-   
-			# record run time
-			log_template["Session"][self.action]["Run time"] = end_time - start_time
-   
-			if result:
-				log_template["Session"][self.action]["Success"] = True
-				log_template["Session"][self.action]["Output"] = result
+
+			log_template[action]["Run time"] = end_time - start_time
+
+			if result: 
+				log_template[action]["Success"] = True
+				log_template[action]["Output"] = result
 			else:
-				log_template["Session"][self.action]["Successful"] = False
-				log_template["Session"][self.action]["Output"] = 'error'
-				log_template["Session"][self.action]["Error"] = result
-    
-			# save data
-			self._save_data(log_template)
-	
+				log_template[action]["Success"] = False
+				log_template[action]["Output"] = 'error'
+				log_template[action]["Error"] = result
+
+			self._save_data(log_template, action)
 			return result
 		return wrapper
-	
+
+	def _load_fresh_log_template(self, action):
+		return {
+			action: {
+				"Input": None,
+				"Output": None,
+				"Success": False,
+				"Errors": None,
+				"Run time": None
+			}
+		}
+
+	def _save_data(self, log_entry, action):
+		data = self._load_in_data()
+		current_time = datetime.datetime.now().strftime("%H:%M:%S")
+		
+		if self.todays_date not in data:
+			data[self.todays_date] = {
+				"Time": current_time,
+				"Logs": []
+			}
+		else:
+			data[self.todays_date]['Time'] = current_time  # Update time for every log
+		
+		log_entry_data = {
+			"Action": action,
+			**log_entry[action]  # This will unpack the inner dictionary
+		}
+		data[self.todays_date]['Logs'].append(log_entry_data)
+
+		with open(self.log_path, "w") as f:
+			yaml.safe_dump(data, f)
+
+	def _load_in_data(self):
+		try:
+			with open(self.log_path, "r") as f:
+				loaded_data = yaml.safe_load(f)
+				if loaded_data is None:  # If the file is empty, it will return None
+					return {"log_sessions": []}
+				return loaded_data
+		except (FileNotFoundError, yaml.YAMLError):
+			print('The file: "logs.yaml" was not found or is improperly formatted.')
+			return {"log_sessions": []}
