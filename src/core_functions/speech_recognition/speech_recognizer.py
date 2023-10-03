@@ -18,7 +18,8 @@ class SpeechRecognition:
   
 		if self.speech_recognition_engine == 'azure':
 			self.speech_recognition_engine = AzureSpeechRecognition(speech_objects, api_keys, setting_objects)
-  
+
+	@logger.log_operation
 	def listen(self) -> str:
 		"""
 		Listens for speech input and returns the recognized text in lowercase.
