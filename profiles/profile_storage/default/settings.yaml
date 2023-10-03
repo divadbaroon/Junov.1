@@ -1,0 +1,14 @@
+interaction:
+  current_language: english ## check documentation for available languages
+  personality: friendly
+  prompt: you are a virtual assistant ## prompt to be used by GPT
+  role: assistant  
+system:
+  package: virtual_assistant ## or basic
+  startup_sound: true ## or false
+  voice_engine: elevenlabs ## or azure
+  voice_name: Bella ## check documentation for available names
+  voice_recognition_engine: azure # only azure available
+user:
+  gender: female 
+  name: Juno
