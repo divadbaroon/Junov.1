@@ -1,6 +1,7 @@
 from .intent_recognition import CLUIntentRecognition
 from .command_orchestrator import CommandOrchestrator
- 
+from ...utilities.conversation_history.conversation_history_manager import ConversationHistoryManager
+
 class SpeechProcessor:
 	"""
 	A class that retrieves the user's intent using a trained CLU model and executes an appropriate response and action.
@@ -10,6 +11,7 @@ class SpeechProcessor:
 		self._initialize_settings(setting_objects)
 		self.get_intent = CLUIntentRecognition(api_keys, self.profile_settings, self.voice_settings)
 		self.command_orchestrator = CommandOrchestrator(api_keys, speech_verbalizer, None, setting_objects)
+		self.manage_conversation_history = ConversationHistoryManager()
 
 	def process_speech(self, speech:str) -> str: 
 		"""
@@ -21,9 +23,15 @@ class SpeechProcessor:
   
 		# If a package is provided, retrieve the user's intent using the trained CLU model
 		self._check_for_package(speech)
-  
+
 		# Process the user's speech and return the appropriate response and action
-		return self.command_orchestrator.process_command(speech)
+		response = self.command_orchestrator.process_command(speech)
+  
+		# save conversation history
+		if self.save_conversation_history:
+			self.manage_conversation_history.save_conversation_history(speech, response)
+  
+		return response
 
 	def _check_for_package(self, speech) -> None:
 		"""
@@ -39,6 +47,8 @@ class SpeechProcessor:
 		"""
 		Initialize setting objects.
 		"""
+		self.master_settings = setting_objects['master_settings']
 		self.profile_settings = setting_objects['profile_settings']
 		self.voice_settings = setting_objects['voice_settings']
 		self.package_name = self.profile_settings.retrieve_property('package')
+		self.save_conversation_history = self.master_settings.retrieve_property('functions', 'save_conversation_history')
