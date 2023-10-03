@@ -1,17 +1,13 @@
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.language.conversations import ConversationAnalysisClient
-
+ 
 class CLUIntentRecognition:
 		"""
 		A class that detects the user intent from the user's speech using the trained CLU model.
 		"""
 
 		def __init__(self, api_keys: dict, profile_settings:object, voice_settings:object):	
-			# Load in secrets needed to use the CLU model
 			self._load_in_secrets(api_keys)	 
-			# Initialize CLU client
-			self.client = ConversationAnalysisClient(self.clu_endpoint, self.clu_key)
-			# load in profile and voice settings
 			self.profile_settings = profile_settings
 			self.voice_settings = voice_settings
 
@@ -54,12 +50,13 @@ class CLUIntentRecognition:
 			self.clu_key = AzureKeyCredential(self.api_keys['CLU-API-KEY'])
 			self.clu_project_name = self.api_keys['CLU-PROJECT-NAME']
 			self.clu_deployment_name = self.api_keys['CLU-TRAINING-MODEL-NAME']
+			self.client = ConversationAnalysisClient(self.clu_endpoint, self.clu_key)
    
 		def _get_current_language(self) -> str:
 			"""
 			Retrieves the current language being used by the bot.
 			"""
-			language  = self.profile_settings.retrieve_property('current_language')
-			return self.voice_settings.retrieve_language_code(language)
+			current_language  = self.profile_settings.retrieve_property('current_language')
+			return self.voice_settings.retrieve_language_code(current_language)
 
 
