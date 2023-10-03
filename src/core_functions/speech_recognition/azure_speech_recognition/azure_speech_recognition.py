@@ -1,13 +1,13 @@
 import azure.cognitiveservices.speech as speechsdk
-from src.personalization.packages.virtual_assistant.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
+from packages.virtual_assistant.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
 
 class AzureSpeechRecognition:
+	"""
+	Handles the speech recognition using Azure's Speech SDK
+	"""
 	
 	def __init__(self, speech_objects:dict, api_keys:dict, setting_objects:dict):
-		self.speech_recognizer = speech_objects['speech_recognizer']
-		self.speech_config = speech_objects['speech_config']
-		self.profile_settings = setting_objects['profile_settings']
-		self.voice_settings = setting_objects['voice_settings']
+		self._load_in_settings(speech_objects, setting_objects)
 		self.translator = TranslateSpeech(api_keys['TRANSLATOR-API-KEY'], setting_objects)
   
 	def attempt_speech_recognition(self) -> str:
@@ -60,3 +60,11 @@ class AzureSpeechRecognition:
 		self.speech_config.speech_recognition_language = language_country_code
 		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
   
+	def _load_in_settings(self, speech_objects, setting_objects): 
+		"""
+		Loads in the speech and setting objects
+		"""
+		self.speech_recognizer = speech_objects['speech_recognizer']
+		self.speech_config = speech_objects['speech_config']
+		self.profile_settings = setting_objects['profile_settings']
+		self.voice_settings = setting_objects['voice_settings']
