@@ -27,7 +27,9 @@ class TrainCLUModel:
 		Orchestrates the training of the CLU model
 		"""
 		self.import_project_data()
+		print("\n\nThis may take up to a minute...")	
 		self.train_conversation_model()
+		print("\n\nThis may take up to two minutes...")	
 		self.deploy_conversation_model()
 
 	def import_project_data(self) -> None:
@@ -168,7 +170,7 @@ class DataHandler:
 		Loads in the project data from the project_header.json file
 		"""
 		# Walk through the directory tree
-		for dirpath, filenames in os.walk(f'training/{project}'):
+		for dirpath, dirnames, filenames in os.walk(f'training/{project}'):
 			for filename in filenames:
 				if filename.endswith('.json'):
 					full_path = os.path.join(dirpath, filename)
