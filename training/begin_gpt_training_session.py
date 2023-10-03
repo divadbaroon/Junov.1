@@ -1,9 +1,6 @@
 import openai
 import time
-import requests
 from configuration.utils.key_vault_handler import KeyVaultManager
-
-training_data = "training/gpt_training_data/training_data.jsonl"
 
 class OpenAIFineTuningJob:
     
@@ -22,15 +19,22 @@ class OpenAIFineTuningJob:
         
         self._test_trained_model()
 
-    def _upload_training_data() -> str:
+    def _upload_training_data(self) -> str:
         """
         Upload the training data to OpenAI's servers.
         """
+        
+        training_data = input("Enter the name of the folder used for training (i.e 'assistant_training_data', 'summarizer_training_data'): ")
+
+        if training_data == "assistant_training_data":
+            training_data_path = "training/gpt_training_data/training_data.jsonl"
+        elif training_data == "summarizer_training_data":
+            training_data_path = "training/gpt_training_data/summarizer_training_data/training_data.jsonl"
 
         # Upload training data
         print(f"Uploading training data...")
         file_response = openai.File.create(
-            file=open(training_data, "rb"),
+            file=open(training_data_path, "rb"),
             purpose='fine-tune'
         )
 
@@ -39,7 +43,7 @@ class OpenAIFineTuningJob:
         
         return file_response["id"]
 
-    def _create_fine_tuning_job(file_id):
+    def _create_fine_tuning_job(self, file_id):
         """
         Begins a fine-tuning job.
         """
@@ -66,7 +70,7 @@ class OpenAIFineTuningJob:
             except openai.error.APIError as e:  
                 print(f"Still waiting for servers to process the file")
 
-    def _test_trained_model():
+    def _test_trained_model(self):
         """
         Tests the fine-tuned model.
         """
@@ -79,18 +83,6 @@ class OpenAIFineTuningJob:
             ]
         )
         print(completion.choices[0].message)
-        
-    def _wait_for_operation_to_complete(self, operation_location, headers):
-        while True:
-            time.sleep(5)  # Wait for 5 seconds before checking the status again
-            response = requests.get(operation_location, headers=headers)
-            status = response.json().get("status")
-            if status == "succeeded":
-                print("Operation completed successfully.")
-                break
-            elif status == "failed":
-                print("Operation failed.")
-                break
             
 if __name__ == "__main__":
     new_job = OpenAIFineTuningJob()
