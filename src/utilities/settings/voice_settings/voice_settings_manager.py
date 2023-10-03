@@ -1,6 +1,6 @@
 import json
 import os
-from src.personalization.profiles.profile_manager import ProfileManager
+from profiles.profile_manager import ProfileManager
 
 # Construct the path to the master_settings.json file in the 'voice_settings' folder
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -54,26 +54,24 @@ class VoiceSettingsManager:
                     new_voice_name = voice_names[0]
         return new_voice_name
                         
-    def retrieve_voice_name(self, gender:str, language:str, index:int=0) -> str:
+    def retrieve_voice_name(self, gender:str, index:int=0) -> str:
         """
         Returns a voice name associated with a specified
         gender and language
         """
-        voice_name = self.retrieve_voice_names(gender, language)
-        if isinstance(voice_name, list):
-            return voice_name[index]
-        else:
-            return voice_name
+        voice_name = self.retrieve_voice_names(gender)
+        voice_name = list(voice_name.keys()) 
+        return voice_name[0]
              
-    def retrieve_voice_names(self, gender:str, language:str) -> list:
+    def retrieve_voice_names(self, gender:str) -> list:
         """
         Returns all voice names associated with a specified 
         gender and language
         """
         if gender == 'female':
-            voice_names = self.data["female_voices"][language.lower()]
+            voice_names = self.data["female_voices"]
         if gender == 'male':
-            voice_names = self.data["male_voices"][language.lower()]
+            voice_names = self.data["male_voices"]
         return voice_names
     
     def retrieve_azure_voice_name(self, voice_name:str) -> str:
