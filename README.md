@@ -1,5 +1,6 @@
 # Juno
-Used to effortless setup, train, and interact with intelligent text-to-speech based entites. Juno was designed to be modular, customizable, and extensible making it suitable for a wide range of use cases.
+
+Designed for effortless setup, training, and usage of intelligent, text-to-speech entities. Built on leading AI platforms, Juno delivers a state-of-the-art virtual assistant that's modular, customizable, and versatile for various use cases.
 
 <details>
 <summary><b>Key Features 🌐</b></summary>
@@ -30,14 +31,14 @@ Used to effortless setup, train, and interact with intelligent text-to-speech ba
 ## Requirements
 - Azure account and subscription
 - Python 3.x
-- Terraform 1.4.6
+- Terraform 1.4.x
 
 ## Installation Guide
 
 Follow these steps to install and configure the project. Execute all commands from the root directory of the project.
 
 <details>
-<summary><b>Steps 🔽 </b></summary>
+<summary><b>Expand to view steps 🔽 </b></summary>
 
 ### Step 1: Install Required Packages
 
@@ -52,7 +53,7 @@ pip install -r requirements.txt
 Open the secret configuration file in your text editor for customization:
 
 ```bash
-code configuration/secrets/secret_config.yaml
+code configuration/config.yaml
 ```
 Update the file with your personal settings and save it.
 
@@ -72,8 +73,13 @@ Navigate to the infra directory and run the script to create the necessary Azure
 cd infra && ./create_infrastructure.sh
 ```
 **What This Does**: 
-- A Resource Group is built containing Speech Services, Language Understanding, and Translator resources.
-- A Key Vault is also created to securely store all essential keys and endpoint values.
+- Creates a Resource Group containing a Speech Service, Language Understanding, and Translator resource.
+- Creates a Key Vault containing all necessary API keys and endpoints.
+
+   **Note**: To destroy the created Azure resources run:
+   ```bash
+   cd infra && ./destroy_infrastructure.sh
+   ```
 
 ### Step 5: Encrypt and Secure Secret Data
 
@@ -85,12 +91,21 @@ cd .. && python -m configuration.manage_secrets
 
 ### Step 6: Train CLU Model
 
-Start the training session for your Conversation Language Understanding (CLU) model:
+Start the training session for your Conversation Language Understanding (CLU) model using the provided training data
+located within 'training/virtual_assitant_training_data':
 
 ```bash
 python -m training.begin_training_session
 ```
 After training and deploying is complete, you can view your trained model at: https://language.cognitive.azure.com/home
+
+### Step 7: Fine-tune GPT (Optional)
+
+Begin a fine-tuning session for GPT using the provided training data located within 'training/gpt_training_data':
+
+```bash
+python -m training.begin_gpt_training_session
+```
 
 </details>
 
