@@ -1,0 +1,62 @@
+[
+    {
+        "text": "unpause the song",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "please unpause the song",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "can you unpause the song the please",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "unpause the music",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "unpause the music currently playing",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "unpause spotify",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "please unpause the music",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "can you resume the song?",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "please continue playing",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "continue the song",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "go ahead and play the song",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "start the music again",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "resume the track",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "could you restart the song?",
+        "intent": "Unpause_Song"
+    },
+    {
+        "text": "I'd like to continue listening",
+        "intent": "Unpause_Song"
+    }
+]

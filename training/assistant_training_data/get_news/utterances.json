@@ -1,0 +1,62 @@
+[
+    {
+        "text": "Retrieve the latest news",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Can I have the latest headlines?",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Fetch the news updates",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Please provide the current news",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Get_News",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Can you update me with the latest news?",
+        "intent": "Get_News"
+    },
+    {
+        "text": "I want to know the latest headlines",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Is there any news update?",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Please get the news",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Show me today's news",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Can you show me the latest news?",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Update me with the current headlines",
+        "intent": "Get_News"
+    },
+    {
+        "text": "I would like to Get_News",
+        "intent": "Get_News"
+    },
+    {
+        "text": "Are there any breaking news?",
+        "intent": "Get_News"
+    },
+    {
+        "text": "I want to be updated with the latest news",
+        "intent": "Get_News"
+    }
+]

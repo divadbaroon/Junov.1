@@ -1,0 +1,62 @@
+[
+    {
+        "text": "pause the song",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "please pause the song",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "can you pause the song the please",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "pause the music",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "pause the music currently playing",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "pause spotify",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "please pause the music",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "halt the song",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "stop playing the track",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "hold the music",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "can you stop the tune for a moment",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "freeze the current track",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "put the song on hold",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "suspend the current playback",
+        "intent": "Pause_Song"
+    },
+    {
+        "text": "pause this track now",
+        "intent": "Pause_Song"
+    }
+]

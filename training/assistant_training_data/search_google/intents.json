@@ -1,10 +1,7 @@
-
-  {
-    "intents": [
-            {
-              "category": "Search_Google"
-            }
-          ]
-        
-        }
-        
+{
+  "intents": [
+    {
+      "category": "Search_Google"
+    }
+  ]
+}
