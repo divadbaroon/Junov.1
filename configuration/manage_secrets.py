@@ -19,7 +19,7 @@ class ConfigurationManager:
 		infrastrucutre has been created in Azure. The secrets values are initially stored in an Azure keyvault.
 		and encrypted and stored locally for ease of use.
     	"""
-		self.api_keys = self.secret_manager._retrieve_azure_secrets(self.api_keys)
+		self.api_keys = self.secret_manager._get_azure_secrets(self.api_keys)
 		self.secret_manager._get_keyvault_secrets(self.api_keys)
 		self.secret_manager._save_and_encrypt_local_secrets(self.api_keys)
   
