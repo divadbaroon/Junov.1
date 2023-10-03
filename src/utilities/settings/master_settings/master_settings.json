@@ -6,7 +6,8 @@
             "reset_gender": false,
             "reset_language": false,
             "reconfigure_verbalizer": false,
-            "reconfigure_recognizer": false
+            "reconfigure_recognizer": false,
+            "save_conversation_history": false
         },
         "status": {
             "mute": false,
