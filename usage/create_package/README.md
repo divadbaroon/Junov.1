@@ -47,16 +47,19 @@ class WebSearcher:
 
 1. Create a subdirectory within the /training directory for the training data. Name it appropriately.
 
-For example:
+For this example the command will be apart of the virtual_assistant package:
 ```Bash
-'mkdir /training/search_google'
+mkdir /training/virtual_assistant/search_google
 ```
 
-2. Create the necessary JSON files for the CLU Model. The CLU Model trains a model to detect intent.
+If creating your own package, create the package as a subfolder in the training directory such as:
+```Bash
+mkdir /training/search_google
+```
 
 For example:
 ```Bash
-cd 'mkdir /training/search_google'
+cd 'mkdir /training/virtual_assistant/search_google'
 mkdir entities.json, intents.json, utterances.json
 ```
 
@@ -85,12 +88,12 @@ mkdir entities.json, intents.json, utterances.json
 [
     {
         "text": "google best pizza places in Chicago",
-        "intent": "Search_Google", //name of command given in entities.json
+        "intent": "Search_Google", 
         "entities": [
             {
-                "category": "google_query", //name of arg given in entities.json
-                "offset": 7, //where the arg starts
-                "length": 28 //length of arg 
+                "category": "google_query", 
+                "offset": 7, 
+                "length": 28 
             }
         ]
     },
