@@ -1,16 +1,11 @@
 # How to Create a Package
-Packages are used to store folder for custom commands that GPT cannot do such as interacting with the browser, executing commands using cli, interacting with spotify, etc. 
-In order to create a package a script needs to be created to be executed and training data needs to be provied to train the CLU model to detect the 
-user's intent to execute the command
+Packages are used to store folders for custom commands that GPT cannot handle natively, such as interacting with a browser, executing CLI commands, interacting with Spotify, etc. To create a package, you need a script to be executed and training data for the CLU model to detect the user's intent to execute the command.
 
 ## Example
-For this example a command called web_searcher will be created as apart of the virtual_assistant package.
+For this example, we'll create a command named web_searcher as part of the virtual_assistant package.
 
 ### Command
-
-For this example a python file is being used to seach the web.
-
-This script in this example recieves a query from the user and utilizes the webbrowser library to open the query. A response as string to be verbalized is then returned. Text-to-speech is perform on all text returned from commands.
+In this example, a Python script is used to search the web. This script receives a query from the user, uses the webbrowser library to process the query, and then returns a string response to be verbalized. All text returned from commands undergoes text-to-speech processing.
 
 ```Python
 import webbrowser
@@ -50,14 +45,14 @@ class WebSearcher:
 
 ### Training Data
 
-1. Create a subdirectory within the '/training' directory to store the training data. Name it accordingly.
+1. Create a subdirectory within the /training directory for the training data. Name it appropriately.
 
 For example:
 ```Bash
 'mkdir /training/search_google'
 ```
 
-2. Create the necessary json files to be query to the CLU Model. The CLU Model is used for creating a trained model to detect intent
+2. Create the necessary JSON files for the CLU Model. The CLU Model trains a model to detect intent.
 
 For example:
 ```Bash
@@ -65,7 +60,7 @@ cd 'mkdir /training/search_google'
 mkdir entities.json, intents.json, utterances.json
 ```
 
-The 'entities.json' file contains the desired information returned from the user's speech. In this example it the was the user's google query:
+'entities.json' contains the desired information extracted from the user's speech. In this example, it's the user's Google query:
 ```json
 [
   {
@@ -74,7 +69,7 @@ The 'entities.json' file contains the desired information returned from the user
 ]
 ```
 
-The 'intents.json' file contains the name of the command which in this case was Search Google:
+'intents.json' contains the name of the command, which in this case is 
 ```json
 {
   "intents": [
@@ -85,9 +80,7 @@ The 'intents.json' file contains the name of the command which in this case was 
 }
 ```
 
-the 'utterances.json''' file contains the example utterances to be used for training:
-
-It is recommended to have at least 15 utterances, however, the more the better
+'utterances.json' contains the sample utterances for training. It's recommended to have at least 15 utterances, but more is always better. For brevity, only a few samples are shown 
 ```json
 [
     {
@@ -258,7 +251,7 @@ It is recommended to have at least 15 utterances, however, the more the better
 ]
 ```
 
-Further examples can be be seen within the '/training' directory
+Additional examples can be found in the /training directory.
 
 ## Train The Modle
 From the root directory run the following command:
@@ -266,7 +259,8 @@ From the root directory run the following command:
 python -m training.begin_training_session
 ```
 
-The command will now be utilized within Juno
+## Use The Command
+Now, you can run the main program to see the command in action:
 ```Bash
 python main.py
 ```

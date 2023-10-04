@@ -1,9 +1,9 @@
 # How to Create a Profile
-Profiles are used to personalize the bot by the providing the following params.
+Profiles allow you to personalize the bot by providing specific parameters.
 
-### Data
+### Store The Profile
 
-1. Create a subdirectory within the '/training' directory to store the training data. Name it accordingly.
+1. Start by creating a subdirectory within the /profiles/profile_storage directory to house the training data.
 
     For example:
     ```Bash
