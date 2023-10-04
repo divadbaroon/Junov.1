@@ -61,13 +61,16 @@ mkdir /training/your_package_name
 
 For example:
 ```Bash
-cd 'mkdir /training/virtual_assistant/search_google'
+cd /training/virtual_assistant/search_google
 mkdir entities.json, intents.json, utterances.json
 ```
 
 ## Preparing your data
 
-'entities.json' contains the desired information extracted from the user's speech. In this example, it's the user's Google query:
+- In the 'entities.json' file, provide a name to represent the name for the desired information you 
+  want extracted from the user's speech. 
+
+In this example, it's the user's Google query:
 ```json
 [
   {
@@ -76,7 +79,9 @@ mkdir entities.json, intents.json, utterances.json
 ]
 ```
 
-'intents.json' contains the name of the command, which in this case is 
+- In the 'intents.json' file, provide a name for your command.
+
+Since in this case we are searching google it is called "search_google":
 ```json
 {
   "intents": [
@@ -87,7 +92,14 @@ mkdir entities.json, intents.json, utterances.json
 }
 ```
 
-'utterances.json' contains the sample utterances for training. It's recommended to have at least 15 utterances, but more is always better. For brevity, only a few samples are shown 
+- In the 'utterances.json' file provide sample utterances to be used for training. Enter utterances that you want to trigger a command.
+It's recommended to have at least 15 utterances, but more is always better. For brevity, only a few samples are shown 
+
+- Location of the desired argument is also requried
+- "category" use the name used in 'entities.json' file. This param represents the name we assigned the arg earlier
+- "offset" represents the starting position of the desired information
+- "length" represents the length of your 
+
 ```json
 [
     {
@@ -122,138 +134,6 @@ mkdir entities.json, intents.json, utterances.json
                 "length": 13
             }
         ]
-    },
-    {
-        "text": "google how to solve a rubik's cube",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 7,
-                "length": 27
-            }
-        ]
-    },
-    {
-        "text": "google who is the president",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 7,
-                "length": 20
-            }
-        ]
-    },
-    {
-        "text": "search the closest barber shop",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 7,
-                "length": 23
-            }
-        ]
-    },
-    {
-        "text": "search for funny cat videos",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 7,
-                "length": 20
-            }
-        ]
-    },
-    {
-        "text": "search the fermi paradox",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 7,
-                "length": 17
-            }
-        ]
-    },
-    {
-        "text": "search covid-19",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 7,
-                "length": 8
-            }
-        ]
-    },
-    {
-        "text": "search google for information on Taiwan",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 14,
-                "length": 25
-            }
-        ]
-    },
-    {
-        "text": "Can you Google how long to let clothes air dry",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 15,
-                "length": 31
-            }
-        ]
-    },
-    {
-        "text": "can you google calculus",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 15,
-                "length": 8
-            }
-        ]
-    },
-    {
-        "text": "can you google information about mental health",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 15,
-                "length": 31
-            }
-        ]
-    },
-    {
-        "text": "can you google the moon landing",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 15,
-                "length": 16
-            }
-        ]
-    },
-    {
-        "text": "can you google how to get better at golf",
-        "intent": "Search_Google",
-        "entities": [
-            {
-                "category": "google_query",
-                "offset": 15,
-                "length": 25
-            }
-        ]
     }
 ]
 ```
@@ -261,13 +141,13 @@ mkdir entities.json, intents.json, utterances.json
 Additional examples can be found in the /training directory.
 
 ## Training your model
-From the root directory run the following command:
+From the root directory run the following command and enter the name of the package in which you would like to train:
 ```Bash
 python -m training.begin_training_session
 ```
 
 ## Use The Command
-Now, you can run the main program to see the command in action:
+Now, run the main program to see the command in action:
 ```Bash
 python main.py
 ```
