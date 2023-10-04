@@ -43,9 +43,9 @@ class WebSearcher:
 		return f'Searching youtube for {search_request}'
 ```
 
-### Training Data
+## Preparing your directories
 
-1. Create a subdirectory within the /training directory for the training data. Name it appropriately.
+### 1. Create a subdirectory within the /training directory for the training data. Name it appropriately.
 
 For this example the command will be apart of the virtual_assistant package:
 ```Bash
@@ -54,14 +54,18 @@ mkdir /training/virtual_assistant/search_google
 
 If creating your own package, create the package as a subfolder in the training directory such as:
 ```Bash
-mkdir /training/search_google
+mkdir /training/your_package_name
 ```
+
+### 2. Create the necessary JSON files for the CLU Model. The CLU Model trains a model to detect intent.
 
 For example:
 ```Bash
 cd 'mkdir /training/virtual_assistant/search_google'
 mkdir entities.json, intents.json, utterances.json
 ```
+
+## Preparing your data
 
 'entities.json' contains the desired information extracted from the user's speech. In this example, it's the user's Google query:
 ```json
@@ -256,7 +260,7 @@ mkdir entities.json, intents.json, utterances.json
 
 Additional examples can be found in the /training directory.
 
-## Train The Modle
+## Training your model
 From the root directory run the following command:
 ```Bash
 python -m training.begin_training_session
