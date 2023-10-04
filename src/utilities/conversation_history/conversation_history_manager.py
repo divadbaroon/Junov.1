@@ -1,7 +1,7 @@
 import yaml
 from datetime import datetime, date
 from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
-from src.profiles.profile_manager import ProfileManager
+from customization.profiles.profile_manager import ProfileManager
 
 class ConversationHistoryManager:
 	"""A class that manages the conversation history in the file "conversation_history.yaml"."""

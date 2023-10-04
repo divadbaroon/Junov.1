@@ -1,5 +1,5 @@
-from src.packages.virtual_assistant.commands.high_intent.translate_speech.translate_speech import TranslateSpeech
-from src.packages.virtual_assistant.commands.low_intent.ask_gpt.ask_gpt import AskGPT
+from customization.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
+from customization.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
 from importlib import import_module
 from src.utilities.logs.log_performance import PerformanceLogger
 
@@ -79,7 +79,7 @@ class CommandOrchestrator:
     	"""
 		if self.package:
 			# initialize and load in all currently supported bot commands 
-			self.CommandParser = getattr(import_module(f"src.packages.{self.package}.commands.command_parser"), "CommandParser")
+			self.CommandParser = getattr(import_module(f"customization.packages.{self.package}.commands.command_parser"), "CommandParser")
 
 			self.command = self.CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
 			self.commands = self.command.load_commands()

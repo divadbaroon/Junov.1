@@ -5,7 +5,7 @@ from src.core_functions.speech_verbalization.speech_verbalizer import SpeechVerb
 from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
 from src.utilities.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
 from src.utilities.settings.command_settings.command_settings_manager import BotCommandManager
-from profiles.profile_manager import ProfileManager
+from customization.profiles.profile_manager import ProfileManager
 from configuration.manage_secrets import ConfigurationManager
 from src.utilities.sounds import play_sound
 

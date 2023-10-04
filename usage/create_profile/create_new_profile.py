@@ -1,5 +1,5 @@
 import yaml
-from profiles.profile_manager import ProfileManager
+from customization.profiles.profile_manager import ProfileManager
  
 def create_custom_profile():
     """

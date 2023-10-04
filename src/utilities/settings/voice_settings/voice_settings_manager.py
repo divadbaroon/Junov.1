@@ -1,6 +1,6 @@
 import json
 import os
-from profiles.profile_manager import ProfileManager
+from customization.profiles.profile_manager import ProfileManager
 
 # Construct the path to the master_settings.json file in the 'voice_settings' folder
 current_directory = os.path.dirname(os.path.abspath(__file__))
