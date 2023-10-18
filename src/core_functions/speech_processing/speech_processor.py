@@ -1,6 +1,9 @@
 from .intent_recognition import CLUIntentRecognition
 from .command_orchestrator import CommandOrchestrator
 from ...utilities.conversation_history.conversation_history_manager import ConversationHistoryManager
+from src.utilities.logs.log_performance import PerformanceLogger
+
+logger = PerformanceLogger()
 
 class SpeechProcessor:
 	"""
@@ -9,10 +12,12 @@ class SpeechProcessor:
  
 	def __init__(self, api_keys: dict, setting_objects:dict, speech_verbalizer:object):
 		self._initialize_settings(setting_objects)
+		self.profile_settings = setting_objects['profile_settings']
 		self.get_intent = CLUIntentRecognition(api_keys, self.profile_settings, self.voice_settings)
 		self.command_orchestrator = CommandOrchestrator(api_keys, speech_verbalizer, None, setting_objects)
 		self.manage_conversation_history = ConversationHistoryManager()
 
+	@logger.log_operation
 	def process_speech(self, speech:str) -> str: 
 		"""
 		Processes the user's input using a trained CLU model (if a package is being used) and produces an appropriate response and action.
@@ -27,9 +32,13 @@ class SpeechProcessor:
 		# Process the user's speech and return the appropriate response and action
 		response = self.command_orchestrator.process_command(speech)
   
-		# save conversation history
+		# Save conversation history
 		if self.save_conversation_history:
 			self.manage_conversation_history.save_conversation_history(speech, response)
+   
+		# Print the response to the user's speech
+		print('\nResponse:')
+		print(f'{self.bot_name.title()}: {response}')
   
 		return response
 
@@ -52,3 +61,4 @@ class SpeechProcessor:
 		self.voice_settings = setting_objects['voice_settings']
 		self.package_name = self.profile_settings.retrieve_property('package')
 		self.save_conversation_history = self.master_settings.retrieve_property('functions', 'save_conversation_history')
+		self.bot_name = self.profile_settings.retrieve_property('name')
