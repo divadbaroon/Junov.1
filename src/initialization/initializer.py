@@ -3,11 +3,11 @@ from src.core_functions.speech_recognition.speech_recognizer import SpeechRecogn
 from src.core_functions.speech_processing.speech_processor import SpeechProcessor
 from src.core_functions.speech_verbalization.speech_verbalizer import SpeechVerbalizer
 from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
-from src.utilities.settings.voice_settings.voice_settings_manager import VoiceSettingsManager
+from src.customization.voices.voice_settings_manager import VoiceSettingsManager
 from src.utilities.settings.command_settings.command_settings_manager import BotCommandManager
-from customization.profiles.profile_manager import ProfileManager
+from src.customization.profiles.profile_manager import ProfileManager
 from configuration.manage_secrets import ConfigurationManager
-from src.utilities.sounds import play_sound
+from src.customization.sounds import play_sound
 
 class BotInitializer:
 	'''
@@ -31,7 +31,7 @@ class BotInitializer:
   
 		# Initializing the bot's audio configuration, speech configuration, speech recognizer, and speech synthesizer
 		# The audio_config, speech_config, speech_recognizer, and speech_synthesizer are all being stored in a dictionary for ease of use  
-		self.speech_objects = self._setup_speech_and_audio(self.api_keys['COGNITIVE-SERVICES-API-KEY'], self.api_keys['REGION'], self.setting_objects['profile_settings'].retrieve_property('current_language'))
+		self.speech_objects = self._setup_speech_and_audio(self.api_keys['COGNITIVE-SERVICES-API-KEY'], self.api_keys['REGION'], self.setting_objects['profile_settings'].retrieve_property('language'))
 
 		# initializing the bot's core functionalities: speech recognition, speech processing, and speech verbalization
 		self._initialize_speech_functionalities()

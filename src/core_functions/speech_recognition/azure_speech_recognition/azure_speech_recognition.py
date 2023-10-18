@@ -1,5 +1,5 @@
 import azure.cognitiveservices.speech as speechsdk
-from customization.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
+from src.customization.packages.virtual_assistant.commands.translate_speech.translate_speech import TranslateSpeech
 
 class AzureSpeechRecognition:
 	"""
@@ -52,7 +52,7 @@ class AzureSpeechRecognition:
   		Reconfigures the speech recognizer with the new language setting
     	"""
 		# Get the new language setting
-		current_language = self.profile_settings.retrieve_property('current_language')
+		current_language = self.profile_settings.retrieve_property('language')
 
 		# Recognizer needs language-country code
 		language_country_code = self.voice_settings.retrieve_language_country_code(current_language)
