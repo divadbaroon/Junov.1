@@ -1,7 +1,7 @@
 import yaml
 from datetime import datetime, date
 from src.utilities.settings.master_settings.master_settings_manager import MasterSettingsManager
-from customization.profiles.profile_manager import ProfileManager
+from src.customization.profiles.profile_manager import ProfileManager
 
 class ConversationHistoryManager:
 	"""A class that manages the conversation history in the file "conversation_history.yaml"."""
@@ -9,7 +9,7 @@ class ConversationHistoryManager:
 	def __init__(self):
 		self.profile_name = MasterSettingsManager().retrieve_property('profile')
 		self.entity_name = ProfileManager().retrieve_property('name', self.profile_name)
-		self.conversation_history_path = f'src/profiles/profile_storage/{self.profile_name}/conversation_history.yaml'
+		self.conversation_history_path = f'src/customization/profiles/profile_storage/{self.profile_name}/conversation_history.yaml'
 		self.new_session = True
 		
 	def setup_new_session(self):
