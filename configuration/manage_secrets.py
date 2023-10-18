@@ -1,5 +1,6 @@
 from .utils.secret_retrieval_handler import SecretRetrieval
 from .utils.encryption_handler import EncryptionHandler
+from .utils.key_vault_handler import KeyVaultManager
 
 class ConfigurationManager:
 	"""
@@ -10,6 +11,7 @@ class ConfigurationManager:
 		self.secret_manager = SecretRetrieval(self.encryption_handler)
   
 		self.data = self.secret_manager._load_in_data()
+		self.key_vault = KeyVaultManager(self.retrieve_config_value('KEYVAULT_NAME'))
 		self.preferred_secret_storage = self.data['preferred_secret_storage']
 		self.api_keys = self.data['api_keys']
   
@@ -19,8 +21,8 @@ class ConfigurationManager:
 		infrastrucutre has been created in Azure. The secrets values are initially stored in an Azure keyvault.
 		and encrypted and stored locally for ease of use.
     	"""
-		self.api_keys = self.secret_manager._get_azure_secrets(self.api_keys)
-		self.secret_manager._get_keyvault_secrets(self.api_keys)
+		self.api_keys = self.secret_manager._get_azure_secrets(self.api_keys, self.key_vault)
+		self.secret_manager._get_keyvault_secrets(self.api_keys, self.key_vault)
 		self.secret_manager._save_and_encrypt_local_secrets(self.api_keys)
   
 	def retrieve_api_keys(self) -> dict:
@@ -29,7 +31,7 @@ class ConfigurationManager:
 		secret values are stored in a hash map for ease of use
    		"""
 		if self.preferred_secret_storage == 'azure':
-			api_keys = self.secret_manager._get_keyvault_secrets(self.api_keys)
+			api_keys = self.secret_manager._get_keyvault_secrets(self.api_keys, self.key_vault_name)
 		elif self.preferred_secret_storage == 'environment':
 			api_keys = self.secret_manager._get_environment_secrets(self.api_keys)
 		elif self.preferred_secret_storage == 'local':
