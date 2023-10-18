@@ -1,8 +1,15 @@
 import openai
 import time
+import os
 from configuration.utils.key_vault_handler import KeyVaultManager
 
+current_directory = os.path.dirname(os.path.abspath(__file__))
+training_data_path = os.path.join(current_directory, 'gpt_training_data')
+
 class OpenAIFineTuningJob:
+    """
+    Used to create a fine-tuning job on OpenAI's servers.
+    """
     
     def __init__(self):
         openai.api_key = KeyVaultManager().retrieve_secret("OPENAI-API-KEY")
@@ -17,19 +24,19 @@ class OpenAIFineTuningJob:
         # create fine-tuning job
         self._create_fine_tuning_job(file_id)
         
+        # test trained model
         self._test_trained_model()
 
     def _upload_training_data(self) -> str:
         """
         Upload the training data to OpenAI's servers.
         """
-        
         training_data = input("Enter the name of the folder used for training (i.e 'assistant_training_data', 'summarizer_training_data'): ")
 
         if training_data == "assistant_training_data":
-            training_data_path = "training/gpt_training_data/training_data.jsonl"
+            training_data_path = f"{training_data_path}/assistant_training_data/training_data.jsonl"
         elif training_data == "summarizer_training_data":
-            training_data_path = "training/gpt_training_data/summarizer_training_data/training_data.jsonl"
+            training_data_path = f"{training_data_path}/summarizer_training_data/training_data.jsonl"
 
         # Upload training data
         print(f"Uploading training data...")
@@ -47,14 +54,11 @@ class OpenAIFineTuningJob:
         """
         Begins a fine-tuning job.
         """
-        
         print(f"Giving servers some time to process the file")
         time.sleep(20)
         
         print(f"Creating fine-tuning job...")
         while True:
-            # giving the servers some more time to process the file
-            time.sleep(10) 
             try:
                 # Create a fine-tuning job
                 fine_tuning_response = openai.FineTuningJob.create(
@@ -69,12 +73,12 @@ class OpenAIFineTuningJob:
                 return fine_tuning_response["id"]
             except openai.error.APIError as e:  
                 print(f"Still waiting for servers to process the file")
+                time.sleep(10)
 
     def _test_trained_model(self):
         """
         Tests the fine-tuned model.
         """
-
         completion = openai.ChatCompletion.create(
             model="ft:gpt-3.5-turbo-0613:personal:juno-test:7zqjfAto",
             messages=[
