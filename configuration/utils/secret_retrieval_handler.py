@@ -1,26 +1,28 @@
 import os
 import yaml
-from .key_vault_handler import KeyVaultManager
 
-# path to 'config.yaml'
-secret_config_path = 'configuration/config.yaml'
+current_directory = os.path.dirname(os.path.abspath(__file__))
+parent_directory = os.path.dirname(current_directory)
+secret_config_path = os.path.join(parent_directory, 'config.yaml')
 
 class SecretRetrieval:
+	"""
+	Class used to retrieve secrets from various sources
+	"""
 	
-	def __init__(self, encryption_handler):
-		self.key_vault = KeyVaultManager()
-		self.data = self._load_in_data()
+	def __init__(self, encryption_handler:object):
 		self.encryption_handler = encryption_handler
+		self.data = self._load_in_data()
 
-	def _get_keyvault_secrets(self, api_keys) -> dict:
+	def _get_keyvault_secrets(self, api_keys, key_vault:object) -> dict:
 		"""
 		Retrieve secrets from Azure keyvault
 		"""
 		for secret in api_keys.keys():
 			if api_keys[secret] is not None:					
-				self.key_vault.create_secret(secret, api_keys[secret])
+				key_vault.create_secret(secret, api_keys[secret])
 			try:
-				api_keys[secret] = self.key_vault.retrieve_secret(secret)
+				api_keys[secret] = key_vault.retrieve_secret(secret)
 			except:
 				api_keys[secret] = None
 		return api_keys
@@ -38,14 +40,14 @@ class SecretRetrieval:
 				api_keys[secret] = None
 		return api_keys
 
-	def _get_azure_secrets(self, api_keys):
+	def _get_azure_secrets(self, api_keys, key_vault:object) -> dict:
 		"""
 		Retrieve secrets from infra that was created in Azure
 		"""
-		api_keys['COGNITIVE-SERVICES-API-KEY'] = self.key_vault.retrieve_secret('COGNITIVE-SERVICES-API-KEY')
-		api_keys['TRANSLATOR-API-KEY'] = self.key_vault.retrieve_secret('TRANSLATOR-API-KEY')
-		api_keys['CLU-API-KEY'] = self.key_vault.retrieve_secret('CLU-API-KEY')
-		api_keys['CLU-ENDPOINT'] = self.key_vault.retrieve_secret('CLU-ENDPOINT')
+		api_keys['COGNITIVE-SERVICES-API-KEY'] = key_vault.retrieve_secret('COGNITIVE-SERVICES-API-KEY')
+		api_keys['TRANSLATOR-API-KEY'] = key_vault.retrieve_secret('TRANSLATOR-API-KEY')
+		api_keys['CLU-API-KEY'] = key_vault.retrieve_secret('CLU-API-KEY')
+		api_keys['CLU-ENDPOINT'] = key_vault.retrieve_secret('CLU-ENDPOINT')
 		api_keys['CLU-PROJECT-NAME'] = self.data['CLU_PROJECT_NAME']
 		api_keys['CLU-TRAINING-MODEL-NAME'] = self.data['CLU_TRAINING_MODEL_NAME']
 		api_keys['CLU-DEPLOYMENT-NAME'] = self.data['CLU_DEPLOYMENT_NAME']
