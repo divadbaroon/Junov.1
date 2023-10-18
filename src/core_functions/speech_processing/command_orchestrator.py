@@ -1,5 +1,5 @@
-from customization.packages.virtual_assistant.high_intent.translate_speech.translate_speech import TranslateSpeech
-from customization.packages.virtual_assistant.low_intent.ask_gpt.ask_gpt import AskGPT
+from src.customization.packages.virtual_assistant.commands.translate_speech.translate_speech import TranslateSpeech
+from src.customization.packages.virtual_assistant.commands.ask_gpt.ask_gpt import AskGPT
 from importlib import import_module
 from src.utilities.logs.log_performance import PerformanceLogger
 
@@ -52,9 +52,9 @@ class CommandOrchestrator:
 		"""
 		Executes the appropriate action given the top intent and its associated entity if applicable.
 		"""
-		top_intent = self._retrieve_top_intent()
+		top_intent, top_intent_score = self._retrieve_top_intent()
   
-		if top_intent:
+		if top_intent_score >= self.MINIMUM_INTENT_SCORE:
 			if top_intent in self.commands:
 				response = getattr(self.command, top_intent.lower())()
 			else:
@@ -69,7 +69,7 @@ class CommandOrchestrator:
     	"""
 		profile_settings = setting_objects['profile_settings']
 		self.role = profile_settings.retrieve_property('role')
-		self.language = profile_settings.retrieve_property('current_language')
+		self.language = profile_settings.retrieve_property('language')
 		self.bot_name = profile_settings.retrieve_property('name')
 		self.package = profile_settings.retrieve_property('package')
 
@@ -79,7 +79,7 @@ class CommandOrchestrator:
     	"""
 		if self.package:
 			# initialize and load in all currently supported bot commands 
-			self.CommandParser = getattr(import_module(f"customization.packages.{self.package}.commands.command_parser"), "CommandParser")
+			self.CommandParser = getattr(import_module(f"src.customization.packages.{self.package}.command_parser"), "CommandParser")
 
 			self.command = self.CommandParser(self.api_keys, speech_verbalizer, intents_data, setting_objects)
 			self.commands = self.command.load_commands()
@@ -91,10 +91,9 @@ class CommandOrchestrator:
 			self.intents_data = None
    
 		all_commands = []
-		for command in self.commands['high_intent']:
+		for command in self.commands['commands']:
 			all_commands.append(command)
-		for command in self.commands['low_intent']:
-			all_commands.append(command)
+
 		self.commands = all_commands
 
 	@property
