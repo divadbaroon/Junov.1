@@ -6,8 +6,8 @@ class KeyVaultManager:
 	used to manage and retrieve secrets from Azure Key Vault
 	"""
 	
-	def __init__(self):
-		vault_url = f"https://Juno-vault.vault.azure.net/"
+	def __init__(self, key_vault_name:str):
+		vault_url = f"https://{key_vault_name}-vault.vault.azure.net/"
 		credential = DefaultAzureCredential()
 		self.client = SecretClient(vault_url=vault_url, credential=credential)
 		
