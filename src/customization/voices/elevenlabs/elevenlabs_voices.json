@@ -1,0 +1,13 @@
+
+{
+    "female_voices": {
+        "english": ["Bella", "Elli", "Rachel"]
+    },
+    "male_voices": {
+        "english": ["Adam", "Antoni", "Arnold", "Domi", "Josh", "Sam"]
+    }
+    ,
+    "custom": {
+        "english": [{"Oswald": "5PeHURYcxuk4Sg1TNUvZ"}, {"Myra": "WrGeqKoRYxE6eVELPVvR"}, {"Sally": "gBjHk7CXjzPpcHHdZrw8"}, {"Alice": "iKutwHs0PTV4vHZa12Gs"}]
+    }
+}

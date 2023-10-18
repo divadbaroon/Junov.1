@@ -1,0 +1,8 @@
+{
+    "female_voices": {
+        "Jenny": "JennyMultilingualV2Neural"
+    },
+    "male_voices": {
+        "Ryan": "RyanMultilingualNeural"
+    }
+}
