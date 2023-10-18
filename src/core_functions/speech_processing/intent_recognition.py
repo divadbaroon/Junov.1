@@ -56,7 +56,7 @@ class CLUIntentRecognition:
 			"""
 			Retrieves the current language being used by the bot.
 			"""
-			current_language  = self.profile_settings.retrieve_property('current_language')
+			current_language  = self.profile_settings.retrieve_property('language')
 			return self.voice_settings.retrieve_language_code(current_language)
 
 
