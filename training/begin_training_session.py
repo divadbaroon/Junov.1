@@ -17,9 +17,7 @@ class TrainCLUModel:
 		"""
   		Initializes the CLU model
     	"""
-		# Initialize secrets
 		self._initialize_secrets()
-		# Initialize and prepares training data
 		self.project_data = DataHandler()._prepare_training_data(folder_name)
   
 	def orchestrate_training_session(self) -> None:
@@ -115,8 +113,11 @@ class TrainCLUModel:
 			print(f"Deployment failed. Error: {response.json()}")
    
 	def _wait_for_operation_to_complete(self, operation_location, headers):
+		"""
+		Waits for the operation to complete
+		"""	
 		while True:
-			time.sleep(5)  # Wait for 5 seconds before checking the status again
+			time.sleep(5)  
 			response = requests.get(operation_location, headers=headers)
 			status = response.json().get("status")
 			if status == "succeeded":
@@ -155,7 +156,6 @@ class DataHandler:
 			"utterances": []
 		}
 
-		# Load in the training data
 		# if project == 'assistant_training_data', load in the basic training data as well
 		if folder_name == 'assistant_training_data':
 			assets = self._load_in_project_data(folder_name, assets)
