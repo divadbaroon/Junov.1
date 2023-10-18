@@ -22,16 +22,13 @@ class SpeechVerbalizer:
 		"""
   		Verbalize the bot's response using the speech synthesizer.
     	"""
-     
 		self._reload_settings()
   
 		# check whether the speech synthesizer needs to be reconfigured or if the bot is muted
 		perform_text_to_speech = self._check_and_handle_preconditions(speech)
 		if perform_text_to_speech:
-				
-			print('\nResponse:')
-			print(f'{self.bot_name.title()}: {speech}')
 			# Verbalize the response
+			print('\nVerbalizing...')
 			self.text_to_speech_engine.text_to_speech(speech, self.language_country_code)
 
 		# Checks whether the following params are true and executed the appropriate actions
@@ -50,8 +47,6 @@ class SpeechVerbalizer:
 		
 		# check if bot is muted
 		if self.mute_status:
-			print('\n(muted) Response:')
-			print(f'{self.bot_name.title()}: {speech}')
 			return False
 
 		# check if voice need to be reconfigured
@@ -59,7 +54,6 @@ class SpeechVerbalizer:
 			self.text_to_speech_engine.update_voice()
 			self.master_settings.save_property('functions', False, 'reconfigure_verbalizer')
 			return True
-   
 		return True
    
 	def _check_and_handle_postconditions(self, reset_language, exit_status) -> None:
@@ -69,7 +63,7 @@ class SpeechVerbalizer:
 		# check if language needs to be reset (this is done after one-shot speach translationions)
 		if reset_language:
 			old_language = self.profile_settings.retrieve_property('old_language')
-			self.profile_settings.save_property('current_language', old_language)
+			self.profile_settings.save_property('language', old_language)
 			self.master_settings.save_property('functions', False, 'reset_language')
 
 		# Exit the program needs to be exited
@@ -99,7 +93,7 @@ class SpeechVerbalizer:
 
 	def _reload_settings(self):
 		self.master_settings.reload_settings()
-		self.language  = self.profile_settings.retrieve_property('current_language')
+		self.language  = self.profile_settings.retrieve_property('language')
 		self.language_country_code = self.voice_settings.retrieve_language_country_code(self.language)
 		self.bot_name = self.profile_settings.retrieve_property('name', profile_name=self.profile_name)
 		self.mute_status = self.master_settings.retrieve_property('status', 'mute')
