@@ -11,11 +11,12 @@ class SpeechRecognition:
 	""" 
 	
 	def __init__(self, speech_objects:dict, api_keys:dict, setting_objects:dict):
-		self.master_settings = setting_objects['master_settings']
-		self.profile_settings = setting_objects['profile_settings']
-		self.inavtivity_timeout = self.master_settings.retrieve_property('timeout', 'inactivity')
-		self.speech_recognition_engine = self.profile_settings.retrieve_property('voice_recognition_engine')
+		"""
+		Initializes settings and speech recognition engine		
+  		"""
+		self._load_in_settings(setting_objects)
   
+		# Initialize the speech recognition engine
 		if self.speech_recognition_engine == 'azure':
 			self.speech_recognition_engine = AzureSpeechRecognition(speech_objects, api_keys, setting_objects)
 
@@ -25,10 +26,6 @@ class SpeechRecognition:
 		Listens for speech input and returns the recognized text in lowercase.
 		:return: (str) The recognized speech input as a lowercase string.
 		"""
-  
-		# loading in necessary data from 'master_settings.json'
-		self._load_in_settings()
-  
 		# initiale flag to check whether the speech recognizer needs to be reconfigured
 		self._check_and_handle_preconditions()
   
@@ -51,17 +48,19 @@ class SpeechRecognition:
 				print("The program has been terminated due to inactivity.")
 				sys.exit()
     
-	def _load_in_settings(self):
+	def _load_in_settings(self, setting_objects:dict) -> None:
 		"""
   		Loading in necessary data from 'master_settings.json'
     	"""
-		self.reconfigure_recognizer = self.master_settings.retrieve_property('functions', 'reconfigure_recognizer')
+		self.master_settings = setting_objects['master_settings']
+		self.profile_settings = setting_objects['profile_settings']
+		self.inavtivity_timeout = self.master_settings.retrieve_property('timeout', 'inactivity')
+		self.speech_recognition_engine = self.profile_settings.retrieve_property('voice_recognition_engine')
    
-	def _check_and_handle_preconditions(self):
+	def _check_and_handle_preconditions(self) -> None:
 		"""
 		Initial flag check
 		"""
-		# Check if the recognizer needs to be reconfigured
-		# This is necessary if the user changes the language setting
-		if self.reconfigure_recognizer:
+		reconfigure_recognizer = self.master_settings.retrieve_property('functions', 'reconfigure_recognizer')
+		if reconfigure_recognizer:
 			self.speech_recognition_engine.reconfigure_recognizer()
