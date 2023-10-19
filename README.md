@@ -19,8 +19,8 @@ Note: Integrations will be continuously refined as better solutions become avail
 
 - **Packages**: Define custom commands, guiding entity behavior based on user input. See the [packages](#packages) section for more information.
 - **Profiles**: Determine how the entity interacts with users. See the [profiles](#profiles) section for more information.
-- **Custom Voices**: Elevenlabs supports the creation and usage of cutom voices. See the [Elevenlabs](https://elevenlabs.io/voice-lab) for more information.
-- **Fine-Tune GPT**: Tailor GPT-3.5-Turbo's responses to your specific needs by fine-tuning the model with training data. See /training/gpt_training_data for example training data.
+- **Custom Voices**: Elevenlabs supports the creation and usage of custom voices. See [Elevenlabs](https://elevenlabs.io/voice-lab) for more information.
+- **Fine-Tune GPT**: Tailor GPT-3.5-Turbo's responses to your specific use-case by fine-tuning the model with training data. See /training/gpt_training_data for example training data.
 
 ### Comprehensive Conversational Abilities
 
