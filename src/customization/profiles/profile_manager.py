@@ -35,11 +35,11 @@ class ProfileManager:
             
         profile_data = self._load_profile_data(profile_name)
         
-        if property_name in ['personality', 'prompt', 'role', 'language']:
+        if property_name in ['name', 'gender', 'language', 'personality', 'persona', 'prompt', 'role']:
             return profile_data['interaction'][property_name]
-        if property_name in ['startup_sound', 'voice_recognition_engine', 'voice_engine', 'voice_name', 'package']:
+        if property_name in ['gpt_model', 'package', 'startup_sound', 'voice_engine', 'voice_name', 'voice_recognition_engine']:
             return profile_data['system'][property_name]
-        if property_name in ['gender', 'name']:
+        if property_name in ['user_name', 'user_gender']:
             return profile_data['user'][property_name]
         
     def save_property(self, property_name:str, property_value:str, profile_name=None) -> None:
@@ -51,14 +51,14 @@ class ProfileManager:
             
         profile_data = self.load_profile_data(profile_name)
         
-        if property_name in ['personality', 'prompt', 'role', 'language']:
+        if property_name in ['name', 'gender', 'language', 'personality', 'persona', 'prompt', 'role']:
             profile_data['interaction'][property_name] = property_value
-        if property_name in ['startup_sound', 'voice_recognition_engine', 'voice_engine', 'voice_name', 'package']:
+        if property_name in ['gpt_model', 'package', 'startup_sound', 'voice_engine', 'voice_name', 'voice_recognition_engine']:
             profile_data['system'][property_name] = property_value
-        if property_name in ['gender', 'name']:
+        if property_name in ['user_name', 'user_gender']:
             profile_data['user'][property_name] = property_value
             
-        with open (os.path.join('customization', 'personalization', 'profiles', 'profile_storage', profile_name, 'settings.yaml'), 'w') as file:
+        with open (os.path.join(profiles_path, profile_name, 'settings.yaml'), 'w') as file:
             yaml.dump(profile_data, file)
         
     def _make_profile_directory(self, profile_name, config) -> None:
@@ -100,19 +100,24 @@ class ProfileManager:
         """
         return {
             'user': {
-                'name': config.get('name', 'Juno'),
-                'gender': config.get('gender', 'female')
+                'name': config.get('name', None),
+                'gender': config.get('gender', None)
             },
             'system': {
-                'startup_sound': config.get('startup_sound', False),
+                'gpt_model': config.get('startup_sound', 'gpt-3.5-turbo'),
+                'package': config.get('package', None),
+                'startup_sound': config.get('startup_sound', True),
                 'voice_engine': config.get('voice_engine', 'azure'),
-                'voice_name': config.get('voice_name', 'Ana'),
-                'package': config.get('package', None)
+                'voice_name': config.get('voice_name', 'Jenny'),
+                'voice_recognition_engine': config.get('voice_recognition_engine', 'azure'),
             },
             'interaction': {
-                'role': config.get('role', None),
-                'prompt': config.get('prompt', "you are a virtual assistant"),
+                'name': config.get('role', 'Juno'),
+                'gender': config.get('role', 'Female'),
+                'language': config.get('language', 'english'),
                 'personality': config.get('personality', 'friendly'),
-                'language': config.get('language', 'english')
+                'persona': config.get('persona', None),
+                'prompt': config.get('prompt', "you are an assistant designed to concisely help the user with their queries"),
+                'role': config.get('role', 'virtual assistant'),
             }
         }
