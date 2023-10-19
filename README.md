@@ -39,7 +39,7 @@ Note: Integrations will be continuously refined as better solutions become avail
 Execute all commands from the root directory of the project.
 
 <details>
-<summary><b>Expand to view steps 🔽 </b></summary>
+<summary><b>Expand to view steps </b></summary>
 
 ### Step 1: Install Required Packages
 
@@ -199,19 +199,21 @@ Used to customize the behavior of Juno, shaping its interactions based on specif
    
 ```yaml
 interaction:
+  name: juno
+  gender: female
   language: english ## see documentation for available languages
   personality: friendly
-  persona: Obama ## entity will act as if they are this persona 
+  persona: obama ## entity will act as if they are this persona 
   prompt: you are a virtual assistant ## prompt to be used by GPT
   role: assistant  
 system:
   package: virtual_assistant ## optional
   startup_sound: true ## optional
   voice_engine: elevenlabs ## or azure
-  voice_name: Obama ## custom realistic sounding obama voice created using Elevenlabs. 
+  voice_name: obama ## custom realistic sounding obama voice created using Elevenlabs. 
   voice_recognition_engine: azure # currently only azure available
 user:
-  gender: female 
+  gender: male
   name: david   
 ```
 </details>
