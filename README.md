@@ -10,14 +10,14 @@ Customize, train, and deploy intelligent text-to-speech entities. Integrated wit
 - Uses Azure [Speech Services](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/) for speech recognition. 
 - Uses Azure  [CLU](https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/overview) for intent recognition.
 - Employs OpenAI's [GPT-3.5-Turbo](https://platform.openai.com/docs/models) for dynamic, human-like interactions.
-- Leverages [Elevenlabs](https://docs.elevenlabs.io/welcome/introduction) for realistic sounding text-to-speech.
+- Leverages [Elevenlabs](https://docs.elevenlabs.io/welcome/introduction) for realistic human-sounding text-to-speech.
 
 
 Note: Integrations will be continuously refined as better solutions become available.
 
 ### Highly Customizable
 
-- **Packages**: Define custom commands, guiding entity behavior based on user input. See the [packages](https://github.com/divadbaroon/Juno#supported-packages) section for more information.
+- **Packages**: Define custom commands, guiding entity behavior based on user input. See the [packages](#packages) section for more information.
 - **Profiles**: Determine how the entity interacts with users. See the [profiles](#profiles) section for more information.
 - **Custom Voices**: Elevenlabs supports the creation and usage of cutom voices. See the [Elevenlabs](https://elevenlabs.io/voice-lab) for more information.
 - **Fine-Tune GPT**: Tailor GPT-3.5-Turbo's responses to your specific needs by fine-tuning the model with training data. See /training/gpt_training_data for example training data.
@@ -199,18 +199,18 @@ Used to customize the behavior of Juno, shaping its interactions based on specif
    
 ```yaml
 interaction:
-  name: juno
-  gender: female
+  name: obama
+  gender: male
   language: english ## see documentation for available languages
   personality: friendly
   persona: obama ## entity will act as if they are this persona 
-  prompt: you are a virtual assistant ## prompt to be used by GPT
+  prompt: you are an assistant designed to concisely help the user with their queries ## prompt to be used by GPT
   role: assistant  
 system:
   package: virtual_assistant ## optional
   startup_sound: true ## optional
   voice_engine: elevenlabs ## or azure
-  voice_name: obama ## custom realistic sounding obama voice created using Elevenlabs. 
+  voice_name: obama ## custom voice modeled after Obama, created using Elevenlabs.
   voice_recognition_engine: azure # currently only azure available
 user:
   gender: male
