@@ -1,38 +1,29 @@
 # How to Create a Profile
-Profiles allow you to personalize the bot by providing specific parameters.
+Profiles are used to customize the behavior of Juno, shaping its interactions based on specific users, technologies, and desired persona traits.
 
-### Store The Profile
+Note: Run all commands from root directory.
 
-1. Start by creating a subdirectory within the /profiles/profile_storage directory to house the training data.
+### Create a Profile
 
-    For example:
+1. Open 'example_profile.yaml', edit the file to your liking, and save it.
     ```Bash
-    mkdir /profiles/profile_storage/default
+    code usage/create_profile/example_profile.yaml
     ```
 
-2. Customize training data to your liking:
+2. Create your new profile.
+    ```Bash
+    python -m usage.create_profile.create_new_profile
+    ```
 
-```yaml
-interaction:
-  current_language: english ## check documentation for available languages
-  personality: friendly
-  prompt: you are a virtual assistant ## prompt to be used by GPT
-  role: assistant  
-system:
-  package: virtual_assistant ## or basic
-  startup_sound: true ## or false
-  voice_engine: elevenlabs ## or azure
-  voice_name: Bella ## check documentation for available names
-  voice_recognition_engine: azure # only azure available
-user:
-  gender: female 
-  name: Juno
-```
+   Note: this will set that profile as the current profile. To change your profile open master settings:
+   ```Bash
+    code src/utilities/settings/master_settings/master_settings.json
+    ```
 
-## Use the profile
+## Use the Profile
 
-1. example usage of new profile
+1. Run the program:
 ```Bash
-python -m usage.create_profile.create_new_profile
+python main.py
 ```
 
