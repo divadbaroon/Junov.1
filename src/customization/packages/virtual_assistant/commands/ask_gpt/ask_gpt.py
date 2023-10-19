@@ -7,16 +7,14 @@ class AskGPT:
  	and the conversation history.
 	"""
 	
-	def __init__(self, openai_key:str, setting_objects:dict, bot_name:str='Juno'):
+	def __init__(self, openai_key:str, setting_objects:dict):
 		openai.api_key = openai_key
 		self.profile_settings = setting_objects['profile_settings']
-		self.bot_name = bot_name
-		# fine tuned assistant model
-		self.model = "ft:gpt-3.5-turbo-0613:personal:juno-test:7zqjfAto"
-
-		self.prompt = self.profile_settings.retrieve_property('prompt')
   
 		self.conversation_history = []
+  
+		self._Load_in_profile_settings()
+		self.system_message = self._construct_system_message()
 		
 
 	def ask_GPT(self, speech:str, model:str=None, manual_request:bool=False, max_tokens:int=100) -> str:
@@ -26,12 +24,12 @@ class AskGPT:
 		"""
 		# check for new model
 		if not model:
-			model = self. model
+			model = self.gpt_model
   
 		# get response from gpt
 		response = self._send_gpt_request(speech, model, manual_request, max_tokens)
 		# cleanup response
-		response = self._clean_response(response, self.bot_name)
+		response = self._clean_response(response, self.entity_name)
 	
 		return response
 
@@ -43,7 +41,7 @@ class AskGPT:
 	
 		# For manual requests, we start with the system message and add the user message
 		if manual_request:
-			messages.append({"role": "assistant", "content": f"You are an assistant named {self.bot_name} capable of answering questions in a friendly and concise manner"})
+			messages.append({"role": "assistant", "content": self.system_message})
 			messages.append({"role": "user", "content": speech})
 		else:
 			self._update_conversation("user", speech)
@@ -62,21 +60,52 @@ class AskGPT:
 		return response 
 
 	def _update_conversation(self, role:str, content:str) -> None:
-		"""Updates the conversation history with the user's speech and the bot's response."""
+		"""
+  		Updates the conversation history with the user's speech and the bot's response.
+    	"""
 		if role == "user":
-			self.conversation_history.append({"role": "assistant", "content": f"You are an assistant named {self.bot_name} capable of answering questions in a friendly and concise manner"})
-		self.conversation_history.append({"role": role, "content": content})
+			self.conversation_history.append({"role": "assistant", "content": self.system_message})
+		self.conversation_history.append({"role": "user", "content": content})
   
 	def _update_prompt(self, prompt:str) -> None:
 		"""Updates the prompt to be used for the GPT model."""
 		self.prompt = prompt
   
 	def _clean_response(self, response:str, bot_name:str) -> str:
-		"""Sometimes the response from the GPT model will incorrectly include the bot's name in the response."""
+		"""
+  		Sometimes the response from the GPT model will incorrectly include the bot's name in the response.
+    	"""
   
 		bad_inputs = [f'{bot_name} said: ', f' {bot_name} said: ']
 		for example in bad_inputs:
 			if example.startswith(response):
 				response = response.replace(example, '')
 		return response.strip()
+
+	def _construct_system_message(self) -> str:
+		"""
+		Constructs a system message that is used to initialize the conversation history.
+		"""
+		system_message = f"You are a {self.personality} virtual assistant named {self.entity_name} who speaks {self.language}. Your role is {self.role}."
+  
+		if self.persona:
+			system_message += f" Take on the persona of {self.persona}. Engage with the user as if you are {self.persona}."
+   
+		if self.user_name:
+			system_message += f" The user's name is {self.user_name}."
+   
+		return system_message
+     
+     
+	def _Load_in_profile_settings(self) -> None: 
+		"""
+		Loads in the profile settings from the appropriate file.
+		"""
+		self.entity_name = self.profile_settings.retrieve_property('name')
+		self.language = self.profile_settings.retrieve_property('language')
+		self.personality = self.profile_settings.retrieve_property('personality')
+		self.persona = self.profile_settings.retrieve_property('persona')
+		self.role = self.profile_settings.retrieve_property('role')
+		self.gpt_model = self.profile_settings.retrieve_property('gpt_model')
+		self.user_name = self.profile_settings.retrieve_property('user_name')	
 			
