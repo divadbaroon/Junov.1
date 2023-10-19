@@ -6,19 +6,7 @@ class PlaySong():
         
         self._load_in_secret_data(api_keys)
         
-        token_info = self.oauth.get_cached_token()
-        
-        self._check_token(token_info)
-
-        self.token = token_info['access_token']
-        self.sp = spotipy.Spotify(auth=self.token)
-
-        devices = self.sp.devices()
-        if devices['devices']:
-            self.device = devices['devices'][0]
-        else:
-            print('No devices available')
-            self.device = None
+        self._authenticate()
             
         self.track_name = None
         
@@ -167,6 +155,21 @@ class PlaySong():
         redirectURI = 'http://localhost:8000/callback'
 
         self.oauth = spotipy.SpotifyOAuth(client_id=self.clientID, client_secret=self.clientSecret, redirect_uri=redirectURI, scope=self.scope)
+        
+    def _authenticate(self):
+        token_info = self.oauth.get_cached_token()
+        
+        self._check_token(token_info)
+
+        self.token = token_info['access_token']
+        self.sp = spotipy.Spotify(auth=self.token)
+
+        devices = self.sp.devices()
+        if devices['devices']:
+            self.device = devices['devices'][0]
+        else:
+            print('No devices available')
+            self.device = None
         
     def _check_token(self, token_info) -> None:
         if not token_info:
