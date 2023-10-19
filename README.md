@@ -207,6 +207,7 @@ interaction:
   prompt: you are an assistant designed to concisely help the user with their queries ## prompt to be used by GPT
   role: assistant  
 system:
+  gpt_model: gpt-3.5-turbo # or use fine-tuned model
   package: virtual_assistant ## optional
   startup_sound: true ## optional
   voice_engine: elevenlabs ## or azure
