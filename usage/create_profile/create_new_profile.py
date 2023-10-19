@@ -7,11 +7,11 @@ def create_custom_profile():
     """
     
     # open file located within /profiles/profile_storage/defualt/settings.yaml
-    with open ('profiles/profile_storage/default/settings.yaml', 'r') as file:
-        default_config = yaml.load(file, Loader=yaml.FullLoader)
+    with open ('usage/create_profile/example_profile.yaml', 'r') as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
         
     # Creates and saves profiles
-    ProfileManager().create_profile(config=default_config ) 
+    ProfileManager().create_profile(config=config, profile_name='obama') 
     
     # To see profiles 
     #print(ProfileManager().load_profile_data())
