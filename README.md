@@ -7,13 +7,13 @@ Customize, train, and deploy intelligent text-to-speech entities. Integrated wit
 
 ### Advanced AI Integration
 
-- Uses Azure for speech recognition. Learn more about Azure Speech Services [here](https://azure.microsoft.com/en-us/products/ai-services/speech-to-text).
+- Uses Azure [Speech Services](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/) for speech recognition. 
 - Uses Azure  [CLU](https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/overview) for intent recognition.
 - Employs OpenAI's [GPT-3.5-Turbo](https://platform.openai.com/docs/models) for dynamic, human-like interactions.
-- Leverages [Elevenlabs](https://docs.elevenlabs.io/welcome/introduction) for text-to-speech.
+- Leverages [Elevenlabs](https://docs.elevenlabs.io/welcome/introduction) for realistic sounding text-to-speech.
 
 
-Note: Integrations will be continuously refined as better solutions become available, especially open-source ones.
+Note: Integrations will be continuously refined as better solutions become available.
 
 ### Highly Customizable
 
@@ -36,7 +36,7 @@ Note: Integrations will be continuously refined as better solutions become avail
 
 ## Installation Guide
 
-Follow these steps to install and configure the project. Execute all commands from the root directory of the project.
+Execute all commands from the root directory of the project.
 
 <details>
 <summary><b>Expand to view steps 🔽 </b></summary>
@@ -116,7 +116,8 @@ python -m training.begin_gpt_training_session
 3. Interact with the assistant by speaking
 
 ## Packages
-Packages allow users to equip Juno with specialized commands and responses. 
+Used to provide Juno with specialized commands and responses. 
+Training data located within /training is used to train an Azure CLU model to precisely detect intent for command execution. See /training for more information
 
 <details>
 <summary><b>Basic Package</b></summary>
@@ -188,26 +189,26 @@ Packages allow users to equip Juno with specialized commands and responses.
 
 </details>
 
-See /usage for how to create and use your own package.
+See /usage for how to create and use your own packages.
 
 ## Profiles
-Used to specify how the entity should interact with the user.
+Used to customize the behavior of Juno, shaping its interactions based on specific users, technologies, and desired persona traits.
 
 <details>
-<summary><b>Default Profile</b></summary>
+<summary><b>Example Profile</b></summary>
    
 ```yaml
 interaction:
   language: english ## see documentation for available languages
   personality: friendly
-  persona: null ## example Obama 
+  persona: Obama ## entity will act as if they are this persona 
   prompt: you are a virtual assistant ## prompt to be used by GPT
   role: assistant  
 system:
   package: virtual_assistant ## optional
   startup_sound: true ## optional
   voice_engine: elevenlabs ## or azure
-  voice_name: Oswald ## check documentation for available names
+  voice_name: Obama ## custom realistic sounding obama voice created using Elevenlabs. 
   voice_recognition_engine: azure # currently only azure available
 user:
   gender: female 
@@ -215,7 +216,7 @@ user:
 ```
 </details>
 
-See /usage for how to create and use your own profile.
+See /usage for how to create and use your own profiles.
    
  ## Supported Languages
  Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish
