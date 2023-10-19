@@ -11,7 +11,7 @@ system:
   package: virtual_assistant ## optional
   startup_sound: true ## optional
   voice_engine: elevenlabs ## or azure
-  voice_name: Oswald ## custom voice modeled after Obama, created using Elevenlabs.
+  voice_name: obama ## custom voice modeled after Obama, created using Elevenlabs.
   voice_recognition_engine: azure # currently only azure available
 user:
   user_name: null  
