@@ -34,7 +34,18 @@ class VoiceSettingsManager:
         for custom_voice in self.data['custom']['english']:
             if voice_name in custom_voice:
                 return custom_voice[voice_name]
-    
+            
+    def retrieve_azure_voice_name(self, gender:str, voice_name:str) -> str:
+        """
+        Returns the Azure voice name associated with a given voice name
+        """
+        try:
+            if voice_name in self.data[f'{gender}_voices'][voice_name]:
+                return self.data[f'{gender}_voices'][voice_name]
+        except:
+                # default to Jenny if no custom voice is found
+                return "JennyMultilingualV2Neural"
+            
     def retrieve_available_languages(self) -> list:
         """
         Retrieves all of the available languages 
@@ -79,3 +90,4 @@ class VoiceSettingsManager:
                 return json.load(f)
         except FileNotFoundError:
             print('The file "voice_settings.json" is missing.\nMake sure all files are located within the same folder.')
+
