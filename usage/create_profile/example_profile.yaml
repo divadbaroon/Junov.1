@@ -1,0 +1,18 @@
+interaction:
+  name: obama
+  gender: male
+  language: english ## see documentation for available languages
+  personality: friendly
+  persona: obama ## entity will act as if they are this persona 
+  prompt: you are an assistant designed to concisely help the user with their queries ## prompt to be used by GPT
+  role: assistant  
+system:
+  gpt_model: ft:gpt-3.5-turbo-0613:personal:juno-test:7zqjfAto 
+  package: virtual_assistant ## optional
+  startup_sound: true ## optional
+  voice_engine: elevenlabs ## or azure
+  voice_name: Oswald ## custom voice modeled after Obama, created using Elevenlabs.
+  voice_recognition_engine: azure # currently only azure available
+user:
+  user_name: null  
+  user_gender: male 
