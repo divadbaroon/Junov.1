@@ -7,10 +7,13 @@ Effortlessly set up, train, and deploy intelligent text-to-speech entities. Inte
 
 ### Advanced AI Integration
 
-- Uses Azure [Speech To Text](https://azure.microsoft.com/en-us/products/ai-services/speech-to-text) for speech recognition
+- Uses Azure for speech recognition. Learn more about Azure Speech Services [here](https://azure.microsoft.com/en-us/products/ai-services/speech-to-text).
 - Uses Azure  [CLU](https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/overview) for intent recognition.
 - Employs OpenAI's [GPT-3.5-Turbo](https://platform.openai.com/docs/models) for dynamic, human-like interactions.
 - Leverages [Elevenlabs](https://docs.elevenlabs.io/welcome/introduction) for text-to-speech.
+
+
+Note: Integrations will be continuously refined as better solutions become available, especially open-source ones.
 
 ### Highly Customizable
 
@@ -124,7 +127,7 @@ Packages allow users to equip Juno with specialized commands and responses.
 | Mute | Mutes the entity's responses |
 | Unmute | Unmutes the entity's responses |
 | Pause | Pauses all of the entity's functionalities |
-| Unpause | Pauses all of the entity's functionalities |
+| Unpause | Unpauses all of the entity's functionalities |
 | Exit | Terminates the program |
 #### Personalization
 | Command | Response |
