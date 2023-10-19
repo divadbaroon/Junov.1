@@ -8,16 +8,18 @@ class ElevenlabsTextToSpeech:
     self.profile_name = profile_name
     set_api_key(api_keys['ELEVENLABS-API-KEY'])
     self.profile_settings = setting_objects['profile_settings']
-    self.voice_name = "5PeHURYcxuk4Sg1TNUvZ"
+    self.voice_settings = setting_objects['voice_settings']
     #self.voice_name = self.profile_settings.retrieve_property('voice_name', profile_name=self.profile_name)
   
   def text_to_speech(self, speech:str, language_country_code:str):
     """
     Peforms text-to-speech using Elevenlabs' API.
     """
+    voice_name = self.profile_settings.retrieve_property('voice_name', profile_name=self.profile_name)
+    voice_code = self.voice_settings.retrieve_custom_voice_id(voice_name)
     audio = generate(
       text=speech,
-      voice=self.voice_name,
+      voice=voice_code,
       model='eleven_multilingual_v1'
     )
 
