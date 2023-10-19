@@ -1,30 +1,28 @@
 # Juno
 
-Designed for effortless setup, training, and usage of intelligent, text-to-speech entities. Built on leading AI platforms, Juno delivers a state-of-the-art virtual assistant that's modular, customizable, and versatile for various use cases.
+Effortlessly set up, train, and deploy intelligent text-to-speech entities. Integrated with state-of-the-art AI technologies, Juno offers a modular, adaptable, and versatile solution for a wide range of use cases.
 
 <details>
-<summary><b>Key Features 🌐</b></summary>
-   
-### Azure Powered 
+<summary><b>Key Features</b></summary>
 
-- Azure's Cognitive Services is used for top of the line speech recognition, intent recognition, and text-to-speech capabilities.
-- Elevenlabs is also an alternate option for text-to-speech.
+### Advanced AI Integration
 
-### Human-Like Interactions 
+- Uses Azure [Speech To Text](https://azure.microsoft.com/en-us/products/ai-services/speech-to-text) for speech recognition
+- Uses Azure  [CLU](https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/overview) for intent recognition.
+- Employs OpenAI's [GPT-3.5-Turbo](https://platform.openai.com/docs/models) for dynamic, human-like interactions.
+- Leverages [Elevenlabs](https://docs.elevenlabs.io/welcome/introduction) for text-to-speech.
 
-- Integrates OpenAI's GPT-3.5-Turbo to provide a more natural, human-like conversation experience.
+### Highly Customizable
 
-### Broad Conversational Skills 
+- **Packages**: Define custom commands, guiding entity behavior based on user input. See the [packages](https://github.com/divadbaroon/Juno#supported-packages) section for more information.
+- **Profiles**: Determine how the entity interacts with users. See the [profiles](#profiles) section for more information.
+- **Custom Voices**: Elevenlabs supports the creation and usage of cutom voices. See the [Elevenlabs](https://elevenlabs.io/voice-lab) for more information.
+- **Fine-Tune GPT**: Tailor GPT-3.5-Turbo's responses to your specific needs by fine-tuning the model with training data. See /training/gpt_training_data for example training data.
 
-- Trained on an extensive dataset that covers a wide range of conversational commands, providing efficient responses across diverse scenarios and inquiries.
+### Comprehensive Conversational Abilities
 
-### Built-In Commands 
-
-- Commands come in packages for specific use cases. See the 'Supported Packages' section for more details.
-
-### Contextual Awareness 
-
-- Stores and utilizes conversation history to provide contextual awareness to the agents.
+- Trained on a vast dataset, ensuring adept handling of varied commands and prompts. Training data is located within /training.
+- Maintains conversation history for context-aware responses.
 
 </details>
 
@@ -114,9 +112,8 @@ python -m training.begin_gpt_training_session
 2. Wait for the startup sound to play, indicating that the assistant is now listening for input
 3. Interact with the assistant by speaking
 
-## Supported Packages
-Packages come with prebuilt commands.
-Intent recognition is done using your trained CLU model, allowing for versatile command phrasing.
+## Packages
+Packages allow users to equip Juno with specialized commands and responses. 
 
 <details>
 <summary><b>Basic Package</b></summary>
@@ -124,17 +121,18 @@ Intent recognition is done using your trained CLU model, allowing for versatile 
 #### Control Behavior
 | Command | Response |
 | ------- | -------- |
-| Mute | Mutes the agent's responses |
-| Unmute | Unmutes the agent's responses |
-| Pause | Pauses all of the agent's functionalities |
+| Mute | Mutes the entity's responses |
+| Unmute | Unmutes the entity's responses |
+| Pause | Pauses all of the entity's functionalities |
+| Unpause | Pauses all of the entity's functionalities |
 | Exit | Terminates the program |
 #### Personalization
 | Command | Response |
 | ------- | -------- |
-| Change language to {language} | Changes the language of the agent to {language} |
-| Change gender to {gender} | Changes the gender of the agent to {gender} |
-| Change role to {role} | Changes the role of the agent to {role} |
-| Change voice | Changes the agent's voice |
+| Change language to {language} | Changes the language of the entity to {language} |
+| Change gender to {gender} | Changes the gender of the entity to {gender} |
+| Change role to {role} | Changes the role of the entity to {role} |
+| Change voice | Changes the entity's voice |
 
 </details>
 
@@ -187,7 +185,34 @@ Intent recognition is done using your trained CLU model, allowing for versatile 
 
 </details>
 
-Note: If a command is given that is not included in the above packages, a response will be given using GPT.
+See /usage for how to create and use your own package.
+
+## Profiles
+Used to specify how the entity should interact with the user.
+
+<details>
+<summary><b>Default Profile</b></summary>
+   
+```yaml
+interaction:
+  language: english ## see documentation for available languages
+  personality: friendly
+  persona: null ## example Obama 
+  prompt: you are a virtual assistant ## prompt to be used by GPT
+  role: assistant  
+system:
+  package: virtual_assistant ## optional
+  startup_sound: true ## optional
+  voice_engine: elevenlabs ## or azure
+  voice_name: Oswald ## check documentation for available names
+  voice_recognition_engine: azure # currently only azure available
+user:
+  gender: female 
+  name: david   
+```
+</details>
+
+See /usage for how to create and use your own profile.
    
  ## Supported Languages
  Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish
