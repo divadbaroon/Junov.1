@@ -1,6 +1,6 @@
 # Juno
 
-Effortlessly set up, train, and deploy intelligent text-to-speech entities. Integrated with state-of-the-art AI technologies, Juno offers a modular, adaptable, and versatile solution for a wide range of use cases.
+Customize, train, and deploy intelligent text-to-speech entities. Integrated with state-of-the-art AI technologies, Juno offers a modular, adaptable, and versatile solution for a wide range of use cases.
 
 <details>
 <summary><b>Key Features</b></summary>
