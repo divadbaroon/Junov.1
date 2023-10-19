@@ -8,6 +8,10 @@
     }
     ,
     "custom": {
-        "english": [{"Oswald": "5PeHURYcxuk4Sg1TNUvZ"}, {"Myra": "WrGeqKoRYxE6eVELPVvR"}, {"Sally": "gBjHk7CXjzPpcHHdZrw8"}, {"Alice": "iKutwHs0PTV4vHZa12Gs"}]
+        "english": [{"Oswald": "5PeHURYcxuk4Sg1TNUvZ"}, 
+                    {"Myra": "WrGeqKoRYxE6eVELPVvR"}, 
+                    {"Sally": "gBjHk7CXjzPpcHHdZrw8"}, 
+                    {"Alice": "iKutwHs0PTV4vHZa12Gs"},
+                    {"Obama": "G7iB0hyHld3K3viqJzuB"}]
     }
 }
