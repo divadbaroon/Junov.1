@@ -123,7 +123,7 @@ Training data located within /training is used to train an Azure CLU model to pr
 <summary><b>Basic Package</b></summary>
 
 #### Control Behavior
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Mute  | I am now muted | Mutes the entity's responses | 
 | Unmute | I am not unmuted | Unmutes the entity's responses |
@@ -131,7 +131,7 @@ Training data located within /training is used to train an Azure CLU model to pr
 | Unpause | Unpaused | Unpauses all of the entity's functionalities |
 | Exit | Exiting, goodbye! | Terminates the program |
 #### Personalization
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Change your language to {language} | Changing language to {language} | Changes the language of the entity to {language} |
 | Change your gender to {gender} | Changing gender to {gender} | Changes the gender of the entity to {gender} |
@@ -144,20 +144,20 @@ Training data located within /training is used to train an Azure CLU model to pr
 <summary><b>Virtual Assistant Package</b> (includes Basic)</summary>
 
 #### Weather Retrieval
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | What is the weather in {location} | The weather in {location} is {temperature} degrees. | Fetches the temperature from the location using OpenWeatherMap API |
 #### Speech Translation
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Translate {speech} into {language} | {translated_speech} | Uses Azure Speech Translation to translate and return the speech |
 #### Control Lights
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Turn lights {off/on} | None | Connects to and controls smart LED lights via their API |
 | Change light color to {color} | None | Connects to and controls smart LED lights via their API |
 #### Control Music 
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Play {song} | None | Uses Spotify API to play the requested song |
 | Pause song | None | Uses Spotify API to pause the song |
@@ -165,23 +165,23 @@ Training data located within /training is used to train an Azure CLU model to pr
 | Lower volume | None | Uses Spotify API to lower song volume of the song playing by 10% |
 | Raise volume | None | Uses Spotify API to raise song volume of the song playing by 10% |
 #### Set Alarm
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Set an alarm for {day and time} | Setting an alarm for {day and time} | Sets an alarm for {day and time} |
 #### Set Reminder
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Set a reminder for {day and time} to do {reminder} | Setting a reminder for {day and time} to do {reminder} | Sets a reminder for {day and time} to do {reminder} |
 #### Set Timer
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Set a timer for {time} {metric} | Setting a timer for {time} {metric} | Sets a timer for {time} {metric} |
 #### News Retrieval 
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Give me the news | Sure here is what's going on in the world. {Gives a summary of the top 3 news articles (using a fine-tuned GPT-3.5-turbo model | Fetches news articles from news api |
 #### Web Browsing
-| Command | Response | Action |
+| Input | Response | Action |
 | ------- | -------- | -------- |
 | Open {website} | Opening {website} | Opens the specified {website} uing webbrowser library |
 | Search {speech} | Searching for {speech} | Conducts a Google search for {speech} uing webbrowser library |
