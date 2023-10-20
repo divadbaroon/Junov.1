@@ -123,20 +123,20 @@ Training data located within /training is used to train an Azure CLU model to pr
 <summary><b>Basic Package</b></summary>
 
 #### Control Behavior
-| Command | Response |
-| ------- | -------- |
-| Mute | Mutes the entity's responses |
-| Unmute | Unmutes the entity's responses |
-| Pause | Pauses all of the entity's functionalities |
-| Unpause | Unpauses all of the entity's functionalities |
-| Exit | Terminates the program |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Mute  | I am now muted | Mutes the entity's responses | 
+| Unmute | I am not unmuted | Unmutes the entity's responses |
+| Pause | Pausing | Pauses all of the entity's functionalities |
+| Unpause | Unpaused | Unpauses all of the entity's functionalities |
+| Exit | Exiting, goodbye! | Terminates the program |
 #### Personalization
-| Command | Response |
-| ------- | -------- |
-| Change language to {language} | Changes the language of the entity to {language} |
-| Change gender to {gender} | Changes the gender of the entity to {gender} |
-| Change role to {role} | Changes the role of the entity to {role} |
-| Change voice | Changes the entity's voice |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Change your language to {language} | Changing language to {language} | Changes the language of the entity to {language} |
+| Change your gender to {gender} | Changing gender to {gender} | Changes the gender of the entity to {gender} |
+| Change your persona to {role} | Changing persona to {persona} | Changes the persona of the entity to {persona} |
+| Change voice | I have changed my voice | Changes the entity's voice |
 
 </details>
 
@@ -144,48 +144,48 @@ Training data located within /training is used to train an Azure CLU model to pr
 <summary><b>Virtual Assistant Package</b> (includes Basic)</summary>
 
 #### Weather Retrieval
-| Command | Response |
-| ------- | -------- |
-| What is the weather in {location} | Provides the current temperature in {location} |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| What is the weather in {location} | The weather in {location} is {temperature} degrees. | Fetches the temperature from the location using OpenWeatherMap API |
 #### Speech Translation
-| Command | Response |
-| ------- | -------- |
-| Translate {speech} into {language} | Translates {speech} into {language} |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Translate {speech} into {language} | {translated_speech} | Uses Azure Speech Translation to translate and return the speech |
 #### Control Lights
-| Command | Response |
-| ------- | -------- |
-| Turn lights {off/on} | Turns the lights {off/on} |
-| Change light color to {color} | Changes the light color to {color} |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Turn lights {off/on} | None | Connects to and controls smart LED lights via their API |
+| Change light color to {color} | None | Connects to and controls smart LED lights via their API |
 #### Control Music 
-| Command | Response |
-| ------- | -------- |
-| Play {song} | Plays {song} |
-| Pause song | Pauses song |
-| Play next song | Plays next song |
-| Lower volume | Lowers volume of song playing by 10% |
-| Raise volume | Raises volume of song playing by 10% |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Play {song} | None | Uses Spotify API to play the requested song |
+| Pause song | None | Uses Spotify API to pause the song |
+| Play next song | None | Uses Spotify API to play the next song |
+| Lower volume | None | Uses Spotify API to lower song volume of the song playing by 10% |
+| Raise volume | None | Uses Spotify API to raise song volume of the song playing by 10% |
 #### Set Alarm
-| Command | Response |
-| ------- | -------- |
-| Set an alarm for {day and time} | Sets an alarm for {day and time} |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Set an alarm for {day and time} | Setting an alarm for {day and time} | Sets an alarm for {day and time} |
 #### Set Reminder
-| Command | Response |
-| ------- | -------- |
-| Set a reminder for {day and time} to do {reminder} | Sets a reminder for {day and time} to do {reminder} |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Set a reminder for {day and time} to do {reminder} | Setting a reminder for {day and time} to do {reminder} | Sets a reminder for {day and time} to do {reminder} |
 #### Set Timer
-| Command | Response |
-| ------- | -------- |
-| Set a timer for {time} {metric} | Sets a timer for {time} {metric} |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Set a timer for {time} {metric} | Setting a timer for {time} {metric} | Sets a timer for {time} {metric} |
 #### News Retrieval 
-| Command | Response |
-| ------- | -------- |
-| Give me the news | A summary of the current top news stories (summarized using GPT) |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Give me the news | Sure here is what's going on in the world. {Gives a summary of the top 3 news articles (using a fine-tuned GPT-3.5-turbo model | Fetches news articles from news api |
 #### Web Browsing
-| Command | Response |
-| ------- | -------- |
-| Open {website} | Opens the specified {website} |
-| Search {speech} | Conducts a Google search for {speech} |
-| Search youtube for {speech} | Conducts a YouTube search for {speech} |
+| Command | Response | Action |
+| ------- | -------- | -------- |
+| Open {website} | Opening {website} | Opens the specified {website} uing webbrowser library |
+| Search {speech} | Searching for {speech} | Conducts a Google search for {speech} uing webbrowser library |
+| Search youtube for {speech} | Searching Youtube for {speech} | Conducts a YouTube search for {speech} uing webbrowser library |
 
 </details>
 
