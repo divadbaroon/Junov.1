@@ -225,9 +225,9 @@ Used to customize the behavior of Juno, shaping its interactions based on specif
 
 | Attribute   | Example Value | Description |
 | :----------- | :------------ | :---------- |
-| `user_name`  | null          | Name of the user interacting with the entity |
-| `user_gender`| null          | Gender of the user |
-| `user_age`   | null          | Age of the user |
+| `user_name`  | james          | Name of the user interacting with the entity |
+| `user_gender`| male         | Gender of the user |
+| `user_age`   | 22          | Age of the user |
 
 </details>
 
