@@ -180,11 +180,9 @@ Training data located within /training is used to train an Azure CLU model to pr
 | ------- | -------- | -------- |
 | Open {website} | Opening {website} |  Opens website |
 | Search {speech} | Searching for {speech} |  Google search |
-| Search youtube for {speech} | Searching Youtube for {speech} | Searches YouTubey |
+| Search youtube for {speech} | Searching Youtube for {speech} | Searches YouTube |
 
 </details>
-
-See /usage for how to create and use your own packages.
 
 ## Profiles
 Used to customize the behavior of Juno, shaping its interactions based on specific users, technologies, and desired persona traits.
@@ -257,7 +255,13 @@ user:
 ```
 </details>
 
-See /usage for how to create and use your own profiles.
-   
+## Graphical User Interface
+Juno supports a user-friendly graphical interface to easily customize and personalize Juno
+
+To open the GUI, run the following command from root:
+```bash
+streamlit run configurator.py
+```
+
  ## Supported Languages
  Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish
