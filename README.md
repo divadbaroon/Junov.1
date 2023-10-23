@@ -5,7 +5,7 @@ Customize, train, and deploy adaptive and intelligent conversational entities. I
 <details>
 <summary><b>Key Features</b></summary>
 
-### Advanced AI Integration
+### Cutting-Edge AI Integration
 
 - Uses Azure [Speech Services](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/) for speech recognition. 
 - Uses Azure  [CLU](https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/overview) for intent recognition.
@@ -21,6 +21,8 @@ Note: Integrations will be continuously refined as better solutions become avail
 - **Profiles**: Determine how the entity interacts with users. See the [profiles](#profiles) section for more information.
 - **Custom Voices**: Elevenlabs supports the creation and usage of custom voices. With a five-minute audio file of a person speaking, a life-like voice can be created for Juno to use. See [Elevenlabs](https://elevenlabs.io/voice-lab) for more information.
 - **Fine-Tune GPT**: Tailor GPT-3.5-Turbo's responses to your specific use-case by fine-tuning the model with training data. See /training/gpt_training_data for example training data.
+  
+**Tip**: You can effortlessly design profiles, craft custom voices, and fine-tune GPT directly through Juno's GUI. See the [Graphical User Interface](#graphical-user-interface) section for more information.
 
 </details>
 
