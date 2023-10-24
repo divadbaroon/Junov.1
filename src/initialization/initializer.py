@@ -14,9 +14,9 @@ class BotInitializer:
 	Initialize the bot's core functionalities: speech recognition, speech processing, and speech verbalization
 	'''
 	
-	def __init__(self, profile_name:str):
+	def __init__(self):
 		"""
-		Initializes PiBot with the following proccesses:
+		Initializes Juno with the following proccesses:
 		- Load in settings objects and save given params to bot settings
 		- Retrieve dictionary of api keys
 		- Initialize the bot's core functionalities: speech recognition, speech processing, and speech verbalization
@@ -24,7 +24,7 @@ class BotInitializer:
 		"""
   
 		# load in bot, voice, command, and profile setting objects and store them in a dictionary for ease of use
-		self.setting_objects = self._load_in_setting_objects(profile_name)
+		self.setting_objects = self._load_in_setting_objects()
   
 		# retrieve api keys as a dictionary
 		self.api_keys = ConfigurationManager().retrieve_api_keys()
@@ -40,13 +40,12 @@ class BotInitializer:
 		if self.setting_objects['profile_settings'].retrieve_property('startup_sound'):
 			play_sound.play_bot_sound('startup_sound')
   
-	def _load_in_setting_objects(self,  profile_name) -> dict:
+	def _load_in_setting_objects(self) -> dict:
 		"""
   		Initialize setting objects and store them in a dictionary for ease of use
     	"""
 		settings = {}
 		settings['master_settings'] = MasterSettingsManager()
-		settings['master_settings'].save_property('profile', profile_name)
 		settings['voice_settings'] = VoiceSettingsManager()
 		settings['command_settings'] = BotCommandManager()
 		settings['profile_settings'] = ProfileManager()

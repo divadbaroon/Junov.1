@@ -5,14 +5,14 @@ class Juno:
 	A simple interface for creating an intelligent and interactive entity.
 	"""
  
-	def __init__(self, profile:str='default', package:str=None):
-		self._initalize(profile, package)
+	def __init__(self):
+		self._initalize()
   
-	def _initalize(self, profile:str, package:str) -> None:
+	def _initalize(self) -> None:
 		"""
 		Initializes the speech recognition, speech processing, and speech verbalization
 		"""	
-		self.BotInitializer = BotInitializer(profile, package)
+		self.BotInitializer = BotInitializer()
 		self.speech_recognition = self.BotInitializer.speech_recognition
 		self.speech_processor = self.BotInitializer.speech_processor
 		self.speech_verbalizer = self.BotInitializer.speech_verbalizer
