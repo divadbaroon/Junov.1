@@ -88,7 +88,7 @@ class BotBehavior:
 		Saves the new language in master_settings.json
 		"""
 		# Extracting all currently supported languages
-		currently_supported_languages = self.voice_settings.available_languages()
+		currently_supported_languages = self.voice_settings.retrieve_available_languages()
 		new_language = new_language.lower()
 
 		# check if language is currently supported

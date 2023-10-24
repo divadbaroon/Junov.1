@@ -52,7 +52,6 @@ class GetWeather:
 		
 			# Returned json file with weather data
 			data = response.json()
-
 			temperature = data["main"]["temp"]
 			return temperature
 		else:	
@@ -63,7 +62,7 @@ class GetWeather:
   		Creates a user-friendly response based on the retrieved temperature.
     	"""
 		if temperature is None:
-			response = f"Sorry, there was error while retrieving the weather for {location}. Please try asking again."
+			response = f"Sorry, there was an error while retrieving the weather for {location}. Please try asking again."
 		elif self.units == "imperial":
 			response = f"The weather in {location} is {round(temperature)} degrees Fahrenheit"
 		else:
