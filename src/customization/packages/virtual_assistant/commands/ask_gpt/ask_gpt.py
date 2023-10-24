@@ -9,11 +9,10 @@ class AskGPT:
 	
 	def __init__(self, openai_key:str, setting_objects:dict):
 		openai.api_key = openai_key
-		self.profile_settings = setting_objects['profile_settings']
   
 		self.conversation_history = []
   
-		self._Load_in_profile_settings()
+		self._Load_in_settings(setting_objects)
 		self.system_message = self._construct_system_message()
 		
 
@@ -97,15 +96,18 @@ class AskGPT:
 		return system_message
      
      
-	def _Load_in_profile_settings(self) -> None: 
+	def _Load_in_settings(self, setting_objects:dict) -> None: 
 		"""
 		Loads in the profile settings from the appropriate file.
 		"""
-		self.entity_name = self.profile_settings.retrieve_property('name')
-		self.language = self.profile_settings.retrieve_property('language')
-		self.personality = self.profile_settings.retrieve_property('personality')
-		self.persona = self.profile_settings.retrieve_property('persona')
-		self.role = self.profile_settings.retrieve_property('role')
-		self.gpt_model = self.profile_settings.retrieve_property('gpt_model')
-		self.user_name = self.profile_settings.retrieve_property('user_name')	
+		self.master_settings = setting_objects['master_settings']
+		self.profile_settings = setting_objects['profile_settings']
+		self.profile_name = self.master_settings.retrieve_property('profile')
+		self.entity_name = self.profile_settings.retrieve_property('name', self.profile_name)
+		self.language = self.profile_settings.retrieve_property('language', self.profile_name)
+		self.personality = self.profile_settings.retrieve_property('personality', self.profile_name)
+		self.persona = self.profile_settings.retrieve_property('persona', self.profile_name)
+		self.role = self.profile_settings.retrieve_property('role', self.profile_name)
+		self.gpt_model = self.profile_settings.retrieve_property('gpt_model', self.profile_name)
+		self.user_name = self.profile_settings.retrieve_property('user_name', self.profile_name)	
 			
