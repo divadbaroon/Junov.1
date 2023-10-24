@@ -19,6 +19,8 @@ CLU_PROJECT_NAME: Juno
 CLU_TRAINING_MODEL_NAME:  Model1
 CLU_DEPLOYMENT_NAME: Model1
 
+GPT-MODELS: ['GPT-3.5-Turbo', 'GPT-4', 'juno-test']
+
 # Below are the required and optional api keys with links to where to acquire them
 # Replace 'null' with your api key value
 # Example: OPENAI-API-KEY: 'sk-test9HJ84Havnf8Haf5Hakngi5Hgfn'
@@ -50,3 +52,16 @@ api_keys:
   TRANSLATOR-API-KEY: null
   CLU-API-KEY: null
   CLU-ENDPOINT: null
+
+custom_voice_ids:
+  # custom made voices that were created and trained using Elevenlabs voice-cloning
+
+  elevenlabs:
+    # name of voice: voice id
+    # for example:
+    # Oswald: "a3B6Ycxuk4Sg1TNUvZ"
+    Oswald: null
+    Myra: null
+    Sally: null
+    Alice: null
+    Barack Obama: null
