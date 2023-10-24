@@ -9,3 +9,4 @@ requests==2.25.1
 PyYAML
 azure.ai.language.conversations
 elevenlabs
+streamlit
