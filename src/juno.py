@@ -2,17 +2,17 @@ from src.initialization.initializer import BotInitializer
 
 class Juno:
 	"""
-	A simple interface for creating an intelligent and interactive agent.
+	A simple interface for creating an intelligent and interactive entity.
 	"""
  
-	def __init__(self, profile_name:str='default'):
-		self._initalize(profile_name)
+	def __init__(self, profile:str='default', package:str=None):
+		self._initalize(profile, package)
   
-	def _initalize(self, profile_name:str) -> None:
+	def _initalize(self, profile:str, package:str) -> None:
 		"""
 		Initializes the speech recognition, speech processing, and speech verbalization
 		"""	
-		self.BotInitializer = BotInitializer(profile_name)
+		self.BotInitializer = BotInitializer(profile, package)
 		self.speech_recognition = self.BotInitializer.speech_recognition
 		self.speech_processor = self.BotInitializer.speech_processor
 		self.speech_verbalizer = self.BotInitializer.speech_verbalizer
