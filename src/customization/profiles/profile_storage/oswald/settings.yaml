@@ -1,4 +1,4 @@
-interaction:
+entity:
   name: Oswald
   gender: male
   language: english ## see documentation for available languages
@@ -10,7 +10,7 @@ system:
   gpt_model: ft:gpt-3.5-turbo-0613:personal:juno-test:7zqjfAto 
   package: virtual_assistant ## optional
   startup_sound: true ## optional
-  voice_engine: elevenlabs ## or azure
+  tts: elevenlabs ## or azure
   voice_name: Oswald ## custom voice modeled after Obama, created using Elevenlabs.
   voice_recognition_engine: azure # currently only azure available
 user:

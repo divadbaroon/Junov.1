@@ -1,18 +1,19 @@
-interaction:
-  name: juno
-  gender: female
-  language: english ## see documentation for available languages
-  personality: friendly
-  persona: null ## entity will act as if they are this persona 
-  prompt: you are an assistant designed to concisely help the user with their queries ## prompt to be used by GPT
-  role: assistant  
+entity:
+  gender: Female
+  language: English
+  name: Juno
+  persona: null
+  personality: Friendly
+  prompt: You are a assistant designed to concisely help the user with their queries.
+  role: Assistant
 system:
-  gpt_model: ft:gpt-3.5-turbo-0613:personal:juno-test:7zqjfAto 
-  package: virtual_assistant ## optional
-  startup_sound: true ## optional
-  voice_engine: elevenlabs ## or azure
-  voice_name: Oswald ## custom voice modeled after Obama, created using Elevenlabs.
-  voice_recognition_engine: azure # currently only azure available
+  TTS: Azure
+  gpt_model: ''
+  package: virtual_assistant
+  startup_sound: true
+  voice_name: Jenny
+  voice_recognition_engine: Azure
 user:
-  user_name: null  
-  user_gender: male 
+  user_age: null
+  user_gender: null
+  user_name: null
