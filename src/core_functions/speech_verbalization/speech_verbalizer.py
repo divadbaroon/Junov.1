@@ -88,8 +88,8 @@ class SpeechVerbalizer:
 		self.master_settings = setting_objects['master_settings']
 		self.profile_settings = setting_objects['profile_settings']
 		self.voice_settings = setting_objects['voice_settings']
-		self.engine_name = self.profile_settings.retrieve_property('voice_engine')
 		self.profile_name = self.master_settings.retrieve_property('profile')
+		self.engine_name = self.profile_settings.retrieve_property('text_to_speech_engine', self.profile_name)
 
 	def _reload_settings(self):
 		self.master_settings.reload_settings()
