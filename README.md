@@ -1,15 +1,15 @@
 # Juno
 
-Customize, train, and deploy intelligent text-to-speech entities. Integrated with state-of-the-art AI technologies, Juno offers a modular, adaptable, and versatile solution for a wide range of use cases.
+Customize, train, and deploy adaptive and intelligent conversational entities. Integrated with state-of-the-art AI technologies, Juno offers a modular, adaptable, and versatile solution for a wide range of use cases.
 
 <details>
 <summary><b>Key Features</b></summary>
 
-### Advanced AI Integration
+### Cutting-Edge AI Integration
 
 - Uses Azure [Speech Services](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/) for speech recognition. 
 - Uses Azure  [CLU](https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/overview) for intent recognition.
-- Employs OpenAI's [GPT-3.5-Turbo](https://platform.openai.com/docs/models) for dynamic, human-like entitys.
+- Employs OpenAI's [GPT-3.5-Turbo](https://platform.openai.com/docs/models) for dynamic, human-like interactions.
 - Leverages [Elevenlabs](https://docs.elevenlabs.io/welcome/introduction) for realistic human-sounding text-to-speech.
 
 
@@ -19,13 +19,10 @@ Note: Integrations will be continuously refined as better solutions become avail
 
 - **Packages**: Define custom commands, guiding entity behavior based on user input. See the [packages](#packages) section for more information.
 - **Profiles**: Determine how the entity interacts with users. See the [profiles](#profiles) section for more information.
-- **Custom Voices**: Elevenlabs supports the creation and usage of custom voices. See [Elevenlabs](https://elevenlabs.io/voice-lab) for more information.
+- **Custom Voices**: Elevenlabs supports the creation and usage of custom voices. With a five-minute audio file of a person speaking, a life-like voice can be created for Juno to use. See [Elevenlabs](https://elevenlabs.io/voice-lab) for more information.
 - **Fine-Tune GPT**: Tailor GPT-3.5-Turbo's responses to your specific use-case by fine-tuning the model with training data. See /training/gpt_training_data for example training data.
-
-### Comprehensive Conversational Abilities
-
-- Trained on a vast dataset, ensuring adept handling of varied commands and prompts. Training data is located within /training.
-- Maintains conversation history for context-aware responses.
+  
+**Tip**: You can effortlessly design profiles, craft custom voices, and fine-tune GPT directly through Juno's GUI. See the [Graphical User Interface](#graphical-user-interface) section for more information.
 
 </details>
 
@@ -123,20 +120,20 @@ Training data located within /training is used to train an Azure CLU model to pr
 <summary><b>Basic Package</b></summary>
 
 #### Control Behavior
-| Command | Response |
-| ------- | -------- |
-| Mute | Mutes the entity's responses |
-| Unmute | Unmutes the entity's responses |
-| Pause | Pauses all of the entity's functionalities |
-| Unpause | Unpauses all of the entity's functionalities |
-| Exit | Terminates the program |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Mute  | I am now muted | Mutes responses | 
+| Unmute | I am not unmuted | Unmutes responses |
+| Pause | Pausing |  Pauses functionalities |
+| Unpause | Unpaused |  Resumes functionalities |
+| Exit | Exiting, goodbye! |  Terminates program |
 #### Personalization
-| Command | Response |
-| ------- | -------- |
-| Change language to {language} | Changes the language of the entity to {language} |
-| Change gender to {gender} | Changes the gender of the entity to {gender} |
-| Change role to {role} | Changes the role of the entity to {role} |
-| Change voice | Changes the entity's voice |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Change your language to {language} | Changing language to {language} | Changes language |
+| Change your gender to {gender} | Changing gender to {gender} | Changes gender |
+| Change your persona to {role} | Changing persona to {persona} | Changes persona |
+| Change voice | I have changed my voice | Changes voice |
 
 </details>
 
@@ -144,82 +141,129 @@ Training data located within /training is used to train an Azure CLU model to pr
 <summary><b>Virtual Assistant Package</b> (includes Basic)</summary>
 
 #### Weather Retrieval
-| Command | Response |
-| ------- | -------- |
-| What is the weather in {location} | Provides the current temperature in {location} |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| What is the weather in {location} | The weather in {location} is {temperature} degrees. | Fetches temperature via OpenWeatherMap API |
 #### Speech Translation
-| Command | Response |
-| ------- | -------- |
-| Translate {speech} into {language} | Translates {speech} into {language} |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Translate {speech} into {language} | {translated_speech} |  Uses Azure for speech translation |
 #### Control Lights
-| Command | Response |
-| ------- | -------- |
-| Turn lights {off/on} | Turns the lights {off/on} |
-| Change light color to {color} | Changes the light color to {color} |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Turn lights {off/on} | None | Controls smart LED lights |
+| Change light color to {color} | None | Changes light color |
 #### Control Music 
-| Command | Response |
-| ------- | -------- |
-| Play {song} | Plays {song} |
-| Pause song | Pauses song |
-| Play next song | Plays next song |
-| Lower volume | Lowers volume of song playing by 10% |
-| Raise volume | Raises volume of song playing by 10% |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Play {song} | None |  Plays song via Spotify API |
+| Pause song | None |  Pauses song via Spotify API |
+| Play next song | None |  Plays next song via Spotify API |
+| Lower volume | None | Decreases volume by 10% |
+| Raise volume | None | Increases volume by 10% |
 #### Set Alarm
-| Command | Response |
-| ------- | -------- |
-| Set an alarm for {day and time} | Sets an alarm for {day and time} |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Set an alarm for {day and time} | Setting an alarm for {day and time} | Sets an alarm |
 #### Set Reminder
-| Command | Response |
-| ------- | -------- |
-| Set a reminder for {day and time} to do {reminder} | Sets a reminder for {day and time} to do {reminder} |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Set a reminder for {day and time} to do {reminder} | Setting a reminder | Sets a reminder for {day and time} to do {reminder} |
 #### Set Timer
-| Command | Response |
-| ------- | -------- |
-| Set a timer for {time} {metric} | Sets a timer for {time} {metric} |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Set a timer for {time} {metric} | Setting a timer for {time} {metric} | Sets a timer |
 #### News Retrieval 
-| Command | Response |
-| ------- | -------- |
-| Give me the news | A summary of the current top news stories (summarized using GPT) |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Give me the news | Sure here is what's going on in the world. {Gives a summary of the top 3 news articles (using a fine-tuned GPT-3.5-turbo model | Fetches top news headlines via News API |
 #### Web Browsing
-| Command | Response |
-| ------- | -------- |
-| Open {website} | Opens the specified {website} |
-| Search {speech} | Conducts a Google search for {speech} |
-| Search youtube for {speech} | Conducts a YouTube search for {speech} |
+| Input | Response | Action |
+| ------- | -------- | -------- |
+| Open {website} | Opening {website} |  Opens website |
+| Search {speech} | Searching for {speech} |  Google search |
+| Search youtube for {speech} | Searching Youtube for {speech} | Searches YouTube |
 
 </details>
 
-See /usage for how to create and use your own packages.
-
 ## Profiles
-Used to customize the behavior of Juno, shaping its entitys based on specific users, technologies, and desired persona traits.
+Used to customize the behavior of Juno, shaping its interactions based on specific users, technologies, and desired persona traits.
+
+### The following attribute make up a profile:
+
+<details>
+<summary><b>Entity Attributes</b></summary>
+
+| Attribute  | Example Value  | Description |
+| :--------- | :------------ | :---------- |
+| `name`     | barack obama  | The name of the entity |
+| `gender`   | male          | Gender of the entity |
+| `language` | english       | Language entity speaks in (Refer to documentation for available languages) |
+| `personality` | friendly   | Describes the overall temperament of the entity |
+| `persona`  | barack obama  | The entity will act as if they are this persona |
+| `prompt`   | you are an assistant designed to concisely help the user with their queries | Prompt used to query GPT |
+| `role`     | assistant     | Role of the entity |
+
+</details>
+
+<details>
+<summary><b>System Attributes</b></summary>
+
+| Attribute               | Example Value   | Description |
+| :----------------------- | :-------------- | :---------- |
+| `gpt_model`              | gpt-3.5-turbo   | Model used for generating responses (Fine-tuning recommended. See /training) |
+| `package`                | virtual_assistant | Optional package for added functionalities. See [packages](#packages) for more information |
+| `startup_sound`          | true           | Whether to play a startup sound |
+| `voice_name`             | barack obama   | Voice used for text-to-speech. In this example, I am using a custom-made voice modeled after Barack Obama, created using Elevenlabs |
+| `text_to_speech_engine`  | elevenlabs     | Engine used for text-to-speech (e.g., Elevenlabs or Azure) |
+| `voice_recognition_engine` | azure        | Engine used for voice recognition |
+
+</details>
+
+<details>
+<summary><b>User Attributes</b></summary>
+
+| Attribute   | Example Value | Description |
+| :----------- | :------------ | :---------- |
+| `user_name`  | james          | Name of the user interacting with the entity |
+| `user_gender`| male         | Gender of the user |
+| `user_age`   | 22          | Age of the user |
+
+</details>
 
 <details>
 <summary><b>Example Profile</b></summary>
    
 ```yaml
 entity:
-  name: obama
+  name: barack obama
   gender: male
-  language: english ## see documentation for available languages
+  language: english 
   personality: friendly
-  persona: obama ## entity will act as if they are this persona 
-  prompt: you are an assistant designed to concisely help the user with their queries ## prompt to be used by GPT
+  persona: barack obama 
+  prompt: you are an assistant designed to concisely help the user with their queries 
   role: assistant  
 system:
-  gpt_model: gpt-3.5-turbo # or use fine-tuned model
-  package: virtual_assistant ## optional
-  startup_sound: true ## optional
-  text_to_speech_engine: elevenlabs ## or azure
-  voice_name: obama ## custom voice modeled after Obama, created using Elevenlabs.
-  voice_recognition_engine: azure # currently only azure available
+  gpt_model: gpt-3.5-turbo 
+  package: virtual_assistant 
+  startup_sound: true 
+  voice_name: barack obama 
+  text_to_speech_engine: elevenlabs 
+  voice_recognition_engine: azure 
 user:
-  gender: male
-  name: david   
+  user_name: null  
+  user_gender: null   
+  user_age: null
 ```
 </details>
 
-See /usage for how to create and use your own profiles.
-   
+## Graphical User Interface
+Juno supports a user-friendly graphical interface to easily customize and personalize Juno
+
+To open the GUI, run the following command from root:
+```bash
+streamlit run configurator.py
+```
+
  ## Supported Languages
  Arabic, English (Australia, Ireland, UK, USA), Finnish, French, German, Hindi, Korean, Mandarin, Russian, Spanish

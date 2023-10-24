@@ -1,5 +1,5 @@
 # How to Create a Package
-Packages are used to store folders for custom commands that GPT cannot handle natively, such as interacting with a browser, executing CLI commands, interacting with Spotify, etc. To create a package, you need a script to be executed and training data for the CLU model to detect the user's intent to execute the command.
+Packages are used to provide Juno with specialized commands and responses. Training data located within /training is used to train an Azure CLU model to precisely detect intent for command execution. See /training for more information
 
 ## Example
 For this example, we'll create a command named web_searcher as part of the virtual_assistant package.
