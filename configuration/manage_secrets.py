@@ -11,9 +11,12 @@ class ConfigurationManager:
 		self.secret_manager = SecretRetrieval(self.encryption_handler)
   
 		self.data = self.secret_manager._load_in_data()
-		self.key_vault = KeyVaultManager(self.retrieve_config_value('KEYVAULT_NAME'))
+		self.custom_voice_ids = self.data['custom_voice_ids']
+		self.key_vault_name = self.retrieve_config_value('KEYVAULT_NAME')
+		self.key_vault = KeyVaultManager(self.key_vault_name)
 		self.preferred_secret_storage = self.data['preferred_secret_storage']
 		self.api_keys = self.data['api_keys']
+		self.custom_voice_ids = self.data['custom_voice_ids']['elevenlabs']
   
 	def initial_setup(self) -> None:
 		"""
@@ -37,6 +40,18 @@ class ConfigurationManager:
 		elif self.preferred_secret_storage == 'local':
 			api_keys = self.secret_manager._load_in_local_secrets()
 		return api_keys 
+
+	def retrieve_elevenlabs_custom_voice_id(self, voice_name) -> dict:
+		"""
+		used to retrieve the bot's configuration values from 'config.yaml'
+		"""
+		return self.data['custom_voice_ids']['elevenlabs'].get(voice_name.title())
+
+	def retrieve_custom_voice_names(self) -> list:
+		"""
+		used to retrieve the bot's configuration values from 'config.yaml'
+		"""
+		return self.data['custom_voice_ids']['elevenlabs'].keys()
 
 	def retrieve_config_value(self, value) -> dict:
 		"""
