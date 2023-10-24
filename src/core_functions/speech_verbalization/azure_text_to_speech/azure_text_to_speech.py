@@ -22,7 +22,7 @@ class AzureTextToSpeech:
 		"""
 		Prepare data in ssml format to be used for azure text to speech
 		"""
-		azure_voice_name = self._retrieve_azure_voice_name()
+		azure_voice_name = self._retrieve_azure_voice_id()
   
 		# prepare ssml file to be used for azure text to speech
 		ssml = f'''<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" xml:lang="en-US">
@@ -42,17 +42,17 @@ class AzureTextToSpeech:
 		"""
 		Updates the voice name used for Azure's Speech Service and reconfigures the speech synthesizer.
   		"""
-		azure_voice_name = self._retrieve_azure_voice_name()
+		azure_voice_name = self._retrieve_azure_voice_id()
 		self.speech_config.speech_synthesis_voice_name = azure_voice_name
 		self.speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=self.speech_config, audio_config=self.audio_config)
   
-	def _retrieve_azure_voice_name(self):
+	def _retrieve_azure_voice_id(self):
 		"""
 		Returns the Azure voice name associated with a given voice name
 		"""
 		current_gender = self.profile_settings.retrieve_property('gender', profile_name=self.profile_name)
 		voice_name = self.profile_settings.retrieve_property('voice_name', profile_name=self.profile_name)
-		return self.voice_settings.retrieve_azure_voice_name(current_gender, voice_name.title())
+		return self.voice_settings.retrieve_azure_voice_id(current_gender, voice_name.title())
   
 	def _load_in_settings(self, setting_objects:dict, speech_objects:dict) -> None:
 		"""
