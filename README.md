@@ -9,7 +9,7 @@ Customize, train, and deploy intelligent text-to-speech entities. Integrated wit
 
 - Uses Azure [Speech Services](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/) for speech recognition. 
 - Uses Azure  [CLU](https://learn.microsoft.com/en-us/azure/ai-services/language-service/conversational-language-understanding/overview) for intent recognition.
-- Employs OpenAI's [GPT-3.5-Turbo](https://platform.openai.com/docs/models) for dynamic, human-like interactions.
+- Employs OpenAI's [GPT-3.5-Turbo](https://platform.openai.com/docs/models) for dynamic, human-like entitys.
 - Leverages [Elevenlabs](https://docs.elevenlabs.io/welcome/introduction) for realistic human-sounding text-to-speech.
 
 
@@ -192,13 +192,13 @@ Training data located within /training is used to train an Azure CLU model to pr
 See /usage for how to create and use your own packages.
 
 ## Profiles
-Used to customize the behavior of Juno, shaping its interactions based on specific users, technologies, and desired persona traits.
+Used to customize the behavior of Juno, shaping its entitys based on specific users, technologies, and desired persona traits.
 
 <details>
 <summary><b>Example Profile</b></summary>
    
 ```yaml
-interaction:
+entity:
   name: obama
   gender: male
   language: english ## see documentation for available languages
@@ -210,7 +210,7 @@ system:
   gpt_model: gpt-3.5-turbo # or use fine-tuned model
   package: virtual_assistant ## optional
   startup_sound: true ## optional
-  voice_engine: elevenlabs ## or azure
+  text_to_speech_engine: elevenlabs ## or azure
   voice_name: obama ## custom voice modeled after Obama, created using Elevenlabs.
   voice_recognition_engine: azure # currently only azure available
 user:
