@@ -59,6 +59,7 @@ class SpeechProcessor:
 		self.master_settings = setting_objects['master_settings']
 		self.profile_settings = setting_objects['profile_settings']
 		self.voice_settings = setting_objects['voice_settings']
+		self.profile = self.master_settings.retrieve_property('profile')
 		self.package_name = self.profile_settings.retrieve_property('package')
 		self.save_conversation_history = self.master_settings.retrieve_property('functions', 'save_conversation_history')
-		self.bot_name = self.profile_settings.retrieve_property('name')
+		self.bot_name = self.profile_settings.retrieve_property('name', self.profile)
