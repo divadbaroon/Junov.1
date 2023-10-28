@@ -154,8 +154,19 @@ class PlaySong():
         self.clientSecret = api_keys['SPOTIFY-CLIENT-SECRET']
         redirectURI = 'http://localhost:8000/callback'
 
-        self.oauth = spotipy.SpotifyOAuth(client_id=self.clientID, client_secret=self.clientSecret, redirect_uri=redirectURI, scope=self.scope)
-        
+        # Hardcoded directory for cache
+        cache_dir = "src/customization/packages/virtual_assistant/commands/play_music"
+
+        # Construct the cache_path based on the hardcoded directory
+        cache_path = f"{cache_dir}/.cache"
+
+        # Pass the cache_path to SpotifyOAuth
+        self.oauth = spotipy.SpotifyOAuth(client_id=self.clientID, 
+                                        client_secret=self.clientSecret, 
+                                        redirect_uri=redirectURI, 
+                                        scope=self.scope,
+                                        cache_path=cache_path)
+            
     def _authenticate(self):
         token_info = self.oauth.get_cached_token()
         
