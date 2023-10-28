@@ -99,10 +99,13 @@ class VoiceSettingsManager:
 		Retrieves all of the available languages 
 		"""
 		data = self._load_in_voice_data(language_codes_path)
-		language_codes = list(data["language_country_codes"].keys())
+		available_languages = list(data["language_country_codes"].keys())
 		# Convert language codes to title case
-		language_codes = [language_code.title() for language_code in language_codes]
-		return language_codes
+		available_languages = [language_code.title() for language_code in available_languages]
+		available_languages.remove('English')
+		available_languages[0] = 'English'
+		available_languages[1] = 'Arabic'
+		return available_languages
 	
 	def retrieve_language_code(self, language:str) -> str:
 		"""
