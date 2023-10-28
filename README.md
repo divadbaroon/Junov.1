@@ -262,7 +262,7 @@ Juno supports a user-friendly graphical interface to easily customize and person
 
 To open the GUI, run the following command from root:
 ```bash
-streamlit run init.py
+streamlit run gui_launcher.py
 ```
 
  ## Supported Languages
