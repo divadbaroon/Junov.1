@@ -3,11 +3,12 @@
         "profile": "default",
         "package": "virtual_assistant",
         "functions": {
+            "gui": true,
             "reset_gender": false,
             "reset_language": false,
             "reconfigure_verbalizer": false,
             "reconfigure_recognizer": false,
-            "save_conversation_history": false
+            "save_conversation_history": true
         },
         "status": {
             "mute": false,
