@@ -9,49 +9,14 @@ def get_image_base64(img):
     img.save(buffered, format="PNG")
     return base64.b64encode(buffered.getvalue()).decode()
 
-st.set_page_config(page_title="Juno")
+st.set_page_config(page_title="Overview")
 
-# Custom CSS to style the title and align the image next to it
-st.markdown(
-    """
-    <style>
-        .title-container {
-            font-size: 10em;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            padding: 1rem 0;
-        }
-        .title-container img {
-            margin-left: 20px;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-# Load the image
-img_path = 'src/utilities/juno_logo.png'
-img = Image.open(img_path)
-img_base64 = get_image_base64(img)
-
-# Display the title and image side by side
-st.markdown(
-    f'''
-    <div class="title-container">
-        <div>Juno</div>
-        <img src="data:image/png;base64,{img_base64}" width="170">
-    </div>
-    ''', 
-    unsafe_allow_html=True
-)
-
-def _display_documentation():
+def display_documentation():
     # Introduction
-    st.write("""
-    ## Overview
-
-    Juno, a cutting-edge conversational AI, allows users to build, train, and deploy personalized and adaptive virtual entities. It integrates leading AI technologies to deliver a customizable and responsive solution for diverse applications.
+    st.write("""         
+    ## What is Juno?       
+    Juno is a platform to customize and interact with intelligent and adaptive virtual entities. It integrates leading AI technologies to deliver a customizable and responsive solution for a wide-range of use-cases.
+    Juno utilizes packages, profiles, custom voices, and optional GPT fine-tuning to maximize its customization capabilities
     """)
 
     # Features Breakdown
@@ -76,5 +41,7 @@ def _display_documentation():
     st.write("""
     Together, these features make Juno a versatile and powerful conversational AI tool. For a deeper dive into each feature and detailed documentation, please refer to the main documentation.
     """)
+    
+def overview_interface():
+    display_documentation()
 
-_display_documentation()
