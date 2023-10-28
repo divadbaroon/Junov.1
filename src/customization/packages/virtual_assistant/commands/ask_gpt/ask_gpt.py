@@ -109,5 +109,5 @@ class AskGPT:
 		self.persona = self.profile_settings.retrieve_property('persona', self.profile_name)
 		self.role = self.profile_settings.retrieve_property('role', self.profile_name)
 		self.gpt_model = self.profile_settings.retrieve_property('gpt_model', self.profile_name)
-		self.user_name = self.profile_settings.retrieve_property('user_name', self.profile_name)	
-			
+		#self.user_name = self.profile_settings.retrieve_property('user_name', self.profile_name)	
+		self.user_name = None
