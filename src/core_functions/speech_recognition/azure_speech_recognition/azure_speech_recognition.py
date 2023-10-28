@@ -1,6 +1,8 @@
 import azure.cognitiveservices.speech as speechsdk
 from src.customization.packages.virtual_assistant.commands.translate_speech.translate_speech import TranslateSpeech
 
+import streamlit as st
+
 class AzureSpeechRecognition:
 	"""
 	Handles the speech recognition using Azure's Speech SDK
@@ -45,6 +47,10 @@ class AzureSpeechRecognition:
   
 		print(f"\nInput:\nUser: {recognized_speech}")
   
+		# If the gui is being used, write the user input to it
+		if self.gui:
+			self._write_input_to_gui(recognized_speech)
+  
 		return recognized_speech.replace('.', '').strip()
 
 	def reconfigure_recognizer(self) -> None:
@@ -60,6 +66,17 @@ class AzureSpeechRecognition:
 		self.speech_config.speech_recognition_language = language_country_code
 		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
   
+	def _write_input_to_gui(self, recognized_speech) -> None:
+		"""
+		Write user input to gui if it is being used
+		"""
+		if self.user_name:
+			with st.chat_message("user"):
+				st.write(f'{self.user_name.title()}: {recognized_speech}')
+		else:
+			with st.chat_message("user"):
+					st.write(f'User: {recognized_speech}')
+  
 	def _load_in_settings(self, speech_objects, setting_objects): 
 		"""
 		Loads in the speech and setting objects
@@ -68,3 +85,8 @@ class AzureSpeechRecognition:
 		self.speech_config = speech_objects['speech_config']
 		self.profile_settings = setting_objects['profile_settings']
 		self.voice_settings = setting_objects['voice_settings']
+		self.master_settings = setting_objects['master_settings']
+		self.profile_name = self.master_settings.retrieve_property('profile')
+		self.gui = self.master_settings.retrieve_property('functions', 'gui')
+		#self.user_name = self.profile_settings.retrieve_property('user_name', self.profile_name)
+		self.user_name = None

@@ -3,6 +3,8 @@ from .command_orchestrator import CommandOrchestrator
 from ...utilities.conversation_history.conversation_history_manager import ConversationHistoryManager
 from src.utilities.logs.log_performance import PerformanceLogger
 
+import streamlit as st
+
 logger = PerformanceLogger()
 
 class SpeechProcessor:
@@ -40,7 +42,22 @@ class SpeechProcessor:
 		print('\nResponse:')
 		print(f'{self.bot_name.title()}: {response}')
   
+		# If the gui is being used, write the entity response to it
+		if self.gui:
+			self._write_response_to_gui(response)
+  
 		return response
+
+	def _write_response_to_gui(self, result) -> None: 
+		"""
+		Write response to gui if it is being used
+		"""
+		if self.bot_name:
+			with st.chat_message("assistant"):
+				st.write(f'{self.bot_name.title()}: {result}')
+		else:
+			with st.chat_message("assistant"):
+				st.write(f'Entity: {result}')
 
 	def _check_for_package(self, speech) -> None:
 		"""
@@ -63,3 +80,4 @@ class SpeechProcessor:
 		self.package_name = self.profile_settings.retrieve_property('package')
 		self.save_conversation_history = self.master_settings.retrieve_property('functions', 'save_conversation_history')
 		self.bot_name = self.profile_settings.retrieve_property('name', self.profile)
+		self.gui = self.master_settings.retrieve_property('functions', 'gui')
