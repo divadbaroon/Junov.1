@@ -1,19 +1,18 @@
 entity:
-  gender: male
-  language: english
-  name: barack obama
-  persona: barack obama
+  gender: Male
+  language: English
+  name: Juno
+  persona: Barack Obama
   personality: friendly
   prompt: you are an assistant designed to concisely help the user with their queries
-  role: assistant
+  role: virtual assistant
 system:
-  gpt_model: ''
-  package: virtual_assistant
+  gpt_model: GPT-3.5-Turbo
+  package: null
   startup_sound: true
-  tts: elevenlabs
-  voice_name: barack obama
-  voice_recognition_engine: azure
+  tts: Azure
+  voice_name: Bella
+  voice_recognition_engine: Azure
 user:
-  user_age: null
-  user_gender: null
-  user_name: null
+  gender: Male
+  name: null

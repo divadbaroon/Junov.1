@@ -10,6 +10,31 @@ Session 1:
     User: Exit
   Date: 01/10/2023
   Time: 00:00:00
+Session 10:
+  Conversation:
+  - Juno: Hi! How can I assist you today?
+    User: Hello
+  - Juno: I'm partial to the color blue, it's a very calming shade. Do you have a
+      favorite color?
+    User: What's your favorite color?
+  - Juno: Opening Google.com
+    User: Open Google
+  Date: 26/10/2023
+  Time: '18:21:41'
+Session 11:
+  Conversation:
+  - Juno: Hi! How can I assist you today?
+    User: Hello
+  - Juno: Exiting, goodbye!
+    User: Exit
+  Date: 28/10/2023
+  Time: '15:59:31'
+Session 12:
+  Conversation:
+  - Juno: Exiting, goodbye!
+    User: Exit
+  Date: 28/10/2023
+  Time: '17:33:39'
 Session 2:
   Conversation:
   - Juno: Hi, how can I help you today?
@@ -69,3 +94,9 @@ Session 8:
     User: Exit
   Date: 01/10/2023
   Time: 01:45:55
+Session 9:
+  Conversation:
+  - Juno: Hello! How can I assist you today?
+    User: Hello
+  Date: 26/10/2023
+  Time: '18:18:13'

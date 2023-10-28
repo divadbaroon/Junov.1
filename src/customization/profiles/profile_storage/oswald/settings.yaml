@@ -3,7 +3,7 @@ entity:
   gender: male
   language: english ## see documentation for available languages
   personality: friendly
-  persona: Oswald ## entity will act as if they are this persona 
+  persona: null ## entity will act as if they are this persona 
   prompt: you are an assistant designed to concisely help the user with their queries ## prompt to be used by GPT
   role: assistant  
 system:
