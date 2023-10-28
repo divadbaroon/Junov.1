@@ -36,10 +36,14 @@ class ProfileManager:
         
         if property_name in ['name', 'gender', 'language', 'personality', 'persona', 'prompt', 'role']:
             return profile_data['entity'][property_name]
-        if property_name in ['gpt_model', 'package', 'startup_sound', 'text_to_speech_engine', 'voice_name', 'voice_recognition_engine']:
+        if property_name in ['gpt_model', 'package', 'startup_sound', 'tts', 'voice_name', 'voice_recognition_engine']:
             return profile_data['system'][property_name]
         if property_name in ['user_name', 'user_gender']:
-            return profile_data['user'][property_name].lower()
+            if property_name == 'user_name':
+                property_name = 'name'
+            if property_name == 'user_gender':
+                property_name = 'gender'
+            return profile_data['user'][property_name]
         
     def save_property(self, property_name:str, property_value:str, profile_name=None) -> None:
         """
@@ -55,6 +59,10 @@ class ProfileManager:
         if property_name in ['gpt_model', 'package', 'startup_sound', 'tts', 'voice_name', 'voice_recognition_engine']:
             profile_data['system'][property_name] = property_value
         if property_name in ['user_name', 'user_gender']:
+            if property_name == 'user_name':
+                property_name = 'name'
+            if property_name == 'user_gender':
+                property_name = 'gender'
             profile_data['user'][property_name] = property_value
             
         with open (os.path.join(profiles_path, profile_name, 'settings.yaml'), 'w') as file:
