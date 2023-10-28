@@ -19,7 +19,7 @@ CLU_PROJECT_NAME: Juno
 CLU_TRAINING_MODEL_NAME:  Model1
 CLU_DEPLOYMENT_NAME: Model1
 
-GPT-MODELS: ['GPT-3.5-Turbo', 'GPT-4', 'juno-test']
+GPT-MODELS: ['GPT-3.5-Turbo', 'GPT-4', 'ft:gpt-3.5-turbo-0613:personal:test:8Cw9HV6y']
 
 # Below are the required and optional api keys with links to where to acquire them
 # Replace 'null' with your api key value
@@ -64,4 +64,4 @@ custom_voice_ids:
     Myra: null
     Sally: null
     Alice: null
-    Barack Obama: null
+    Obama: "MihzRb6ojiUniEUd6tvv"
