@@ -1,4 +1,5 @@
 import openai
+from configuration.manage_secrets import ConfigurationManager
 
 class AskGPT:
 	"""
@@ -7,37 +8,38 @@ class AskGPT:
  	and the conversation history.
 	"""
 	
-	def __init__(self, openai_key:str, setting_objects:dict):
-		openai.api_key = openai_key
-  
+	def __init__(self, api_keys:dict, setting_objects:dict):
+     
+		openai.api_key = api_keys['OPENAI-API-KEY']
 		self.conversation_history = []
   
+		# get gpt model
+		profile_settings = setting_objects['profile_settings']
+		self.model = profile_settings.retrieve_property('gpt_model')
+		if self.model in api_keys:
+			self.model = api_keys[self.model]
+   
 		self._Load_in_settings(setting_objects)
 		self.system_message = self._construct_system_message()
 		
-
-	def ask_GPT(self, speech:str, model:str=None, manual_request:bool=False, max_tokens:int=100) -> str:
+	def ask_GPT(self, speech:str, manual_request:bool=False, max_tokens:int=100) -> str:
 		"""
 		Uses the user's speech, the bot's role, and the conversation history 
 		to create a response using OpenAI's GPT model.
 		"""
-		# check for new model
-		if not model:
-			model = self.gpt_model
-  
 		# get response from gpt
-		response = self._send_gpt_request(speech, model, manual_request, max_tokens)
+		response = self._send_gpt_request(speech, manual_request, max_tokens)
 		# cleanup response
 		response = self._clean_response(response, self.entity_name)
 	
 		return response
 
-	def _send_gpt_request(self, speech:str, model:str, manual_request:bool, max_tokens:int) -> str:
+	def _send_gpt_request(self, speech:str, manual_request:bool, max_tokens:int) -> str:
 		"""
 		Sends a POST request to the GPT model and returns the response.
 		"""
 		messages = []
-	
+
 		# For manual requests, we start with the system message and add the user message
 		if manual_request:
 			messages.append({"role": "assistant", "content": self.system_message})
@@ -47,7 +49,7 @@ class AskGPT:
 			messages = self.conversation_history
 
 		response = openai.ChatCompletion.create(
-			model=model,
+			model=self.model,
 			messages=messages,
 			max_tokens=max_tokens
 		)
