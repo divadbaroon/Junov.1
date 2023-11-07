@@ -2,17 +2,17 @@ entity:
   gender: Male
   language: English
   name: Juno
-  persona: Barack Obama
+  persona: null
   personality: friendly
   prompt: you are an assistant designed to concisely help the user with their queries
-  role: virtual assistant
+  role: assistant
 system:
-  gpt_model: GPT-3.5-Turbo
-  package: null
+  gpt_model: virtual-assistant
+  package: virtual_assistant
   startup_sound: true
-  tts: Azure
-  voice_name: Bella
+  tts: Elevenlabs
+  voice_name: Sally
   voice_recognition_engine: Azure
 user:
-  gender: Male
-  name: null
+  user_gender: male
+  user_name: null

@@ -4,4 +4,12 @@ Session 1:
     User: Hello
   Date: 24/10/2023
   Time: '14:00:21'
+Session 2:
+  Conversation:
+  - Oswald: Hello! How can I assist you today?
+    User: Hello
+  - Oswald: Exiting, goodbye!
+    User: Exit
+  Date: 29/10/2023
+  Time: '20:35:01'
 conversation: []

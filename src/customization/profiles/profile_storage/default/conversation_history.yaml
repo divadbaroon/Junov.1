@@ -35,6 +35,66 @@ Session 12:
     User: Exit
   Date: 28/10/2023
   Time: '17:33:39'
+Session 13:
+  Conversation:
+  - Juno: What's on your mind?
+    User: Ohh
+  - Juno: I don't have a favorite color, but I love helping people. What's your favorite
+      color?
+    User: What's your favorite color?
+  - Juno: Exiting, goodbye!
+    User: Exit
+  Date: 29/10/2023
+  Time: '17:06:44'
+Session 14:
+  Conversation:
+  - Juno: Hi there! How can I assist you today?
+    User: Hello
+  - Juno: Exiting, goodbye!
+    User: Exit
+  Date: 29/10/2023
+  Time: '17:08:12'
+Session 15:
+  Conversation:
+  - Juno: Hello! How can I assist you today?
+    User: Hello
+  - Juno: I quite like the color blue. How about you?
+    User: What's your favorite color?
+  - Juno: I really like the color blue. It's so peaceful and tranquil. Do you have
+      a favorite color?
+    User: What's your favorite color?
+  Date: 29/10/2023
+  Time: '17:09:47'
+Session 16:
+  Conversation:
+  - Juno: Hello! How can I assist you today?
+    User: Hello
+  - Juno: Exiting, goodbye!
+    User: Exit
+  Date: 29/10/2023
+  Time: '19:19:37'
+Session 17:
+  Conversation:
+  - Juno: Hello! How can I assist you today?
+    User: Hello
+  - Juno: Exiting, goodbye!
+    User: Exit
+  Date: 29/10/2023
+  Time: '19:59:22'
+Session 18:
+  Conversation:
+  - Juno: Hello! How can I assist you today?
+    User: Hello
+  Date: 29/10/2023
+  Time: '20:34:51'
+Session 19:
+  Conversation:
+  - Juno: Hello! How can I assist you today?
+    User: Hello
+  - Juno: Exiting, goodbye!
+    User: Exit
+  Date: 06/11/2023
+  Time: '21:54:18'
 Session 2:
   Conversation:
   - Juno: Hi, how can I help you today?

@@ -2,12 +2,12 @@ entity:
   gender: male
   language: english
   name: Juno
-  personality: friendly
   persona: null
+  personality: friendly
   prompt: you are an assistant designed to concisely help the user with their queries
   role: assistant
 system:
-  gpt_model: ft:gpt-3.5-turbo-0613:personal:juno-test:7zqjfAto
+  gpt_model: virtual-assistant
   package: virtual_assistant
   startup_sound: true
   tts: azure

@@ -1,0 +1,15 @@
+Session 1:
+  Conversation:
+  - Juno: Hello! How can I help you today?
+    User: Hello
+  Date: 29/10/2023
+  Time: '20:35:46'
+Session 2:
+  Conversation:
+  - Juno: Hello! How can I help you today?
+    User: Hello
+  - Juno: Exiting, goodbye!
+    User: Exit
+  Date: 06/11/2023
+  Time: '21:53:54'
+conversation: []
