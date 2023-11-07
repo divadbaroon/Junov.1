@@ -260,9 +260,9 @@ user:
 ## Graphical User Interface
 Juno supports a user-friendly graphical interface to easily customize and personalize Juno
 
-To open the GUI, run the following command from root:
+To launch the GUI, run the following command from root:
 ```bash
-streamlit run init.py
+streamlit run gui_launcher.py
 ```
 
  ## Supported Languages
