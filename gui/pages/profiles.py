@@ -15,17 +15,26 @@ def load_in_profile_data():
     manager = ConfigurationManager()
     available_languages = VoiceSettingsManager().retrieve_available_languages()
     
+    all_gpt_models = []
+
     gpt_models = manager.retrieve_config_value('GPT-MODELS')
+
+    for model in gpt_models:
+        if isinstance(model, dict):
+            all_gpt_models.extend(model.keys())
+        else:
+            all_gpt_models.append(model)
+
 
     directory_path = "src/customization/packages"
     available_packages = [None] + os.listdir(directory_path)
     
     available_voices = VoiceSettingsManager().retrieve_available_voices()
     
-    return available_languages, gpt_models, available_packages, available_voices
+    return available_languages, all_gpt_models, available_packages, available_voices
 
 def display_sorted_fields(profile_dict, parent_key=""):
-    available_language, gpt_models, available_packages, available_voices = load_in_profile_data()
+    available_language, all_gpt_models, available_packages, available_voices = load_in_profile_data()
 
     for key, value in profile_dict.items():
         unique_key = f"{parent_key}_{key}"
@@ -33,7 +42,7 @@ def display_sorted_fields(profile_dict, parent_key=""):
         display_map = {
             'gender': (["Male", "Female"], "Gender"),
             'language': (available_language, "Language"),
-            'gpt_model': (gpt_models, "GPT Model"),
+            'gpt_model': (all_gpt_models, "GPT Model"),
             'package': (available_packages, "Package"),
             'startup_sound': ([True, False], "Startup Sound"),
             'tts': (["Azure", "Elevenlabs"], "TTS Engine"),
@@ -94,7 +103,7 @@ def display_and_edit_fields2(profile_dict, parent_key=""):
             'gpt_model': (gpt_models, "GPT Model"),
             'package': (available_packages, "Package"),
             'startup_sound': ([True, False], "Startup Sound"),
-            'tts': (["Azure", "Elevenlabs"], "TTS Engine"),
+            'tts': (["Azure", "Elevenlabs"], "TTS"),
             'voice_name': (available_voices, "Voice Name"),
             'voice_recognition_engine': (['Azure'], "Voice Recognition Engine")
         }
@@ -174,12 +183,12 @@ def overview():
     """)
             
 
-def update_profile():
+def view_profile():
     
-    st.title("Update a Profile")
+    st.title("View a Profile")
     st.write(
         """
-        Use this interface to select and update a preexisting profile.
+        Use this interface to select and view/update a preexisting profile.
         """
     )
     
@@ -194,7 +203,7 @@ def update_profile():
     if st.button("Save Changes"):
         with open(f'src/customization/profiles/profile_storage/{selected_profile.lower()}/settings.yaml', 'w') as file:
             yaml.dump(profile, file, default_flow_style=False)
-        st.success(f"{selected_profile} profile updated!")
+        st.success(f"{selected_profile} has been updated!")
         MasterSettingsManager().save_property('profile', selected_profile)
         
 def create_profile():
@@ -232,16 +241,17 @@ def remove_profile():
     if st.button("Delete Profile"):
         if selected_profile != 'default':
             ProfileManager().remove_profile(profile_name=selected_profile)
+            MasterSettingsManager().save_property('profile', 'default')
             st.success(f"{selected_profile} profile deleted!")
         else:
-            st.error('Cannot delete defualt profile.')
+            st.error('Cannot delete deflt profile.')
             
 def profile_interaface():
             
     # Main Interface
     menu_functions = {
         "Overview": overview,
-        'Update Profile': update_profile,
+        'View Profile': view_profile,
         'Create Profile': create_profile,
         'Remove Profile': remove_profile
     }

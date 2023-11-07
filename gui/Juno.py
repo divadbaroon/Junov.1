@@ -13,53 +13,6 @@ from gui.pages.packages import package_interface
 from gui.pages.voice_cloning import voice_cloning_interface
 from gui.pages.fine_tuning import fine_tuning_interface
 
-def display_title_and_logo():
-    # Custom CSS to style the title and align the image next to it
-    st.markdown(
-        """
-        <style>
-            .title-container {
-                font-size: 10em;
-                font-weight: bold;
-                display: flex;
-                align-items: center;
-                padding: 1rem 0;
-            }
-            .title-container img {
-                margin-left: 20px;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    # Load the image
-    img_path = 'gui/juno_logo.png'
-    img = Image.open(img_path)
-    img_base64 = get_image_base64(img)
-
-    # Display the title and image side by side
-    st.markdown(
-        f'''
-        <div class="title-container">
-            <div>Juno</div>
-            <img src="data:image/png;base64,{img_base64}" width="225">
-        </div>
-        ''', 
-        unsafe_allow_html=True
-    )
-    
-# Convert the image to base64
-def get_image_base64(img):
-    buffered = BytesIO()
-    img.save(buffered, format="PNG")
-    return base64.b64encode(buffered.getvalue()).decode()
-
-img_path = 'gui/juno_logo.png'
-img = Image.open(img_path)
-
-PAGES_DIR = os.path.dirname(os.path.realpath(__file__)) + "/pages/"
-
 def juno():
     
     all_profiles = os.listdir('src/customization/profiles/profile_storage')
@@ -78,7 +31,10 @@ def juno():
             st.session_state.chat_started = False
         
     if not st.session_state.chat_started:
+        img_path = 'gui/logo.png'
+        img = Image.open(img_path)
         st.image(img, use_column_width=True)
+
     elif st.session_state.chat_started:
         st.title('Conversation History:')
         MasterSettingsManager().save_property("profile", selected_profile)

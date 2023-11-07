@@ -84,7 +84,7 @@ def virtual_assistant_package():
     #### News Retrieval 
     | Input | Response | Action |
     | ------- | -------- | -------- |
-    | Give me the news | Sure here is what's going on in the world. {Gives a summary of the top 3 news articles (using a fine-tuned GPT-3.5-turbo model | Fetches top news headlines via News API |
+    | Give me the news | Sure here is what's going on in the world. {Gives a summary of the top 3 news articles (using a fine-tuned gpt-3.5-turbo model | Fetches top news headlines via News API |
     #### Web Browsing
     | Input | Response | Action |
     | ------- | -------- | -------- |

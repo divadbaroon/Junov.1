@@ -45,7 +45,28 @@ def create_and_save_custom_voice():
         if st.button("Create Voice"):
             if create_custom_voice(voice_name, file):
                 st.success(f"The voice '{voice_name}' has been successfully created!")
-                VoiceSettingsManager().save_custom_voice(voice_name)
+                VoiceSettingsManager().save_custom_voice(voice_name=voice_name, type='custom')
+                
+                api_keys = ConfigurationManager().retrieve_api_keys()
+                
+                # Endpoint to list all voices (hypothetical, as I don't have the exact endpoint from ElevenLabs)
+                list_voices_url = "https://api.elevenlabs.io/v1/voices/"
+
+                headers = {
+                "Accept": "application/json",
+                "xi-api-key": api_keys['ELEVENLABS-API-KEY']
+                }
+
+                response = requests.get(list_voices_url, headers=headers)
+
+                # Assuming the response gives a list of voice objects
+                voices = response.json()
+                
+                for voice in voices['voices']:
+                    if voice['name'] == voice_name:
+                        voice_id = voice['voice_id']
+                      
+                ConfigurationManager().add_secret(secret_name=voice_name, secret_value=voice_id)
             else:
                 st.error("An error occurred while creating the voice. Please try again later.")
 

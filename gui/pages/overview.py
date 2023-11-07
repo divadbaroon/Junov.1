@@ -33,7 +33,7 @@ def display_documentation():
     With **Voice Cloning**, Juno can mimic any voice. This is possible with Elevenlabs technology, where a short audio clip can be used to generate a synthetic voice that sounds strikingly similar to the original.
 
     ### Fine-Tuning
-    **Fine-tuning** ensures that Juno's responses are tailored for specific scenarios. By adjusting GPT-3.5-Turbo's output with specialized training data, users can ensure the AI's output matches their specific needs.
+    **Fine-tuning** ensures that Juno's responses are tailored for specific scenarios. By adjusting gpt-3.5-turbo's output with specialized training data, users can ensure the AI's output matches their specific needs.
 
     """)
 
