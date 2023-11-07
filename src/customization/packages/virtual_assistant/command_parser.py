@@ -34,7 +34,7 @@ class CommandParser:
 	
 	def _initialize_commands(self, api_keys:dict):
 		# Initialize all bot commands
-		self.request_gpt = AskGPT(api_keys['OPENAI-API-KEY'], self.setting_objects)
+		self.request_gpt = AskGPT(api_keys, self.setting_objects)
 		self.request_translation = TranslateSpeech(api_keys['TRANSLATOR-API-KEY'], self.setting_objects)
 		self.request_weather = GetWeather(api_keys['WEATHER-API-KEY'])
 		self.browser_request  = WebSearcher()

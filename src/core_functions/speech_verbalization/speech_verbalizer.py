@@ -76,7 +76,7 @@ class SpeechVerbalizer:
 		Retrieves the speech engine
 		"""
 		# check which speech engine is used
-		if self.engine_name == 'azure':
+		if self.engine_name.lower() == 'azure':
 			self.text_to_speech_engine = AzureTextToSpeech(self.profile_name, speech_objects, setting_objects)
 		else:
 			self.text_to_speech_engine = ElevenlabsTextToSpeech(self.profile_name, api_keys, setting_objects)

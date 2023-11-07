@@ -40,16 +40,16 @@ class VoiceSettingsManager:
 		with open(elevenlabs_voice_settings_path, "w") as file:
 			json.dump(data, file)
 
-	def save_custom_voice(self, voice_name):
+	def save_custom_voice(self, voice_name, type):
 		"""
 		Saves a property and value
 		"""
 		if voice_name:
-			self.data['custom']['english'].append(voice_name)
+			self.data[type]['english'].append(voice_name)
 			data = self.data
 	
 			self._save_data(data)
-
+   
 	def retrieve_voice_name(self, gender:str) -> str:
 		"""
 		Returns a voice name for a given gender
@@ -67,21 +67,10 @@ class VoiceSettingsManager:
 		male_voices = list(self.data["male_voices"]['english'])
 		for voice in male_voices:
 			all_voices.append(voice)
-		custom_voice = list(self.configuration_manager.retrieve_custom_voice_names())
+		custom_voice = list(self.data["custom"]['english'])
 		for voice in custom_voice:
 			all_voices.append(voice)
 		return all_voices
-			
-	def retrieve_elevenlabs_voice_id(self, voice_name:str) -> str:
-		"""
-		Returns id associated with a given custom elevenlabs voice name
-		"""
-		if voice_name in self.data["female_voices"] or voice_name in self.data["male_voices"]:
-			return voice_name["english"].get(voice_name)
-		elif voice_name.title() in self.data["custom_voices"]:
-			return self.configuration_manager.retrieve_elevenlabs_custom_voice_id(voice_name)
-		else:
-			return "Bella"
 		
 	def retrieve_azure_voice_id(self, gender:str, voice_name:str) -> str:
 		"""

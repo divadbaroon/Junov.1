@@ -30,4 +30,3 @@ class TestPrompt:
             
 if __name__ == '__main__':
     test_prompt = TestPrompt()
-    print(test_prompt._ask_GPT())

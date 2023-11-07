@@ -31,7 +31,7 @@ class ProfileManager:
         """
         if not profile_name:    
             profile_name = MasterSettingsManager().retrieve_property('profile')
-            
+        
         profile_data = self._load_profile_data(profile_name)
         
         if property_name in ['name', 'gender', 'language', 'personality', 'persona', 'prompt', 'role']:
@@ -83,8 +83,7 @@ class ProfileManager:
         for file_name in file_names:
             with open(os.path.join(directory_name, file_name), 'w') as file:
                 if file_name == "settings.yaml":
-                    formatted_config = self._format_config_data(config)
-                    yaml.dump(formatted_config, file)
+                    yaml.dump(config, file)
                 if file_name == "conversation_history.yaml":
                     yaml.dump({"conversation": []}, file)
                 if file_name == "logs.yaml":  
@@ -98,34 +97,5 @@ class ProfileManager:
         try:
             with open(profile_settings_path, 'r') as file:
                 return yaml.safe_load(file)
-        except FileNotFoundError:
-            return {}  # Return an empty dictionary if the file is not found
-
-
-    def _format_config_data(self, config) -> dict:
-        """
-        Formats the config to be saved in the settings.yaml file
-        """
-        return {
-            'user': {
-                'name': config.get('name', None),
-                'gender': config.get('gender', None)
-            },
-            'system': {
-                'gpt_model': config.get('startup_sound', 'gpt-3.5-turbo'),
-                'package': config.get('package', None),
-                'startup_sound': config.get('startup_sound', True),
-                'text_to_speech_engine': config.get('text_to_speech_engine', 'azure'),
-                'voice_name': config.get('voice_name', 'Jenny'),
-                'voice_recognition_engine': config.get('voice_recognition_engine', 'azure'),
-            },
-            'entity': {
-                'name': config.get('role', 'Juno'),
-                'gender': config.get('role', 'Female'),
-                'language': config.get('language', 'english'),
-                'personality': config.get('personality', 'friendly'),
-                'persona': config.get('persona', None),
-                'prompt': config.get('prompt', "you are an assistant designed to concisely help the user with their queries"),
-                'role': config.get('role', 'virtual assistant'),
-            }
-        }
+        except FileNotFoundError as e:
+            return e 

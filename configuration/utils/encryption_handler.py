@@ -36,7 +36,6 @@ class EncryptionHandler:
 		"""
 		key = self._save_encryption_key()
 		cipher_suite = Fernet(key)
-  
 		encrypted_api_keys = self._encrypt_api_keys(api_keys, cipher_suite)
 	 
 		with open(encrypted_local_data_path, 'w') as f:

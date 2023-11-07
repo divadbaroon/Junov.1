@@ -10,7 +10,6 @@ def create_custom_profile(config=None, profile_name='test'):
         # open file located within /profiles/profile_storage/defualt/settings.yaml
         with open ('usage/create_profile/example_profile.yaml', 'r') as file:
             config = yaml.load(file, Loader=yaml.FullLoader)
-        
     # Creates and saves profiles
     ProfileManager().create_profile(config=config, profile_name=profile_name) 
     
