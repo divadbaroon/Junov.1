@@ -1,6 +1,4 @@
 import streamlit as st
-import base64
-from io import BytesIO
 from PIL import Image
 import os
 from src.juno import Juno
@@ -13,7 +11,7 @@ from gui.pages.packages import package_interface
 from gui.pages.voice_cloning import voice_cloning_interface
 from gui.pages.fine_tuning import fine_tuning_interface
 
-def juno():
+def run_juno():
     
     all_profiles = os.listdir('src/customization/profiles/profile_storage')
     selected_profile = st.sidebar.selectbox("Choose a Profile", all_profiles)
@@ -25,9 +23,11 @@ def juno():
     col1, col2 = st.sidebar.columns(2) 
     with col1:
         if st.button("Begin Session"):
+            MasterSettingsManager().save_property("status", True, "session")
             st.session_state.chat_started = True 
     with col2:
         if st.button("Reset Session"):
+            MasterSettingsManager().save_property("status", False, "session")
             st.session_state.chat_started = False
         
     if not st.session_state.chat_started:
@@ -50,7 +50,7 @@ def main_interface():
 
     # Display content for selected page
     if page == "Juno":
-        juno()
+        run_juno()
     elif page == "Overview":
         overview_interface()
     elif page == "Profiles":
