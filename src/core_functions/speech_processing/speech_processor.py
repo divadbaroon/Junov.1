@@ -19,7 +19,7 @@ class SpeechProcessor:
 		self.command_orchestrator = CommandOrchestrator(api_keys, speech_verbalizer, None, setting_objects)
 		self.manage_conversation_history = ConversationHistoryManager()
 
-	@logger.log_operation
+	#@logger.log_operation
 	def process_speech(self, speech:str) -> str: 
 		"""
 		Processes the user's input using a trained CLU model (if a package is being used) and produces an appropriate response and action.
@@ -43,8 +43,8 @@ class SpeechProcessor:
 		print(f'{self.bot_name.title()}: {response}')
   
 		# If the gui is being used, write the entity response to it
-		if self.gui:
-			self._write_response_to_gui(response)
+		#if self.gui:
+			#self._write_response_to_gui(response)
   
 		return response
 
