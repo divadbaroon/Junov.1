@@ -47,10 +47,6 @@ class AzureSpeechRecognition:
   
 		print(f"\nInput:\nUser: {recognized_speech}")
   
-		# If the gui is being used, write the user input to it
-		if self.gui:
-			self._write_input_to_gui(recognized_speech)
-  
 		return recognized_speech.replace('.', '').strip()
 
 	def reconfigure_recognizer(self) -> None:
@@ -87,6 +83,5 @@ class AzureSpeechRecognition:
 		self.voice_settings = setting_objects['voice_settings']
 		self.master_settings = setting_objects['master_settings']
 		self.profile_name = self.master_settings.retrieve_property('profile')
-		self.gui = self.master_settings.retrieve_property('functions', 'gui')
 		#self.user_name = self.profile_settings.retrieve_property('user_name', self.profile_name)
 		self.user_name = None
