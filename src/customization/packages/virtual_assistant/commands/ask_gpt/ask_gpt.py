@@ -1,5 +1,4 @@
-import openai
-from configuration.manage_secrets import ConfigurationManager
+from openai import OpenAI
 
 class AskGPT:
 	"""
@@ -10,7 +9,8 @@ class AskGPT:
 	
 	def __init__(self, api_keys:dict, setting_objects:dict):
      
-		openai.api_key = api_keys['OPENAI-API-KEY']
+		self.client = OpenAI(api_key = api_keys['OPENAI-API-KEY'])
+  
 		self.conversation_history = []
   
 		# get gpt model
@@ -48,15 +48,14 @@ class AskGPT:
 			self._update_conversation("user", speech)
 			messages = self.conversation_history
 
-		response = openai.ChatCompletion.create(
+		response = self.client.chat.completions.create(
 			model=self.model,
 			messages=messages,
 			max_tokens=max_tokens
 		)
 
-		# Extract the 'content' value from the response
-		response = response['choices'][0]['message']['content']
-		response = response.strip()
+		# Extract the message
+		response = response.choices[0].message.content
 
 		return response 
 
