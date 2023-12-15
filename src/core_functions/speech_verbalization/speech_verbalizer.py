@@ -1,6 +1,7 @@
 import sys
 from .elevenlabs_text_to_speech.elevenlabs_text_to_speech import ElevenlabsTextToSpeech
 from .azure_text_to_speech.azure_text_to_speech import AzureTextToSpeech
+from.openai_text_to_speech.openai_text_to_speech import OpenAITextToSpeech
 from src.utilities.logs.log_performance import PerformanceLogger
 
 logger = PerformanceLogger()
@@ -78,8 +79,10 @@ class SpeechVerbalizer:
 		# check which speech engine is used
 		if self.engine_name.lower() == 'azure':
 			self.text_to_speech_engine = AzureTextToSpeech(self.profile_name, speech_objects, setting_objects)
-		else:
+		elif self.engine_name.lower() == 'elevenlabs':
 			self.text_to_speech_engine = ElevenlabsTextToSpeech(self.profile_name, api_keys, setting_objects)
+		elif self.engine_name.lower() == 'openai':
+			self.text_to_speech_engine = OpenAITextToSpeech(api_keys)
    
 	def _load_in_settings(self, setting_objects:dict) -> None:
 		"""
