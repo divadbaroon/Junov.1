@@ -1,8 +1,6 @@
 import azure.cognitiveservices.speech as speechsdk
 from src.customization.packages.virtual_assistant.commands.translate_speech.translate_speech import TranslateSpeech
 
-import streamlit as st
-
 class AzureSpeechRecognition:
 	"""
 	Handles the speech recognition using Azure's Speech SDK
@@ -61,17 +59,6 @@ class AzureSpeechRecognition:
 
 		self.speech_config.speech_recognition_language = language_country_code
 		self.speech_recognizer = speechsdk.SpeechRecognizer(speech_config=self.speech_config)
-  
-	def _write_input_to_gui(self, recognized_speech) -> None:
-		"""
-		Write user input to gui if it is being used
-		"""
-		if self.user_name:
-			with st.chat_message("user"):
-				st.write(f'{self.user_name.title()}: {recognized_speech}')
-		else:
-			with st.chat_message("user"):
-					st.write(f'User: {recognized_speech}')
   
 	def _load_in_settings(self, speech_objects, setting_objects): 
 		"""
